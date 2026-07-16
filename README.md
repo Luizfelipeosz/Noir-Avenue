@@ -1,8 +1,12 @@
 # Noir Avenue
 
-Noir Avenue é uma aplicação Front-End desenvolvida para simular um e-commerce moderno, elegante e escalável. O projeto foi concebido com foco em boas práticas de desenvolvimento, componentização, organização de código e construção de interfaces responsivas, aproximando-se do fluxo de trabalho utilizado em produtos reais.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\&logo=react\&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge\&logo=vite\&logoColor=FFFFFF)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge\&logo=javascript\&logoColor=000000)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge\&logo=react-router\&logoColor=FFFFFF)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge\&logo=css3\&logoColor=FFFFFF)
 
-Mais do que uma interface visual, o objetivo do projeto é demonstrar a aplicação de conceitos fundamentais do desenvolvimento Front-End moderno utilizando React, evidenciando preocupações com manutenibilidade, reutilização de componentes e experiência do usuário.
+Noir Avenue é uma aplicação Front-End desenvolvida para simular um e-commerce moderno, elegante e escalável. O projeto foi concebido com foco em boas práticas de desenvolvimento, componentização, organização de código e construção de interfaces responsivas, aproximando-se do fluxo de trabalho utilizado em produtos reais.
 
 ## Objetivos do Projeto
 
@@ -31,8 +35,6 @@ Mais do que uma interface visual, o objetivo do projeto é demonstrar a aplicaç
 
 ## Arquitetura e Boas Práticas
 
-Durante o desenvolvimento do Noir Avenue foram adotados princípios amplamente utilizados em aplicações Front-End profissionais, como:
-
 * Separação de responsabilidades.
 * Componentização da interface.
 * Organização modular do código.
@@ -41,7 +43,7 @@ Durante o desenvolvimento do Noir Avenue foram adotados princípios amplamente u
 
 ## Estrutura do Projeto
 
-```
+```text
 src/
 │
 ├── components/
@@ -51,8 +53,6 @@ src/
 ├── routes/
 └── App.jsx
 ```
-
-> A estrutura pode evoluir conforme novas funcionalidades forem adicionadas ao projeto.
 
 ## Aprendizados
 
