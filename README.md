@@ -56,6 +56,7 @@ src/
 
 ## Imagens
 
+<img width="1262" height="651" alt="para github" src="https://github.com/user-attachments/assets/b2df942d-9dd4-4d45-952e-475d081ec5ce" />
 
 ## Aprendizados
 
