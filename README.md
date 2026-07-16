@@ -54,6 +54,9 @@ src/
 └── App.jsx
 ```
 
+## Imagens
+
+
 ## Aprendizados
 
 O Noir Avenue foi desenvolvido como um exercício prático de construção de produtos Front-End, permitindo a aplicação de conceitos relacionados à arquitetura de aplicações React, organização de projetos e desenvolvimento de interfaces modernas.
