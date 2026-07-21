@@ -1,0 +1,246 @@
+/* CARD */
+
+.container {
+    width: 100%;
+    max-width: 430px;
+
+    padding: 35px 40px;
+
+    background: rgba(255, 255, 255, .12);
+    backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 22px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, .25);
+
+    animation: fade .7s ease;
+}
+
+
+/* LOGO */
+
+.logo {
+    display: block;
+    width: 170px;
+
+    margin: 0 auto 25px;
+
+    user-select: none;
+}
+
+
+/* TÍTULOS */
+
+.container h1 {
+    text-align: center;
+    color: #fff;
+
+    font-size: 30px;
+    font-weight: 600;
+
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+
+    color: rgba(255,255,255,.75);
+
+    font-size: 14px;
+    letter-spacing: .5px;
+
+    margin-bottom: 32px;
+}
+
+
+/* INPUTS */
+
+.input-field {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-field input {
+    width: 100%;
+    height: 55px;
+
+    padding: 0 50px 0 20px;
+
+    border: 2px solid rgba(255,255,255,.25);
+    border-radius: 30px;
+
+    outline: none;
+
+    background: rgba(255,255,255,.08);
+
+    color: #fff;
+    font-size: 15px;
+
+    transition: all .25s ease;
+}
+
+.input-field input::placeholder {
+    color: rgba(255,255,255,.7);
+}
+
+.input-field input:focus {
+    border-color: rgba(255,255,255,.9);
+
+    background: rgba(255,255,255,.15);
+
+    box-shadow:
+        0 0 18px rgba(255,255,255,.15);
+}
+
+.icon {
+    position: absolute;
+
+    right: 20px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: rgba(255,255,255,.9);
+    font-size: 18px;
+
+    pointer-events: none;
+}
+
+
+/* LEMBRAR DE MIM */
+
+.recall-forget {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 25px 0;
+
+    color: #fff;
+    font-size: 14px;
+}
+
+.recall-forget label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.recall-forget input {
+    width: 16px;
+    height: 16px;
+
+    cursor: pointer;
+
+    accent-color: #fff;
+}
+
+.recall-forget a {
+    color: #fff;
+    text-decoration: none;
+
+    transition: .2s ease;
+}
+
+.recall-forget a:hover {
+    opacity: .85;
+    text-decoration: underline;
+}
+
+
+/* BOTÃO */
+
+button {
+    width: 100%;
+    height: 54px;
+
+    border: none;
+    border-radius: 30px;
+
+    background: #fff;
+    color: #111;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all .25s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+
+    background: #f4f4f4;
+
+    box-shadow:
+        0 12px 25px rgba(255,255,255,.18);
+}
+
+button:active {
+    transform: scale(.98);
+}
+
+
+/* CADASTRO */
+
+.signup-link {
+    margin-top: 28px;
+
+    text-align: center;
+
+    color: #fff;
+    font-size: 14px;
+}
+
+.signup-link a {
+    color: #fff;
+
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: .2s ease;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 480px) {
+
+    .container {
+        padding: 30px 25px;
+    }
+
+    .recall-forget {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+}
+
+
+/* ANIMAÇÃO */
+
+@keyframes fade {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}

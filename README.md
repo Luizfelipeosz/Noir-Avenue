@@ -1,67 +1,16 @@
-# Noir Avenue
+# React + Vite
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\&logo=react\&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge\&logo=vite\&logoColor=FFFFFF)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge\&logo=javascript\&logoColor=000000)
-![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge\&logo=react-router\&logoColor=FFFFFF)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge\&logo=css3\&logoColor=FFFFFF)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Noir Avenue é uma aplicação Front-End desenvolvida para simular um e-commerce moderno, elegante e escalável. O projeto foi concebido com foco em boas práticas de desenvolvimento, componentização, organização de código e construção de interfaces responsivas, aproximando-se do fluxo de trabalho utilizado em produtos reais.
+Currently, two official plugins are available:
 
-## Objetivos do Projeto
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-* Desenvolver uma aplicação Front-End estruturada e escalável.
-* Aplicar boas práticas de componentização e organização de código.
-* Construir uma interface responsiva e intuitiva.
-* Simular funcionalidades presentes em aplicações de e-commerce reais.
-* Demonstrar competências técnicas alinhadas às demandas do mercado.
+## React Compiler
 
-## Tecnologias Utilizadas
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-* React.js
-* Vite
-* JavaScript (ES6+)
-* React Router DOM
-* CSS3
-* Git e GitHub
+## Expanding the ESLint configuration
 
-## Funcionalidades
-
-* Navegação entre páginas utilizando React Router.
-* Interface responsiva para diferentes dispositivos.
-* Componentes reutilizáveis e desacoplados.
-* Estrutura de projeto organizada para facilitar manutenção e evolução.
-* Experiência de usuário moderna e intuitiva.
-
-## Arquitetura e Boas Práticas
-
-* Separação de responsabilidades.
-* Componentização da interface.
-* Organização modular do código.
-* Estrutura preparada para crescimento do projeto.
-* Foco em legibilidade e manutenção.
-
-## Estrutura do Projeto
-
-```text
-src/
-│
-├── components/
-├── pages/
-├── assets/
-├── styles/
-├── routes/
-└── App.jsx
-```
-
-## Imagens
-
-<img width="1262" height="651" alt="para github" src="https://github.com/user-attachments/assets/b2df942d-9dd4-4d45-952e-475d081ec5ce" />
-
-## Aprendizados
-
-O Noir Avenue foi desenvolvido como um exercício prático de construção de produtos Front-End, permitindo a aplicação de conceitos relacionados à arquitetura de aplicações React, organização de projetos e desenvolvimento de interfaces modernas.
-
-## Considerações Finais
-
-Este projeto representa minha abordagem como desenvolvedor Front-End: escrever código organizado, criar interfaces escaláveis e desenvolver aplicações pensando em sua evolução contínua, utilizando práticas que refletem cenários encontrados no mercado de desenvolvimento web.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
