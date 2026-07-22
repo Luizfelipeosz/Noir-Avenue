@@ -94,6 +94,10 @@ O projeto segue princípios voltados para:
 
 ---
 
+## Imagens do Projeto
+<img width="1306" height="764" alt="Tela de Login Noir Avenue" src="https://github.com/user-attachments/assets/470b87a8-dfc2-47b7-8c4c-50279b774478" />
+
+---
 ## Status do Projeto
 
 > **Em desenvolvimento ativo.**
