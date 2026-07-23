@@ -34,29 +34,26 @@ body{
    LAYOUT
 ========================== */
 
-.layout{
-    display:grid;
-    grid-template-columns:280px 1fr;
-    min-height:100vh;
+.layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: 100vh;
 }
-
 /* ==========================
    SIDEBAR
 ========================== */
 
-.sidebar{
-    padding:35px;
+.sidebar {
+    padding: 40px;
 
-    border-right:
-    1px solid
-    rgba(255,255,255,.08);
+    border-right: 1px solid rgba(255,255,255,.08);
 
     background:
-    linear-gradient(
-        180deg,
-        #050505,
-        #0d0d0d
-    );
+        linear-gradient(
+            180deg,
+            #050505,
+            #0d0d0d
+        );
 }
 
 .sidebar h2{
@@ -135,107 +132,121 @@ body{
    CONTAINER
 ========================== */
 
-.dashboard-container{
-    padding:40px;
+.dashboard-container {
+    padding: 50px 60px;
 
-    animation:
-    fadeIn .7s ease;
+    animation: fadeIn .7s ease;
 
     background:
-    radial-gradient(
-        circle at top left,
-        rgba(255,255,255,.08),
-        transparent 25%
-    ),
-    linear-gradient(
-        135deg,
-        #050505,
-        #101010
-    );
+        radial-gradient(
+            circle at top left,
+            rgba(255,255,255,.08),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #050505,
+            #101010
+        );
 }
 
 /* ==========================
    HEADER
 ========================== */
 
-.dashboard-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    margin-bottom:40px;
+    gap: 80px;
+
+    margin-bottom: 50px;
 }
 
-.dashboard-header h1{
-    font-size:2.5rem;
+.header-user {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-.dashboard-header p{
-    margin-top:10px;
-    color:#bdbdbd;
+.dashboard-header h1 {
+    font-size: 2.2rem;
 }
 
-.header-actions{
-    display:flex;
-    align-items:center;
-
-    gap:20px;
+.dashboard-header p {
+    margin-top: 0;
+    color: #a9a9a9;
 }
 
-.header-actions svg{
-    font-size:20px;
-
-    cursor:pointer;
-
-    transition:.3s;
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-.header-actions svg:hover{
-    transform:scale(1.1);
+.header-actions svg {
+    width: 45px;
+    height: 45px;
+
+    padding: 12px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.05);
+
+    cursor: pointer;
+
+    transition: .3s;
 }
 
-.dashboard-header button{
-    display:flex;
-    align-items:center;
+.header-actions svg:hover {
+    transform: translateY(-3px);
 
-    gap:10px;
+    background: rgba(255,255,255,.08);
+}
 
-    border:none;
-    cursor:pointer;
+.dashboard-header button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-    padding:14px 25px;
+    padding: 15px 28px;
 
-    border-radius:12px;
+    border: none;
+    border-radius: 14px;
 
-    color:#fff;
+    color: #fff;
+
+    cursor: pointer;
 
     background:
-    linear-gradient(
-        135deg,
-        #c1121f,
-        #9d0208
-    );
+        linear-gradient(
+            135deg,
+            #c1121f,
+            #9d0208
+        );
+
+    transition: .3s;
 }
 
+.dashboard-header button:hover {
+    transform: translateY(-3px);
+}
 /* ==========================
    BANNER
 ========================== */
 
-.dashboard-banner{
-    padding:50px;
+.dashboard-banner {
+    padding: 60px;
 
-    margin-bottom:40px;
+    margin-bottom: 50px;
 
-    border-radius:25px;
+    border-radius: 25px;
 
-    backdrop-filter:blur(20px);
+    background: rgba(255,255,255,.04);
 
-    background:
-    rgba(255,255,255,.05);
-
-    border:
-    1px solid
-    rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.08);
 }
 
 .dashboard-banner h2{
@@ -284,7 +295,6 @@ body{
 
 .card-premium{
     padding:30px;
-
     border-radius:18px;
 
     background:
@@ -296,7 +306,7 @@ body{
 
     transition:.3s;
 }
-}
+
 
 .card:hover{
     transform:translateY(-5px);
@@ -364,7 +374,7 @@ body{
 }
 
 .action-card{
-    padding:30px;
+    padding:35px;
 
     cursor:pointer;
 

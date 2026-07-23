@@ -1,29 +1,34 @@
-
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import {
-  FaUser, FaHeart, FaCrown, FaCog,
-  FaSignOutAlt, FaClock, FaBell, FaSearch
+  FaUser,
+  FaHeart,
+  FaCrown,
+  FaCog,
+  FaSignOutAlt,
+  FaClock,
+  FaBell,
+  FaSearch,
 } from "react-icons/fa";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("noiravenue_user")) || {
-    nome: "Luiz Felipe"
+    nome: "Luiz Felipe",
   };
 
   const hour = new Date().getHours();
 
   let greeting = "";
 
-if (hour >= 5 && hour < 12) {
+  if (hour >= 5 && hour < 12) {
     greeting = "Bom dia";
-} else if (hour >= 12 && hour < 18) {
+  } else if (hour >= 12 && hour < 18) {
     greeting = "Boa tarde";
-} else {
+  } else {
     greeting = "Boa noite";
-}
+  }
 
   const actions = [
     { title: "Meu Perfil", icon: <FaUser />, route: "/perfil" },
@@ -51,10 +56,7 @@ if (hour >= 5 && hour < 12) {
 
         <nav>
           {actions.map((item) => (
-            <button
-              key={item.title}
-              onClick={() => navigate(item.route)}
-            >
+            <button key={item.title} onClick={() => navigate(item.route)}>
               {item.icon}
               {item.title}
             </button>
@@ -64,14 +66,17 @@ if (hour >= 5 && hour < 12) {
 
       <main className="dashboard-container">
         <header className="dashboard-header">
-          <div>
-            <h1>{greeting}, {user.nome}.</h1>
+          <div className="header-user">
+            <h1>
+              {greeting}, {user.nome}.
+            </h1>
             <p>Seu último acesso foi hoje.</p>
           </div>
 
           <div className="header-actions">
             <FaBell />
             <FaSearch />
+
             <button onClick={logout}>
               <FaSignOutAlt />
               Sair
@@ -81,18 +86,37 @@ if (hour >= 5 && hour < 12) {
 
         <section className="dashboard-banner">
           <h2>Experiência Noir Avenue</h2>
-          <p>Elegância, exclusividade e tecnologia em cada interação.</p>
+
+          <p>
+            Elegância, exclusividade e tecnologia em cada interação.
+          </p>
         </section>
 
         <section className="dashboard-stats">
-          <div className="card"><h3>Favoritos</h3><span>12</span></div>
-          <div className="card"><h3>Coleções</h3><span>04</span></div>
-          <div className="card-premium"><h3>Premium</h3><span>Ativo</span></div>
-          <div className="card"><h3>Perfil</h3><span>80%</span></div>
+          <div className="card">
+            <h3>Favoritos</h3>
+            <span>12</span>
+          </div>
+
+          <div className="card">
+            <h3>Coleções</h3>
+            <span>04</span>
+          </div>
+
+          <div className="card-premium">
+            <h3>Premium</h3>
+            <span>Ativo</span>
+          </div>
+
+          <div className="card">
+            <h3>Perfil</h3>
+            <span>80%</span>
+          </div>
         </section>
 
         <section className="activity">
           <h2>Atividades Recentes</h2>
+
           <ul>
             {activities.map((item) => (
               <li key={item}>{item}</li>
@@ -108,7 +132,9 @@ if (hour >= 5 && hour < 12) {
               onClick={() => navigate(item.route)}
             >
               {item.icon}
+
               <h3>{item.title}</h3>
+
               <p>Acesse rapidamente esta área da plataforma.</p>
             </div>
           ))}
