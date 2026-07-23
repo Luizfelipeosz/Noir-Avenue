@@ -1,5 +1,5 @@
 import { FaUser, FaLock } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -9,6 +9,8 @@ import "./Login.css";
 const STORAGE_KEY = "noiravenue_email";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
@@ -25,41 +27,62 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Validação extra
     if (!email.trim() || !password.trim()) {
       toast.warning("Campos obrigatórios", {
-        description: "Informe seu e-mail e sua senha para continuar.",
+        description:
+          "Informe seu e-mail e sua senha para continuar.",
       });
 
       return;
     }
 
-    // Salva ou remove o e-mail do usuário
+    const users =
+      JSON.parse(localStorage.getItem("noiravenue_users")) || [];
+
+    const user = users.find(
+      (user) =>
+        user.email === email &&
+        user.password === password
+    );
+
+    if (!user) {
+      toast.error("Credenciais inválidas.", {
+        description:
+          "Verifique seu e-mail e senha e tente novamente.",
+      });
+
+      return;
+    }
+
     if (remember) {
       localStorage.setItem(STORAGE_KEY, email);
     } else {
       localStorage.removeItem(STORAGE_KEY);
     }
 
-    // Futuramente será substituído pela chamada da API
-    toast.success("Login realizado com sucesso!", {
-      description: "Bem-vindo à Noir Avenue.",
+    localStorage.setItem(
+      "noiravenue_session",
+      JSON.stringify({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      })
+    );
+
+    toast.success(`Bem-vindo, ${user.name}!`, {
+      description:
+        "Redirecionando para sua conta...",
     });
 
-    console.log({
-      email,
-      password,
-    });
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 1500);
   };
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <img
-          src={logo}
-          alt="Noir Avenue"
-          className="logo"
-        />
+        <img src={logo} alt="Noir Avenue" className="logo" />
 
         <h1>Bem-vindo</h1>
 
@@ -98,14 +121,16 @@ const Login = () => {
             <input
               type="checkbox"
               checked={remember}
-              onChange={() => setRemember(!remember)}
+              onChange={() =>
+                setRemember(!remember)
+              }
             />
             Lembrar de mim
           </label>
 
-          <a href="#">
+          <Link to="/recuperar-senha">
             Esqueceu sua senha?
-          </a>
+          </Link>
         </div>
 
         <button type="submit">
