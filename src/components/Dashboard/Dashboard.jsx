@@ -1,5 +1,6 @@
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
+import { timeAgo } from "../../utils/timeAgo";
 import {
   FaUser,
   FaHeart,
@@ -14,9 +15,53 @@ import {
 function Dashboard() {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("noiravenue_user")) || {
+  const user = JSON.parse(
+    localStorage.getItem("noiravenue_user")
+  ) || {
     nome: "Luiz Felipe",
   };
+
+  const session =
+    JSON.parse(
+      localStorage.getItem(
+        "noiravenue_session"
+      )
+    ) || {};
+
+  const favorites =
+    JSON.parse(
+      localStorage.getItem(
+        "noiravenue_favorites"
+      )
+    ) || [];
+
+  const activities =
+    JSON.parse(
+      localStorage.getItem(
+        "noiravenue_activities"
+      )
+    ) || [
+      {
+        id: 1,
+        message: "Bem-vindo ao Noir Avenue.",
+        createdAt:
+          new Date().toISOString(),
+      },
+    ];
+
+  const fields = [
+    user.nome,
+    user.email,
+    user.telefone,
+    user.endereco,
+    user.foto,
+  ];
+
+  const profilePercentage = Math.floor(
+    (fields.filter(Boolean).length /
+      fields.length) *
+      100
+  );
 
   const hour = new Date().getHours();
 
@@ -24,28 +69,49 @@ function Dashboard() {
 
   if (hour >= 5 && hour < 12) {
     greeting = "Bom dia";
-  } else if (hour >= 12 && hour < 18) {
+  } else if (
+    hour >= 12 &&
+    hour < 18
+  ) {
     greeting = "Boa tarde";
   } else {
     greeting = "Boa noite";
   }
 
   const actions = [
-    { title: "Meu Perfil", icon: <FaUser />, route: "/perfil" },
-    { title: "Favoritos", icon: <FaHeart />, route: "/favoritos" },
-    { title: "Configurações", icon: <FaCog />, route: "/configuracoes" },
-    { title: "Noir Premium", icon: <FaCrown />, route: "/premium" },
-    { title: "Histórico", icon: <FaClock />, route: "/historico" },
-  ];
-
-  const activities = [
-    "Login realizado há 5 minutos",
-    "Perfil atualizado.",
-    "Novo item adicionado aos favoritos.",
+    {
+      title: "Meu Perfil",
+      icon: <FaUser />,
+      route: "/dashboard/perfil",
+    },
+    {
+      title: "Favoritos",
+      icon: <FaHeart />,
+      route: "/dashboard/favoritos",
+    },
+    {
+      title: "Configurações",
+      icon: <FaCog />,
+      route:
+        "/dashboard/configuracoes",
+    },
+    {
+      title: "Noir Premium",
+      icon: <FaCrown />,
+      route: "/dashboard/premium",
+    },
+    {
+      title: "Histórico",
+      icon: <FaClock />,
+      route: "/dashboard/historico",
+    },
   ];
 
   const logout = () => {
-    localStorage.removeItem("noiravenue_session");
+    localStorage.removeItem(
+      "noiravenue_session"
+    );
+
     navigate("/");
   };
 
@@ -56,7 +122,12 @@ function Dashboard() {
 
         <nav>
           {actions.map((item) => (
-            <button key={item.title} onClick={() => navigate(item.route)}>
+            <button
+              key={item.title}
+              onClick={() =>
+                navigate(item.route)
+              }
+            >
               {item.icon}
               {item.title}
             </button>
@@ -68,16 +139,27 @@ function Dashboard() {
         <header className="dashboard-header">
           <div className="header-user">
             <h1>
-              {greeting}, {user.nome}.
+              {greeting},{" "}
+              {user.nome}.
             </h1>
-            <p>Seu último acesso foi hoje.</p>
+
+            <p>
+              Seu último acesso foi{" "}
+              {session.loginAt
+                ? timeAgo(
+                    session.loginAt
+                  )
+                : "agora mesmo"}.
+            </p>
           </div>
 
           <div className="header-actions">
             <FaBell />
             <FaSearch />
 
-            <button onClick={logout}>
+            <button
+              onClick={logout}
+            >
               <FaSignOutAlt />
               Sair
             </button>
@@ -85,42 +167,76 @@ function Dashboard() {
         </header>
 
         <section className="dashboard-banner">
-          <h2>Experiência Noir Avenue</h2>
+          <h2>
+            Experiência Noir
+            Avenue
+          </h2>
 
           <p>
-            Elegância, exclusividade e tecnologia em cada interação.
+            Elegância,
+            exclusividade e
+            tecnologia em cada
+            interação.
           </p>
         </section>
 
         <section className="dashboard-stats">
           <div className="card">
             <h3>Favoritos</h3>
-            <span>12</span>
+
+            <span>
+              {favorites.length}
+            </span>
           </div>
 
           <div className="card">
             <h3>Coleções</h3>
+
             <span>04</span>
           </div>
 
           <div className="card-premium">
             <h3>Premium</h3>
-            <span>Ativo</span>
+
+            <span>
+              {user.isPremium
+                ? "Ativo"
+                : "Inativo"}
+            </span>
           </div>
 
           <div className="card">
             <h3>Perfil</h3>
-            <span>80%</span>
+
+            <span>
+              {
+                profilePercentage
+              }
+              %
+            </span>
           </div>
         </section>
 
         <section className="activity">
-          <h2>Atividades Recentes</h2>
+          <h2>
+            Atividades
+            Recentes
+          </h2>
 
           <ul>
-            {activities.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
+            {activities.map(
+              (item) => (
+                <li
+                  key={item.id}
+                >
+                  {item.message}
+                  {" • "}
+                  {timeAgo(
+                    item.createdAt
+                  )}
+                </li>
+              )
+            )}
           </ul>
         </section>
 
@@ -129,13 +245,22 @@ function Dashboard() {
             <div
               key={item.title}
               className="action-card"
-              onClick={() => navigate(item.route)}
+              onClick={() =>
+                navigate(item.route)
+              }
             >
               {item.icon}
 
-              <h3>{item.title}</h3>
+              <h3>
+                {item.title}
+              </h3>
 
-              <p>Acesse rapidamente esta área da plataforma.</p>
+              <p>
+                Acesse
+                rapidamente esta
+                área da
+                plataforma.
+              </p>
             </div>
           ))}
         </section>
