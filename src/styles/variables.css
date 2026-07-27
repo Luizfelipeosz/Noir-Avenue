@@ -1,0 +1,29 @@
+:root{
+    --bg-primary:#050505;
+    --bg-secondary:#0d0d0d;
+
+    --text-primary:#ffffff;
+    --text-secondary:#c7c7c7;
+
+    --border:
+    rgba(255,255,255,.08);
+
+    --premium:
+    #d4af37;
+
+    --danger:
+    #c1121f;
+
+    --radius:
+    18px;
+
+    --transition:
+    .3s;
+}
+.card{
+    border-radius:
+    var(--radius);
+
+    color:
+    var(--text-primary);
+}

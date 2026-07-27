@@ -9,8 +9,8 @@ import PrivateRoute from "./components/Route/PrivateRoute";
 // Páginas do Dashboard
 import Perfil from "./components/Perfil/Perfil";
 import Favoritos from "./components/Favoritos/Favoritos";
-import Configuracoes from "./components/Configuracoes/Configuracoes";
-import Premium from "./components/Premium/Premium";
+import Configuracoes from "./components/Configuracoes/Configurações";
+import Premium from "./components/Premiun/Premiun";
 import Historico from "./components/Historico/Historico";
 
 function App() {

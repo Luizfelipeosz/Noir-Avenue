@@ -1,0 +1,177 @@
+/* ===================================
+   PERFIL
+=================================== */
+
+.profile-container{
+    padding:40px;
+
+    animation:fadeIn .6s ease;
+}
+
+.profile-title{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:40px;
+
+    font-size:2rem;
+}
+
+.profile-title svg{
+    color:var(--premium);
+}
+
+/* ===================================
+   CARD
+=================================== */
+
+.profile-card{
+    max-width:800px;
+
+    padding:40px;
+
+    border-radius:var(--radius-lg);
+
+    background:
+    var(--bg-card);
+
+    border:
+    1px solid
+    var(--border);
+
+    box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.25);
+}
+
+.profile-card h2{
+    margin-bottom:10px;
+
+    font-size:1.8rem;
+}
+
+.profile-subtitle{
+    margin-bottom:35px;
+
+    color:
+    var(--text-secondary);
+}
+
+/* ===================================
+   INFO GRID
+=================================== */
+
+.profile-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+}
+
+.profile-item{
+    padding:20px;
+
+    border-radius:
+    var(--radius-md);
+
+    background:
+    rgba(255,255,255,.03);
+
+    border:
+    1px solid
+    rgba(255,255,255,.05);
+
+    transition:
+    var(--transition);
+}
+
+.profile-item:hover{
+    transform:
+    translateY(-5px);
+
+    border-color:
+    rgba(255,255,255,.15);
+}
+
+.profile-item span{
+    display:block;
+
+    margin-bottom:10px;
+
+    font-size:.9rem;
+
+    color:
+    var(--text-secondary);
+
+    text-transform:
+    uppercase;
+
+    letter-spacing:1px;
+}
+
+.profile-item p{
+    font-size:1rem;
+
+    color:
+    var(--text-primary);
+
+    line-height:1.7;
+}
+
+/* ===================================
+   STATUS
+=================================== */
+
+.profile-status{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:40px;
+
+    padding:20px;
+
+    border-radius:
+    var(--radius-md);
+
+    background:
+    rgba(74,222,128,.08);
+
+    border:
+    1px solid
+    rgba(74,222,128,.2);
+}
+
+.profile-status strong{
+    color:
+    var(--success);
+}
+
+/* ===================================
+   RESPONSIVO
+=================================== */
+
+@media(max-width:768px){
+
+    .profile-container{
+        padding:20px;
+    }
+
+    .profile-title{
+        font-size:1.6rem;
+    }
+
+    .profile-card{
+        padding:25px;
+    }
+
+    .profile-grid{
+        grid-template-columns:
+        1fr;
+    }
+}
