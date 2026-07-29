@@ -15,18 +15,14 @@ import {
 function Dashboard() {
   const navigate = useNavigate();
 
-  const user = JSON.parse(
-    localStorage.getItem("noiravenue_user")
-  ) || {
-    nome: "Luiz Felipe",
-  };
-
   const session =
-    JSON.parse(
-      localStorage.getItem(
-        "noiravenue_session"
-      )
-    ) || {};
+  JSON.parse(
+    localStorage.getItem(
+      "noiravenue_session"
+    )
+  ) || {};
+
+  const user = session;
 
   const favorites =
     JSON.parse(
@@ -49,13 +45,13 @@ function Dashboard() {
       },
     ];
 
-  const fields = [
-    user.nome,
-    user.email,
-    user.telefone,
-    user.endereco,
-    user.foto,
-  ];
+const fields = [
+  user.name,
+  user.email,
+  user.telefone,
+  user.endereco,
+  user.foto,
+];
 
   const profilePercentage = Math.floor(
     (fields.filter(Boolean).length /
@@ -139,8 +135,7 @@ function Dashboard() {
         <header className="dashboard-header">
           <div className="header-user">
             <h1>
-              {greeting},{" "}
-              {user.nome}.
+              {greeting}, {user.name}
             </h1>
 
             <p>

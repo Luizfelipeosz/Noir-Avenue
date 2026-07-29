@@ -6,6 +6,10 @@ import Cadastro from "./components/cadastro/Cadastro";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PrivateRoute from "./components/Route/PrivateRoute";
 
+// Layouts
+import AuthLayout from "./layouts/AuthLayout";
+import DashboardLayout from "./layouts/DashboardLayout";
+
 // Páginas do Dashboard
 import Perfil from "./components/Perfil/Perfil";
 import Favoritos from "./components/Favoritos/Favoritos";
@@ -17,12 +21,24 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        {/* Públicas */}
-        <Route path="/" element={<Login />} />
+
+        {/* Rotas Públicas */}
+        <Route
+          path="/"
+          element={
+            <AuthLayout>
+              <Login />
+            </AuthLayout>
+          }
+        />
 
         <Route
           path="/cadastro"
-          element={<Cadastro />}
+          element={
+            <AuthLayout>
+              <Cadastro />
+            </AuthLayout>
+          }
         />
 
         {/* Dashboard */}
@@ -30,7 +46,9 @@ function App() {
           path="/dashboard"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
             </PrivateRoute>
           }
         />
@@ -40,7 +58,9 @@ function App() {
           path="/dashboard/perfil"
           element={
             <PrivateRoute>
-              <Perfil />
+              <DashboardLayout>
+                <Perfil />
+              </DashboardLayout>
             </PrivateRoute>
           }
         />
@@ -49,7 +69,9 @@ function App() {
           path="/dashboard/favoritos"
           element={
             <PrivateRoute>
-              <Favoritos />
+              <DashboardLayout>
+                <Favoritos />
+              </DashboardLayout>
             </PrivateRoute>
           }
         />
@@ -58,7 +80,9 @@ function App() {
           path="/dashboard/configuracoes"
           element={
             <PrivateRoute>
-              <Configuracoes />
+              <DashboardLayout>
+                <Configuracoes />
+              </DashboardLayout>
             </PrivateRoute>
           }
         />
@@ -67,7 +91,9 @@ function App() {
           path="/dashboard/premium"
           element={
             <PrivateRoute>
-              <Premium />
+              <DashboardLayout>
+                <Premium />
+              </DashboardLayout>
             </PrivateRoute>
           }
         />
@@ -76,7 +102,9 @@ function App() {
           path="/dashboard/historico"
           element={
             <PrivateRoute>
-              <Historico />
+              <DashboardLayout>
+                <Historico />
+              </DashboardLayout>
             </PrivateRoute>
           }
         />

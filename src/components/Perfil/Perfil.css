@@ -1,177 +1,297 @@
 /* ===================================
-   PERFIL
+   CONTAINER
 =================================== */
 
-.profile-container{
-    padding:40px;
+.profile-container {
+    padding: 40px;
 
-    animation:fadeIn .6s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    animation: fadeIn .5s ease;
 }
 
-.profile-title{
-    display:flex;
-    align-items:center;
+.profile-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 
-    gap:12px;
+    margin-bottom: 30px;
 
-    margin-bottom:40px;
-
-    font-size:2rem;
+    font-size: 2rem;
 }
 
-.profile-title svg{
-    color:var(--premium);
+.profile-title svg {
+    color: var(--premium);
 }
 
 /* ===================================
    CARD
 =================================== */
 
-.profile-card{
-    max-width:800px;
+.profile-card {
+    width: 100%;
+    max-width: 950px;
 
-    padding:40px;
+    border-radius: 24px;
 
-    border-radius:var(--radius-lg);
+    overflow: hidden;
 
     background:
-    var(--bg-card);
+        linear-gradient(
+            145deg,
+            rgba(15,15,18,.96),
+            rgba(25,25,30,.95)
+        );
 
     border:
-    1px solid
-    var(--border);
+        1px solid rgba(255,255,255,.08);
 
     box-shadow:
-    0 10px 30px
-    rgba(0,0,0,.25);
+        0 20px 50px rgba(0,0,0,.4);
 }
 
-.profile-card h2{
-    margin-bottom:10px;
-
-    font-size:1.8rem;
-}
-
-.profile-subtitle{
-    margin-bottom:35px;
-
-    color:
-    var(--text-secondary);
+.profile-content {
+    padding: 35px;
 }
 
 /* ===================================
-   INFO GRID
+   BANNER
 =================================== */
 
-.profile-grid{
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
-
-    gap:25px;
-}
-
-.profile-item{
-    padding:20px;
-
-    border-radius:
-    var(--radius-md);
+.profile-banner {
+    height: 180px;
 
     background:
-    rgba(255,255,255,.03);
+        linear-gradient(
+            rgba(0,0,0,.45),
+            rgba(0,0,0,.65)
+        ),
+        url("/images/new-york-night.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+/* ===================================
+   HEADER
+=================================== */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    margin-top: -85px;
+    margin-bottom: 40px;
+}
+
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f9e64f,
+            #d4af37
+        );
+
+    border: 5px solid #111;
+
+    color: #111;
+
+    font-size: 2.2rem;
+    font-weight: 700;
+
+    box-shadow:
+        0 10px 25px rgba(212,175,55,.3);
+}
+
+.profile-header h2 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.profile-subtitle {
+    color: var(--text-secondary);
+}
+
+/* ===================================
+   GRID
+=================================== */
+
+.profile-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 20px;
+}
+
+.profile-item {
+    padding: 22px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255,255,255,.04);
 
     border:
-    1px solid
-    rgba(255,255,255,.05);
+        1px solid rgba(255,255,255,.07);
 
-    transition:
-    var(--transition);
+    transition: .3s;
 }
 
-.profile-item:hover{
-    transform:
-    translateY(-5px);
+.profile-item:hover {
+    transform: translateY(-5px);
 
     border-color:
-    rgba(255,255,255,.15);
+        rgba(249,230,79,.25);
 }
 
-.profile-item span{
-    display:block;
+.profile-item span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-    margin-bottom:10px;
+    margin-bottom: 12px;
 
-    font-size:.9rem;
+    color: var(--text-secondary);
 
-    color:
-    var(--text-secondary);
+    font-size: .9rem;
 
-    text-transform:
-    uppercase;
-
-    letter-spacing:1px;
+    text-transform: uppercase;
 }
 
-.profile-item p{
-    font-size:1rem;
-
-    color:
-    var(--text-primary);
-
-    line-height:1.7;
+.profile-item p {
+    line-height: 1.7;
+    color: var(--text-primary);
 }
 
 /* ===================================
    STATUS
 =================================== */
 
-.profile-status{
-    display:flex;
-    align-items:center;
+.profile-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-    gap:10px;
+    margin-top: 30px;
 
-    margin-top:40px;
+    padding: 18px;
 
-    padding:20px;
-
-    border-radius:
-    var(--radius-md);
+    border-radius: 16px;
 
     background:
-    rgba(74,222,128,.08);
+        rgba(74,222,128,.08);
 
     border:
-    1px solid
-    rgba(74,222,128,.2);
+        1px solid rgba(74,222,128,.2);
 }
 
-.profile-status strong{
-    color:
-    var(--success);
+.profile-status strong {
+    color: var(--success);
+}
+
+/* ===================================
+   BOTÕES
+=================================== */
+
+.profile-actions {
+    display: flex;
+    gap: 15px;
+
+    margin-top: 30px;
+}
+
+.profile-button,
+.logout-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 14px 24px;
+
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    transition: .3s;
+}
+
+.profile-button {
+    background:
+        linear-gradient(
+            135deg,
+            #f9e64f,
+            #d4af37
+        );
+
+    color: #111;
+}
+
+.profile-button:hover {
+    transform: translateY(-3px);
+}
+
+.logout-button {
+    background:
+        rgba(241, 4, 4, 0.719);
+
+    color: white;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+}
+
+.logout-button:hover {
+    background:
+        rgba(255,255,255,.15);
+
+    transform: translateY(-3px);
 }
 
 /* ===================================
    RESPONSIVO
 =================================== */
 
-@media(max-width:768px){
+@media (max-width: 768px) {
 
-    .profile-container{
-        padding:20px;
+    .profile-container {
+        padding: 20px;
     }
 
-    .profile-title{
-        font-size:1.6rem;
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+
+        margin-top: -60px;
     }
 
-    .profile-card{
-        padding:25px;
+    .profile-grid {
+        grid-template-columns: 1fr;
     }
 
-    .profile-grid{
-        grid-template-columns:
-        1fr;
+    .profile-actions {
+        flex-direction: column;
+    }
+
+    .profile-button,
+    .logout-button {
+        justify-content: center;
+        width: 100%;
     }
 }

@@ -24,60 +24,75 @@ const Login = () => {
     }
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+const handleSubmit = (event) => {
+  event.preventDefault();
 
-    if (!email.trim() || !password.trim()) {
-      toast.warning("Campos obrigatórios", {
-        description:
-          "Informe seu e-mail e sua senha para continuar.",
-      });
-
-      return;
-    }
-
-    const users =
-      JSON.parse(localStorage.getItem("noiravenue_users")) || [];
-
-    const user = users.find(
-      (user) =>
-        user.email === email &&
-        user.password === password
-    );
-
-    if (!user) {
-      toast.error("Credenciais inválidas.", {
-        description:
-          "Verifique seu e-mail e senha e tente novamente.",
-      });
-
-      return;
-    }
-
-    if (remember) {
-      localStorage.setItem(STORAGE_KEY, email);
-    } else {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-
-    localStorage.setItem(
-      "noiravenue_session",
-      JSON.stringify({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      })
-    );
-
-    toast.success(`Bem-vindo, ${user.name}!`, {
+  if (!email.trim() || !password.trim()) {
+    toast.warning("Campos obrigatórios", {
       description:
-        "Redirecionando para sua conta...",
+        "Informe seu e-mail e sua senha para continuar.",
     });
 
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 1500);
-  };
+    return;
+  }
+
+  const users =
+    JSON.parse(
+      localStorage.getItem(
+        "noiravenue_users"
+      )
+    ) || [];
+
+  const user = users.find(
+    (user) =>
+      user.email === email &&
+      user.password === password
+  );
+
+  if (!user) {
+    toast.error(
+      "Credenciais inválidas.",
+      {
+        description:
+          "Verifique seu e-mail e senha e tente novamente.",
+      }
+    );
+
+    return;
+  }
+
+  if (remember) {
+    localStorage.setItem(
+      STORAGE_KEY,
+      email
+    );
+  } else {
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+  }
+
+  localStorage.setItem(
+    "noiravenue_session",
+    JSON.stringify({
+      ...user,
+      loginAt:
+        new Date().toISOString(),
+    })
+  );
+
+  toast.success(
+    `Bem-vindo, ${user.name}!`,
+    {
+      description:
+        "Redirecionando para sua conta...",
+    }
+  );
+
+  setTimeout(() => {
+    navigate("/dashboard");
+  }, 1500);
+};
 
   return (
     <div className="container">
