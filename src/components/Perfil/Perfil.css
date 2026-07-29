@@ -264,6 +264,105 @@
     transform: translateY(-3px);
 }
 
+.delete-button {
+    background:
+        linear-gradient(
+            135deg,
+            #7f1d1d,
+            #991b1b
+        );
+
+    color: white;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.75);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 999;
+}
+
+.delete-modal {
+    width: 90%;
+    max-width: 500px;
+
+    padding: 35px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111,
+            #1a1a1a
+        );
+
+    border:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            .08
+        );
+
+    text-align: center;
+}
+
+.delete-modal h2 {
+    margin-bottom: 20px;
+}
+
+.delete-modal p {
+    color: #cfcfcf;
+
+    line-height: 1.8;
+
+    margin-bottom: 30px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.modal-actions button {
+    flex: 1;
+
+    padding: 14px;
+
+    border: none;
+
+    cursor: pointer;
+
+    border-radius: 12px;
+}
+
+.confirm-delete {
+    background: #c1121f;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: .3s;
+}
+
+.confirm-delete:hover {
+    background: #9d0208;
+
+    transform: translateY(-2px);
+}s
+
 /* ===================================
    RESPONSIVO
 =================================== */
