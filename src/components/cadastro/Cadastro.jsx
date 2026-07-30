@@ -140,7 +140,7 @@ const Cadastro = () => {
         <div className="remember">
           <label>
             <input type="checkbox" required />
-            Aceito os Termos de Uso e Política de Privacidade.
+            Eu aceito os Termos de Uso e Política de Privacidade.
           </label>
         </div>
 
