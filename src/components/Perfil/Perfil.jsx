@@ -155,7 +155,7 @@ function Perfil() {
             <FaCrown />
 
             <p>
-              Status da  conta:
+              Status da conta:
               <strong>
                 {" "}
                 Membro Noir

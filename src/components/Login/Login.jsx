@@ -73,13 +73,18 @@ const handleSubmit = (event) => {
   }
 
   localStorage.setItem(
-    "noiravenue_session",
-    JSON.stringify({
-      ...user,
-      loginAt:
-        new Date().toISOString(),
-    })
-  );
+  "noiravenue_user",
+  JSON.stringify(user)
+);
+
+localStorage.setItem(
+  "noiravenue_session",
+  JSON.stringify({
+    userId: user.id,
+    loginAt:
+      new Date().toISOString(),
+  })
+);
 
   toast.success(
     `Bem-vindo, ${user.name}!`,
