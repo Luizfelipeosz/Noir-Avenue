@@ -145,7 +145,7 @@ const Cadastro = () => {
         </div>
 
         <button type="submit">
-          Criar conta teste
+          Criar conta 
         </button>
 
         <div className="login-link">
