@@ -17,6 +17,7 @@ import Configuracoes from "./components/Configuracoes/Configurações";
 import Premium from "./components/Premiun/Premiun";
 import Historico from "./components/Historico/Historico";
 
+
 function App() {
   return (
     <div className="App">
@@ -108,6 +109,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
       </Routes>
     </div>
   );
