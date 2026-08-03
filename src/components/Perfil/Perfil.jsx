@@ -18,56 +18,97 @@ import logo from "../../assets/logo.png";
 function Perfil() {
   const navigate = useNavigate();
 
+  const user =
+    JSON.parse(
+      localStorage.getItem("noiravenue_session")
+    ) || {};
+
   const [showModal, setShowModal] =
     useState(false);
 
-  const user =
-    JSON.parse(
-      localStorage.getItem(
-        "noiravenue_user"
-      )
-    ) || {};
+  const [showEditModal, setShowEditModal] =
+    useState(false);
 
-  const initial = user.nome
-    ? user.nome.charAt(0).toUpperCase()
+  const [profile, setProfile] = useState(user);
+
+  const [editName, setEditName] = useState(
+    user.name || ""
+  );
+
+  const [editPhone, setEditPhone] = useState(
+    user.telefone || ""
+  );
+
+  const [editAddress, setEditAddress] =
+    useState(user.endereco || "");
+
+  const initial = profile.name
+    ? profile.name.charAt(0).toUpperCase()
     : "N";
 
   const handleBack = () => {
     navigate("/dashboard");
   };
 
-  const handleDeleteAccount =
-    () => {
-      const users =
-        JSON.parse(
-          localStorage.getItem(
-            "noiravenue_users"
-          )
-        ) || [];
-
-      const updatedUsers =
-        users.filter(
-          (u) =>
-            u.email !== user.email
-        );
-
-      localStorage.setItem(
-        "noiravenue_users",
-        JSON.stringify(
-          updatedUsers
-        )
-      );
-
-      localStorage.removeItem(
-        "noiravenue_user"
-      );
-
-      localStorage.removeItem(
-        "noiravenue_session"
-      );
-
-      navigate("/");
+  const handleSaveProfile = () => {
+    const updatedUser = {
+      ...profile,
+      name: editName,
+      telefone: editPhone,
+      endereco: editAddress,
     };
+
+    localStorage.setItem(
+      "noiravenue_session",
+      JSON.stringify(updatedUser)
+    );
+
+    const users =
+      JSON.parse(
+        localStorage.getItem(
+          "noiravenue_users"
+        )
+      ) || [];
+
+    const updatedUsers = users.map((u) =>
+      u.email === updatedUser.email
+        ? updatedUser
+        : u
+    );
+
+    localStorage.setItem(
+      "noiravenue_users",
+      JSON.stringify(updatedUsers)
+    );
+
+    setProfile(updatedUser);
+
+    setShowEditModal(false);
+  };
+
+  const handleDeleteAccount = () => {
+    const users =
+      JSON.parse(
+        localStorage.getItem(
+          "noiravenue_users"
+        )
+      ) || [];
+
+    const updatedUsers = users.filter(
+      (u) => u.email !== profile.email
+    );
+
+    localStorage.setItem(
+      "noiravenue_users",
+      JSON.stringify(updatedUsers)
+    );
+
+    localStorage.removeItem(
+      "noiravenue_session"
+    );
+
+    navigate("/");
+  };
 
   return (
     <div className="profile-container">
@@ -93,13 +134,12 @@ function Perfil() {
 
             <div>
               <h2>
-                {user.nome ||
+                {profile.name ||
                   "Usuário Noir"}
               </h2>
 
               <p className="profile-subtitle">
-                Cliente Premium •
-                Noir Avenue
+                Cliente Premium • Noir Avenue
               </p>
             </div>
           </div>
@@ -111,7 +151,7 @@ function Perfil() {
               </span>
 
               <p>
-                {user.nome ||
+                {profile.name ||
                   "Não informado"}
               </p>
             </div>
@@ -122,7 +162,7 @@ function Perfil() {
               </span>
 
               <p>
-                {user.email ||
+                {profile.email ||
                   "Não informado"}
               </p>
             </div>
@@ -133,19 +173,19 @@ function Perfil() {
               </span>
 
               <p>
-                {user.telefone ||
+                {profile.telefone ||
                   "Não informado"}
               </p>
             </div>
 
             <div className="profile-item">
               <span>
-                <FaMapMarkerAlt />{" "}
-                Endereço
+                <FaMapMarkerAlt />
+                {" "}Endereço
               </span>
 
               <p>
-                {user.endereco ||
+                {profile.endereco ||
                   "Não informado"}
               </p>
             </div>
@@ -164,7 +204,12 @@ function Perfil() {
           </div>
 
           <div className="profile-actions">
-            <button className="profile-button">
+            <button
+              className="profile-button"
+              onClick={() =>
+                setShowEditModal(true)
+              }
+            >
               <FaPen />
               Editar Perfil
             </button>
@@ -189,6 +234,63 @@ function Perfil() {
           </div>
         </div>
       </div>
+            {showEditModal && (
+        <div className="modal-overlay">
+          <div className="edit-modal">
+            <h2>Editar Perfil</h2>
+
+            <p className="modal-description">
+              Atualize suas informações pessoais.
+            </p>
+
+            <div className="edit-fields">
+              <input
+                type="text"
+                placeholder="Nome"
+                value={editName}
+                onChange={(e) =>
+                  setEditName(e.target.value)
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Telefone"
+                value={editPhone}
+                onChange={(e) =>
+                  setEditPhone(e.target.value)
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Endereço"
+                value={editAddress}
+                onChange={(e) =>
+                  setEditAddress(e.target.value)
+                }
+              />
+            </div>
+
+            <div className="modal-actions">
+              <button
+                onClick={() =>
+                  setShowEditModal(false)
+                }
+              >
+                Cancelar
+              </button>
+
+              <button
+                className="confirm-delete"
+                onClick={handleSaveProfile}
+              >
+                Salvar Alterações
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showModal && (
         <div className="modal-overlay">
@@ -196,33 +298,24 @@ function Perfil() {
             <FaTrash
               size={45}
               style={{
-                marginBottom:
-                  "20px",
+                marginBottom: "20px",
               }}
             />
 
-            <h2>
-              Excluir Conta
-            </h2>
+            <h2>Excluir Conta</h2>
 
             <p>
-              Esta ação é
-              permanente.
+              Esta ação é permanente.
               <br />
-              Todos os dados
-              associados à sua
-              conta serão
-              removidos e não
-              poderão ser
-              recuperados.
+              Todos os dados associados à sua
+              conta serão removidos e não
+              poderão ser recuperados.
             </p>
 
             <div className="modal-actions">
               <button
                 onClick={() =>
-                  setShowModal(
-                    false
-                  )
+                  setShowModal(false)
                 }
               >
                 Cancelar
@@ -234,8 +327,7 @@ function Perfil() {
                   handleDeleteAccount
                 }
               >
-                Excluir
-                Permanentemente
+                Excluir Permanentemente
               </button>
             </div>
           </div>

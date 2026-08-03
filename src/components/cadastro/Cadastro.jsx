@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import logo from "../../assets/logo.png";
 import "./Cadastro.css";
 
+
 const Cadastro = () => {
   const navigate = useNavigate();
 
@@ -145,7 +146,7 @@ const Cadastro = () => {
         </div>
 
         <button type="submit">
-          Criar conta
+          Criar conta 
         </button>
 
         <div className="login-link">
