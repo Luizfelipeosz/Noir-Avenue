@@ -1,0 +1,766 @@
+/* ==========================
+   SETTINGS PAGE
+========================== */
+
+.settings-page {
+    min-height: 100vh;
+
+    padding: 40px 60px 70px;
+
+    color: #fff;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(255,255,255,.07),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #050505,
+            #101010
+        );
+
+    animation: fadeIn .6s ease;
+}
+
+.settings-premium {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(212,175,55,.13),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(212,175,55,.04),
+            transparent 25%
+        ),
+        #080808;
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.settings-header {
+    max-width: 1100px;
+
+    margin: 0 auto 40px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 25px;
+}
+
+.settings-back-button {
+    width: fit-content;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 10px 15px;
+
+    border: 1px solid
+        rgba(255,255,255,.08);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    color: #999;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.settings-back-button:hover {
+    color: #fff;
+
+    border-color:
+        rgba(255,255,255,.18);
+
+    background:
+        rgba(255,255,255,.07);
+
+    transform: translateX(-3px);
+}
+
+.settings-header-main {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.settings-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+.settings-title-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    color: #d4af37;
+
+    background:
+        rgba(212,175,55,.09);
+
+    border:
+        1px solid rgba(212,175,55,.18);
+
+    font-size: 24px;
+}
+
+.settings-title span {
+    color: #777;
+
+    font-size: .65rem;
+
+    letter-spacing: 3px;
+}
+
+.settings-title h1 {
+    margin-top: 5px;
+
+    font-size: 2.2rem;
+}
+
+.settings-header-main > p {
+    color: #999;
+
+    line-height: 1.6;
+}
+
+.settings-premium-badge {
+    width: fit-content;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 10px 16px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f9e64f,
+            #d4af37
+        );
+
+    color: #111;
+
+    font-size: .8rem;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 25px
+        rgba(212,175,55,.15);
+}
+
+/* ==========================
+   LAYOUT
+========================== */
+
+.settings-layout {
+    max-width: 1100px;
+
+    margin: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+/* ==========================
+   SECTION
+========================== */
+
+.settings-section {
+    padding: 30px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid rgba(255,255,255,.07);
+
+    transition: .3s;
+}
+
+.settings-section:hover {
+    border-color:
+        rgba(255,255,255,.11);
+}
+
+.section-title {
+    display: flex;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.section-title > svg {
+    margin-top: 4px;
+
+    color: #aaa;
+}
+
+.section-title h2 {
+    margin-bottom: 6px;
+
+    font-size: 1.1rem;
+}
+
+.section-title p {
+    color: #777;
+
+    font-size: .9rem;
+
+    line-height: 1.5;
+}
+
+/* ==========================
+   SETTING ROW
+========================== */
+
+.setting-row {
+    min-height: 70px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 30px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid rgba(255,255,255,.06);
+}
+
+.setting-row strong {
+    display: block;
+
+    margin-bottom: 6px;
+}
+
+.setting-row span {
+    display: block;
+
+    color: #777;
+
+    font-size: .85rem;
+
+    line-height: 1.5;
+}
+
+/* ==========================
+   TOGGLE
+========================== */
+
+.toggle {
+    width: 52px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    padding: 3px;
+
+    border: none;
+
+    border-radius: 999px;
+
+    background: #333;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.toggle span {
+    width: 24px;
+    height: 24px;
+
+    display: block;
+
+    border-radius: 50%;
+
+    background: #fff;
+
+    transition: .3s;
+}
+
+.toggle.active {
+    background: #d4af37;
+}
+
+.toggle.active span {
+    transform: translateX(22px);
+}
+
+/* ==========================
+   SELECT
+========================== */
+
+.setting-row select {
+    min-width: 150px;
+
+    padding: 11px 14px;
+
+    border-radius: 10px;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    outline: none;
+
+    background: #151515;
+
+    color: #fff;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.setting-row select:hover,
+.setting-row select:focus {
+    border-color:
+        rgba(212,175,55,.35);
+}
+
+/* ==========================
+   PREMIUM SETTING
+========================== */
+
+.premium-setting {
+    margin-top: 20px;
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(212,175,55,.10),
+            rgba(212,175,55,.03)
+        );
+
+    border:
+        1px solid rgba(212,175,55,.22);
+}
+
+.premium-setting-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    color: #111;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f9e64f,
+            #d4af37
+        );
+}
+
+.premium-setting div:nth-child(2) {
+    flex: 1;
+}
+
+.premium-setting strong {
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+.premium-setting span {
+    color: #999;
+
+    font-size: .8rem;
+}
+
+.premium-check {
+    color: #4ade80;
+}
+
+/* ==========================
+   ACTIONS
+========================== */
+
+.settings-action {
+    width: 100%;
+
+    padding: 20px 0;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    text-align: left;
+
+    color: #fff;
+
+    border: none;
+
+    border-top:
+        1px solid rgba(255,255,255,.06);
+
+    background: transparent;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.settings-action:hover {
+    padding-left: 8px;
+}
+
+.settings-action strong {
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+.settings-action span {
+    color: #777;
+
+    font-size: .85rem;
+}
+
+.settings-action > svg {
+    flex-shrink: 0;
+
+    color: #555;
+
+    transition: .3s;
+}
+
+.settings-action:hover > svg {
+    color: #d4af37;
+
+    transform: translateX(3px);
+}
+
+/* ==========================
+   PREMIUM UPGRADE
+========================== */
+
+.settings-upgrade {
+    padding: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(212,175,55,.15),
+            rgba(255,255,255,.03)
+        );
+
+    border:
+        1px solid rgba(212,175,55,.25);
+
+    box-shadow:
+        0 15px 50px
+        rgba(0,0,0,.2);
+}
+
+.upgrade-icon {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    color: #111;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f9e64f,
+            #d4af37
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(212,175,55,.18);
+}
+
+.upgrade-content {
+    flex: 1;
+}
+
+.settings-upgrade span,
+.premium-active-card span {
+    color: #d4af37;
+
+    font-size: .7rem;
+
+    letter-spacing: 2px;
+
+    font-weight: 700;
+}
+
+.settings-upgrade h2,
+.premium-active-card h2 {
+    margin: 6px 0;
+
+    font-size: 1.3rem;
+}
+
+.settings-upgrade p,
+.premium-active-card p {
+    color: #999;
+
+    line-height: 1.6;
+}
+
+.settings-upgrade button {
+    padding: 12px 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f9e64f,
+            #d4af37
+        );
+
+    color: #111;
+
+    transition: .3s;
+}
+
+.settings-upgrade button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px
+        rgba(212,175,55,.18);
+}
+
+/* ==========================
+   PREMIUM ACTIVE
+========================== */
+
+.premium-active-card {
+    padding: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(212,175,55,.12),
+            rgba(255,255,255,.025)
+        );
+
+    border:
+        1px solid rgba(212,175,55,.3);
+
+    box-shadow:
+        0 15px 50px
+        rgba(212,175,55,.05);
+}
+
+.premium-active-icon {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    color: #111;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f9e64f,
+            #d4af37
+        );
+}
+
+.premium-active-card > div:nth-child(2) {
+    flex: 1;
+}
+
+.premium-active-status {
+    padding: 9px 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    border-radius: 999px;
+
+    color: #4ade80;
+
+    background:
+        rgba(74,222,128,.08);
+
+    border:
+        1px solid rgba(74,222,128,.15);
+
+    font-size: .8rem;
+
+    font-weight: 700;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 700px) {
+
+    .settings-page {
+        padding: 30px 20px 50px;
+    }
+
+    .settings-header {
+        gap: 20px;
+    }
+
+    .settings-title h1 {
+        font-size: 1.8rem;
+    }
+
+    .setting-row {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .setting-row select {
+        width: 100%;
+    }
+
+    .settings-upgrade,
+    .premium-active-card {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .settings-upgrade button {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .premium-active-status {
+        width: fit-content;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .settings-title-icon {
+        display: none;
+    }
+
+    .settings-section {
+        padding: 22px;
+    }
+
+    .settings-title h1 {
+        font-size: 1.6rem;
+    }
+
+    .settings-back-button {
+        font-size: .8rem;
+    }
+}
+

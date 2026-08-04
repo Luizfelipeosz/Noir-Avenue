@@ -1,6 +1,7 @@
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import { timeAgo } from "../../utils/timeAgo";
+
 import {
   FaUser,
   FaHeart,
@@ -10,53 +11,46 @@ import {
   FaClock,
   FaBell,
   FaSearch,
+  FaArrowRight,
+  FaCompass,
 } from "react-icons/fa";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const session =
-  JSON.parse(
-    localStorage.getItem(
-      "noiravenue_session"
-    )
-  ) || {};
+    JSON.parse(
+      localStorage.getItem("noiravenue_session")
+    ) || {};
 
   const user = session;
 
   const favorites =
     JSON.parse(
-      localStorage.getItem(
-        "noiravenue_favorites"
-      )
+      localStorage.getItem("noiravenue_favorites")
     ) || [];
 
   const activities =
     JSON.parse(
-      localStorage.getItem(
-        "noiravenue_activities"
-      )
+      localStorage.getItem("noiravenue_activities")
     ) || [
       {
         id: 1,
         message: "Bem-vindo ao Noir Avenue.",
-        createdAt:
-          new Date().toISOString(),
+        createdAt: new Date().toISOString(),
       },
     ];
 
-const fields = [
-  user.name,
-  user.email,
-  user.telefone,
-  user.endereco,
-  user.foto,
-];
+  const fields = [
+    user.name,
+    user.email,
+    user.telefone,
+    user.endereco,
+    user.foto,
+  ];
 
   const profilePercentage = Math.floor(
-    (fields.filter(Boolean).length /
-      fields.length) *
-      100
+    (fields.filter(Boolean).length / fields.length) * 100
   );
 
   const hour = new Date().getHours();
@@ -65,10 +59,7 @@ const fields = [
 
   if (hour >= 5 && hour < 12) {
     greeting = "Bom dia";
-  } else if (
-    hour >= 12 &&
-    hour < 18
-  ) {
+  } else if (hour >= 12 && hour < 18) {
     greeting = "Boa tarde";
   } else {
     greeting = "Boa noite";
@@ -77,82 +68,136 @@ const fields = [
   const actions = [
     {
       title: "Meu Perfil",
+      description: "Gerencie suas informações pessoais.",
       icon: <FaUser />,
       route: "/dashboard/perfil",
     },
     {
       title: "Favoritos",
+      description: "Acesse os itens que você salvou.",
       icon: <FaHeart />,
       route: "/dashboard/favoritos",
     },
     {
       title: "Configurações",
+      description: "Personalize sua experiência.",
       icon: <FaCog />,
-      route:
-        "/dashboard/configuracoes",
+      route: "/dashboard/configuracoes",
     },
     {
       title: "Noir Premium",
+      description: "Descubra benefícios exclusivos.",
       icon: <FaCrown />,
       route: "/dashboard/premium",
+      premium: true,
     },
     {
       title: "Histórico",
+      description: "Consulte suas atividades recentes.",
       icon: <FaClock />,
       route: "/dashboard/historico",
     },
   ];
 
   const logout = () => {
-    localStorage.removeItem(
-      "noiravenue_session"
-    );
-
+    localStorage.removeItem("noiravenue_session");
     navigate("/");
   };
 
   return (
     <div className="layout">
       <aside className="sidebar">
-        <h2>NOIR AVENUE</h2>
+        <div className="sidebar-brand">
+          <span>NOIR</span>
+          <strong>AVENUE</strong>
+        </div>
+
+        <p className="sidebar-label">NAVEGAÇÃO</p>
 
         <nav>
           {actions.map((item) => (
             <button
               key={item.title}
-              onClick={() =>
-                navigate(item.route)
-              }
+              className={item.premium ? "premium-nav-item" : ""}
+              onClick={() => navigate(item.route)}
             >
-              {item.icon}
-              {item.title}
+              <span className="nav-icon">{item.icon}</span>
+
+              <span className="nav-content">
+                <span>{item.title}</span>
+
+                {item.premium && (
+                  <small>EXCLUSIVO</small>
+                )}
+              </span>
+
+              {item.premium && (
+                <FaCrown className="nav-crown" />
+              )}
             </button>
           ))}
         </nav>
+
+        <div className="sidebar-premium">
+          <div className="sidebar-premium-icon">
+            <FaCrown />
+          </div>
+
+          <div>
+            <strong>Noir Premium</strong>
+
+            <p>
+              Eleve sua experiência.
+            </p>
+          </div>
+
+          <button
+            onClick={() =>
+              navigate("/dashboard/premium")
+            }
+          >
+            <FaArrowRight />
+          </button>
+        </div>
       </aside>
 
       <main className="dashboard-container">
         <header className="dashboard-header">
           <div className="header-user">
+            <span className="welcome-label">
+              ÁREA DO CLIENTE
+            </span>
+
             <h1>
-              {greeting}, {user.name}
+              {greeting},{" "}
+              <span>{user.name}</span>
             </h1>
 
             <p>
               Seu último acesso foi{" "}
               {session.loginAt
-                ? timeAgo(
-                    session.loginAt
-                  )
+                ? timeAgo(session.loginAt)
                 : "agora mesmo"}.
             </p>
           </div>
 
           <div className="header-actions">
-            <FaBell />
-            <FaSearch />
+            <button
+              className="icon-button"
+              aria-label="Notificações"
+            >
+              <FaBell />
+            </button>
 
             <button
+              className="icon-button"
+              aria-label="Buscar"
+            >
+              <FaSearch />
+            </button>
+
+            <button
+              className="logout-button"
               onClick={logout}
             >
               <FaSignOutAlt />
@@ -162,106 +207,220 @@ const fields = [
         </header>
 
         <section className="dashboard-banner">
-          <h2>
-            Experiência Noir
-            Avenue
-          </h2>
-
-          <p>
-            Elegância,
-            exclusividade e
-            tecnologia em cada
-            interação.
-          </p>
-        </section>
-
-        <section className="dashboard-stats">
-          <div className="card">
-            <h3>Favoritos</h3>
-
-            <span>
-              {favorites.length}
+          <div className="banner-content">
+            <span className="banner-label">
+              NOIR AVENUE
             </span>
-          </div>
 
-          <div className="card">
-            <h3>Coleções</h3>
+            <h2>
+              Uma experiência feita
+              para você.
+            </h2>
 
-            <span>04</span>
-          </div>
+            <p>
+              Explore suas preferências,
+              acompanhe sua jornada e
+              descubra uma experiência
+              cada vez mais personalizada.
+            </p>
 
-          <div className="card-premium">
-            <h3>Premium</h3>
-
-            <span>
-              {user.isPremium
-                ? "Ativo"
-                : "Inativo"}
-            </span>
-          </div>
-
-          <div className="card">
-            <h3>Perfil</h3>
-
-            <span>
-              {
-                profilePercentage
-              }
-              %
-            </span>
-          </div>
-        </section>
-
-        <section className="activity">
-          <h2>
-            Atividades
-            Recentes
-          </h2>
-
-          <ul>
-            {activities.map(
-              (item) => (
-                <li
-                  key={item.id}
-                >
-                  {item.message}
-                  {" • "}
-                  {timeAgo(
-                    item.createdAt
-                  )}
-                </li>
-              )
-            )}
-          </ul>
-        </section>
-
-        <section className="dashboard-actions">
-          {actions.map((item) => (
-            <div
-              key={item.title}
-              className="action-card"
+            <button
+              className="banner-button"
               onClick={() =>
-                navigate(item.route)
+                navigate("/dashboard/favoritos")
               }
             >
-              {item.icon}
+              Explorar experiência
+              <FaArrowRight />
+            </button>
+          </div>
 
-              <h3>
-                {item.title}
-              </h3>
+          <div className="banner-decoration">
+            <FaCompass />
+          </div>
+        </section>
+
+        <section className="dashboard-section">
+          <div className="section-heading">
+            <div>
+              <span>VISÃO GERAL</span>
+              <h2>Seu espaço</h2>
+            </div>
+          </div>
+
+          <div className="dashboard-stats">
+            <div className="stat-card">
+              <div className="stat-header">
+                <span>Favoritos</span>
+                <FaHeart />
+              </div>
+
+              <strong>{favorites.length}</strong>
 
               <p>
-                Acesse
-                rapidamente esta
-                área da
-                plataforma.
+                Itens salvos por você
               </p>
             </div>
-          ))}
+
+            <div className="stat-card">
+              <div className="stat-header">
+                <span>Coleções</span>
+                <FaCompass />
+              </div>
+
+              <strong>04</strong>
+
+              <p>
+                Coleções disponíveis
+              </p>
+            </div>
+
+            <div className="stat-card premium-stat">
+              <div className="stat-header">
+                <span>Premium</span>
+                <FaCrown />
+              </div>
+
+              <strong>
+                {user.isPremium
+                  ? "Ativo"
+                  : "Inativo"}
+              </strong>
+
+              <p>
+                {user.isPremium
+                  ? "Benefícios desbloqueados"
+                  : "Conheça o Noir Premium"}
+              </p>
+            </div>
+
+            <div className="stat-card">
+              <div className="stat-header">
+                <span>Perfil</span>
+                <FaUser />
+              </div>
+
+              <strong>
+                {profilePercentage}%
+              </strong>
+
+              <p>
+                Perfil preenchido
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="dashboard-content-grid">
+          <div className="activity">
+            <div className="section-heading compact">
+              <div>
+                <span>ACOMPANHE</span>
+                <h2>Atividades recentes</h2>
+              </div>
+
+              <button
+                onClick={() =>
+                  navigate("/dashboard/historico")
+                }
+              >
+                Ver histórico
+                <FaArrowRight />
+              </button>
+            </div>
+
+            <ul>
+              {activities.map((item) => (
+                <li key={item.id}>
+                  <div className="activity-dot" />
+
+                  <div>
+                    <strong>
+                      {item.message}
+                    </strong>
+
+                    <span>
+                      {timeAgo(item.createdAt)}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="profile-progress">
+            <div className="section-heading compact">
+              <div>
+                <span>SEU PERFIL</span>
+                <h2>Complete seu perfil</h2>
+              </div>
+            </div>
+
+            <div className="progress-circle">
+              <strong>
+                {profilePercentage}%
+              </strong>
+            </div>
+
+            <p>
+              Mantenha suas informações
+              atualizadas para aproveitar
+              melhor a experiência.
+            </p>
+
+            <button
+              onClick={() =>
+                navigate("/dashboard/perfil")
+              }
+            >
+              Atualizar perfil
+              <FaArrowRight />
+            </button>
+          </div>
+        </section>
+
+        <section className="dashboard-actions-section">
+          <div className="section-heading">
+            <div>
+              <span>ACESSO RÁPIDO</span>
+              <h2>Explore sua plataforma</h2>
+            </div>
+          </div>
+
+          <div className="dashboard-actions">
+            {actions.map((item) => (
+              <div
+                key={item.title}
+                className={`action-card ${
+                  item.premium
+                    ? "action-card-premium"
+                    : ""
+                }`}
+                onClick={() =>
+                  navigate(item.route)
+                }
+              >
+                <div className="action-icon">
+                  {item.icon}
+                </div>
+
+                <h3>{item.title}</h3>
+
+                <p>
+                  {item.description}
+                </p>
+
+                <span className="action-link">
+                  Acessar
+                  <FaArrowRight />
+                </span>
+              </div>
+            ))}
+          </div>
         </section>
       </main>
     </div>
   );
 }
 
-export default Dashboard;
+export default Dashboard; 
