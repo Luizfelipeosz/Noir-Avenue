@@ -9,7 +9,7 @@ import "./styles/themes/noir-theme.css";
 import "./styles/animations/animations.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  <BrowserRouter basename={import.meta.env.BASE_URL}>
     <App />
 
     <Toaster
