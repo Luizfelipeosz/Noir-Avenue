@@ -1,246 +1,525 @@
-/* CARD */
+/* =========================================================
+   NOIR AVENUE — LOGIN
+   ========================================================= */
 
-.container {
-    width: 100%;
-    max-width: 430px;
+/* RESET LOCAL */
 
-    padding: 35px 40px;
-
-    background: rgba(255, 255, 255, .12);
-    backdrop-filter: blur(18px);
-
-    border: 1px solid rgba(255, 255, 255, .25);
-    border-radius: 22px;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, .25);
-
-    animation: fade .7s ease;
+.container,
+.container * {
+    box-sizing: border-box;
 }
 
 
-/* LOGO */
+/* =========================================================
+   CONTAINER / CARD
+   ========================================================= */
 
-.logo {
+.container {
+    width: min(100%, 430px);
+    margin: 0 auto;
+    padding: 38px 40px;
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.13),
+            rgba(255, 255, 255, 0.055)
+        );
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.32);
+
+    animation: loginFade 0.55s ease both;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.container form {
+    width: 100%;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.container .logo {
     display: block;
-    width: 170px;
 
-    margin: 0 auto 25px;
+    width: 165px;
+    max-width: 70%;
+
+    height: auto;
+
+    margin: 0 auto 24px;
+
+    object-fit: contain;
 
     user-select: none;
 }
 
 
-/* TÍTULOS */
+/* =========================================================
+   TÍTULO
+   ========================================================= */
 
 .container h1 {
-    text-align: center;
+    margin: 0 0 8px;
+
     color: #fff;
+
+    text-align: center;
 
     font-size: 30px;
     font-weight: 600;
-
-    margin-bottom: 8px;
+    line-height: 1.2;
 }
 
-.subtitle {
+.container .subtitle {
+    margin: 0 0 30px;
+
+    color: rgba(255, 255, 255, 0.72);
+
     text-align: center;
 
-    color: rgba(255,255,255,.75);
-
     font-size: 14px;
-    letter-spacing: .5px;
+    line-height: 1.5;
 
-    margin-bottom: 32px;
+    letter-spacing: 0.3px;
 }
 
 
-/* INPUTS */
+/* =========================================================
+   INPUTS
+   ========================================================= */
 
-.input-field {
+.container .input-field {
     position: relative;
-    margin-bottom: 20px;
+
+    width: 100%;
+
+    margin-bottom: 18px;
 }
 
-.input-field input {
+.container .input-field input {
+    display: block;
+
     width: 100%;
-    height: 55px;
+    height: 54px;
 
-    padding: 0 50px 0 20px;
+    padding: 0 50px 0 19px;
 
-    border: 2px solid rgba(255,255,255,.25);
-    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
 
     outline: none;
 
-    background: rgba(255,255,255,.08);
+    background: rgba(255, 255, 255, 0.07);
 
     color: #fff;
+
+    font-family: inherit;
     font-size: 15px;
 
-    transition: all .25s ease;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.input-field input::placeholder {
-    color: rgba(255,255,255,.7);
+.container .input-field input::placeholder {
+    color: rgba(255, 255, 255, 0.58);
 }
 
-.input-field input:focus {
-    border-color: rgba(255,255,255,.9);
+.container .input-field input:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+}
 
-    background: rgba(255,255,255,.15);
+.container .input-field input:focus {
+    border-color: rgba(255, 255, 255, 0.72);
+
+    background: rgba(255, 255, 255, 0.11);
 
     box-shadow:
-        0 0 18px rgba(255,255,255,.15);
+        0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
-.icon {
+.container .input-field input:-webkit-autofill,
+.container .input-field input:-webkit-autofill:hover,
+.container .input-field input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #fff;
+
+    box-shadow:
+        0 0 0 1000px rgba(30, 30, 30, 0.95) inset;
+
+    transition:
+        background-color 9999s ease-in-out 0s;
+}
+
+.container .icon {
     position: absolute;
 
-    right: 20px;
     top: 50%;
+    right: 18px;
+
+    width: 17px;
+    height: 17px;
 
     transform: translateY(-50%);
 
-    color: rgba(255,255,255,.9);
-    font-size: 18px;
+    color: rgba(255, 255, 255, 0.72);
 
     pointer-events: none;
 }
 
 
-/* LEMBRAR DE MIM */
+/* =========================================================
+   LEMBRAR / ESQUECI
+   ========================================================= */
 
-.recall-forget {
+.container .recall-forget {
+    width: 100%;
+
+    margin: 22px 0 24px;
+
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 
-    margin: 25px 0;
+    gap: 15px;
 
-    color: #fff;
-    font-size: 14px;
+    color: rgba(255, 255, 255, 0.82);
+
+    font-size: 13px;
 }
 
-.recall-forget label {
+.container .recall-forget label {
+    min-width: 0;
+
     display: flex;
     align-items: center;
+
     gap: 8px;
 
     cursor: pointer;
 
     user-select: none;
+
+    white-space: nowrap;
 }
 
-.recall-forget input {
-    width: 16px;
-    height: 16px;
+.container .recall-forget label input {
+    width: 15px;
+    height: 15px;
+
+    flex: 0 0 15px;
+
+    margin: 0;
 
     cursor: pointer;
 
     accent-color: #fff;
 }
 
-.recall-forget a {
-    color: #fff;
+.container .recall-forget a {
+    color: rgba(255, 255, 255, 0.85);
+
     text-decoration: none;
 
-    transition: .2s ease;
+    white-space: nowrap;
+
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
 }
 
-.recall-forget a:hover {
-    opacity: .85;
+.container .recall-forget a:hover {
+    color: #fff;
     text-decoration: underline;
 }
 
 
-/* BOTÃO */
+/* =========================================================
+   BOTÃO DE LOGIN
+   IMPORTANTE: não usar "button" global
+   ========================================================= */
 
-button {
+.container > form > button[type="submit"] {
     width: 100%;
-    height: 54px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 20px;
 
     border: none;
-    border-radius: 30px;
+    border-radius: 14px;
 
     background: #fff;
+
     color: #111;
 
-    font-size: 16px;
+    font-family: inherit;
+    font-size: 15px;
     font-weight: 700;
 
     cursor: pointer;
 
-    transition: all .25s ease;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-button:hover {
+.container > form > button[type="submit"]:hover {
     transform: translateY(-2px);
 
     background: #f4f4f4;
 
     box-shadow:
-        0 12px 25px rgba(255,255,255,.18);
+        0 10px 25px rgba(255, 255, 255, 0.15);
 }
 
-button:active {
-    transform: scale(.98);
+.container > form > button[type="submit"]:active {
+    transform: translateY(0) scale(0.985);
+}
+
+.container > form > button[type="submit"]:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.85);
+    outline-offset: 3px;
 }
 
 
-/* CADASTRO */
+/* =========================================================
+   CADASTRO
+   ========================================================= */
 
-.signup-link {
-    margin-top: 28px;
+.container .signup-link {
+    margin-top: 24px;
 
     text-align: center;
 
-    color: #fff;
-    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+
+    font-size: 13px;
+    line-height: 1.5;
 }
 
-.signup-link a {
+.container .signup-link p {
+    margin: 0;
+}
+
+.container .signup-link a {
     color: #fff;
 
     font-weight: 600;
+
     text-decoration: none;
 
-    transition: .2s ease;
+    transition:
+        opacity 0.2s ease,
+        text-decoration 0.2s ease;
 }
 
-.signup-link a:hover {
+.container .signup-link a:hover {
+    opacity: 0.85;
+
     text-decoration: underline;
 }
 
 
-/* RESPONSIVO */
+/* =========================================================
+   RESPONSIVO — TABLET
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: min(100%, 430px);
+
+        padding: 32px 30px;
+
+        border-radius: 20px;
+    }
+
+    .container .logo {
+        width: 150px;
+
+        margin-bottom: 22px;
+    }
+
+    .container h1 {
+        font-size: 27px;
+    }
+
+    .container .subtitle {
+        margin-bottom: 26px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVO — MOBILE
+   ========================================================= */
 
 @media (max-width: 480px) {
 
     .container {
-        padding: 30px 25px;
+        width: 100%;
+
+        padding: 28px 22px;
+
+        border-radius: 18px;
     }
 
-    .recall-forget {
+    .container .logo {
+        width: 140px;
+        max-width: 65%;
+
+        margin-bottom: 20px;
+    }
+
+    .container h1 {
+        font-size: 25px;
+    }
+
+    .container .subtitle {
+        margin-bottom: 24px;
+
+        font-size: 13px;
+    }
+
+    .container .input-field {
+        margin-bottom: 15px;
+    }
+
+    .container .input-field input {
+        height: 52px;
+
+        padding-left: 17px;
+        padding-right: 46px;
+
+        border-radius: 13px;
+
+        font-size: 14px;
+    }
+
+    .container .icon {
+        right: 17px;
+
+        width: 16px;
+        height: 16px;
+    }
+
+    .container .recall-forget {
+        align-items: flex-start;
+
         flex-direction: column;
-        gap: 15px;
+
+        margin: 19px 0 22px;
+
+        gap: 13px;
+
+        font-size: 12.5px;
     }
 
+    .container .recall-forget label {
+        width: 100%;
+    }
+
+    .container .recall-forget a {
+        align-self: flex-end;
+    }
+
+    .container > form > button[type="submit"] {
+        height: 51px;
+
+        border-radius: 13px;
+    }
+
+    .container .signup-link {
+        margin-top: 21px;
+
+        font-size: 12.5px;
+    }
 }
 
 
-/* ANIMAÇÃO */
+/* =========================================================
+   MOBILE MUITO PEQUENO
+   ========================================================= */
 
-@keyframes fade {
+@media (max-width: 360px) {
+
+    .container {
+        padding: 24px 17px;
+
+        border-radius: 16px;
+    }
+
+    .container .logo {
+        width: 125px;
+    }
+
+    .container h1 {
+        font-size: 23px;
+    }
+
+    .container .subtitle {
+        font-size: 12px;
+    }
+
+    .container .recall-forget {
+        font-size: 12px;
+    }
+}
+
+
+/* =========================================================
+   REDUÇÃO DE MOVIMENTO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .container,
+    .container * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* =========================================================
+   ANIMAÇÃO
+   ========================================================= */
+
+@keyframes loginFade {
 
     from {
         opacity: 0;
-        transform: translateY(20px) scale(.96);
+
+        transform:
+            translateY(18px)
+            scale(0.98);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
-    }
 
+        transform:
+            translateY(0)
+            scale(1);
+    }
 }
+

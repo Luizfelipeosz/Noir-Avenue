@@ -1,766 +1,689 @@
-/* ==========================
-   SETTINGS PAGE
-========================== */
+/* =========================================================
+   NOIR AVENUE — CONFIGURAÇÕES
+   ========================================================= */
+
+.settings-page,
+.settings-page * {
+  box-sizing: border-box;
+}
 
 .settings-page {
-    min-height: 100vh;
-
-    padding: 40px 60px 70px;
-
-    color: #fff;
-
-    background:
-        radial-gradient(
-            circle at top right,
-            rgba(255,255,255,.07),
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            #050505,
-            #101010
-        );
-
-    animation: fadeIn .6s ease;
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 24px 72px;
+  color: #f5f5f5;
+  background:
+    radial-gradient(circle at 85% 0%, rgba(212, 175, 55, 0.08), transparent 28%),
+    linear-gradient(135deg, #050505 0%, #0d0d0d 55%, #101010 100%);
+  animation: settingsFadeIn 0.45s ease both;
 }
 
-.settings-premium {
-    background:
-        radial-gradient(
-            circle at top right,
-            rgba(212,175,55,.13),
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at bottom left,
-            rgba(212,175,55,.04),
-            transparent 25%
-        ),
-        #080808;
+.settings-page.settings-premium {
+  background:
+    radial-gradient(circle at 85% 0%, rgba(212, 175, 55, 0.13), transparent 30%),
+    radial-gradient(circle at 10% 90%, rgba(212, 175, 55, 0.04), transparent 24%),
+    #080808;
 }
 
-/* ==========================
+.settings-page button,
+.settings-page select {
+  font: inherit;
+}
+
+/* =========================================================
    HEADER
-========================== */
+   ========================================================= */
+
+.settings-header,
+.settings-layout {
+  width: min(100%, 1100px);
+  margin-inline: auto;
+}
 
 .settings-header {
-    max-width: 1100px;
-
-    margin: 0 auto 40px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 25px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
 .settings-back-button {
-    width: fit-content;
-
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-
-    padding: 10px 15px;
-
-    border: 1px solid
-        rgba(255,255,255,.08);
-
-    border-radius: 10px;
-
-    background:
-        rgba(255,255,255,.035);
-
-    color: #999;
-
-    cursor: pointer;
-
-    transition: .3s;
+  width: fit-content;
+  min-height: 42px;
+  padding: 9px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #a5a5a5;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .settings-back-button:hover {
-    color: #fff;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.065);
+  transform: translateX(-3px);
+}
 
-    border-color:
-        rgba(255,255,255,.18);
-
-    background:
-        rgba(255,255,255,.07);
-
-    transform: translateX(-3px);
+.settings-back-button:focus-visible,
+.settings-action:focus-visible,
+.settings-upgrade button:focus-visible,
+.toggle:focus-visible,
+.setting-row select:focus-visible {
+  outline: 2px solid rgba(212, 175, 55, 0.8);
+  outline-offset: 3px;
 }
 
 .settings-header-main {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .settings-title {
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .settings-title-icon {
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 16px;
-
-    color: #d4af37;
-
-    background:
-        rgba(212,175,55,.09);
-
-    border:
-        1px solid rgba(212,175,55,.18);
-
-    font-size: 24px;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 16px;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.09);
+  font-size: 23px;
 }
 
 .settings-title span {
-    color: #777;
-
-    font-size: .65rem;
-
-    letter-spacing: 3px;
+  display: block;
+  margin-bottom: 4px;
+  color: #777;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 3px;
 }
 
 .settings-title h1 {
-    margin-top: 5px;
-
-    font-size: 2.2rem;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.8rem, 3vw, 2.25rem);
+  line-height: 1.15;
 }
 
 .settings-header-main > p {
-    color: #999;
-
-    line-height: 1.6;
+  max-width: 650px;
+  margin: 0;
+  color: #999;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .settings-premium-badge {
-    width: fit-content;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    padding: 10px 16px;
-
-    border-radius: 999px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f9e64f,
-            #d4af37
-        );
-
-    color: #111;
-
-    font-size: .8rem;
-
-    font-weight: 800;
-
-    box-shadow:
-        0 8px 25px
-        rgba(212,175,55,.15);
+  width: fit-content;
+  min-height: 36px;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 999px;
+  color: #111;
+  background: linear-gradient(135deg, #f9e64f, #d4af37);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.12);
 }
 
-/* ==========================
+/* =========================================================
    LAYOUT
-========================== */
+   ========================================================= */
 
 .settings-layout {
-    max-width: 1100px;
-
-    margin: auto;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-/* ==========================
-   SECTION
-========================== */
+/* =========================================================
+   SECTIONS
+   ========================================================= */
 
 .settings-section {
-    padding: 30px;
-
-    border-radius: 20px;
-
-    background:
-        rgba(255,255,255,.035);
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    transition: .3s;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.032);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
 .settings-section:hover {
-    border-color:
-        rgba(255,255,255,.11);
+  border-color: rgba(255, 255, 255, 0.11);
+  background: rgba(255, 255, 255, 0.038);
 }
 
 .section-title {
-    display: flex;
-
-    gap: 15px;
-
-    margin-bottom: 25px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
 }
 
 .section-title > svg {
-    margin-top: 4px;
-
-    color: #aaa;
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: #bdbdbd;
+  font-size: 17px;
 }
 
 .section-title h2 {
-    margin-bottom: 6px;
-
-    font-size: 1.1rem;
+  margin: 0 0 5px;
+  color: #f4f4f4;
+  font-size: 1.08rem;
+  line-height: 1.35;
 }
 
 .section-title p {
-    color: #777;
-
-    font-size: .9rem;
-
-    line-height: 1.5;
+  max-width: 680px;
+  margin: 0;
+  color: #777;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
-/* ==========================
+/* =========================================================
    SETTING ROW
-========================== */
+   ========================================================= */
 
 .setting-row {
-    min-height: 70px;
+  min-height: 70px;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
 
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 30px;
-
-    padding-top: 20px;
-
-    border-top:
-        1px solid rgba(255,255,255,.06);
+.setting-row > div:first-child {
+  min-width: 0;
+  flex: 1;
 }
 
 .setting-row strong {
-    display: block;
-
-    margin-bottom: 6px;
+  display: block;
+  margin: 0 0 5px;
+  color: #eee;
+  font-size: 0.94rem;
+  line-height: 1.4;
 }
 
 .setting-row span {
-    display: block;
-
-    color: #777;
-
-    font-size: .85rem;
-
-    line-height: 1.5;
+  display: block;
+  color: #777;
+  font-size: 0.84rem;
+  line-height: 1.5;
 }
 
-/* ==========================
+/* =========================================================
    TOGGLE
-========================== */
+   ========================================================= */
 
 .toggle {
-    width: 52px;
-    height: 30px;
-
-    flex-shrink: 0;
-
-    padding: 3px;
-
-    border: none;
-
-    border-radius: 999px;
-
-    background: #333;
-
-    cursor: pointer;
-
-    transition: .3s;
+  position: relative;
+  width: 52px;
+  height: 30px;
+  flex: 0 0 52px;
+  padding: 3px;
+  border: 0;
+  border-radius: 999px;
+  background: #303030;
+  cursor: pointer;
+  transition: background 0.25s ease;
 }
 
 .toggle span {
-    width: 24px;
-    height: 24px;
-
-    display: block;
-
-    border-radius: 50%;
-
-    background: #fff;
-
-    transition: .3s;
+  width: 24px;
+  height: 24px;
+  display: block;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.35);
+  transform: translateX(0);
+  transition: transform 0.25s ease;
 }
 
 .toggle.active {
-    background: #d4af37;
+  background: #d4af37;
 }
 
 .toggle.active span {
-    transform: translateX(22px);
+  transform: translateX(22px);
 }
 
-/* ==========================
+/* =========================================================
    SELECT
-========================== */
+   ========================================================= */
 
 .setting-row select {
-    min-width: 150px;
-
-    padding: 11px 14px;
-
-    border-radius: 10px;
-
-    border:
-        1px solid rgba(255,255,255,.1);
-
-    outline: none;
-
-    background: #151515;
-
-    color: #fff;
-
-    cursor: pointer;
-
-    transition: .3s;
+  width: 170px;
+  min-width: 150px;
+  min-height: 42px;
+  flex: 0 0 auto;
+  padding: 9px 38px 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  outline: none;
+  appearance: none;
+  color: #f5f5f5;
+  background-color: #151515;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #888 50%),
+    linear-gradient(135deg, #888 50%, transparent 50%);
+  background-position:
+    calc(100% - 17px) 18px,
+    calc(100% - 12px) 18px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .setting-row select:hover,
 .setting-row select:focus {
-    border-color:
-        rgba(212,175,55,.35);
+  border-color: rgba(212, 175, 55, 0.4);
+  background-color: #191919;
 }
 
-/* ==========================
+.setting-row select option {
+  color: #fff;
+  background: #151515;
+}
+
+/* =========================================================
    PREMIUM SETTING
-========================== */
+   ========================================================= */
 
 .premium-setting {
-    margin-top: 20px;
-
-    padding: 18px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(212,175,55,.10),
-            rgba(212,175,55,.03)
-        );
-
-    border:
-        1px solid rgba(212,175,55,.22);
+  margin-top: 20px;
+  padding: 17px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.1),
+    rgba(212, 175, 55, 0.025)
+  );
 }
 
 .premium-setting-icon {
-    width: 40px;
-    height: 40px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    border-radius: 10px;
-
-    color: #111;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f9e64f,
-            #d4af37
-        );
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: #111;
+  background: linear-gradient(135deg, #f9e64f, #d4af37);
 }
 
-.premium-setting div:nth-child(2) {
-    flex: 1;
+.premium-setting > div:nth-child(2) {
+  min-width: 0;
+  flex: 1;
 }
 
 .premium-setting strong {
-    display: block;
-
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 4px;
+  color: #eee;
 }
 
 .premium-setting span {
-    color: #999;
-
-    font-size: .8rem;
+  display: block;
+  color: #999;
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
 .premium-check {
-    color: #4ade80;
+  flex: 0 0 auto;
+  color: #4ade80;
 }
 
-/* ==========================
+/* =========================================================
    ACTIONS
-========================== */
+   ========================================================= */
 
 .settings-action {
-    width: 100%;
-
-    padding: 20px 0;
-
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    gap: 20px;
-
-    text-align: left;
-
-    color: #fff;
-
-    border: none;
-
-    border-top:
-        1px solid rgba(255,255,255,.06);
-
-    background: transparent;
-
-    cursor: pointer;
-
-    transition: .3s;
+  width: 100%;
+  min-height: 72px;
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    padding-left 0.2s ease,
+    background 0.2s ease;
 }
 
 .settings-action:hover {
-    padding-left: 8px;
+  padding-left: 8px;
+}
+
+.settings-action > div {
+  min-width: 0;
 }
 
 .settings-action strong {
-    display: block;
-
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 4px;
+  color: #eee;
+  font-size: 0.94rem;
 }
 
 .settings-action span {
-    color: #777;
-
-    font-size: .85rem;
+  display: block;
+  color: #777;
+  font-size: 0.84rem;
+  line-height: 1.5;
 }
 
 .settings-action > svg {
-    flex-shrink: 0;
-
-    color: #555;
-
-    transition: .3s;
+  flex: 0 0 auto;
+  color: #555;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .settings-action:hover > svg {
-    color: #d4af37;
-
-    transform: translateX(3px);
+  color: #d4af37;
+  transform: translateX(3px);
 }
 
-/* ==========================
-   PREMIUM UPGRADE
-========================== */
+/* =========================================================
+   PREMIUM UPGRADE / ACTIVE
+   ========================================================= */
 
-.settings-upgrade {
-    padding: 30px;
+.settings-upgrade,
+.premium-active-card {
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 18px;
+}
 
-    display: flex;
+.settings-upgrade { 
+  width: 100%; 
+  min-width: 0; 
+  padding: 28px; 
+  display: grid; 
+  grid-template-columns: 54px minmax(0, 1fr) auto; 
+  align-items: center; 
+  gap: 20px; 
+  border: 1px solid rgba(212, 175, 55, 0.24); 
+  border-radius: 18px; 
+  background: linear-gradient( 135deg, rgba(212, 175, 55, 0.14), rgba(255, 255, 255, 0.025) ); 
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2); 
+}
 
-    align-items: center;
-
-    gap: 20px;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(212,175,55,.15),
-            rgba(255,255,255,.03)
-        );
-
-    border:
-        1px solid rgba(212,175,55,.25);
-
-    box-shadow:
-        0 15px 50px
-        rgba(0,0,0,.2);
+.upgrade-icon,
+.premium-active-icon {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #111;
+  background: linear-gradient(135deg, #f9e64f, #d4af37);
 }
 
 .upgrade-icon {
-    width: 55px;
-    height: 55px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    border-radius: 15px;
-
-    color: #111;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f9e64f,
-            #d4af37
-        );
-
-    box-shadow:
-        0 8px 25px
-        rgba(212,175,55,.18);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.16);
 }
 
-.upgrade-content {
-    flex: 1;
+.upgrade-content,
+.premium-active-card > div:nth-child(2) {
+  min-width: 0;
+  flex: 1;
 }
 
 .settings-upgrade span,
 .premium-active-card span {
-    color: #d4af37;
-
-    font-size: .7rem;
-
-    letter-spacing: 2px;
-
-    font-weight: 700;
+  display: block;
+  color: #d4af37;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
 .settings-upgrade h2,
 .premium-active-card h2 {
-    margin: 6px 0;
-
-    font-size: 1.3rem;
+  margin: 6px 0 5px;
+  color: #f5f5f5;
+  font-size: 1.25rem;
+  line-height: 1.35;
 }
 
 .settings-upgrade p,
 .premium-active-card p {
-    color: #999;
-
-    line-height: 1.6;
+  max-width: 720px;
+  margin: 0;
+  color: #999;
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
 .settings-upgrade button {
-    padding: 12px 18px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    flex-shrink: 0;
-
-    border: none;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    font-weight: 700;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f9e64f,
-            #d4af37
-        );
-
-    color: #111;
-
-    transition: .3s;
+  min-height: 42px;
+  padding: 11px 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 10px;
+  color: #111;
+  background: linear-gradient(135deg, #f9e64f, #d4af37);
+  cursor: pointer;
+  font-weight: 800;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .settings-upgrade button:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 25px
-        rgba(212,175,55,.18);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.18);
 }
-
-/* ==========================
-   PREMIUM ACTIVE
-========================== */
 
 .premium-active-card {
-    padding: 30px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 20px;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(212,175,55,.12),
-            rgba(255,255,255,.025)
-        );
-
-    border:
-        1px solid rgba(212,175,55,.3);
-
-    box-shadow:
-        0 15px 50px
-        rgba(212,175,55,.05);
-}
-
-.premium-active-icon {
-    width: 55px;
-    height: 55px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    border-radius: 15px;
-
-    color: #111;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f9e64f,
-            #d4af37
-        );
-}
-
-.premium-active-card > div:nth-child(2) {
-    flex: 1;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.11),
+    rgba(255, 255, 255, 0.025)
+  );
+  box-shadow: 0 15px 50px rgba(212, 175, 55, 0.04);
 }
 
 .premium-active-status {
-    padding: 9px 14px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    border-radius: 999px;
-
-    color: #4ade80;
-
-    background:
-        rgba(74,222,128,.08);
-
-    border:
-        1px solid rgba(74,222,128,.15);
-
-    font-size: .8rem;
-
-    font-weight: 700;
+  min-height: 34px;
+  padding: 8px 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(74, 222, 128, 0.15);
+  border-radius: 999px;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.08);
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
-/* ==========================
+/* =========================================================
    RESPONSIVE
-========================== */
+   ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
+  .settings-page {
+    padding: 28px 18px 52px;
+  }
 
-    .settings-page {
-        padding: 30px 20px 50px;
-    }
+  .settings-header {
+    margin-bottom: 24px;
+  }
 
-    .settings-header {
-        gap: 20px;
-    }
+  .settings-section {
+    padding: 23px;
+    border-radius: 16px;
+  }
 
-    .settings-title h1 {
-        font-size: 1.8rem;
-    }
+  .setting-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
 
-    .setting-row {
-        align-items: flex-start;
+  .setting-row select {
+    width: 100%;
+    min-width: 0;
+  }
 
-        flex-direction: column;
-    }
+  .toggle {
+    align-self: flex-end;
+  }
 
-    .setting-row select {
-        width: 100%;
-    }
+  .settings-upgrade,
+  .premium-active-card {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 23px;
+  }
 
-    .settings-upgrade,
-    .premium-active-card {
-        align-items: flex-start;
+  .settings-upgrade button {
+    width: 100%;
+  }
 
-        flex-direction: column;
-    }
-
-    .settings-upgrade button {
-        width: 100%;
-
-        justify-content: center;
-    }
-
-    .premium-active-status {
-        width: fit-content;
-    }
+  .premium-active-status {
+    width: fit-content;
+  }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 480px) {
+  .settings-page {
+    padding: 22px 14px 42px;
+  }
 
-    .settings-title-icon {
-        display: none;
-    }
+  .settings-title {
+    gap: 12px;
+  }
 
-    .settings-section {
-        padding: 22px;
-    }
+  .settings-title-icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+    border-radius: 13px;
+    font-size: 19px;
+  }
 
-    .settings-title h1 {
-        font-size: 1.6rem;
-    }
+  .settings-title h1 {
+    font-size: 1.55rem;
+  }
 
-    .settings-back-button {
-        font-size: .8rem;
-    }
+  .settings-title span {
+    font-size: 0.58rem;
+    letter-spacing: 2px;
+  }
+
+  .settings-header-main > p {
+    font-size: 0.88rem;
+  }
+
+  .settings-section {
+    padding: 20px;
+  }
+
+  .section-title {
+    gap: 11px;
+  }
+
+  .section-title h2 {
+    font-size: 1rem;
+  }
+
+  .section-title p,
+  .setting-row span,
+  .settings-action span {
+    font-size: 0.8rem;
+  }
+
+  .premium-setting {
+    align-items: flex-start;
+  }
+
+  .premium-check {
+    margin-top: 2px;
+  }
+
+  .settings-back-button {
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .settings-page,
+  .settings-page * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@keyframes settingsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
