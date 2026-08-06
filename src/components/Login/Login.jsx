@@ -1,4 +1,4 @@
-import { FaUser, FaLock } from "react-icons/fa";
+import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -14,7 +14,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
+  
   useEffect(() => {
     const savedEmail = localStorage.getItem(STORAGE_KEY);
 
@@ -118,18 +119,27 @@ const handleSubmit = (event) => {
           <FaUser className="icon" />
         </div>
 
-        <div className="input-field">
-          <input
-            type="password"
-            placeholder="Senha"
-            value={password}
-            required
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+  <div className="input-field">
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Senha"
+    value={password}
+    required
+    autoComplete="current-password"
+    onChange={(e) => setPassword(e.target.value)}
+  />
 
-          <FaLock className="icon" />
-        </div>
+  <FaLock className="icon password-lock-icon" />
+
+  <button
+    type="button"
+    className="password-toggle"
+    onClick={() => setShowPassword((value) => !value)}
+    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
 
         <div className="recall-forget">
           <label>

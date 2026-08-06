@@ -338,6 +338,59 @@
     text-decoration: underline;
 }
 
+/* =========================================================
+   VISIBILIDADE DA SENHA
+   ========================================================= */
+
+.container .password-lock-icon {
+    right: 46px;
+}
+
+.container .password-toggle {
+    position: absolute;
+
+    top: 50%;
+    right: 16px;
+
+    width: 28px;
+    height: 28px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+    color: rgba(255, 255, 255, 0.62);
+
+    cursor: pointer;
+
+    transform: translateY(-50%);
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.container .password-toggle:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.container .password-toggle:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+.container .password-toggle svg {
+    width: 15px;
+    height: 15px;
+}
+
 
 /* =========================================================
    RESPONSIVO — TABLET
