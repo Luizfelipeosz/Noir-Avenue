@@ -17,6 +17,9 @@ import Configuracoes from "./components/Configuracoes/Configurações";
 import Premium from "./components/Premiun/Premiun";
 import Historico from "./components/Historico/Historico";
 
+// Recuperar Senha
+import RecuperarSenha from "./components/RecuperarSenha/RecuperarSenha";
+import RedefinirSenha from "./components/RecuperarSenha/RedefinirSenha";
 
 function App() {
   return (
@@ -110,6 +113,15 @@ function App() {
           }
         />
 
+       <Route 
+          path="/recuperar-senha" 
+          element={<RecuperarSenha />} 
+       /> 
+       
+       <Route 
+          path="/redefinir-senha" 
+          element={<RedefinirSenha />} 
+       />
       </Routes>
     </div>
   );

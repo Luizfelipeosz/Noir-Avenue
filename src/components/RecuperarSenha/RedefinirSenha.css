@@ -1,0 +1,509 @@
+/* =========================================================
+   NOIR AVENUE — REDEFINIR SENHA
+   ========================================================= */
+
+.reset-page,
+.reset-page * {
+  box-sizing: border-box;
+}
+
+.reset-page {
+  min-height: 100vh;
+  width: 100%;
+
+  padding: 32px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(255, 255, 255, 0.07),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #050505 0%,
+      #0c0c0c 55%,
+      #101010 100%
+    );
+
+  animation: resetFade 0.5s ease both;
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.reset-card {
+  width: min(100%, 430px);
+
+  padding: 34px 38px;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.045)
+    );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   VOLTAR
+   ========================================================= */
+
+.reset-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0 0 28px;
+  padding: 0;
+
+  border: 0;
+
+  color: rgba(255, 255, 255, 0.62);
+  background: transparent;
+
+  font: inherit;
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.reset-back:hover {
+  color: #fff;
+  transform: translateX(-3px);
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.reset-logo {
+  display: block;
+
+  width: 150px;
+  max-width: 65%;
+  height: auto;
+
+  margin: 0 auto 28px;
+
+  object-fit: contain;
+  user-select: none;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.reset-header {
+  text-align: center;
+}
+
+.reset-icon {
+  width: 50px;
+  height: 50px;
+
+  margin: 0 auto 17px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 14px;
+
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+
+  font-size: 18px;
+}
+
+.reset-header h1 {
+  margin: 0 0 9px;
+
+  color: #fff;
+
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.reset-header p {
+  max-width: 330px;
+
+  margin: 0 auto 28px;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.reset-input {
+  position: relative;
+
+  width: 100%;
+
+  margin-bottom: 15px;
+}
+
+.reset-input input {
+  display: block;
+
+  width: 100%;
+  height: 54px;
+
+  padding: 0 82px 0 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+
+  outline: none;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  color: #fff;
+
+  font-family: inherit;
+  font-size: 15px;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.reset-input input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.reset-input input:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.reset-input input:focus {
+  border-color: rgba(255, 255, 255, 0.72);
+
+  background: rgba(255, 255, 255, 0.11);
+
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.05);
+}
+
+
+/* =========================================================
+   ÍCONE DE CADEADO
+   ========================================================= */
+
+.reset-lock-icon {
+  position: absolute;
+
+  top: 50%;
+  right: 49px;
+
+  width: 16px;
+  height: 16px;
+
+  transform: translateY(-50%);
+
+  color: rgba(255, 255, 255, 0.62);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   MOSTRAR / OCULTAR SENHA
+   ========================================================= */
+
+.reset-password-toggle {
+  position: absolute;
+
+  top: 50%;
+  right: 14px;
+
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  transform: translateY(-50%);
+
+  border: 0;
+  border-radius: 8px;
+
+  color: rgba(255, 255, 255, 0.62);
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.reset-password-toggle:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.reset-password-toggle:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   REQUISITO
+   ========================================================= */
+
+.reset-requirement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 4px 2px 20px;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.reset-requirement svg {
+  flex: 0 0 auto;
+
+  color: #7ddc9a;
+}
+
+
+/* =========================================================
+   BOTÃO
+   ========================================================= */
+
+.reset-submit {
+  width: 100%;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 14px;
+
+  background: #fff;
+  color: #111;
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.reset-submit:hover {
+  transform: translateY(-2px);
+
+  background: #f4f4f4;
+
+  box-shadow:
+    0 10px 25px rgba(255, 255, 255, 0.14);
+}
+
+.reset-submit:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.reset-submit:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.reset-footer {
+  margin-top: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  color: rgba(255, 255, 255, 0.6);
+
+  font-size: 13px;
+}
+
+.reset-footer a {
+  color: #fff;
+
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: opacity 0.2s ease;
+}
+
+.reset-footer a:hover {
+  opacity: 0.78;
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .reset-page {
+    padding: 22px 16px;
+  }
+
+  .reset-card {
+    padding: 27px 22px;
+
+    border-radius: 18px;
+  }
+
+  .reset-back {
+    margin-bottom: 24px;
+
+    font-size: 12.5px;
+  }
+
+  .reset-logo {
+    width: 135px;
+
+    margin-bottom: 24px;
+  }
+
+  .reset-icon {
+    width: 46px;
+    height: 46px;
+
+    margin-bottom: 15px;
+
+    font-size: 16px;
+  }
+
+  .reset-header h1 {
+    font-size: 25px;
+  }
+
+  .reset-header p {
+    margin-bottom: 24px;
+
+    font-size: 13px;
+  }
+
+  .reset-input input {
+    height: 52px;
+
+    padding-left: 16px;
+    padding-right: 78px;
+
+    border-radius: 13px;
+
+    font-size: 14px;
+  }
+
+  .reset-submit {
+    height: 51px;
+
+    border-radius: 13px;
+  }
+
+  .reset-footer {
+    flex-wrap: wrap;
+
+    font-size: 12.5px;
+  }
+}
+
+
+@media (max-width: 360px) {
+  .reset-card {
+    padding: 24px 17px;
+  }
+
+  .reset-logo {
+    width: 125px;
+  }
+
+  .reset-header h1 {
+    font-size: 23px;
+  }
+
+  .reset-header p {
+    font-size: 12.5px;
+  }
+}
+
+
+/* =========================================================
+   REDUÇÃO DE MOVIMENTO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .reset-page,
+  .reset-page * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* =========================================================
+   ANIMAÇÃO
+   ========================================================= */
+
+@keyframes resetFade {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
