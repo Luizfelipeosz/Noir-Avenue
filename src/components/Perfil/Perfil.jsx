@@ -215,14 +215,6 @@ function Perfil() {
             </button>
 
             <button
-              className="logout-button"
-              onClick={handleBack}
-            >
-              <FaSignOutAlt />
-              Voltar
-            </button>
-
-            <button
               className="delete-button"
               onClick={() =>
                 setShowModal(true)
@@ -230,6 +222,14 @@ function Perfil() {
             >
               <FaTrash />
               Excluir Conta
+            </button> 
+
+            <button
+              className="logout-button"
+              onClick={handleBack}
+            >
+              <FaSignOutAlt />
+              Voltar
             </button>
           </div>
         </div>
