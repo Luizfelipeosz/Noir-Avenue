@@ -27,11 +27,22 @@ function RecuperarSenha() {
       return;
     }
 
-    const users =
-      JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+    let users = [];
+
+    try {
+      users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+    } catch {
+      toast.error("Erro ao acessar os dados", {
+        description:
+          "Não foi possível verificar sua conta. Tente novamente.",
+      });
+
+      return;
+    }
 
     const user = users.find(
-      (item) => item.email?.toLowerCase() === normalizedEmail
+      (item) =>
+        item.email?.trim().toLowerCase() === normalizedEmail
     );
 
     if (!user) {
@@ -43,14 +54,11 @@ function RecuperarSenha() {
       return;
     }
 
-    localStorage.setItem(
-      RESET_EMAIL_KEY,
-      normalizedEmail
-    );
+    localStorage.setItem(RESET_EMAIL_KEY, normalizedEmail);
 
-    toast.success("E-mail confirmado", {
+    toast.success("Conta encontrada", {
       description:
-        "Você já pode criar uma nova senha para sua conta.",
+        "Agora defina uma nova senha para sua conta.",
     });
 
     navigate("/redefinir-senha");
@@ -65,7 +73,7 @@ function RecuperarSenha() {
           onClick={() => navigate("/")}
         >
           <FaArrowLeft />
-          Voltar para o login
+          <span>Voltar para o login</span>
         </button>
 
         <img

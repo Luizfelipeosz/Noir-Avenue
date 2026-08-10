@@ -1,10 +1,11 @@
 import {
+  FaArrowLeft,
   FaCheck,
   FaEye,
   FaEyeSlash,
   FaLock,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -13,11 +14,12 @@ import "./RedefinirSenha.css";
 
 const USERS_KEY = "noiravenue_users";
 const RESET_EMAIL_KEY = "noiravenue_reset_email";
+const SESSION_KEY = "noiravenue_session";
 
 function RedefinirSenha() {
   const navigate = useNavigate();
 
-  const resetEmail = localStorage.getItem(RESET_EMAIL_KEY);
+  const [resetEmail, setResetEmail] = useState(null);
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,6 +27,25 @@ function RedefinirSenha() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState(false);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem(RESET_EMAIL_KEY);
+
+    if (!storedEmail) {
+      toast.error("Recuperação inválida", {
+        description:
+          "Inicie novamente o processo de recuperação de senha.",
+      });
+
+      navigate("/recuperar-senha", {
+        replace: true,
+      });
+
+      return;
+    }
+
+    setResetEmail(storedEmail);
+  }, [navigate]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -66,15 +87,26 @@ function RedefinirSenha() {
       return;
     }
 
-    const users =
-      JSON.parse(
-        localStorage.getItem(USERS_KEY)
-      ) || [];
+    let users = [];
+
+    try {
+      users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+    } catch {
+      toast.error("Erro ao acessar os dados", {
+        description:
+          "Não foi possível atualizar sua senha. Tente novamente.",
+      });
+
+      return;
+    }
+
+    const normalizedResetEmail =
+      resetEmail.trim().toLowerCase();
 
     const userExists = users.some(
       (user) =>
-        user.email?.toLowerCase() ===
-        resetEmail.toLowerCase()
+        user.email?.trim().toLowerCase() ===
+        normalizedResetEmail
     );
 
     if (!userExists) {
@@ -90,8 +122,8 @@ function RedefinirSenha() {
     }
 
     const updatedUsers = users.map((user) =>
-      user.email?.toLowerCase() ===
-      resetEmail.toLowerCase()
+      user.email?.trim().toLowerCase() ===
+      normalizedResetEmail
         ? {
             ...user,
             password,
@@ -104,22 +136,28 @@ function RedefinirSenha() {
       JSON.stringify(updatedUsers)
     );
 
-    const session =
-      JSON.parse(
-        localStorage.getItem("noiravenue_session")
-      ) || null;
+    const storedSession =
+      localStorage.getItem(SESSION_KEY);
 
-    if (
-      session?.email?.toLowerCase() ===
-      resetEmail.toLowerCase()
-    ) {
-      localStorage.setItem(
-        "noiravenue_session",
-        JSON.stringify({
-          ...session,
-          password,
-        })
-      );
+    if (storedSession) {
+      try {
+        const session = JSON.parse(storedSession);
+
+        if (
+          session?.email?.trim().toLowerCase() ===
+          normalizedResetEmail
+        ) {
+          localStorage.setItem(
+            SESSION_KEY,
+            JSON.stringify({
+              ...session,
+              password,
+            })
+          );
+        }
+      } catch {
+        localStorage.removeItem(SESSION_KEY);
+      }
     }
 
     localStorage.removeItem(RESET_EMAIL_KEY);
@@ -130,14 +168,15 @@ function RedefinirSenha() {
     });
 
     setTimeout(() => {
-      navigate("/");
+      navigate("/", {
+        replace: true,
+      });
     }, 1200);
   };
 
   return (
     <main className="reset-page">
       <section className="reset-card">
-
         <button
           type="button"
           className="reset-back"
@@ -145,8 +184,8 @@ function RedefinirSenha() {
             navigate("/recuperar-senha")
           }
         >
-          <span>←</span>
-          Voltar
+          <FaArrowLeft />
+          <span>Voltar</span>
         </button>
 
         <img
@@ -169,7 +208,6 @@ function RedefinirSenha() {
         </div>
 
         <form onSubmit={handleSubmit}>
-
           <div className="reset-input">
             <input
               type={
@@ -276,7 +314,6 @@ function RedefinirSenha() {
             Entrar na conta
           </Link>
         </div>
-
       </section>
     </main>
   );
