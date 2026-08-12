@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   FaClock,
   FaCheckCircle,
@@ -12,22 +12,55 @@ import {
   FaArrowLeft,
 } from "react-icons/fa";
 
+import { addActivity } from "../../utils/activityLogger";
 import { useNavigate } from "react-router-dom";
 import { timeAgo } from "../../utils/timeAgo";
+import {
+  getActivities,
+  clearActivities,
+} from "../../utils/activityLogger";
 import "./Historico.css";
 
 function Historico() {
   const navigate = useNavigate();
 
-  const [activities, setActivities] = useState(() => {
-    return (
-      JSON.parse(
-        localStorage.getItem("noiravenue_activities")
-      ) || []
-    );
-  });
+  const [activities, setActivities] = useState(() =>
+    getActivities()
+  );
 
   const [filter, setFilter] = useState("all");
+
+  useEffect(() => {
+    const handleActivity = () => {
+      setActivities(getActivities());
+    };
+
+    const handleClear = () => {
+      setActivities([]);
+    };
+
+    window.addEventListener(
+      "noiravenue:activity",
+      handleActivity
+    );
+
+    window.addEventListener(
+      "noiravenue:activity:clear",
+      handleClear
+    );
+
+    return () => {
+      window.removeEventListener(
+        "noiravenue:activity",
+        handleActivity
+      );
+
+      window.removeEventListener(
+        "noiravenue:activity:clear",
+        handleClear
+      );
+    };
+  }, []);
 
   const getActivityType = (message = "") => {
     const text = message.toLowerCase();
@@ -35,7 +68,8 @@ function Historico() {
     if (
       text.includes("login") ||
       text.includes("acesso") ||
-      text.includes("entrou")
+      text.includes("entrou") ||
+      text.includes("sessão")
     ) {
       return "login";
     }
@@ -44,7 +78,8 @@ function Historico() {
       text.includes("perfil") ||
       text.includes("nome") ||
       text.includes("telefone") ||
-      text.includes("endereço")
+      text.includes("endereço") ||
+      text.includes("senha")
     ) {
       return "profile";
     }
@@ -115,12 +150,11 @@ function Historico() {
       "Deseja realmente limpar todo o seu histórico de atividades?"
     );
 
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
 
-    localStorage.removeItem(
-      "noiravenue_activities"
-    );
-
+    clearActivities();
     setActivities([]);
   };
 
@@ -198,7 +232,6 @@ function Historico() {
 
           <div>
             <span>ATIVIDADES</span>
-
             <strong>{activities.length}</strong>
           </div>
         </div>
@@ -210,7 +243,6 @@ function Historico() {
 
           <div>
             <span>STATUS</span>
-
             <strong>Conta ativa</strong>
           </div>
         </div>
@@ -279,9 +311,7 @@ function Historico() {
 
             {filter !== "all" && (
               <button
-                onClick={() =>
-                  setFilter("all")
-                }
+                onClick={() => setFilter("all")}
               >
                 Ver todas as atividades
               </button>
@@ -292,9 +322,7 @@ function Historico() {
             {filteredActivities.map(
               (item, index) => {
                 const type =
-                  getActivityType(
-                    item.message
-                  );
+                  getActivityType(item.message);
 
                 return (
                   <article
@@ -311,8 +339,7 @@ function Historico() {
                     </div>
 
                     {index <
-                      filteredActivities.length -
-                        1 && (
+                      filteredActivities.length - 1 && (
                       <div className="timeline-line" />
                     )}
 
@@ -321,9 +348,7 @@ function Historico() {
                         <span
                           className={`activity-category ${type}`}
                         >
-                          {getActivityLabel(
-                            type
-                          )}
+                          {getActivityLabel(type)}
                         </span>
 
                         <time>
