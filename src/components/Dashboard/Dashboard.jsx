@@ -26,6 +26,66 @@ function Dashboard() {
     JSON.parse(localStorage.getItem("noiravenue_session")) || {};
 
   const user = session;
+  const theme = user.theme || "Dark";
+  const language = user.language || "Português";
+
+  const translations = {
+  Português: {
+    area: "ÁREA DO CLIENTE",
+    lastAccess: "Seu último acesso foi",
+    bannerTitle: "Uma experiência feita para você.",
+    bannerDescription:
+      "Explore suas preferências, acompanhe sua jornada e descubra uma experiência cada vez mais personalizada.",
+    explore: "Explorar experiência",
+    overview: "VISÃO GERAL",
+    yourSpace: "Seu espaço",
+    favorites: "Favoritos",
+    collections: "Coleções",
+    premium: "Premium",
+    profile: "Perfil",
+    recentActivities: "Atividades recentes",
+    quickAccess: "ACESSO RÁPIDO",
+    explorePlatform: "Explore sua plataforma",
+  },
+
+  English: {
+    area: "CUSTOMER AREA",
+    lastAccess: "Your last access was",
+    bannerTitle: "An experience made for you.",
+    bannerDescription:
+      "Explore your preferences, follow your journey and discover an increasingly personalized experience.",
+    explore: "Explore experience",
+    overview: "OVERVIEW",
+    yourSpace: "Your space",
+    favorites: "Favorites",
+    collections: "Collections",
+    premium: "Premium",
+    profile: "Profile",
+    recentActivities: "Recent activities",
+    quickAccess: "QUICK ACCESS",
+    explorePlatform: "Explore your platform",
+  },
+
+  Español: {
+    area: "ÁREA DEL CLIENTE",
+    lastAccess: "Tu último acceso fue",
+    bannerTitle: "Una experiencia hecha para ti.",
+    bannerDescription:
+      "Explora tus preferencias, sigue tu recorrido y descubre una experiencia cada vez más personalizada.",
+    explore: "Explorar experiencia",
+    overview: "VISIÓN GENERAL",
+    yourSpace: "Tu espacio",
+    favorites: "Favoritos",
+    collections: "Colecciones",
+    premium: "Premium",
+    profile: "Perfil",
+    recentActivities: "Actividades recientes",
+    quickAccess: "ACCESO RÁPIDO",
+    explorePlatform: "Explora tu plataforma",
+  },
+};
+
+const t = translations[language] || translations.Português;
 
   const favorites =
     JSON.parse(localStorage.getItem("noiravenue_favorites")) || [];
@@ -195,8 +255,8 @@ function Dashboard() {
   };
 
   return (
-    <div className="layout">
-      <aside className="sidebar">
+    <div className={`layout ${ theme === "Light" ? "theme-light" : "theme-dark" }`}
+>      <aside className="sidebar">
         <div className="sidebar-brand">
           <span>NOIR</span>
           <strong>AVENUE</strong>
@@ -250,7 +310,7 @@ function Dashboard() {
         <header className="dashboard-header">
           <div className="header-user">
             <span className="welcome-label">
-              ÁREA DO CLIENTE
+              {t.area}
             </span>
 
             <h1>
@@ -258,10 +318,10 @@ function Dashboard() {
             </h1>
 
             <p>
-              Seu último acesso foi{" "}
+              {t.lastAccess}{" "}
               {session.loginAt
                 ? timeAgo(session.loginAt)
-                : "agora mesmo"}.
+                  : "agora mesmo"}.
             </p>
           </div>
 
@@ -459,17 +519,9 @@ function Dashboard() {
           <div className="banner-content">
             <span className="banner-label">NOIR AVENUE</span>
 
-            <h2>
-              Uma experiência feita
-              para você.
-            </h2>
+            <h2>{t.bannerTitle}</h2>
 
-            <p>
-              Explore suas preferências,
-              acompanhe sua jornada e
-              descubra uma experiência
-              cada vez mais personalizada.
-            </p>
+            <p>{t.bannerDescription}</p>
 
             <button
               className="banner-button"
@@ -477,7 +529,7 @@ function Dashboard() {
                 handleNavigate("/dashboard/favoritos")
               }
             >
-              Explorar experiência
+              {t.explore}
               <FaArrowRight />
             </button>
           </div>
@@ -490,15 +542,15 @@ function Dashboard() {
         <section className="dashboard-section">
           <div className="section-heading">
             <div>
-              <span>VISÃO GERAL</span>
-              <h2>Seu espaço</h2>
+             <span>{t.overview}</span>
+             <h2>{t.yourSpace}</h2>
             </div>
           </div>
 
           <div className="dashboard-stats">
             <div className="stat-card">
               <div className="stat-header">
-                <span>Favoritos</span>
+                <span>{t.favorites}</span>
                 <FaHeart />
               </div>
 
@@ -520,7 +572,7 @@ function Dashboard() {
 
             <div className="stat-card premium-stat">
               <div className="stat-header">
-                <span>Premium</span>
+                <span>{t.premium}</span>
                 <FaCrown />
               </div>
 
@@ -537,7 +589,7 @@ function Dashboard() {
 
             <div className="stat-card">
               <div className="stat-header">
-                <span>Perfil</span>
+                <span>{t.profile}</span>
                 <FaUser />
               </div>
 
@@ -552,8 +604,8 @@ function Dashboard() {
           <div className="activity">
             <div className="section-heading compact">
               <div>
-                <span>ACOMPANHE</span>
-                <h2>Atividades recentes</h2>
+                <span>{t.track}</span>
+                <h2>{t.recentActivities}</h2>
               </div>
 
               <button
@@ -613,8 +665,8 @@ function Dashboard() {
         <section className="dashboard-actions-section">
           <div className="section-heading">
             <div>
-              <span>ACESSO RÁPIDO</span>
-              <h2>Explore sua plataforma</h2>
+             <span>{t.quickAccess}</span>
+             <h2>{t.explorePlatform}</h2>
             </div>
           </div>
 

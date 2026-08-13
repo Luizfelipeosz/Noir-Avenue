@@ -668,6 +668,76 @@
   }
 }
 
+/* =========================================================
+   SALVAR ALTERAÇÕES
+========================================================= */
+
+.settings-save-container {
+  width: min(100%, 1100px);
+
+  margin: 28px auto 40px;
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.settings-save-button {
+  min-height: 48px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  padding: 0 22px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: #fff;
+  color: #111;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.settings-save-button:hover {
+  transform: translateY(-2px);
+
+  background: #f2f2f2;
+
+  box-shadow:
+    0 10px 25px rgba(255, 255, 255, 0.12);
+}
+
+.settings-save-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.settings-save-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .settings-save-container {
+    margin-top: 22px;
+    justify-content: stretch;
+  }
+
+  .settings-save-button {
+    width: 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .settings-page,
   .settings-page * {

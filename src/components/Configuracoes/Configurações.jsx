@@ -40,42 +40,45 @@ function Configuracoes() {
 
   const isPremium = Boolean(user.isPremium);
 
-  useEffect(() => {
-    const updatedUser = {
-      ...user,
-      notifications,
-      theme,
-      language,
-    };
+  const handleSaveSettings = () => {
+  const updatedUser = {
+    ...user,
+    notifications,
+    theme,
+    language,
+  };
 
-    localStorage.setItem(
-      "noiravenue_session",
-      JSON.stringify(updatedUser)
-    );
+  localStorage.setItem(
+    "noiravenue_session",
+    JSON.stringify(updatedUser)
+  );
 
-    setUser(updatedUser);
+  const users =
+    JSON.parse(
+      localStorage.getItem("noiravenue_users")
+    ) || [];
 
-    const users =
-      JSON.parse(
-        localStorage.getItem("noiravenue_users")
-      ) || [];
+  const updatedUsers = users.map((item) =>
+    item.email?.toLowerCase() ===
+    updatedUser.email?.toLowerCase()
+      ? {
+          ...item,
+          notifications,
+          theme,
+          language,
+        }
+      : item
+  );
 
-    const updatedUsers = users.map((item) =>
-      item.email === updatedUser.email
-        ? {
-            ...item,
-            notifications,
-            theme,
-            language,
-          }
-        : item
-    );
+  localStorage.setItem(
+    "noiravenue_users",
+    JSON.stringify(updatedUsers)
+  );
 
-    localStorage.setItem(
-      "noiravenue_users",
-      JSON.stringify(updatedUsers)
-    );
-  }, [notifications, theme, language]);
+  setUser(updatedUser);
+
+  navigate("/dashboard");
+};
 
   return (
     <main
@@ -413,6 +416,16 @@ function Configuracoes() {
             </div>
           </section>
         )}
+
+            <div className="settings-save-container">
+              <button
+                type="button"
+                className="settings-save-button"
+                onClick={handleSaveSettings}>
+              <FaCheck />
+                Salvar alterações
+              </button>
+            </div>
       </div>
     </main>
   );

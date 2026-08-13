@@ -1195,6 +1195,86 @@ body {
     border-radius: 10px;
 }
 
+/* =========================================================
+   LIGHT THEME
+========================================================= */
+
+.layout.theme-light {
+  background: #f4f4f5;
+  color: #111;
+}
+
+.layout.theme-light .sidebar {
+  background: #ffffff;
+  border-right-color: rgba(0, 0, 0, 0.08);
+}
+
+.layout.theme-light .sidebar-brand {
+  color: #111;
+}
+
+.layout.theme-light .sidebar-label {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.layout.theme-light .sidebar nav button {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.layout.theme-light .sidebar nav button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #111;
+}
+
+.layout.theme-light .dashboard-container {
+  background: #f4f4f5;
+}
+
+.layout.theme-light .welcome-label,
+.layout.theme-light .header-user p {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.layout.theme-light .header-user h1 {
+  color: #111;
+}
+
+.layout.theme-light .icon-button {
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  color: #111;
+}
+
+.layout.theme-light .logout-button {
+  border-color: rgba(0, 0, 0, 0.1);
+  background: #fff;
+  color: #111;
+}
+
+.layout.theme-light .stat-card,
+.layout.theme-light .activity,
+.layout.theme-light .profile-progress,
+.layout.theme-light .action-card {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #111;
+}
+
+.layout.theme-light .stat-card p,
+.layout.theme-light .activity span,
+.layout.theme-light .profile-progress p,
+.layout.theme-light .action-card p {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.layout.theme-light .stat-header {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.layout.theme-light .action-link {
+  color: #111;
+}
+
 /* ==========================
    TABLETS
 ========================== */
