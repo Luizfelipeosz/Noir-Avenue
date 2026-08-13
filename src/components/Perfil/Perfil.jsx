@@ -7,29 +7,46 @@ import {
   FaPen,
   FaSignOutAlt,
   FaTrash,
+  FaShieldAlt,
+  FaCheckCircle,
+  FaTimes,
+  FaChevronRight,
 } from "react-icons/fa";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 import "./Perfil.css";
 import logo from "../../assets/logo.png";
 
+const SESSION_KEY = "noiravenue_session";
+const USERS_KEY = "noiravenue_users";
+
 function Perfil() {
   const navigate = useNavigate();
 
-  const user =
-    JSON.parse(
-      localStorage.getItem("noiravenue_session")
-    ) || {};
+  const getSessionUser = () => {
+    try {
+      return (
+        JSON.parse(
+          localStorage.getItem(SESSION_KEY)
+        ) || {}
+      );
+    } catch {
+      return {};
+    }
+  };
 
-  const [showModal, setShowModal] =
-    useState(false);
+  const user = getSessionUser();
+
+  const [profile, setProfile] = useState(user);
 
   const [showEditModal, setShowEditModal] =
     useState(false);
 
-  const [profile, setProfile] = useState(user);
+  const [showDeleteModal, setShowDeleteModal] =
+    useState(false);
 
   const [editName, setEditName] = useState(
     user.name || ""
@@ -46,234 +63,557 @@ function Perfil() {
     ? profile.name.charAt(0).toUpperCase()
     : "N";
 
+  const displayName =
+    profile.name?.trim() || "Usuário Noir";
+
+  const displayEmail =
+    profile.email || "Não informado";
+
+  const displayPhone =
+    profile.telefone?.trim() ||
+    "Não informado";
+
+  const displayAddress =
+    profile.endereco?.trim() ||
+    "Não informado";
+
   const handleBack = () => {
     navigate("/dashboard");
   };
 
+  const handleOpenEdit = () => {
+    setEditName(profile.name || "");
+    setEditPhone(profile.telefone || "");
+    setEditAddress(profile.endereco || "");
+
+    setShowEditModal(true);
+  };
+
   const handleSaveProfile = () => {
+    const normalizedName = editName.trim();
+    const normalizedPhone = editPhone.trim();
+    const normalizedAddress =
+      editAddress.trim();
+
+    if (!normalizedName) {
+      toast.warning("Nome obrigatório", {
+        description:
+          "Informe seu nome para salvar as alterações.",
+      });
+
+      return;
+    }
+
     const updatedUser = {
       ...profile,
-      name: editName,
-      telefone: editPhone,
-      endereco: editAddress,
+      name: normalizedName,
+      telefone: normalizedPhone,
+      endereco: normalizedAddress,
     };
 
     localStorage.setItem(
-      "noiravenue_session",
+      SESSION_KEY,
       JSON.stringify(updatedUser)
     );
 
     const users =
       JSON.parse(
-        localStorage.getItem(
-          "noiravenue_users"
-        )
+        localStorage.getItem(USERS_KEY)
       ) || [];
 
-    const updatedUsers = users.map((u) =>
-      u.email === updatedUser.email
-        ? updatedUser
-        : u
+    const updatedUsers = users.map((userItem) =>
+      userItem.email?.toLowerCase() ===
+      updatedUser.email?.toLowerCase()
+        ? {
+            ...userItem,
+            ...updatedUser,
+          }
+        : userItem
     );
 
     localStorage.setItem(
-      "noiravenue_users",
+      USERS_KEY,
       JSON.stringify(updatedUsers)
     );
 
     setProfile(updatedUser);
-
     setShowEditModal(false);
+
+    toast.success("Perfil atualizado", {
+      description:
+        "Suas informações foram salvas com sucesso.",
+    });
   };
 
   const handleDeleteAccount = () => {
     const users =
       JSON.parse(
-        localStorage.getItem(
-          "noiravenue_users"
-        )
+        localStorage.getItem(USERS_KEY)
       ) || [];
 
     const updatedUsers = users.filter(
-      (u) => u.email !== profile.email
+      (userItem) =>
+        userItem.email?.toLowerCase() !==
+        profile.email?.toLowerCase()
     );
 
     localStorage.setItem(
-      "noiravenue_users",
+      USERS_KEY,
       JSON.stringify(updatedUsers)
     );
 
-    localStorage.removeItem(
-      "noiravenue_session"
-    );
+    localStorage.removeItem(SESSION_KEY);
 
-    navigate("/");
+    setShowDeleteModal(false);
+
+    toast.success("Conta removida", {
+      description:
+        "Sua conta foi removida com sucesso.",
+    });
+
+    setTimeout(() => {
+      navigate("/");
+    }, 800);
   };
 
   return (
-    <div className="profile-container">
-      <img
-        src={logo}
-        alt="Noir Avenue"
-        className="logo"
-      />
+    <div className="profile-page">
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
 
-      <h1 className="profile-title">
-        <FaUser />
-        Meu Perfil
-      </h1>
+      <header className="profile-topbar">
+        <img
+          src={logo}
+          alt="Noir Avenue"
+          className="profile-logo"
+        />
 
-      <div className="profile-card">
-        <div className="profile-banner" />
+        <button
+          type="button"
+          className="profile-back-button"
+          onClick={handleBack}
+        >
+          <span>Dashboard</span>
+          <FaChevronRight />
+        </button>
+      </header>
 
-        <div className="profile-content">
-          <div className="profile-header">
-            <div className="profile-avatar">
-              {initial}
+      <main className="profile-main">
+        {/* ===================================================
+            INTRO
+        =================================================== */}
+
+        <section className="profile-intro">
+          <div>
+            <span className="profile-eyebrow">
+              CONTA
+            </span>
+
+            <h1>Meu Perfil</h1>
+
+            <p>
+              Gerencie suas informações pessoais,
+              preferências e segurança da conta.
+            </p>
+          </div>
+        </section>
+
+        {/* ===================================================
+            PROFILE HERO
+        =================================================== */}
+
+        <section className="profile-hero">
+          <div className="profile-hero-background" />
+
+          <div className="profile-hero-content">
+            <div className="profile-identity">
+              <div
+                className="profile-avatar"
+                aria-label={`Avatar de ${displayName}`}
+              >
+                {initial}
+              </div>
+
+              <div className="profile-identity-info">
+                <div className="profile-name-row">
+                  <h2>{displayName}</h2>
+
+                  <span className="premium-badge">
+                    <FaCrown />
+                    Noir Member
+                  </span>
+                </div>
+
+                <p>
+                  <FaEnvelope />
+                  {displayEmail}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="profile-edit-primary"
+              onClick={handleOpenEdit}
+            >
+              <FaPen />
+              Editar perfil
+            </button>
+          </div>
+        </section>
+
+        {/* ===================================================
+            ACCOUNT OVERVIEW
+        =================================================== */}
+
+        <section className="profile-overview">
+          <div className="overview-card">
+            <div className="overview-icon">
+              <FaCrown />
             </div>
 
             <div>
-              <h2>
-                {profile.name ||
-                  "Usuário Noir"}
-              </h2>
-
-              <p className="profile-subtitle">
-                Cliente Premium • Noir Avenue
-              </p>
+              <span>Status da conta</span>
+              <strong>Membro Noir</strong>
             </div>
           </div>
 
-          <div className="profile-grid">
-            <div className="profile-item">
-              <span>
-                <FaUser /> Nome
-              </span>
-
-              <p>
-                {profile.name ||
-                  "Não informado"}
-              </p>
+          <div className="overview-card">
+            <div className="overview-icon">
+              <FaShieldAlt />
             </div>
 
-            <div className="profile-item">
-              <span>
-                <FaEnvelope /> Email
-              </span>
-
-              <p>
-                {profile.email ||
-                  "Não informado"}
-              </p>
-            </div>
-
-            <div className="profile-item">
-              <span>
-                <FaPhone /> Telefone
-              </span>
-
-              <p>
-                {profile.telefone ||
-                  "Não informado"}
-              </p>
-            </div>
-
-            <div className="profile-item">
-              <span>
-                <FaMapMarkerAlt />
-                {" "}Endereço
-              </span>
-
-              <p>
-                {profile.endereco ||
-                  "Não informado"}
-              </p>
+            <div>
+              <span>Segurança</span>
+              <strong>Conta protegida</strong>
             </div>
           </div>
 
-          <div className="profile-status">
-            <FaCrown />
+          <div className="overview-card">
+            <div className="overview-icon">
+              <FaCheckCircle />
+            </div>
 
-            <p>
-              Status da conta:
+            <div>
+              <span>Perfil</span>
               <strong>
-                {" "}
-                Membro Noir
+                {profile.name &&
+                profile.telefone &&
+                profile.endereco
+                  ? "Completo"
+                  : "Em atualização"}
               </strong>
-            </p>
+            </div>
           </div>
+        </section>
 
-          <div className="profile-actions">
+        {/* ===================================================
+            PERSONAL INFORMATION
+        =================================================== */}
+
+        <section className="profile-section">
+          <div className="section-heading">
+            <div>
+              <span className="section-eyebrow">
+                INFORMAÇÕES
+              </span>
+
+              <h2>Dados pessoais</h2>
+
+              <p>
+                Informações utilizadas para
+                identificar e personalizar sua
+                experiência.
+              </p>
+            </div>
+
             <button
-              className="profile-button"
-              onClick={() =>
-                setShowEditModal(true)
-              }
+              type="button"
+              className="section-edit-button"
+              onClick={handleOpenEdit}
             >
               <FaPen />
-              Editar Perfil
-            </button>
-
-            <button
-              className="delete-button"
-              onClick={() =>
-                setShowModal(true)
-              }
-            >
-              <FaTrash />
-              Excluir Conta
-            </button> 
-
-            <button
-              className="logout-button"
-              onClick={handleBack}
-            >
-              <FaSignOutAlt />
-              Voltar
+              Editar
             </button>
           </div>
-        </div>
-      </div>
-            {showEditModal && (
-        <div className="modal-overlay">
-          <div className="edit-modal">
-            <h2>Editar Perfil</h2>
+
+          <div className="profile-info-grid">
+            <article className="info-card">
+              <div className="info-card-icon">
+                <FaUser />
+              </div>
+
+              <div className="info-card-content">
+                <span>Nome completo</span>
+                <strong>{displayName}</strong>
+              </div>
+            </article>
+
+            <article className="info-card">
+              <div className="info-card-icon">
+                <FaEnvelope />
+              </div>
+
+              <div className="info-card-content">
+                <span>E-mail</span>
+                <strong>{displayEmail}</strong>
+              </div>
+            </article>
+
+            <article className="info-card">
+              <div className="info-card-icon">
+                <FaPhone />
+              </div>
+
+              <div className="info-card-content">
+                <span>Telefone</span>
+                <strong>{displayPhone}</strong>
+              </div>
+            </article>
+
+            <article className="info-card">
+              <div className="info-card-icon">
+                <FaMapMarkerAlt />
+              </div>
+
+              <div className="info-card-content">
+                <span>Endereço</span>
+                <strong>{displayAddress}</strong>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        {/* ===================================================
+            SECURITY
+        =================================================== */}
+
+        <section className="profile-section">
+          <div className="section-heading">
+            <div>
+              <span className="section-eyebrow">
+                SEGURANÇA
+              </span>
+
+              <h2>Acesso e segurança</h2>
+
+              <p>
+                Mantenha sua conta protegida e
+                controle suas credenciais de acesso.
+              </p>
+            </div>
+          </div>
+
+          <div className="security-card">
+            <div className="security-icon">
+              <FaShieldAlt />
+            </div>
+
+            <div className="security-content">
+              <div>
+                <h3>Senha da conta</h3>
+
+                <p>
+                  Sua senha é armazenada de forma
+                  protegida e pode ser atualizada
+                  sempre que necessário.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="security-action"
+                onClick={() =>
+                  navigate("/recuperar-senha")
+                }
+              >
+                Alterar senha
+                <FaChevronRight />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* ===================================================
+            ACCOUNT ACTIONS
+        =================================================== */}
+
+        <section className="profile-actions-section">
+          <div className="section-heading">
+            <div>
+              <span className="section-eyebrow">
+                CONTA
+              </span>
+
+              <h2>Ações da conta</h2>
+            </div>
+          </div>
+
+          <div className="account-actions">
+            <button
+              type="button"
+              className="account-action secondary"
+              onClick={handleBack}
+            >
+              <div className="account-action-icon">
+                <FaSignOutAlt />
+              </div>
+
+              <div>
+                <strong>Voltar para o dashboard</strong>
+                <span>
+                  Continuar navegando pelo Noir Avenue.
+                </span>
+              </div>
+
+              <FaChevronRight className="action-arrow" />
+            </button>
+
+            <button
+              type="button"
+              className="account-action danger"
+              onClick={() =>
+                setShowDeleteModal(true)
+              }
+            >
+              <div className="account-action-icon">
+                <FaTrash />
+              </div>
+
+              <div>
+                <strong>Excluir minha conta</strong>
+                <span>
+                  Essa ação remove permanentemente
+                  seus dados.
+                </span>
+              </div>
+
+              <FaChevronRight className="action-arrow" />
+            </button>
+          </div>
+        </section>
+      </main>
+
+      {/* =====================================================
+          EDIT PROFILE MODAL
+      ===================================================== */}
+
+      {showEditModal && (
+        <div
+          className="profile-modal-overlay"
+          onMouseDown={(event) => {
+            if (
+              event.target ===
+              event.currentTarget
+            ) {
+              setShowEditModal(false);
+            }
+          }}
+        >
+          <div
+            className="profile-modal edit-profile-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="edit-profile-title"
+          >
+            <button
+              type="button"
+              className="modal-close"
+              onClick={() =>
+                setShowEditModal(false)
+              }
+              aria-label="Fechar"
+            >
+              <FaTimes />
+            </button>
+
+            <div className="modal-header">
+              <div className="modal-header-icon">
+                <FaUser />
+              </div>
+
+              <div>
+                <span>SEU PERFIL</span>
+
+                <h2 id="edit-profile-title">
+                  Editar informações
+                </h2>
+              </div>
+            </div>
 
             <p className="modal-description">
-              Atualize suas informações pessoais.
+              Atualize seus dados pessoais. As
+              alterações serão aplicadas
+              imediatamente ao seu perfil.
             </p>
 
             <div className="edit-fields">
-              <input
-                type="text"
-                placeholder="Nome"
-                value={editName}
-                onChange={(e) =>
-                  setEditName(e.target.value)
-                }
-              />
+              <label>
+                <span>Nome completo</span>
 
-              <input
-                type="text"
-                placeholder="Telefone"
-                value={editPhone}
-                onChange={(e) =>
-                  setEditPhone(e.target.value)
-                }
-              />
+                <div className="modal-input">
+                  <FaUser />
 
-              <input
-                type="text"
-                placeholder="Endereço"
-                value={editAddress}
-                onChange={(e) =>
-                  setEditAddress(e.target.value)
-                }
-              />
+                  <input
+                    type="text"
+                    value={editName}
+                    placeholder="Digite seu nome"
+                    autoComplete="name"
+                    onChange={(event) =>
+                      setEditName(
+                        event.target.value
+                      )
+                    }
+                  />
+                </div>
+              </label>
+
+              <label>
+                <span>Telefone</span>
+
+                <div className="modal-input">
+                  <FaPhone />
+
+                  <input
+                    type="tel"
+                    value={editPhone}
+                    placeholder="Digite seu telefone"
+                    autoComplete="tel"
+                    onChange={(event) =>
+                      setEditPhone(
+                        event.target.value
+                      )
+                    }
+                  />
+                </div>
+              </label>
+
+              <label>
+                <span>Endereço</span>
+
+                <div className="modal-input">
+                  <FaMapMarkerAlt />
+
+                  <input
+                    type="text"
+                    value={editAddress}
+                    placeholder="Digite seu endereço"
+                    autoComplete="street-address"
+                    onChange={(event) =>
+                      setEditAddress(
+                        event.target.value
+                      )
+                    }
+                  />
+                </div>
+              </label>
             </div>
 
             <div className="modal-actions">
               <button
+                type="button"
+                className="modal-cancel"
                 onClick={() =>
                   setShowEditModal(false)
                 }
@@ -282,52 +622,96 @@ function Perfil() {
               </button>
 
               <button
-                className="confirm-delete"
+                type="button"
+                className="modal-save"
                 onClick={handleSaveProfile}
               >
-                Salvar Alterações
+                <FaCheckCircle />
+                Salvar alterações
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="delete-modal">
-            <FaTrash
-              size={45}
-              style={{
-                marginBottom: "20px",
-              }}
-            />
+      {/* =====================================================
+          DELETE MODAL
+      ===================================================== */}
 
-            <h2>Excluir Conta</h2>
+      {showDeleteModal && (
+        <div
+          className="profile-modal-overlay"
+          onMouseDown={(event) => {
+            if (
+              event.target ===
+              event.currentTarget
+            ) {
+              setShowDeleteModal(false);
+            }
+          }}
+        >
+          <div
+            className="profile-modal delete-profile-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-profile-title"
+          >
+            <button
+              type="button"
+              className="modal-close"
+              onClick={() =>
+                setShowDeleteModal(false)
+              }
+              aria-label="Fechar"
+            >
+              <FaTimes />
+            </button>
+
+            <div className="delete-icon">
+              <FaTrash />
+            </div>
+
+            <span className="delete-eyebrow">
+              AÇÃO PERMANENTE
+            </span>
+
+            <h2 id="delete-profile-title">
+              Excluir sua conta?
+            </h2>
 
             <p>
-              Esta ação é permanente.
-              <br />
-              Todos os dados associados à sua
-              conta serão removidos e não
-              poderão ser recuperados.
+              Essa ação irá remover sua conta e
+              os dados associados a ela. Depois
+              disso, não será possível recuperar
+              essas informações.
             </p>
+
+            <div className="delete-warning">
+              <FaShieldAlt />
+
+              <span>
+                Esta ação não pode ser desfeita.
+              </span>
+            </div>
 
             <div className="modal-actions">
               <button
+                type="button"
+                className="modal-cancel"
                 onClick={() =>
-                  setShowModal(false)
+                  setShowDeleteModal(false)
                 }
               >
-                Cancelar
+                Manter minha conta
               </button>
 
               <button
-                className="confirm-delete"
-                onClick={
-                  handleDeleteAccount
-                }
+                type="button"
+                className="modal-delete"
+                onClick={handleDeleteAccount}
               >
-                Excluir Permanentemente
+                <FaTrash />
+                Excluir conta
               </button>
             </div>
           </div>
