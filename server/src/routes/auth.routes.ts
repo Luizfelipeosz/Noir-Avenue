@@ -1,16 +1,17 @@
 import { Router } from "express";
 import crypto from "node:crypto";
-import bcrypt from "bcrypt";
-import { prisma } from "../lib/prisma";
+
+import prisma from "../lib/prisma";
+
 const router = Router();
 
 router.post("/forgot-password", async (req, res) => {
   try {
     const { email } = req.body;
 
-    if (!email) {
+    if (!email || typeof email !== "string") {
       return res.status(400).json({
-        message: "E-mail é obrigatório.",
+        message: "Informe um e-mail válido.",
       });
     }
 
@@ -22,28 +23,23 @@ router.post("/forgot-password", async (req, res) => {
       },
     });
 
-    /*
-     * Não revelamos se o e-mail existe.
-     * Isso evita enumeração de contas.
-     */
     if (!user) {
-      return res.status(200).json({
-        message:
-          "Se o e-mail estiver cadastrado, você receberá as instruções para redefinir sua senha.",
+      return res.status(404).json({
+        message: "E-mail não encontrado.",
       });
     }
 
-    // Remove tokens anteriores desse usuário
+    // Remove tokens anteriores
     await prisma.passwordResetToken.deleteMany({
       where: {
         userId: user.id,
       },
     });
 
-    // Token aleatório seguro
+    // Gera token seguro
     const token = crypto.randomBytes(32).toString("hex");
 
-    // Token válido por 15 minutos
+    // Expira em 15 minutos
     const expiresAt = new Date(
       Date.now() + 15 * 60 * 1000
     );
@@ -56,11 +52,16 @@ router.post("/forgot-password", async (req, res) => {
       },
     });
 
-    console.log("TOKEN DE RECUPERAÇÃO:", token);
+    const resetUrl =
+      `http://localhost:5173/redefinir-senha?token=${token}`;
+
+    console.log("=================================");
+    console.log("LINK DE RECUPERAÇÃO:");
+    console.log(resetUrl);
+    console.log("=================================");
 
     return res.status(200).json({
-      message:
-        "Se o e-mail estiver cadastrado, você receberá as instruções para redefinir sua senha.",
+      message: "Link de recuperação gerado.",
     });
   } catch (error) {
     console.error("Erro ao solicitar recuperação:", error);
@@ -71,81 +72,4 @@ router.post("/forgot-password", async (req, res) => {
   }
 });
 
-router.post("/reset-password", async (req, res) => {
-  try {
-    const { token, password } = req.body;
-
-    if (!token || !password) {
-      return res.status(400).json({
-        message: "Token e senha são obrigatórios.",
-      });
-    }
-
-    if (password.length < 6) {
-      return res.status(400).json({
-        message:
-          "A senha deve possuir pelo menos 6 caracteres.",
-      });
-    }
-
-    const resetToken =
-      await prisma.passwordResetToken.findUnique({
-        where: {
-          token,
-        },
-        include: {
-          user: true,
-        },
-      });
-
-    if (!resetToken) {
-      return res.status(400).json({
-        message: "Token inválido ou expirado.",
-      });
-    }
-
-    if (resetToken.expiresAt < new Date()) {
-      await prisma.passwordResetToken.delete({
-        where: {
-          id: resetToken.id,
-        },
-      });
-
-      return res.status(400).json({
-        message: "Token inválido ou expirado.",
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(
-      password,
-      12
-    );
-
-    await prisma.user.update({
-      where: {
-        id: resetToken.userId,
-      },
-      data: {
-        password: hashedPassword,
-      },
-    });
-
-    await prisma.passwordResetToken.delete({
-      where: {
-        id: resetToken.id,
-      },
-    });
-
-    return res.status(200).json({
-      message: "Senha atualizada com sucesso.",
-    });
-  } catch (error) {
-    console.error("Erro ao redefinir senha:", error);
-
-    return res.status(500).json({
-      message: "Erro interno do servidor.",
-    });
-  }
-});
-
-export default router;  
+export default router;
