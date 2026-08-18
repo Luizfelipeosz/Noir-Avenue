@@ -1,7 +1,6 @@
 import { Router } from "express";
 import crypto from "node:crypto";
 import nodemailer from "nodemailer";
-import bcrypt from "bcrypt";
 
 import prisma from "../lib/prisma";
 
@@ -15,84 +14,6 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASSWORD,
   },
-});
-
-router.post("/register", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-
-    if (
-      !name ||
-      typeof name !== "string" ||
-      !email ||
-      typeof email !== "string" ||
-      !password ||
-      typeof password !== "string"
-    ) {
-      return res.status(400).json({
-        message: "Preencha todos os campos obrigatórios.",
-      });
-    }
-
-    const normalizedName = name.trim();
-    const normalizedEmail = email.trim().toLowerCase();
-
-    if (!normalizedName || !normalizedEmail) {
-      return res.status(400).json({
-        message: "Preencha todos os campos obrigatórios.",
-      });
-    }
-
-    if (password.length < 8) {
-      return res.status(400).json({
-        message:
-          "A senha deve possuir no mínimo 8 caracteres.",
-      });
-    }
-
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        email: normalizedEmail,
-      },
-    });
-
-    if (existingUser) {
-      return res.status(409).json({
-        message: "E-mail já cadastrado.",
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(
-      password,
-      12
-    );
-
-    const user = await prisma.user.create({
-      data: {
-        name: normalizedName,
-        email: normalizedEmail,
-        password: hashedPassword,
-      },
-    });
-
-    return res.status(201).json({
-      message: "Conta criada com sucesso.",
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-    });
-  } catch (error) {
-    console.error(
-      "Erro ao criar usuário:",
-      error
-    );
-
-    return res.status(500).json({
-      message: "Erro interno do servidor.",
-    });
-  }
 });
 
 router.post("/forgot-password", async (req, res) => {
