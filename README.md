@@ -6,7 +6,7 @@
 
 Noir Avenue is a web application created to simulate the development of a real digital product, going beyond interface implementation.
 
-The project explores the complete Front-End development cycle: understanding product requirements, defining application behavior, making technical decisions, implementing features, organizing code, validating changes, deploying the application, and continuously improving the product.
+The project explores the Front-End development cycle: understanding product requirements, defining application behavior, making technical decisions, implementing features, organizing code, validating changes, deploying the application, and continuously improving the product.
 
 The application is developed incrementally through organized sprints, where each iteration introduces new product capabilities while also addressing architectural and technical challenges discovered during development.
 
@@ -32,13 +32,11 @@ The objective is not to reproduce a specific commercial platform, but to create 
 
 ---
 
-# Product & Engineering Approach
+## Product & Engineering Approach
 
 Noir Avenue follows a product-oriented development approach.
 
 Features are not treated as isolated coding exercises. Each iteration considers the relationship between **product requirements, user behavior, technical constraints, implementation, validation, and delivery**.
-
-The development process can be represented as:
 
 ```text
 Product Requirement
@@ -58,9 +56,7 @@ Deployment
 Iteration
 ```
 
-This approach helps maintain a clear connection between what the product needs and how the Front-End solution is implemented.
-
-### Examples of concerns considered during development
+### Development Considerations
 
 * What problem is the feature solving?
 * What should happen from the user's perspective?
@@ -74,7 +70,7 @@ This approach helps maintain a clear connection between what the product needs a
 
 ---
 
-# Development Workflow
+## Development Workflow
 
 Although Noir Avenue is currently developed individually, its workflow is structured around practices commonly used in collaborative software development.
 
@@ -94,9 +90,9 @@ The goal is to develop habits that translate naturally into collaborative engine
 
 ---
 
-# Tech Stack
+## Tech Stack
 
-## Front-End
+### Front-End
 
 * React.js
 * JavaScript (ES6+)
@@ -107,7 +103,7 @@ The goal is to develop habits that translate naturally into collaborative engine
 * Sonner
 * LocalStorage
 
-## Backend
+### Backend
 
 * Node.js
 * Express
@@ -115,7 +111,7 @@ The goal is to develop habits that translate naturally into collaborative engine
 * SQLite
 * Nodemailer
 
-## Development & Infrastructure
+### Development & Infrastructure
 
 * Git
 * GitHub
@@ -228,7 +224,7 @@ The goal was to make future features easier to implement without spreading sessi
 
 ---
 
-# Backend Evolution
+## Backend Evolution
 
 Noir Avenue is progressively evolving from a primarily client-side application toward a Front-End + API architecture.
 
@@ -259,7 +255,7 @@ Not every production feature has been migrated to the API yet. The architecture 
 
 ---
 
-# Architecture
+## Architecture
 
 The application is organized around separation of responsibilities and predictable feature development.
 
@@ -316,7 +312,7 @@ The project intentionally avoids over-engineering features before their requirem
 
 ---
 
-# State & Persistence
+## State & Persistence
 
 During the current development stage, Noir Avenue uses `localStorage` for client-side persistence.
 
@@ -339,7 +335,7 @@ The long-term direction is to move appropriate persistent data from client-side 
 
 ---
 
-# User Experience
+## User Experience
 
 User experience is considered as part of feature implementation rather than as a separate visual layer.
 
@@ -358,7 +354,7 @@ The objective is to make technical implementation and user experience evolve tog
 
 ---
 
-# Technical Decisions
+## Technical Decisions
 
 Several technical decisions have been made throughout the project's development.
 
@@ -404,7 +400,7 @@ The application is automatically built and deployed through GitHub Actions, allo
 
 ---
 
-# Quality & Validation
+## Quality & Validation
 
 Quality is considered throughout the development process rather than only at the end of a feature.
 
@@ -422,7 +418,7 @@ Automated testing is part of the project's planned evolution.
 
 ---
 
-# Deployment
+## Deployment
 
 Noir Avenue is deployed using GitHub Pages.
 
@@ -458,31 +454,30 @@ The deployment workflow validates:
 
 ---
 
-# Project Evolution
+## Project Evolution
 
-| Sprint    | Product Goal                          | Engineering Focus                   | Status         |
-| --------- | ------------------------------------- | ----------------------------------- | -------------- |
-| Sprint 1  | Establish user access                 | Authentication & protected routes   | ✅ Completed    |
-| Sprint 2  | Establish the core product experience | Components, profile & deployment    | ✅ Completed    |
-| Sprint 3  | Make application state predictable    | Session & persistence architecture  | ✅ Completed    |
-| Sprint 4+ | Introduce server-side capabilities    | API, database & backend integration | 🟡 In Progress |
+| Sprint   | Product Goal                          | Engineering Focus                   | Status      |
+| -------- | ------------------------------------- | ----------------------------------- | ----------- |
+| Sprint 1 | Establish user access                 | Authentication & protected routes   | ✅ Completed |
+| Sprint 2 | Establish the core product experience | Components, profile & deployment    | ✅ Completed |
+| Sprint 3 | Make application state predictable    | Session & persistence architecture  | 🟡 In Progress |
+| Sprint 4 | Backend & product evolution           | API, database & backend integration | 🔵 Planned  |
 
 Future sprints will continue combining product development with architectural improvements.
 
 ---
 
-# Roadmap
+## Roadmap
 
-## In Progress
+### Next Sprint
 
 * Backend integration.
 * API-based authentication.
 * Database-backed user data.
 * Password recovery flow.
 * Progressive migration of persistent data to the API.
-* Progressive TypeScript adoption.
 
-## Planned
+### Planned
 
 * Product catalog.
 * Product detail pages.
@@ -494,12 +489,13 @@ Future sprints will continue combining product development with architectural im
 * Automated testing.
 * Improved responsive behavior.
 * Additional account-management features.
+* Progressive TypeScript adoption.
 
 The roadmap may evolve according to new product and technical requirements.
 
 ---
 
-# Screenshots
+## Screenshots
 
 Screenshots will be updated as the product interface evolves.
 
@@ -521,9 +517,9 @@ Screenshots will be updated as the product interface evolves.
 
 ---
 
-# Getting Started
+## Getting Started
 
-## Front-End
+### Front-End
 
 Clone the repository:
 
@@ -555,9 +551,7 @@ The application will be available at:
 http://localhost:5173
 ```
 
----
-
-## Production Preview
+### Production Preview
 
 Generate the production build:
 
@@ -571,9 +565,7 @@ Preview the production build locally:
 npm run preview
 ```
 
----
-
-## Backend
+### Backend
 
 The backend is maintained separately inside the `server` directory.
 
@@ -597,7 +589,7 @@ The backend currently runs locally and provides the foundation for the applicati
 
 ---
 
-# Project Status
+## Project Status
 
 🟢 **Live & Actively Developed**
 
@@ -614,9 +606,9 @@ The project is currently transitioning from a primarily client-side application 
 
 ---
 
-# What This Project Demonstrates
+## What This Project Demonstrates
 
-Noir Avenue is intended to demonstrate practical Front-End engineering capabilities, including:
+Noir Avenue is intended to demonstrate practical Front-End engineering capabilities.
 
 ### Product Thinking
 
@@ -648,7 +640,7 @@ Noir Avenue is intended to demonstrate practical Front-End engineering capabilit
 
 ### Team-Oriented Practices
 
-Although the project is currently developed individually, its workflow intentionally follows practices that are relevant to collaborative environments:
+Although the project is currently developed individually, its workflow intentionally follows practices relevant to collaborative environments:
 
 * Feature-oriented changes.
 * Branch-based development.
@@ -662,7 +654,7 @@ The purpose is to build not only technical knowledge, but also the development h
 
 ---
 
-# Author
+## Author
 
 **Luiz Felipe Oliveira Souza**
 
