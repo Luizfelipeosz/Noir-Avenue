@@ -9,5 +9,5 @@
  * @property {string[]} [images]
  * @property {string} [brand]
  * @property {boolean} [featured]
- * @property {boolean} [isNew]
+ * @property {boolean} [IsNew]
  */
