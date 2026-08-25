@@ -7,7 +7,7 @@
  * @property {string} category
  * @property {string} image
  * @property {string[]} [images]
- * @property {string} [brand]
- * @property {boolean} [featured]
+ * @property {string} [Brand]
+ * @property {boolean} [Featured]
  * @property {boolean} [IsNew]
  */
