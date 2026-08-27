@@ -16,6 +16,7 @@ import {
   FaCompass,
   FaTimes,
   FaCheck,
+  FaShoppingBag,
 } from "react-icons/fa";
 
 function Dashboard() {
@@ -144,6 +145,13 @@ const t = translations[language] || translations.Português;
       keywords: "favoritos salvos itens coleção",
       icon: <FaHeart />,
       route: "/dashboard/favoritos",
+    },
+    {
+      title: "Catálogo",
+      description: "Explore nossa coleção.",
+      keywords: "catálogo produtos coleção roupas",
+      icon: <FaShoppingBag />,
+      route: "/dashboard/catalogo",
     },
     {
       title: "Configurações",

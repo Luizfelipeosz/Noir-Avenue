@@ -6,7 +6,7 @@ import Casaco from "../assets/products/Casaco.webp";
 import Casaco2 from "../assets/products/Casaco2.webp";
 import Sapato from "../assets/products/Sapato.webp";
 import SapatoSocial from "../assets/products/SapatoSocial.webp";
-import CintoNoir from "../assets/products/Cinto Noir.webp";
+import CintoNoir from "../assets/products/CintoNoir.webp";
 import Jaqueta from "../assets/products/Jaqueta.webp";
 import CamisaSocial from "../assets/products/CamisaSocial.webp";
 import CamisaSocial2 from "../assets/products/CamisaSocial2.webp";

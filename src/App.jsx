@@ -16,6 +16,7 @@ import Favoritos from "./components/Favoritos/Favoritos";
 import Configuracoes from "./components/Configuracoes/Configurações";
 import Premium from "./components/Premiun/Premiun";
 import Historico from "./components/Historico/Historico";
+import Catalogo from "./components/Catalogo/Catalogo";
 
 // Recuperar Senha
 import RecuperarSenha from "./components/RecuperarSenha/RecuperarSenha";
@@ -112,6 +113,17 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="/dashboard/Catalogo"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <Catalogo />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+/>
 
        <Route 
           path="/recuperar-senha" 
