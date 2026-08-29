@@ -1,6 +1,7 @@
 import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "sonner";
 
 // Autenticação
 import Login from "./components/Login/Login";
@@ -164,6 +165,7 @@ function App() {
           />
         </Routes>
       </CartProvider>
+     <Toaster position="top-right" />
     </div>
   );
 }

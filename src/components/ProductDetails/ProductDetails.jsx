@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { products } from "../../data/products";
 import { useCart } from "../../context/CartContext";
+import { toast } from "sonner";
 
 import "./ProductDetails.css";
 
@@ -45,10 +46,22 @@ function ProductDetails() {
   }
 
   function handleAddToCart() {
-    if (isOutOfStock) return;
+  if (isOutOfStock) return;
 
+  try {
     addToCart(product, quantity);
+
+    toast.success("Produto adicionado ao carrinho", {
+      description: `${quantity} unidade${quantity > 1 ? "s" : ""} de ${product.name}.`,
+    });
+  } catch (error) {
+    console.error("Erro ao adicionar produto ao carrinho:", error);
+
+    toast.error("Não foi possível adicionar ao carrinho", {
+      description: "Tente novamente em alguns instantes.",
+    });
   }
+}
 
   return (
     <section className="product-details">

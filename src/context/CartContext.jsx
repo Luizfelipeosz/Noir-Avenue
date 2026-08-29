@@ -1,42 +1,57 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 const CartContext = createContext(null);
 
 const CART_STORAGE_KEY = "noiravenue_cart";
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+  const [cartItems, setCartItems] = useState(() => {
+    const storedCart = localStorage.getItem(CART_STORAGE_KEY);
 
-    return savedCart ? JSON.parse(savedCart) : [];
+    return storedCart ? JSON.parse(storedCart) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-  }, [cart]);
+    localStorage.setItem(
+      CART_STORAGE_KEY,
+      JSON.stringify(cartItems)
+    );
+  }, [cartItems]);
 
   function addToCart(product, quantity = 1) {
-    setCart((currentCart) => {
-      const existingProduct = currentCart.find(
+    if (!product || product.stock <= 0) {
+      throw new Error("Produto indisponível.");
+    }
+
+    setCartItems((currentItems) => {
+      const existingItem = currentItems.find(
         (item) => item.id === product.id
       );
 
-      if (existingProduct) {
-        return currentCart.map((item) =>
+      if (existingItem) {
+        const newQuantity = Math.min(
+          existingItem.quantity + quantity,
+          product.stock
+        );
+
+        return currentItems.map((item) =>
           item.id === product.id
             ? {
                 ...item,
-                quantity: Math.min(
-                  item.quantity + quantity,
-                  item.stock
-                ),
+                quantity: newQuantity,
               }
             : item
         );
       }
 
       return [
-        ...currentCart,
+        ...currentItems,
         {
           id: product.id,
           name: product.name,
@@ -44,57 +59,83 @@ export function CartProvider({ children }) {
           price: product.price,
           image: product.image,
           stock: product.stock,
-          quantity: Math.min(quantity, product.stock),
+          quantity,
         },
       ];
     });
   }
 
-  function removeFromCart(productId) {
-    setCart((currentCart) =>
-      currentCart.filter((item) => item.id !== productId)
+  function increaseQuantity(productId) {
+    setCartItems((currentItems) =>
+      currentItems.map((item) => {
+        if (item.id !== productId) {
+          return item;
+        }
+
+        return {
+          ...item,
+          quantity: Math.min(
+            item.quantity + 1,
+            item.stock
+          ),
+        };
+      })
     );
   }
 
-  function updateQuantity(productId, quantity) {
-    setCart((currentCart) =>
-      currentCart.map((item) =>
-        item.id === productId
-          ? {
-              ...item,
-              quantity: Math.max(
-                1,
-                Math.min(quantity, item.stock)
-              ),
-            }
-          : item
+  function decreaseQuantity(productId) {
+    setCartItems((currentItems) =>
+      currentItems
+        .map((item) => {
+          if (item.id !== productId) {
+            return item;
+          }
+
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        })
+        .filter((item) => item.quantity > 0)
+    );
+  }
+
+  function removeFromCart(productId) {
+    setCartItems((currentItems) =>
+      currentItems.filter(
+        (item) => item.id !== productId
       )
     );
   }
 
   function clearCart() {
-    setCart([]);
+    setCartItems([]);
   }
 
-  const cartItemsCount = cart.reduce(
+  const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
 
-  const cartTotal = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+  const subtotal = cartItems.reduce(
+    (total, item) =>
+      total + item.price * item.quantity,
     0
   );
 
-  const value = {
-    cart,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    cartItemsCount,
-    cartTotal,
-  };
+  const value = useMemo(
+    () => ({
+      cartItems,
+      totalItems,
+      subtotal,
+      addToCart,
+      increaseQuantity,
+      decreaseQuantity,
+      removeFromCart,
+      clearCart,
+    }),
+    [cartItems, totalItems, subtotal]
+  );
 
   return (
     <CartContext.Provider value={value}>
@@ -108,7 +149,7 @@ export function useCart() {
 
   if (!context) {
     throw new Error(
-      "useCart deve ser utilizado dentro de CartProvider"
+      "useCart deve ser utilizado dentro de CartProvider."
     );
   }
 
