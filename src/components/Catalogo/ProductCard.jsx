@@ -1,12 +1,30 @@
+import { useNavigate } from "react-router-dom";
+
 import "./ProductCard.css";
 
 function ProductCard({ product }) {
-  const { name, category, price, image, stock } = product;
+  const navigate = useNavigate();
+
+  const { name, category, price, image, stock, slug } = product;
 
   const isOutOfStock = stock === 0;
 
+  function handleProductClick() {
+    navigate(`/dashboard/catalogo/${slug}`);
+  }
+
   return (
-    <article className="product-card">
+    <article
+      className="product-card"
+      onClick={handleProductClick}
+      tabIndex={0}
+      role="button"
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          handleProductClick();
+        }
+      }}
+    >
       <div className="product-card-image">
         <img src={image} alt={name} />
 

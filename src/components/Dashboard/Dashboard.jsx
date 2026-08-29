@@ -17,6 +17,7 @@ import {
   FaTimes,
   FaCheck,
   FaShoppingBag,
+  FaShoppingCart,
 } from "react-icons/fa";
 
 function Dashboard() {
@@ -152,6 +153,13 @@ const t = translations[language] || translations.Português;
       keywords: "catálogo produtos coleção roupas",
       icon: <FaShoppingBag />,
       route: "/dashboard/catalogo",
+    },
+    {
+      title: "Carrinho",
+      description: "Confira seus itens selecionados.",
+      keywords: "carrinho compras itens selecionados",
+      icon: <FaShoppingCart />,
+      route: "/dashboard/carrinho",
     },
     {
       title: "Configurações",
