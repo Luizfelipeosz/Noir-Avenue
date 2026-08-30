@@ -214,79 +214,6 @@ body {
 }
 
 /* ==========================
-   PREMIUM BOX
-========================== */
-
-.sidebar-premium {
-    position: absolute;
-    left: 25px;
-    right: 25px;
-    bottom: 30px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 17px;
-    border-radius: 16px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(212, 175, 55, .16),
-            rgba(255, 255, 255, .03)
-        );
-    border:
-        1px solid
-        rgba(212, 175, 55, .25);
-}
-
-.sidebar-premium-icon {
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background:
-        linear-gradient(
-            135deg,
-            #f9e64f,
-            #b8860b
-        );
-    color: #111;
-}
-
-.sidebar-premium div:nth-child(2) {
-    flex: 1;
-}
-
-.sidebar-premium strong {
-    display: block;
-    font-size: .82rem;
-}
-
-.sidebar-premium p {
-    margin-top: 4px;
-    color: #999;
-    font-size: .7rem;
-}
-
-.sidebar-premium button {
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, .08);
-    color: #fff;
-    cursor: pointer;
-    transition: .3s;
-}
-
-.sidebar-premium button:hover {
-    background: #d4af37;
-    color: #111;
-}
-
-/* ==========================
    CONTAINER
 ========================== */
 
@@ -1200,79 +1127,79 @@ body {
 ========================================================= */
 
 .layout.theme-light {
-  background: #f4f4f5;
-  color: #111;
+    background: #f4f4f5;
+    color: #111;
 }
 
 .layout.theme-light .sidebar {
-  background: #ffffff;
-  border-right-color: rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    border-right-color: rgba(0, 0, 0, 0.08);
 }
 
 .layout.theme-light .sidebar-brand {
-  color: #111;
+    color: #111;
 }
 
 .layout.theme-light .sidebar-label {
-  color: rgba(0, 0, 0, 0.45);
+    color: rgba(0, 0, 0, 0.45);
 }
 
 .layout.theme-light .sidebar nav button {
-  color: rgba(0, 0, 0, 0.65);
+    color: rgba(0, 0, 0, 0.65);
 }
 
 .layout.theme-light .sidebar nav button:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: #111;
+    background: rgba(0, 0, 0, 0.05);
+    color: #111;
 }
 
 .layout.theme-light .dashboard-container {
-  background: #f4f4f5;
+    background: #f4f4f5;
 }
 
 .layout.theme-light .welcome-label,
 .layout.theme-light .header-user p {
-  color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .layout.theme-light .header-user h1 {
-  color: #111;
+    color: #111;
 }
 
 .layout.theme-light .icon-button {
-  border-color: rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.8);
-  color: #111;
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.8);
+    color: #111;
 }
 
 .layout.theme-light .logout-button {
-  border-color: rgba(0, 0, 0, 0.1);
-  background: #fff;
-  color: #111;
+    border-color: rgba(0, 0, 0, 0.1);
+    background: #fff;
+    color: #111;
 }
 
 .layout.theme-light .stat-card,
 .layout.theme-light .activity,
 .layout.theme-light .profile-progress,
 .layout.theme-light .action-card {
-  background: #fff;
-  border-color: rgba(0, 0, 0, 0.08);
-  color: #111;
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #111;
 }
 
 .layout.theme-light .stat-card p,
 .layout.theme-light .activity span,
 .layout.theme-light .profile-progress p,
 .layout.theme-light .action-card p {
-  color: rgba(0, 0, 0, 0.55);
+    color: rgba(0, 0, 0, 0.55);
 }
 
 .layout.theme-light .stat-header {
-  color: rgba(0, 0, 0, 0.65);
+    color: rgba(0, 0, 0, 0.65);
 }
 
 .layout.theme-light .action-link {
-  color: #111;
+    color: #111;
 }
 
 /* ==========================
@@ -1295,10 +1222,6 @@ body {
 
     .dashboard-content-grid {
         grid-template-columns: 1fr;
-    }
-
-    .sidebar-premium {
-        display: none;
     }
 }
 

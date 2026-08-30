@@ -302,24 +302,6 @@ const t = translations[language] || translations.Português;
           ))}
         </nav>
 
-        <div className="sidebar-premium">
-          <div className="sidebar-premium-icon">
-            <FaCrown />
-          </div>
-
-          <div>
-            <strong>Noir Premium</strong>
-
-            <p>Eleve sua experiência.</p>
-          </div>
-
-          <button
-            onClick={() => handleNavigate("/dashboard/premium")}
-            aria-label="Acessar Noir Premium"
-          >
-            <FaArrowRight />
-          </button>
-        </div>
       </aside>
 
       <main className="dashboard-container">
