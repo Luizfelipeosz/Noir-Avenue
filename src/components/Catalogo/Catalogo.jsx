@@ -1,12 +1,24 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { products } from "../../data/products";
+import { categories } from "../../data/categories";
+
 import ProductCard from "./ProductCard";
 
 import "./Catalogo.css";
 
 function Catalogo() {
   const navigate = useNavigate();
+
+  const [selectedCategory, setSelectedCategory] = useState("Todos");
+
+  const filteredProducts =
+    selectedCategory === "Todos"
+      ? products
+      : products.filter(
+          (product) => product.category === selectedCategory
+        );
 
   return (
     <section className="catalogo">
@@ -32,12 +44,40 @@ function Catalogo() {
         </div>
 
         <span className="catalogo-count">
-          {products.length} produtos
+          {filteredProducts.length}{" "}
+          {filteredProducts.length === 1 ? "produto" : "produtos"}
         </span>
       </div>
 
+      <div className="catalogo-categories">
+        <button
+          className={
+            selectedCategory === "Todos"
+              ? "catalogo-category active"
+              : "catalogo-category"
+          }
+          onClick={() => setSelectedCategory("Todos")}
+        >
+          Todos
+        </button>
+
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={
+              selectedCategory === category
+                ? "catalogo-category active"
+                : "catalogo-category"
+            }
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
       <div className="catalogo-grid">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
