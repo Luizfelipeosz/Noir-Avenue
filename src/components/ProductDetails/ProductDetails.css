@@ -13,8 +13,8 @@
   padding: 9px 14px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.55);
+  background: rgba(230, 16, 16, 0.979);
+  color: rgba(247, 236, 236, 0.986);
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
@@ -28,7 +28,7 @@
 
 .product-details-back:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(231, 7, 7, 0.89);
   border-color: rgba(255, 255, 255, 0.2);
   transform: translateX(-3px);
 }

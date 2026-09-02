@@ -22,12 +22,24 @@ function Catalogo() {
 
   return (
     <section className="catalogo">
-      <button
-        className="catalogo-back"
-        onClick={() => navigate("/dashboard")}
-      >
-        ← Voltar ao Dashboard
-      </button>
+      <div className="catalogo-actions">
+        <button
+          className="catalogo-back"
+          onClick={() => navigate("/dashboard")}
+        >
+          <span className="catalogo-back-icon">←</span>
+          <span>Voltar ao Dashboard</span>
+        </button>
+
+        <button
+          className="catalogo-cart"
+          onClick={() => navigate("/dashboard/cart")}
+          aria-label="Abrir carrinho"
+        >
+          <span className="catalogo-cart-icon">🛒</span>
+          <span className="catalogo-cart-label">Carrinho</span>
+        </button>
+      </div>
 
       <div className="catalogo-header">
         <div>
@@ -45,7 +57,9 @@ function Catalogo() {
 
         <span className="catalogo-count">
           {filteredProducts.length}{" "}
-          {filteredProducts.length === 1 ? "produto" : "produtos"}
+          {filteredProducts.length === 1
+            ? "produto"
+            : "produtos"}
         </span>
       </div>
 
@@ -89,3 +103,4 @@ function Catalogo() {
 }
 
 export default Catalogo;
+
