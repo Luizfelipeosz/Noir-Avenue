@@ -23,6 +23,7 @@ import Premium from "./components/Premiun/Premiun";
 import Historico from "./components/Historico/Historico";
 import Catalogo from "./components/Catalogo/Catalogo";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
+import Cart from "./components/Cart/Cart";
 
 // Recuperar senha
 import RecuperarSenha from "./components/RecuperarSenha/RecuperarSenha";
@@ -151,6 +152,11 @@ function App() {
               </PrivateRoute>
             }
           />
+
+          <Route
+  path="/dashboard/cart"
+  element={<Cart />}
+/>
 
           {/* Recuperar senha */}
 

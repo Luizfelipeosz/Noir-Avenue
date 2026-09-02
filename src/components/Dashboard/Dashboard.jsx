@@ -159,7 +159,7 @@ const t = translations[language] || translations.Português;
       description: "Confira seus itens selecionados.",
       keywords: "carrinho compras itens selecionados",
       icon: <FaShoppingCart />,
-      route: "/dashboard/carrinho",
+      route: "/dashboard/cart",
     },
     {
       title: "Configurações",
