@@ -23,6 +23,19 @@ import logo from "../../assets/logo.png";
 const SESSION_KEY = "noiravenue_session";
 const USERS_KEY = "noiravenue_users";
 
+function calculateProfileCompletion(user) {
+  const fields = [
+    user?.name,
+    user?.email,
+    user?.telefone,
+    user?.endereco,
+  ];
+
+  return Math.floor(
+    (fields.filter(Boolean).length / fields.length) * 100
+  );
+}
+
 function Perfil() {
   const navigate = useNavigate();
 
@@ -58,6 +71,9 @@ function Perfil() {
 
   const [editAddress, setEditAddress] =
     useState(user.endereco || "");
+
+  const profilePercentage =
+    calculateProfileCompletion(profile);
 
   const initial = profile.name
     ? profile.name.charAt(0).toUpperCase()
@@ -297,12 +313,11 @@ function Perfil() {
 
             <div>
               <span>Perfil</span>
+
               <strong>
-                {profile.name &&
-                profile.telefone &&
-                profile.endereco
+                {profilePercentage === 100
                   ? "Completo"
-                  : "Em atualização"}
+                  : `${profilePercentage}% preenchido`}
               </strong>
             </div>
           </div>
@@ -461,7 +476,10 @@ function Perfil() {
               </div>
 
               <div>
-                <strong>Voltar para o dashboard</strong>
+                <strong>
+                  Voltar para o dashboard
+                </strong>
+
                 <span>
                   Continuar navegando pelo Noir Avenue.
                 </span>
@@ -482,7 +500,10 @@ function Perfil() {
               </div>
 
               <div>
-                <strong>Excluir minha conta</strong>
+                <strong>
+                  Excluir minha conta
+                </strong>
+
                 <span>
                   Essa ação remove permanentemente
                   seus dados.
@@ -722,3 +743,4 @@ function Perfil() {
 }
 
 export default Perfil;
+

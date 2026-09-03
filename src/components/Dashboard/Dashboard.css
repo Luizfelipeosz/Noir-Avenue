@@ -953,17 +953,17 @@ body {
     margin: 5px 0 20px;
     border-radius: 50%;
     background:
-        radial-gradient(
+          radial-gradient(
             circle,
             #101010 58%,
             transparent 60%
-        ),
-        conic-gradient(
-            #d4af37 0%,
-            #d4af37 70%,
-            #292929 70%,
-            #292929 100%
-        );
+          ),
+          conic-gradient(
+             #d4af37 0%,
+             #d4af37 var(--profile-progress),
+             #292929 var(--profile-progress),
+             #292929 100%
+  );
     box-shadow:
         0 0 30px
         rgba(212, 175, 55, .08);
