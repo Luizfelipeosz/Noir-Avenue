@@ -2,6 +2,8 @@ import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Autenticação
 import Login from "./components/Login/Login";
@@ -172,6 +174,15 @@ function App() {
         </Routes>
       </CartProvider>
      <Toaster position="top-right" />
+     <ToastContainer
+  position="bottom-right"
+  autoClose={3000}
+  hideProgressBar={false}
+  newestOnTop
+  closeOnClick
+  pauseOnHover
+  theme="dark"
+/>
     </div>
   );
 }
