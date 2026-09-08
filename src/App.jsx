@@ -34,6 +34,9 @@ import RedefinirSenha from "./components/RecuperarSenha/RedefinirSenha";
 // Carrinho
 import { CartProvider } from "./context/CartContext";
 
+// Checkout
+import Checkout from "./components/Checkout/Checkout";
+
 function App() {
   return (
     <div className="App">
@@ -158,6 +161,17 @@ function App() {
           <Route
   path="/dashboard/cart"
   element={<Cart />}
+/>
+
+<Route 
+path="/dashboard/checkout" 
+element={
+<PrivateRoute>
+<DashboardLayout>
+<Checkout />
+</DashboardLayout>
+</PrivateRoute>
+} 
 />
 
           {/* Recuperar senha */}

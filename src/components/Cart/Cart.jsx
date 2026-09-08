@@ -295,7 +295,7 @@ function Cart() {
               type="button"
               className="cart-checkout"
               onClick={() =>
-                navigate("/checkout")
+                navigate("/dashboard/checkout")
               }
             >
               <span>Finalizar compra</span>
