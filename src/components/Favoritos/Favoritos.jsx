@@ -1,169 +1,153 @@
-import {  FaArrowLeft, FaHeart, FaRegHeart, FaTrash,} from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { useState } from "react";
-import "./Favoritos.css";
+import { FaHeart, FaTrash } from "react-icons/fa";
 
-const FAVORITES_KEY = "noiravenue_favorites";
+import "./Favoritos.css";
 
 function Favoritos() {
   const navigate = useNavigate();
 
-  const getFavorites = () => {
-    try {
-      const storedFavorites = localStorage.getItem(FAVORITES_KEY);
+  const [favorites, setFavorites] = useState([]);
 
-      return storedFavorites
-        ? JSON.parse(storedFavorites)
-        : [];
-    } catch {
-      return [];
-    }
-  };
+  useEffect(() => {
+    loadFavorites();
+  }, []);
 
-  const [favorites, setFavorites] = useState(getFavorites);
+  function loadFavorites() {
+    const savedFavorites = JSON.parse(
+      localStorage.getItem("noiravenue_favorites") || "[]"
+    );
 
-  const removeFavorite = (id) => {
+    setFavorites(savedFavorites);
+  }
+
+  function removeFavorite(productId) {
     const updatedFavorites = favorites.filter(
-      (item) => item.id !== id
+      (product) => product.id !== productId
     );
 
     localStorage.setItem(
-      FAVORITES_KEY,
+      "noiravenue_favorites",
       JSON.stringify(updatedFavorites)
     );
 
     setFavorites(updatedFavorites);
+  }
 
-    toast.success("Removido dos favoritos", {
-      description:
-        "O item foi removido da sua lista de favoritos.",
-    });
-  };
+  function handleProductClick(slug) {
+    navigate(`/dashboard/catalogo/${slug}`);
+  }
+
+  function handleBack() {
+    navigate("/dashboard/catalogo");
+  }
 
   return (
-    <main className="favorites-page">
-      <div className="favorites-container">
+    <section className="favoritos">
+      <div className="favoritos-header">
+        <button
+          type="button"
+          className="favoritos-back"
+          onClick={handleBack}
+        >
+          ← Voltar ao catálogo
+        </button>
 
-        {/* HEADER */}
+        <div className="favoritos-title">
+          <span className="favoritos-eyebrow">
+            SUA COLEÇÃO
+          </span>
 
-        <header className="favorites-header">
+          <h1>Favoritos</h1>
+
+          <p>
+            Produtos que você escolheu guardar para depois.
+          </p>
+        </div>
+
+        <span className="favoritos-count">
+          {favorites.length}{" "}
+          {favorites.length === 1
+            ? "produto"
+            : "produtos"}
+        </span>
+      </div>
+
+      {favorites.length === 0 ? (
+        <div className="favoritos-empty">
+          <div className="favoritos-empty-icon">
+            <FaHeart />
+          </div>
+
+          <h2>Nenhum favorito ainda</h2>
+
+          <p>
+            Explore o catálogo e salve os produtos que
+            você mais gostar.
+          </p>
+
           <button
             type="button"
-            className="favorites-back-button"
-            onClick={() => navigate("/dashboard")}
+            className="favoritos-empty-button"
+            onClick={handleBack}
           >
-            <FaArrowLeft />
-            Voltar ao Dashboard
+            Explorar catálogo
           </button>
-
-          <div className="favorites-heading">
-            <div className="favorites-title-icon">
-              <FaHeart />
-            </div>
-
-            <div>
-              <span className="favorites-eyebrow">
-                NOIR AVENUE
-              </span>
-
-              <h1>Favoritos</h1>
-
-              <p>
-                Seus conteúdos salvos em um só lugar.
-              </p>
-            </div>
-          </div>
-        </header>
-
-        {/* CONTEÚDO */}
-
-        <section className="favorites-content">
-          <div className="favorites-section-header">
-            <div>
-              <h2>Itens salvos</h2>
-
-              <p>
-                {favorites.length === 0
-                  ? "Sua lista está vazia."
-                  : `${favorites.length} ${
-                      favorites.length === 1
-                        ? "item salvo"
-                        : "itens salvos"
-                    }.`}
-              </p>
-            </div>
-
-            {favorites.length > 0 && (
-              <div className="favorites-count">
-                <FaHeart />
-                {favorites.length}
-              </div>
-            )}
-          </div>
-
-          {favorites.length === 0 ? (
-            <div className="favorites-empty">
-              <div className="favorites-empty-icon">
-                <FaRegHeart />
-              </div>
-
-              <h2>Nenhum favorito ainda</h2>
-
-              <p>
-                Quando você encontrar algo que deseja
-                guardar, seus favoritos aparecerão aqui.
-              </p>
-
+        </div>
+      ) : (
+        <div className="favoritos-grid">
+          {favorites.map((product) => (
+            <article
+              key={product.id}
+              className="favorito-card"
+            >
               <button
                 type="button"
-                className="favorites-primary-button"
-                onClick={() => navigate("/dashboard")}
+                className="favorito-card-image"
+                onClick={() =>
+                  handleProductClick(product.slug)
+                }
               >
-                Explorar Dashboard
+                <img
+                  src={product.image}
+                  alt={product.name}
+                />
               </button>
-            </div>
-          ) : (
-            <div className="favorites-grid">
-              {favorites.map((item) => (
-                <article
-                  className="favorite-card"
-                  key={item.id}
-                >
-                  <div className="favorite-card-icon">
-                    <FaHeart />
-                  </div>
 
-                  <div className="favorite-card-content">
-                    <span>FAVORITO</span>
+              <div className="favorito-card-content">
+                <span className="favorito-card-category">
+                  {product.category}
+                </span>
 
-                    <h3>{item.name}</h3>
+                <h3>{product.name}</h3>
 
-                    {item.description && (
-                      <p>{item.description}</p>
-                    )}
-                  </div>
+                <div className="favorito-card-footer">
+                  <strong>
+                    R${" "}
+                    {product.price
+                      .toFixed(2)
+                      .replace(".", ",")}
+                  </strong>
 
                   <button
                     type="button"
-                    className="favorite-remove-button"
+                    className="favorito-remove"
                     onClick={() =>
-                      removeFavorite(item.id)
+                      removeFavorite(product.id)
                     }
-                    aria-label={`Remover ${item.name} dos favoritos`}
+                    aria-label={`Remover ${product.name} dos favoritos`}
                     title="Remover dos favoritos"
                   >
                     <FaTrash />
                   </button>
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
-      </div>
-    </main>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }
 
 export default Favoritos;
-

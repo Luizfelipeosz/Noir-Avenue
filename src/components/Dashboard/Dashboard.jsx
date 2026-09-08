@@ -2,6 +2,7 @@ import "./Dashboard.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { timeAgo } from "../../utils/timeAgo";
+import { categories } from "../../data/categories";
 
 import {
   FaUser,
@@ -708,12 +709,14 @@ function Dashboard() {
             </div>
 
             <div className="stat-card">
-              <div className="stat-header">
-                <span>Coleções</span>
+            <div className="stat-header">
+              <span>{t.collections}</span>
                 <FaCompass />
-              </div>
+            </div>
 
-              <strong>04</strong>
+              <strong>
+                {String(categories.length).padStart(2, "0")}
+               </strong>
 
               <p>
                 Coleções disponíveis

@@ -1,11 +1,8 @@
 .product-card {
   overflow: hidden;
-
   border: 1px solid rgba(255, 255, 255, 0.075);
   border-radius: 16px;
-
   background: rgba(255, 255, 255, 0.025);
-
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
@@ -14,31 +11,23 @@
 
 .product-card:hover {
   transform: translateY(-3px);
-
   border-color: rgba(255, 255, 255, 0.13);
-
   background: rgba(255, 255, 255, 0.04);
 }
 
 .product-card-image {
   position: relative;
-
   width: 100%;
   aspect-ratio: 4 / 5;
-
   overflow: hidden;
-
   background: rgba(255, 255, 255, 0.035);
 }
 
 .product-card-image img {
   width: 100%;
   height: 100%;
-
   display: block;
-
   object-fit: cover;
-
   transition: transform 0.35s ease;
 }
 
@@ -46,9 +35,70 @@
   transform: scale(1.03);
 }
 
+/* ================================
+   FAVORITOS
+================================ */
+
+.product-card-favorite {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(8px);
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.product-card-favorite:hover {
+  transform: scale(1.06);
+  border-color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.product-card-favorite:active {
+  transform: scale(0.94);
+}
+
+.product-card-favorite.active {
+  border-color: #e50914;
+  background: #e50914;
+  color: #fff;
+}
+
+.product-card-favorite.active:hover {
+  border-color: #ff1a25;
+  background: #ff1a25;
+}
+
+/* ================================
+   ESTOQUE
+================================ */
+
 .product-card-stock {
   position: absolute;
-
   top: 14px;
   left: 14px;
 
@@ -64,13 +114,16 @@
   font-weight: 600;
 }
 
+/* ================================
+   CONTEÚDO
+================================ */
+
 .product-card-content {
   padding: 17px 18px 19px;
 }
 
 .product-card-category {
   display: block;
-
   margin-bottom: 6px;
 
   color: rgba(255, 255, 255, 0.42);
@@ -98,4 +151,29 @@
 
   font-size: 14px;
   font-weight: 600;
+}
+
+/* ================================
+   ACESSIBILIDADE
+================================ */
+
+.product-card-favorite:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ================================
+   RESPONSIVIDADE
+================================ */
+
+@media (max-width: 520px) {
+  .product-card-favorite {
+    top: 10px;
+    right: 10px;
+
+    width: 36px;
+    height: 36px;
+
+    font-size: 15px;
+  }
 }
