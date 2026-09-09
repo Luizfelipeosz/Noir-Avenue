@@ -6,15 +6,15 @@ import { toast } from "sonner";
 import logo from "../../assets/logo.png";
 import "./RecuperarSenha.css";
 
-const USERS_KEY = "noiravenue_users";
-const RESET_EMAIL_KEY = "noiravenue_reset_email";
+const API_URL = "http://localhost:3001/api";
 
 function RecuperarSenha() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const normalizedEmail = email.trim().toLowerCase();
@@ -27,41 +27,51 @@ function RecuperarSenha() {
       return;
     }
 
-    let users = [];
-
     try {
-      users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-    } catch {
-      toast.error("Erro ao acessar os dados", {
+      setIsLoading(true);
+
+      const response = await fetch(
+        `${API_URL}/auth/forgot-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: normalizedEmail,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message ||
+            "Não foi possível processar a solicitação."
+        );
+      }
+
+      toast.success("Solicitação enviada", {
         description:
-          "Não foi possível verificar sua conta. Tente novamente.",
+          "Se o e-mail estiver cadastrado, você receberá um link para redefinir sua senha.",
       });
 
-      return;
-    }
+      setEmail("");
+    } catch (error) {
+      console.error(
+        "Erro ao solicitar recuperação de senha:",
+        error
+      );
 
-    const user = users.find(
-      (item) =>
-        item.email?.trim().toLowerCase() === normalizedEmail
-    );
-
-    if (!user) {
-      toast.error("E-mail não encontrado", {
+      toast.error("Não foi possível continuar", {
         description:
-          "Não encontramos uma conta associada a este e-mail.",
+          error.message ||
+          "Verifique sua conexão e tente novamente.",
       });
-
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    localStorage.setItem(RESET_EMAIL_KEY, normalizedEmail);
-
-    toast.success("Conta encontrada", {
-      description:
-        "Agora defina uma nova senha para sua conta.",
-    });
-
-    navigate("/redefinir-senha");
   };
 
   return (
@@ -71,6 +81,7 @@ function RecuperarSenha() {
           type="button"
           className="recovery-back"
           onClick={() => navigate("/")}
+          disabled={isLoading}
         >
           <FaArrowLeft />
           <span>Voltar para o login</span>
@@ -91,7 +102,7 @@ function RecuperarSenha() {
 
           <p>
             Informe o e-mail associado à sua conta
-            para continuar.
+            para receber o link de recuperação.
           </p>
         </div>
 
@@ -103,6 +114,7 @@ function RecuperarSenha() {
               value={email}
               autoComplete="email"
               required
+              disabled={isLoading}
               onChange={(event) =>
                 setEmail(event.target.value)
               }
@@ -114,8 +126,11 @@ function RecuperarSenha() {
           <button
             type="submit"
             className="recovery-submit"
+            disabled={isLoading}
           >
-            Continuar
+            {isLoading
+              ? "Enviando..."
+              : "Enviar link de recuperação"}
           </button>
         </form>
 
@@ -132,4 +147,3 @@ function RecuperarSenha() {
 }
 
 export default RecuperarSenha;
-
