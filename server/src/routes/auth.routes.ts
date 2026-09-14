@@ -4,11 +4,10 @@ import {
   createPasswordResetToken,
   resetPassword,
   verifyPasswordResetToken,
-} from "../services/passwordReset.service";
+} 
+from "../services/passwordReset.service";
 
-import {
-  sendPasswordResetEmail,
-} from "../services/email.services";
+import { sendPasswordResetEmail } from "../services/email.services";
 
 const router = Router();
 
@@ -35,15 +34,20 @@ router.post("/forgot-password", async (req, res) => {
       });
     }
 
-    const resetData = await createPasswordResetToken(
-      normalizedEmail
-    );
+    const resetData = await createPasswordResetToken(normalizedEmail);
 
-    /*
-     * Por segurança, não revelamos se o e-mail existe
-     * ou não no banco de dados.
+    console.log("🔑 Reset data:", resetData);
+
+    /**
+     * Por segurança, não informamos ao usuário
+     * se o e-mail está ou não cadastrado.
      */
     if (!resetData) {
+      console.log(
+        "⚠️ Nenhum usuário encontrado para:",
+        normalizedEmail
+      );
+
       return res.status(200).json({
         message:
           "Se o e-mail estiver cadastrado, um link de recuperação será enviado.",
@@ -51,13 +55,15 @@ router.post("/forgot-password", async (req, res) => {
     }
 
     const frontendUrl =
-      process.env.FRONTEND_URL ||
-      "http://localhost:5173";
+      process.env.FRONTEND_URL || "http://localhost:5173";
 
     const resetUrl =
       `${frontendUrl}/redefinir-senha?token=${encodeURIComponent(
         resetData.token
       )}`;
+
+    console.log("🔗 Reset URL:", resetUrl);
+    console.log("📨 Chamando serviço de e-mail...");
 
     await sendPasswordResetEmail(
       resetData.user.email,
@@ -65,13 +71,15 @@ router.post("/forgot-password", async (req, res) => {
       resetUrl
     );
 
+    console.log("✅ Serviço de e-mail executado com sucesso.");
+
     return res.status(200).json({
       message:
         "Se o e-mail estiver cadastrado, um link de recuperação será enviado.",
     });
   } catch (error) {
     console.error(
-      "Erro ao solicitar recuperação de senha:",
+      "❌ Erro ao solicitar recuperação de senha:",
       error
     );
 
@@ -98,8 +106,7 @@ router.get("/verify-reset-token", async (req, res) => {
       });
     }
 
-    const resetToken =
-      await verifyPasswordResetToken(token);
+    const resetToken = await verifyPasswordResetToken(token);
 
     if (!resetToken) {
       return res.status(400).json({
@@ -119,7 +126,7 @@ router.get("/verify-reset-token", async (req, res) => {
     });
   } catch (error) {
     console.error(
-      "Erro ao verificar token de recuperação:",
+      "❌ Erro ao verificar token de recuperação:",
       error
     );
 
@@ -141,8 +148,7 @@ router.post("/reset-password", async (req, res) => {
 
     if (!token || typeof token !== "string") {
       return res.status(400).json({
-        message:
-          "Token de recuperação não informado.",
+        message: "Token de recuperação não informado.",
       });
     }
 
@@ -168,10 +174,7 @@ router.post("/reset-password", async (req, res) => {
       });
     }
 
-    const result = await resetPassword(
-      token,
-      password
-    );
+    const result = await resetPassword(token, password);
 
     if (!result.success) {
       return res.status(400).json({
@@ -181,12 +184,11 @@ router.post("/reset-password", async (req, res) => {
     }
 
     return res.status(200).json({
-      message:
-        "Senha redefinida com sucesso.",
+      message: "Senha redefinida com sucesso.",
     });
   } catch (error) {
     console.error(
-      "Erro ao redefinir senha:",
+      "❌ Erro ao redefinir senha:",
       error
     );
 

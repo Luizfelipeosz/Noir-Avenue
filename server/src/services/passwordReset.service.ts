@@ -1,3 +1,4 @@
+
 import crypto from "node:crypto";
 import bcrypt from "bcrypt";
 
@@ -8,11 +9,26 @@ const RESET_TOKEN_EXPIRATION_MINUTES = 15;
 export async function createPasswordResetToken(email: string) {
   const normalizedEmail = email.trim().toLowerCase();
 
+  console.log("📧 E-mail procurado:", normalizedEmail);
+  console.log("🗄️ DATABASE_URL:", process.env.DATABASE_URL);
+
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  });
+
+  console.log("👥 Usuários encontrados no banco:", users);
+
   const user = await prisma.user.findUnique({
     where: {
       email: normalizedEmail,
     },
   });
+
+  console.log("🔎 Usuário encontrado:", user);
 
   if (!user) {
     return null;
@@ -115,3 +131,4 @@ export async function resetPassword(
     success: true,
   };
 }
+

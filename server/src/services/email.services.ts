@@ -22,16 +22,26 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+transporter.verify((error) => {
+  if (error) {
+    console.error("❌ Erro na configuração do e-mail:", error);
+  } else {
+    console.log("📧 Servidor de e-mail conectado com sucesso.");
+  }
+});
+
 export async function sendPasswordResetEmail(
   email: string,
   userName: string,
   resetUrl: string
 ) {
+    console.log("📨 Tentando enviar e-mail para:", email);
+
   if (!mailUser || !mailPassword) {
     throw new Error("Credenciais de e-mail não configuradas.");
   }
 
-  await transporter.sendMail({
+  const info = await transporter.sendMail({
     from: `"Noir Avenue" <${mailUser}>`,
     to: email,
     subject: "Redefinição de senha — Noir Avenue",
@@ -104,4 +114,7 @@ export async function sendPasswordResetEmail(
       </div>
     `,
   });
+  console.log("📧 E-mail enviado:", info.messageId);
+  console.log("📬 Destinatário:", info.accepted);
+  console.log("❌ Rejeitado:", info.rejected);
 }
