@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+
+    <script>
+      const base = "/Noir-Avenue/";
+
+      const path = window.location.pathname;
+      const search = window.location.search;
+      const hash = window.location.hash;
+
+      if (path.startsWith(base) && path !== base) {
+        const route = path.slice(base.length);
+
+        sessionStorage.setItem(
+          "redirect",
+          route + search + hash
+        );
+
+        window.location.replace(base);
+      }
+    </script>
+  </head>
+
+  <body>
+    Carregando...
+  </body>
+</html>
