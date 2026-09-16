@@ -4,10 +4,10 @@ import {
   createPasswordResetToken,
   resetPassword,
   verifyPasswordResetToken,
-} 
-from "../services/passwordReset.service";
+} from "../services/passwordReset.service";
 
 import { sendPasswordResetEmail } from "../services/email.services";
+import { registerUser } from "../services/auth.service";
 
 const router = Router();
 
@@ -34,7 +34,8 @@ router.post("/forgot-password", async (req, res) => {
       });
     }
 
-    const resetData = await createPasswordResetToken(normalizedEmail);
+    const resetData =
+      await createPasswordResetToken(normalizedEmail);
 
     console.log("🔑 Reset data:", resetData);
 
@@ -55,7 +56,8 @@ router.post("/forgot-password", async (req, res) => {
     }
 
     const frontendUrl =
-      process.env.FRONTEND_URL || "http://localhost:5173";
+      process.env.FRONTEND_URL ||
+      "http://localhost:5173";
 
     const resetUrl =
       `${frontendUrl}/redefinir-senha?token=${encodeURIComponent(
@@ -71,7 +73,9 @@ router.post("/forgot-password", async (req, res) => {
       resetUrl
     );
 
-    console.log("✅ Serviço de e-mail executado com sucesso.");
+    console.log(
+      "✅ Serviço de e-mail executado com sucesso."
+    );
 
     return res.status(200).json({
       message:
@@ -106,7 +110,8 @@ router.get("/verify-reset-token", async (req, res) => {
       });
     }
 
-    const resetToken = await verifyPasswordResetToken(token);
+    const resetToken =
+      await verifyPasswordResetToken(token);
 
     if (!resetToken) {
       return res.status(400).json({
@@ -138,13 +143,91 @@ router.get("/verify-reset-token", async (req, res) => {
 });
 
 /**
+ * POST /api/auth/register
+ *
+ * Cria uma nova conta.
+ */
+router.post("/register", async (req, res) => {
+  console.log("📥 POST /register recebido");
+
+  console.log("📦 Dados recebidos:", {
+    name: req.body?.name,
+    email: req.body?.email,
+  });
+
+  try {
+    const { name, email, password } = req.body;
+
+    if (
+      !name ||
+      typeof name !== "string" ||
+      !email ||
+      typeof email !== "string" ||
+      !password ||
+      typeof password !== "string"
+    ) {
+      return res.status(400).json({
+        message: "Preencha todos os campos obrigatórios.",
+      });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({
+        message:
+          "A senha deve possuir pelo menos 8 caracteres.",
+      });
+    }
+
+    const user = await registerUser({
+      name,
+      email,
+      password,
+    });
+
+    console.log("✅ Usuário criado:", {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
+
+    return res.status(201).json({
+      message: "Conta criada com sucesso.",
+      user,
+    });
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "EMAIL_ALREADY_EXISTS"
+    ) {
+      return res.status(409).json({
+        message: "Este e-mail já está cadastrado.",
+      });
+    }
+
+    console.error(
+      "❌ Erro ao criar usuário:",
+      error
+    );
+
+    return res.status(500).json({
+      message:
+        "Não foi possível criar a conta. Tente novamente.",
+    });
+  }
+});
+
+/**
  * POST /api/auth/reset-password
  *
  * Define uma nova senha usando um token válido.
  */
 router.post("/reset-password", async (req, res) => {
   try {
-    const { token, password, confirmPassword } = req.body;
+    const {
+      token,
+      password,
+      confirmPassword,
+    } = req.body;
 
     if (!token || typeof token !== "string") {
       return res.status(400).json({
@@ -174,7 +257,10 @@ router.post("/reset-password", async (req, res) => {
       });
     }
 
-    const result = await resetPassword(token, password);
+    const result = await resetPassword(
+      token,
+      password
+    );
 
     if (!result.success) {
       return res.status(400).json({

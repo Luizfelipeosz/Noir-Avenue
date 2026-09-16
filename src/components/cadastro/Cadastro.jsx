@@ -12,35 +12,27 @@ import { toast } from "sonner";
 import logo from "../../assets/logo.png";
 import "./Cadastro.css";
 
+const API_URL = "http://localhost:3001/api";
+
 const Cadastro = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] =
-    useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [showPassword, setShowPassword] =
-    useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const users =
-      JSON.parse(
-        localStorage.getItem(
-          "noiravenue_users"
-        )
-      ) || [];
 
     if (!name.trim() || !email.trim()) {
       toast.warning("Campos obrigatórios", {
-        description:
-          "Preencha todos os campos.",
+        description: "Preencha todos os campos.",
       });
 
       return;
@@ -56,64 +48,57 @@ const Cadastro = () => {
     }
 
     if (password !== confirmPassword) {
-      toast.error(
-        "As senhas não coincidem.",
-        {
-          description:
-            "Verifique os campos de senha antes de continuar.",
-        }
-      );
+      toast.error("As senhas não coincidem.", {
+        description:
+          "Verifique os campos de senha antes de continuar.",
+      });
 
       return;
     }
 
-    const emailExists = users.some(
-      (user) =>
-        user.email.toLowerCase() ===
-        email.trim().toLowerCase()
-    );
+    try {
+      setIsLoading(true);
 
-    if (emailExists) {
-      toast.error(
-        "E-mail já cadastrado.",
-        {
-          description:
-            "Utilize outro endereço de e-mail para continuar.",
-        }
-      );
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          password,
+        }),
+      });
 
-      return;
-    }
+      const data = await response.json();
 
-    const newUser = {
-      id: crypto.randomUUID(),
-      name: name.trim(),
-      email: email.trim(),
-      password,
-      phone: "",
-      address: "",
-      createdAt:
-        new Date().toISOString(),
-    };
+      if (!response.ok) {
+        toast.error(
+          data.message || "Não foi possível criar a conta."
+        );
 
-    users.push(newUser);
+        return;
+      }
 
-    localStorage.setItem(
-      "noiravenue_users",
-      JSON.stringify(users)
-    );
-
-    toast.success(
-      "Conta criada com sucesso!",
-      {
+      toast.success("Conta criada com sucesso!", {
         description:
           "Você será redirecionado para a tela de login.",
-      }
-    );
+      });
 
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (error) {
+      console.error("❌ Erro ao realizar cadastro:", error);
+
+      toast.error("Não foi possível conectar ao servidor.", {
+        description:
+          "Verifique se a API do Noir Avenue está funcionando.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -138,9 +123,7 @@ const Cadastro = () => {
             value={name}
             required
             autoComplete="name"
-            onChange={(event) =>
-              setName(event.target.value)
-            }
+            onChange={(event) => setName(event.target.value)}
           />
 
           <FaUser className="icon" />
@@ -153,31 +136,20 @@ const Cadastro = () => {
             value={email}
             required
             autoComplete="email"
-            onChange={(event) =>
-              setEmail(event.target.value)
-            }
+            onChange={(event) => setEmail(event.target.value)}
           />
 
           <FaEnvelope className="icon" />
         </div>
 
-        {/* SENHA */}
         <div className="input-field">
           <input
-            type={
-              showPassword
-                ? "text"
-                : "password"
-            }
+            type={showPassword ? "text" : "password"}
             placeholder="Senha"
             value={password}
             required
             autoComplete="new-password"
-            onChange={(event) =>
-              setPassword(
-                event.target.value
-              )
-            }
+            onChange={(event) => setPassword(event.target.value)}
           />
 
           <FaLock className="icon password-lock-icon" />
@@ -186,9 +158,7 @@ const Cadastro = () => {
             type="button"
             className="password-toggle"
             onClick={() =>
-              setShowPassword(
-                (value) => !value
-              )
+              setShowPassword((value) => !value)
             }
             aria-label={
               showPassword
@@ -196,30 +166,19 @@ const Cadastro = () => {
                 : "Mostrar senha"
             }
           >
-            {showPassword ? (
-              <FaEyeSlash />
-            ) : (
-              <FaEye />
-            )}
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
 
-        {/* CONFIRMAR SENHA */}
         <div className="input-field">
           <input
-            type={
-              showConfirmPassword
-                ? "text"
-                : "password"
-            }
+            type={showConfirmPassword ? "text" : "password"}
             placeholder="Confirmar senha"
             value={confirmPassword}
             required
             autoComplete="new-password"
             onChange={(event) =>
-              setConfirmPassword(
-                event.target.value
-              )
+              setConfirmPassword(event.target.value)
             }
           />
 
@@ -229,9 +188,7 @@ const Cadastro = () => {
             type="button"
             className="password-toggle"
             onClick={() =>
-              setShowConfirmPassword(
-                (value) => !value
-              )
+              setShowConfirmPassword((value) => !value)
             }
             aria-label={
               showConfirmPassword
@@ -247,36 +204,29 @@ const Cadastro = () => {
           </button>
         </div>
 
-        {/* FEEDBACK */}
         <div className="password-feedback">
           {confirmPassword && (
             <small
               className={
-                password ===
-                confirmPassword
+                password === confirmPassword
                   ? "password-match"
                   : "password-mismatch"
               }
             >
-              {password ===
-              confirmPassword
+              {password === confirmPassword
                 ? "✓ As senhas coincidem."
                 : "✕ As senhas não coincidem."}
             </small>
           )}
         </div>
 
-        {/* TERMOS */}
         <div className="remember">
           <label>
-            <input
-              type="checkbox"
-              required
-            />
+            <input type="checkbox" required />
 
             <span>
-              Eu aceito os Termos de Uso
-              e Política de Privacidade.
+              Eu aceito os Termos de Uso e Política de
+              Privacidade.
             </span>
           </label>
         </div>
@@ -284,16 +234,15 @@ const Cadastro = () => {
         <button
           type="submit"
           className="submit-button"
+          disabled={isLoading}
         >
-          Criar conta
+          {isLoading ? "Criando conta..." : "Criar conta"}
         </button>
 
         <div className="login-link">
           <p>
             Já possui uma conta?{" "}
-            <Link to="/">
-              Entrar
-            </Link>
+            <Link to="/">Entrar</Link>
           </p>
         </div>
       </form>
@@ -302,4 +251,3 @@ const Cadastro = () => {
 };
 
 export default Cadastro;
-
