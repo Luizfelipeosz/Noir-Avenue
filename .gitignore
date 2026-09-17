@@ -24,3 +24,12 @@ dist-ssr
 *.sw?
 
 /src/generated/prisma
+
+# Backend
+server/node_modules
+server/dist
+server/.env
+server/prisma/*.db
+server/prisma/*.db-journal
+server/*.db
+server/*.db-journal
