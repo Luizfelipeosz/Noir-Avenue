@@ -658,7 +658,7 @@ function Checkout() {
                       </span>
 
                       <button
-                        type="button"
+                        className="checkout-section-footer-button"
                         onClick={() => navigate("/dashboard/perfil")}
                       >
                         Editar perfil
