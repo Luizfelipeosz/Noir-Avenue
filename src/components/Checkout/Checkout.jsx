@@ -351,10 +351,23 @@ function Checkout() {
 
     setSubmitError("");
 
-    if (!validateStep(3)) {
-      setCurrentStep(3);
+    // Cada submit avança apenas a etapa atual. Isso faz o Enter funcionar
+    // naturalmente dentro dos campos sem disparar ações secundárias.
+    if (currentStep < 4) {
+      goToNextStep();
+      return;
+    }
+
+    if (!validateStep(1) || !validateStep(2) || !validateStep(3)) {
+      const firstInvalidStep = !validateStep(1)
+        ? 1
+        : !validateStep(2)
+          ? 2
+          : 3;
+
+      setCurrentStep(firstInvalidStep);
       setSubmitError(
-        "Revise os dados de pagamento antes de finalizar."
+        "Revise os dados obrigatórios antes de confirmar o pedido."
       );
       return;
     }
@@ -653,16 +666,29 @@ function Checkout() {
                     </div>
 
                     <div className="checkout-section-footer">
-                      <span>
-                        ✓ Dados preenchidos a partir da sua conta
-                      </span>
+                      <div className="checkout-section-footer-copy">
+                        <span>✓ Dados preenchidos a partir da sua conta</span>
+                        <small>Confira as informações antes de continuar.</small>
+                      </div>
 
-                      <button
-                        className="checkout-section-footer-button"
-                        onClick={() => navigate("/dashboard/perfil")}
-                      >
-                        Editar perfil
-                      </button>
+                      <div className="checkout-section-footer-actions">
+                        <button
+                          type="button"
+                          className="checkout-section-footer-button checkout-profile-action"
+                          onClick={() => navigate("/dashboard/perfil")}
+                        >
+                          Editar perfil
+                        </button>
+
+                        <button
+                          type="submit"
+                          className="checkout-section-footer-button checkout-section-footer-primary"
+                          disabled={isLoadingProfile || isProcessing}
+                        >
+                          Continuar para entrega
+                          <span>→</span>
+                        </button>
+                      </div>
                     </div>
                   </>
                 )}
@@ -928,6 +954,26 @@ function Checkout() {
                     </div>
                   )}
                 </section>
+
+                <div className="checkout-step-navigation">
+                  <button
+                    type="button"
+                    className="checkout-secondary-button"
+                    onClick={goToPreviousStep}
+                    disabled={isProcessing}
+                  >
+                    ← Identificação
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="checkout-submit"
+                    disabled={isProcessing}
+                  >
+                    Continuar para pagamento
+                    <span>→</span>
+                  </button>
+                </div>
               </>
             )}
 
@@ -1114,6 +1160,26 @@ function Checkout() {
                     deve ser utilizado ou armazenado neste projeto.
                   </p>
                 </div>
+
+                <div className="checkout-step-navigation">
+                  <button
+                    type="button"
+                    className="checkout-secondary-button"
+                    onClick={goToPreviousStep}
+                    disabled={isProcessing}
+                  >
+                    ← Entrega
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="checkout-submit"
+                    disabled={isProcessing}
+                  >
+                    Ir para revisão
+                    <span>→</span>
+                  </button>
+                </div>
               </section>
             )}
 
@@ -1240,6 +1306,35 @@ function Checkout() {
 
                   <strong>{formatPrice(total)}</strong>
                 </div>
+
+                <div className="checkout-step-navigation checkout-review-navigation">
+                  <button
+                    type="button"
+                    className="checkout-secondary-button"
+                    onClick={goToPreviousStep}
+                    disabled={isProcessing}
+                  >
+                    ← Pagamento
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="checkout-submit"
+                    disabled={isProcessing}
+                  >
+                    {isProcessing ? (
+                      <>
+                        <span className="checkout-spinner" />
+                        Processando pedido...
+                      </>
+                    ) : (
+                      <>
+                        Confirmar pedido
+                        <span>→</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </section>
             )}
 
@@ -1341,12 +1436,15 @@ function Checkout() {
 
               {currentStep < 4 ? (
                 <button
-                  type="button"
+                  type="submit"
                   className="checkout-submit"
-                  onClick={goToNextStep}
                   disabled={isProcessing || isLoadingProfile}
                 >
-                  Continuar
+                  {currentStep === 1
+                    ? "Continuar para entrega"
+                    : currentStep === 2
+                      ? "Continuar para pagamento"
+                      : "Ir para revisão"}
                   <span>→</span>
                 </button>
               ) : (
