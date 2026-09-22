@@ -11,9 +11,12 @@ import {
   FaCheckCircle,
   FaTimes,
   FaChevronRight,
+  FaCamera,
+  FaImage,
+  FaTrashAlt,
 } from "react-icons/fa";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -22,6 +25,8 @@ import logo from "../../assets/logo.png";
 
 const SESSION_KEY = "noiravenue_session";
 const USERS_KEY = "noiravenue_users";
+
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
 function calculateProfileCompletion(user) {
   const fields = [
@@ -38,13 +43,12 @@ function calculateProfileCompletion(user) {
 
 function Perfil() {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   const getSessionUser = () => {
     try {
       return (
-        JSON.parse(
-          localStorage.getItem(SESSION_KEY)
-        ) || {}
+        JSON.parse(localStorage.getItem(SESSION_KEY)) || {}
       );
     } catch {
       return {};
@@ -72,6 +76,9 @@ function Perfil() {
   const [editAddress, setEditAddress] =
     useState(user.endereco || "");
 
+  const [isUploadingPhoto, setIsUploadingPhoto] =
+    useState(false);
+
   const profilePercentage =
     calculateProfileCompletion(profile);
 
@@ -93,6 +100,8 @@ function Perfil() {
     profile.endereco?.trim() ||
     "Não informado";
 
+  const profilePhoto = profile.photo || "";
+
   const handleBack = () => {
     navigate("/dashboard");
   };
@@ -105,28 +114,13 @@ function Perfil() {
     setShowEditModal(true);
   };
 
-  const handleSaveProfile = () => {
-    const normalizedName = editName.trim();
-    const normalizedPhone = editPhone.trim();
-    const normalizedAddress =
-      editAddress.trim();
+  /*
+   * =========================================================
+   * PHOTO PROFILE
+   * =========================================================
+   */
 
-    if (!normalizedName) {
-      toast.warning("Nome obrigatório", {
-        description:
-          "Informe seu nome para salvar as alterações.",
-      });
-
-      return;
-    }
-
-    const updatedUser = {
-      ...profile,
-      name: normalizedName,
-      telefone: normalizedPhone,
-      endereco: normalizedAddress,
-    };
-
+  const updateUserStorage = (updatedUser) => {
     localStorage.setItem(
       SESSION_KEY,
       JSON.stringify(updatedUser)
@@ -151,6 +145,118 @@ function Perfil() {
       USERS_KEY,
       JSON.stringify(updatedUsers)
     );
+  };
+
+  const handlePhotoChange = (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Arquivo inválido", {
+        description:
+          "Selecione uma imagem válida para sua foto de perfil.",
+      });
+
+      event.target.value = "";
+      return;
+    }
+
+    if (file.size > MAX_IMAGE_SIZE) {
+      toast.error("Imagem muito grande", {
+        description:
+          "Escolha uma imagem de até 5 MB.",
+      });
+
+      event.target.value = "";
+      return;
+    }
+
+    setIsUploadingPhoto(true);
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const photo = reader.result;
+
+      const updatedUser = {
+        ...profile,
+        photo,
+      };
+
+      updateUserStorage(updatedUser);
+
+      setProfile(updatedUser);
+
+      setIsUploadingPhoto(false);
+
+      toast.success("Foto atualizada", {
+        description:
+          "Sua foto de perfil foi salva com sucesso.",
+      });
+
+      event.target.value = "";
+    };
+
+    reader.onerror = () => {
+      setIsUploadingPhoto(false);
+
+      toast.error("Não foi possível carregar a imagem", {
+        description:
+          "Tente selecionar outra foto.",
+      });
+
+      event.target.value = "";
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemovePhoto = () => {
+    if (!profile.photo) {
+      return;
+    }
+
+    const updatedUser = {
+      ...profile,
+      photo: "",
+    };
+
+    updateUserStorage(updatedUser);
+
+    setProfile(updatedUser);
+
+    toast.success("Foto removida", {
+      description:
+        "Sua foto de perfil foi removida.",
+    });
+  };
+
+  const handleSaveProfile = () => {
+    const normalizedName = editName.trim();
+    const normalizedPhone = editPhone.trim();
+    const normalizedAddress =
+      editAddress.trim();
+
+    if (!normalizedName) {
+      toast.warning("Nome obrigatório", {
+        description:
+          "Informe seu nome para salvar as alterações.",
+      });
+
+      return;
+    }
+
+    const updatedUser = {
+      ...profile,
+      name: normalizedName,
+      telefone: normalizedPhone,
+      endereco: normalizedAddress,
+    };
+
+    updateUserStorage(updatedUser);
 
     setProfile(updatedUser);
     setShowEditModal(false);
@@ -245,10 +351,46 @@ function Perfil() {
           <div className="profile-hero-content">
             <div className="profile-identity">
               <div
-                className="profile-avatar"
+                className={`profile-avatar ${
+                  profilePhoto
+                    ? "has-photo"
+                    : ""
+                }`}
                 aria-label={`Avatar de ${displayName}`}
               >
-                {initial}
+                {profilePhoto ? (
+                  <img
+                    src={profilePhoto}
+                    alt={`Foto de perfil de ${displayName}`}
+                    className="profile-avatar-image"
+                  />
+                ) : (
+                  <span>{initial}</span>
+                )}
+
+                <button
+                  type="button"
+                  className="profile-avatar-camera"
+                  onClick={() =>
+                    fileInputRef.current?.click()
+                  }
+                  aria-label="Alterar foto de perfil"
+                  disabled={isUploadingPhoto}
+                >
+                  {isUploadingPhoto ? (
+                    <span className="photo-loader" />
+                  ) : (
+                    <FaCamera />
+                  )}
+                </button>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  className="profile-photo-input"
+                  onChange={handlePhotoChange}
+                />
               </div>
 
               <div className="profile-identity-info">
@@ -276,6 +418,51 @@ function Perfil() {
               <FaPen />
               Editar perfil
             </button>
+          </div>
+        </section>
+
+        {/* ===================================================
+            PHOTO ACTIONS
+        =================================================== */}
+
+        <section className="profile-photo-actions">
+          <div>
+            <span className="photo-actions-eyebrow">
+              PERSONALIZAÇÃO
+            </span>
+
+            <h3>Foto de perfil</h3>
+
+            <p>
+              Adicione uma imagem para personalizar
+              sua conta no Noir Avenue.
+            </p>
+          </div>
+
+          <div className="photo-actions-buttons">
+            <button
+              type="button"
+              className="photo-action-button primary"
+              onClick={() =>
+                fileInputRef.current?.click()
+              }
+            >
+              <FaImage />
+              {profilePhoto
+                ? "Trocar foto"
+                : "Adicionar foto"}
+            </button>
+
+            {profilePhoto && (
+              <button
+                type="button"
+                className="photo-action-button danger"
+                onClick={handleRemovePhoto}
+              >
+                <FaTrashAlt />
+                Remover
+              </button>
+            )}
           </div>
         </section>
 
@@ -563,6 +750,59 @@ function Perfil() {
               </div>
             </div>
 
+            {/* PHOTO EDITOR */}
+
+            <div className="modal-photo-editor">
+              <div
+                className={`modal-profile-avatar ${
+                  profilePhoto
+                    ? "has-photo"
+                    : ""
+                }`}
+              >
+                {profilePhoto ? (
+                  <img
+                    src={profilePhoto}
+                    alt={`Foto de ${displayName}`}
+                  />
+                ) : (
+                  <span>{initial}</span>
+                )}
+              </div>
+
+              <div className="modal-photo-content">
+                <strong>Foto de perfil</strong>
+
+                <span>
+                  JPG, PNG ou WEBP · até 5 MB
+                </span>
+
+                <div className="modal-photo-actions">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      fileInputRef.current?.click()
+                    }
+                  >
+                    <FaCamera />
+                    {profilePhoto
+                      ? "Trocar foto"
+                      : "Adicionar foto"}
+                  </button>
+
+                  {profilePhoto && (
+                    <button
+                      type="button"
+                      className="modal-photo-remove"
+                      onClick={handleRemovePhoto}
+                    >
+                      Remover
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
             <p className="modal-description">
               Atualize seus dados pessoais. As
               alterações serão aplicadas
@@ -743,4 +983,3 @@ function Perfil() {
 }
 
 export default Perfil;
-

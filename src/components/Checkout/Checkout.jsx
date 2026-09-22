@@ -798,7 +798,7 @@ function Checkout() {
                         autoComplete="address-line2"
                         value={form.number}
                         onChange={handleChange}
-                        placeholder="000"
+                        placeholder="0000"
                         required
                       />
                     </div>

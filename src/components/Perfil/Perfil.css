@@ -214,7 +214,13 @@
   margin-top: -68px;
 }
 
+/* =========================================================
+   PROFILE AVATAR
+========================================================= */
+
 .profile-avatar {
+  position: relative;
+
   width: 120px;
   height: 120px;
 
@@ -223,6 +229,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  overflow: visible;
 
   border: 6px solid #0b0b0b;
   border-radius: 50%;
@@ -243,6 +251,102 @@
   box-shadow:
     0 12px 35px rgba(212, 175, 55, 0.25);
 }
+
+.profile-avatar.has-photo {
+  background: #0b0b0b;
+}
+
+.profile-avatar-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+/* =========================================================
+   CAMERA BUTTON
+========================================================= */
+
+.profile-avatar-camera {
+  position: absolute;
+
+  right: -3px;
+  bottom: 2px;
+
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border: 3px solid #0b0b0b;
+  border-radius: 50%;
+
+  color: #111;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8e88c,
+      #d4af37
+    );
+
+  box-shadow:
+    0 5px 16px rgba(0, 0, 0, 0.4);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.profile-avatar-camera:hover {
+  transform: scale(1.08);
+
+  filter: brightness(1.08);
+}
+
+.profile-avatar-camera:active {
+  transform: scale(0.96);
+}
+
+.profile-avatar-camera:disabled {
+  cursor: wait;
+  opacity: 0.8;
+}
+
+.profile-avatar-camera svg {
+  font-size: 13px;
+}
+
+.profile-photo-input {
+  display: none;
+}
+
+/* =========================================================
+   PHOTO LOADER
+========================================================= */
+
+.photo-loader {
+  width: 13px;
+  height: 13px;
+
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: #111;
+
+  border-radius: 50%;
+
+  animation: photoSpin 0.7s linear infinite;
+}
+
+/* =========================================================
+   PROFILE IDENTITY
+========================================================= */
 
 .profile-identity-info {
   padding-bottom: 7px;
@@ -309,6 +413,10 @@
   font-size: 12px;
 }
 
+/* =========================================================
+   PRIMARY EDIT
+========================================================= */
+
 .profile-edit-primary {
   display: inline-flex;
   align-items: center;
@@ -360,6 +468,128 @@
 }
 
 /* =========================================================
+   PHOTO ACTIONS
+========================================================= */
+
+.profile-photo-actions {
+  margin-top: 14px;
+
+  padding: 19px 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 25px;
+
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.02)
+    );
+}
+
+.photo-actions-eyebrow {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #d4af37;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+}
+
+.profile-photo-actions h3 {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.profile-photo-actions p {
+  margin: 5px 0 0;
+
+  color: rgba(255, 255, 255, 0.42);
+
+  font-size: 11px;
+}
+
+.photo-actions-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+.photo-action-button {
+  min-height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 13px;
+
+  border-radius: 9px;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.photo-action-button.primary {
+  border: 1px solid rgba(212, 175, 55, 0.25);
+
+  color: #151515;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8e88c,
+      #d4af37
+    );
+}
+
+.photo-action-button.primary:hover {
+  transform: translateY(-1px);
+
+  filter: brightness(1.05);
+}
+
+.photo-action-button.danger {
+  border: 1px solid rgba(239, 68, 68, 0.15);
+
+  color: #e98787;
+
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.photo-action-button.danger:hover {
+  border-color: rgba(239, 68, 68, 0.25);
+
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* =========================================================
    OVERVIEW
 ========================================================= */
 
@@ -400,8 +630,7 @@
 
   border-color: rgba(212, 175, 55, 0.18);
 
-  background:
-    rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .overview-icon {
@@ -875,6 +1104,10 @@
 
   width: min(100%, 500px);
 
+  max-height: calc(100vh - 40px);
+
+  overflow-y: auto;
+
   padding: 30px;
 
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -971,6 +1204,143 @@
 
   font-size: 20px;
   font-weight: 650;
+}
+
+/* =========================================================
+   MODAL PHOTO EDITOR
+========================================================= */
+
+.modal-photo-editor {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin: 0 0 22px;
+
+  padding: 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.modal-profile-avatar {
+  width: 64px;
+  height: 64px;
+
+  flex: 0 0 64px;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border: 3px solid #0b0b0b;
+  border-radius: 50%;
+
+  color: #111;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8e88c,
+      #d4af37 55%,
+      #a77d18
+    );
+
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.modal-profile-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.modal-photo-content {
+  min-width: 0;
+}
+
+.modal-photo-content strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 12px;
+}
+
+.modal-photo-content > span {
+  display: block;
+
+  color: rgba(255, 255, 255, 0.4);
+
+  font-size: 10px;
+}
+
+.modal-photo-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 9px;
+}
+
+.modal-photo-actions button {
+  min-height: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 0 10px;
+
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: 8px;
+
+  color: #151515;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8e88c,
+      #d4af37
+    );
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.modal-photo-actions button:hover {
+  transform: translateY(-1px);
+
+  filter: brightness(1.05);
+}
+
+.modal-photo-actions .modal-photo-remove {
+  border-color: rgba(239, 68, 68, 0.15);
+
+  color: #e98787;
+
+  background: rgba(239, 68, 68, 0.06);
 }
 
 .modal-description {
@@ -1302,6 +1672,12 @@ input:focus-visible {
   }
 }
 
+@keyframes photoSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* =========================================================
    RESPONSIVE
 ========================================================= */
@@ -1324,6 +1700,19 @@ input:focus-visible {
 
   .profile-identity {
     width: 100%;
+  }
+
+  .profile-photo-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .photo-actions-buttons {
+    width: 100%;
+  }
+
+  .photo-action-button {
+    flex: 1;
   }
 
   .security-content {
@@ -1398,12 +1787,29 @@ input:focus-visible {
     font-size: 2rem;
   }
 
+  .profile-avatar-camera {
+    width: 33px;
+    height: 33px;
+  }
+
   .profile-name-row {
     justify-content: center;
   }
 
   .profile-identity-info > p {
     justify-content: center;
+  }
+
+  .profile-photo-actions {
+    padding: 17px;
+  }
+
+  .photo-actions-buttons {
+    flex-direction: column;
+  }
+
+  .photo-action-button {
+    width: 100%;
   }
 
   .profile-info-grid {
@@ -1424,6 +1830,14 @@ input:focus-visible {
   .profile-section,
   .profile-actions-section {
     margin-top: 42px;
+  }
+
+  .modal-photo-editor {
+    align-items: flex-start;
+  }
+
+  .modal-photo-content {
+    flex: 1;
   }
 }
 
@@ -1488,6 +1902,23 @@ input:focus-visible {
     padding: 24px 19px;
 
     border-radius: 17px;
+  }
+
+  .modal-photo-editor {
+    gap: 11px;
+
+    padding: 12px;
+  }
+
+  .modal-profile-avatar {
+    width: 55px;
+    height: 55px;
+
+    flex-basis: 55px;
+  }
+
+  .modal-photo-actions {
+    flex-wrap: wrap;
   }
 
   .modal-actions {
