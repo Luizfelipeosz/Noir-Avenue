@@ -1,22 +1,71 @@
 /* =========================================================
-   NOIR AVENUE — LOGIN
+   NOIR AVENUE — LOGIN / CADASTRO
    ========================================================= */
 
-/* RESET LOCAL */
+/* =========================================================
+   RESET
+   ========================================================= */
 
-.container,
-.container * {
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    width: 100%;
+    min-height: 100%;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100dvh;
+
+    font-family:
+        "Segoe UI",
+        Tahoma,
+        Geneva,
+        Verdana,
+        sans-serif;
+
+    background: #070707;
 }
 
 
 /* =========================================================
-   CONTAINER / CARD
+   ÁREA PRINCIPAL DA TELA
    ========================================================= */
 
 .container {
+    width: 100%;
+    min-height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        max(24px, env(safe-area-inset-top))
+        max(20px, env(safe-area-inset-right))
+        max(24px, env(safe-area-inset-bottom))
+        max(20px, env(safe-area-inset-left));
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   CARD / FORMULÁRIO
+   ========================================================= */
+
+.container form {
     width: min(100%, 430px);
-    margin: 0 auto;
+
     padding: 38px 40px;
 
     border: 1px solid rgba(255, 255, 255, 0.18);
@@ -40,15 +89,6 @@
 
 
 /* =========================================================
-   FORM
-   ========================================================= */
-
-.container form {
-    width: 100%;
-}
-
-
-/* =========================================================
    LOGO
    ========================================================= */
 
@@ -57,7 +97,6 @@
 
     width: 165px;
     max-width: 70%;
-
     height: auto;
 
     margin: 0 auto 24px;
@@ -83,6 +122,11 @@
     font-weight: 600;
     line-height: 1.2;
 }
+
+
+/* =========================================================
+   SUBTÍTULO
+   ========================================================= */
 
 .container .subtitle {
     margin: 0 0 30px;
@@ -153,6 +197,11 @@
         0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
+
+/* =========================================================
+   AUTOFILL
+   ========================================================= */
+
 .container .input-field input:-webkit-autofill,
 .container .input-field input:-webkit-autofill:hover,
 .container .input-field input:-webkit-autofill:focus {
@@ -164,6 +213,11 @@
     transition:
         background-color 9999s ease-in-out 0s;
 }
+
+
+/* =========================================================
+   ÍCONES
+   ========================================================= */
 
 .container .icon {
     position: absolute;
@@ -179,6 +233,99 @@
     color: rgba(255, 255, 255, 0.72);
 
     pointer-events: none;
+}
+
+
+/* =========================================================
+   CADEADO DOS CAMPOS DE SENHA
+   ========================================================= */
+
+.container .password-lock-icon {
+    right: 46px;
+}
+
+
+/* =========================================================
+   MOSTRAR / OCULTAR SENHA
+   ========================================================= */
+
+.container .password-toggle {
+    position: absolute;
+
+    top: 50%;
+    right: 16px;
+
+    width: 28px;
+    height: 28px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: rgba(255, 255, 255, 0.62);
+
+    cursor: pointer;
+
+    transform: translateY(-50%);
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.container .password-toggle:hover {
+    color: #fff;
+
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.container .password-toggle:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+.container .password-toggle svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* =========================================================
+   FEEDBACK DAS SENHAS
+   ========================================================= */
+
+.container .password-feedback {
+    min-height: 18px;
+
+    margin-top: -8px;
+    margin-bottom: 14px;
+
+    padding-left: 19px;
+}
+
+.container .password-match,
+.container .password-mismatch {
+    display: block;
+
+    margin: 0;
+
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.container .password-match {
+    color: #4ade80;
+}
+
+.container .password-mismatch {
+    color: #f87171;
 }
 
 
@@ -244,13 +391,53 @@
 
 .container .recall-forget a:hover {
     color: #fff;
+
     text-decoration: underline;
 }
 
 
 /* =========================================================
-   BOTÃO DE LOGIN
-   IMPORTANTE: não usar "button" global
+   TERMOS — CADASTRO
+   ========================================================= */
+
+.container .remember {
+    color: #fff;
+
+    font-size: 13px;
+
+    margin: 20px 0 25px;
+}
+
+.container .remember label {
+    display: flex;
+
+    gap: 8px;
+
+    align-items: flex-start;
+
+    cursor: pointer;
+}
+
+.container .remember input {
+    width: 15px;
+    height: 15px;
+
+    margin-top: 3px;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+
+    accent-color: #fff;
+}
+
+.container .remember span {
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   BOTÃO PRINCIPAL
    ========================================================= */
 
 .container > form > button[type="submit"] {
@@ -279,7 +466,8 @@
     transition:
         transform 0.2s ease,
         background 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
 }
 
 .container > form > button[type="submit"]:hover {
@@ -297,12 +485,23 @@
 
 .container > form > button[type="submit"]:focus-visible {
     outline: 2px solid rgba(255, 255, 255, 0.85);
+
     outline-offset: 3px;
+}
+
+.container > form > button[type="submit"]:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
 }
 
 
 /* =========================================================
-   CADASTRO
+   LINK PARA CADASTRO
    ========================================================= */
 
 .container .signup-link {
@@ -338,67 +537,60 @@
     text-decoration: underline;
 }
 
+
 /* =========================================================
-   VISIBILIDADE DA SENHA
+   LINK PARA LOGIN
    ========================================================= */
 
-.container .password-lock-icon {
-    right: 46px;
+.container .login-link {
+    margin-top: 24px;
+
+    text-align: center;
+
+    color: rgba(255, 255, 255, 0.7);
+
+    font-size: 13px;
+    line-height: 1.5;
 }
 
-.container .password-toggle {
-    position: absolute;
+.container .login-link p {
+    margin: 0;
+}
 
-    top: 50%;
-    right: 16px;
+.container .login-link a {
+    color: #fff;
 
-    width: 28px;
-    height: 28px;
+    font-weight: 600;
 
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 0;
-    border-radius: 8px;
-
-    background: transparent;
-    color: rgba(255, 255, 255, 0.62);
-
-    cursor: pointer;
-
-    transform: translateY(-50%);
+    text-decoration: none;
 
     transition:
-        color 0.2s ease,
-        background 0.2s ease;
+        opacity 0.2s ease,
+        text-decoration 0.2s ease;
 }
 
-.container .password-toggle:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
-}
+.container .login-link a:hover {
+    opacity: 0.85;
 
-.container .password-toggle:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.7);
-    outline-offset: 2px;
-}
-
-.container .password-toggle svg {
-    width: 15px;
-    height: 15px;
+    text-decoration: underline;
 }
 
 
 /* =========================================================
-   RESPONSIVO — TABLET
+   TABLET / TELAS MÉDIAS
    ========================================================= */
 
 @media (max-width: 700px) {
 
     .container {
+        padding:
+            max(24px, env(safe-area-inset-top))
+            18px
+            max(24px, env(safe-area-inset-bottom))
+            18px;
+    }
+
+    .container form {
         width: min(100%, 430px);
 
         padding: 32px 30px;
@@ -423,12 +615,24 @@
 
 
 /* =========================================================
-   RESPONSIVO — MOBILE
+   MOBILE
    ========================================================= */
 
 @media (max-width: 480px) {
 
     .container {
+        min-height: 100dvh;
+
+        padding:
+            max(18px, env(safe-area-inset-top))
+            14px
+            max(18px, env(safe-area-inset-bottom))
+            14px;
+
+        align-items: center;
+    }
+
+    .container form {
         width: 100%;
 
         padding: 28px 22px;
@@ -475,6 +679,17 @@
         height: 16px;
     }
 
+    .container .password-lock-icon {
+        right: 44px;
+    }
+
+    .container .password-toggle {
+        right: 13px;
+
+        width: 28px;
+        height: 28px;
+    }
+
     .container .recall-forget {
         align-items: flex-start;
 
@@ -495,13 +710,20 @@
         align-self: flex-end;
     }
 
+    .container .remember {
+        margin: 18px 0 22px;
+
+        font-size: 12.5px;
+    }
+
     .container > form > button[type="submit"] {
         height: 51px;
 
         border-radius: 13px;
     }
 
-    .container .signup-link {
+    .container .signup-link,
+    .container .login-link {
         margin-top: 21px;
 
         font-size: 12.5px;
@@ -516,6 +738,14 @@
 @media (max-width: 360px) {
 
     .container {
+        padding:
+            max(14px, env(safe-area-inset-top))
+            10px
+            max(14px, env(safe-area-inset-bottom))
+            10px;
+    }
+
+    .container form {
         padding: 24px 17px;
 
         border-radius: 16px;
@@ -533,14 +763,139 @@
         font-size: 12px;
     }
 
+    .container .input-field input {
+        height: 50px;
+
+        font-size: 13.5px;
+    }
+
     .container .recall-forget {
         font-size: 12px;
+    }
+
+    .container .remember {
+        font-size: 12px;
+    }
+
+    .container .password-feedback {
+        padding-left: 17px;
+    }
+
+    .container .password-match,
+    .container .password-mismatch {
+        font-size: 11px;
     }
 }
 
 
 /* =========================================================
-   REDUÇÃO DE MOVIMENTO
+   TELAS COM POUCA ALTURA
+   ========================================================= */
+
+/*
+   Em monitores ultrawide ou notebooks com pouca altura,
+   reduzimos um pouco os espaçamentos para evitar que
+   o formulário fique cortado.
+*/
+
+@media (max-height: 700px) and (min-width: 481px) {
+
+    .container {
+        align-items: flex-start;
+
+        padding-top: 24px;
+        padding-bottom: 24px;
+
+        overflow-y: auto;
+    }
+
+    .container form {
+        margin: auto 0;
+    }
+
+    .container .logo {
+        margin-bottom: 18px;
+    }
+
+    .container .subtitle {
+        margin-bottom: 22px;
+    }
+
+    .container .input-field {
+        margin-bottom: 14px;
+    }
+
+    .container .recall-forget {
+        margin: 17px 0 20px;
+    }
+
+    .container .signup-link,
+    .container .login-link {
+        margin-top: 18px;
+    }
+}
+
+
+/* =========================================================
+   CELULAR COM POUCA ALTURA
+   ========================================================= */
+
+@media (max-height: 650px) and (max-width: 480px) {
+
+    .container {
+        align-items: flex-start;
+
+        padding-top: 14px;
+        padding-bottom: 14px;
+
+        overflow-y: auto;
+    }
+
+    .container form {
+        margin: auto 0;
+    }
+
+    .container .logo {
+        width: 120px;
+
+        margin-bottom: 15px;
+    }
+
+    .container h1 {
+        font-size: 23px;
+
+        margin-bottom: 5px;
+    }
+
+    .container .subtitle {
+        margin-bottom: 18px;
+
+        font-size: 12px;
+    }
+
+    .container .input-field {
+        margin-bottom: 12px;
+    }
+
+    .container .recall-forget {
+        margin: 15px 0 18px;
+
+        gap: 10px;
+    }
+
+    .container .remember {
+        margin: 14px 0 18px;
+    }
+
+    .container .signup-link,
+    .container .login-link {
+        margin-top: 17px;
+    }
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -548,6 +903,7 @@
     .container,
     .container * {
         animation: none !important;
+
         transition: none !important;
     }
 }
@@ -575,4 +931,3 @@
             scale(1);
     }
 }
-

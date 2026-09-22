@@ -1,12 +1,26 @@
-import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {
+  FaUser,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+import {
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "sonner";
 
 import logo from "../../assets/logo.png";
 import "./Login.css";
 
+const API_URL = "http://localhost:3001/api";
+
 const STORAGE_KEY = "noiravenue_email";
+const SESSION_KEY = "noiravenue_session";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,9 +29,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-    const savedEmail = localStorage.getItem(STORAGE_KEY);
+    const savedEmail =
+      localStorage.getItem(STORAGE_KEY);
 
     if (savedEmail) {
       setEmail(savedEmail);
@@ -25,80 +41,102 @@ const Login = () => {
     }
   }, []);
 
-const handleSubmit = (event) => {
-  event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  if (!email.trim() || !password.trim()) {
-    toast.warning("Campos obrigatórios", {
-      description:
-        "Informe seu e-mail e sua senha para continuar.",
-    });
-
-    return;
-  }
-
-  const users =
-    JSON.parse(
-      localStorage.getItem(
-        "noiravenue_users"
-      )
-    ) || [];
-
-  const user = users.find(
-    (user) =>
-      user.email === email &&
-      user.password === password
-  );
-
-  if (!user) {
-    toast.error(
-      "Credenciais inválidas.",
-      {
+    if (!email.trim() || !password.trim()) {
+      toast.warning("Campos obrigatórios", {
         description:
-          "Verifique seu e-mail e senha e tente novamente.",
-      }
-    );
+          "Informe seu e-mail e sua senha para continuar.",
+      });
 
-    return;
-  }
-
-  if (remember) {
-    localStorage.setItem(
-      STORAGE_KEY,
-      email
-    );
-  } else {
-    localStorage.removeItem(
-      STORAGE_KEY
-    );
-  }
-
-  localStorage.setItem(
-    "noiravenue_session",
-    JSON.stringify({
-      ...user,
-      loginAt:
-        new Date().toISOString(),
-    })
-  );
-
-  toast.success(
-    `Bem-vindo, ${user.name}!`,
-    {
-      description:
-        "Redirecionando para sua conta...",
+      return;
     }
-  );
 
-  setTimeout(() => {
-    navigate("/dashboard");
-  }, 1500);
-};
+    try {
+      setIsLoading(true);
+
+      const response = await fetch(
+        `${API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email.trim(),
+            password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(
+          data.message ||
+            "Não foi possível realizar o login."
+        );
+
+        return;
+      }
+
+      if (remember) {
+        localStorage.setItem(
+          STORAGE_KEY,
+          email.trim()
+        );
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+
+      const session = {
+        ...data.user,
+        loginAt: new Date().toISOString(),
+      };
+
+      localStorage.setItem(
+        SESSION_KEY,
+        JSON.stringify(session)
+      );
+
+      toast.success(
+        `Bem-vindo, ${data.user.name}!`,
+        {
+          description:
+            "Redirecionando para sua conta...",
+        }
+      );
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+    } catch (error) {
+      console.error(
+        "❌ Erro ao realizar login:",
+        error
+      );
+
+      toast.error(
+        "Não foi possível conectar ao servidor.",
+        {
+          description:
+            "Verifique se a API do Noir Avenue está funcionando.",
+        }
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <img src={logo} alt="Noir Avenue" className="logo" />
+        <img
+          src={logo}
+          alt="Noir Avenue"
+          className="logo"
+        />
 
         <h1>Bem-vindo</h1>
 
@@ -113,33 +151,53 @@ const handleSubmit = (event) => {
             value={email}
             required
             autoComplete="email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
           />
 
           <FaUser className="icon" />
         </div>
 
-  <div className="input-field">
-  <input
-    type={showPassword ? "text" : "password"}
-    placeholder="Senha"
-    value={password}
-    required
-    autoComplete="current-password"
-    onChange={(e) => setPassword(e.target.value)}
-  />
+        <div className="input-field">
+          <input
+            type={
+              showPassword
+                ? "text"
+                : "password"
+            }
+            placeholder="Senha"
+            value={password}
+            required
+            autoComplete="current-password"
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
 
-  <FaLock className="icon password-lock-icon" />
+          <FaLock className="icon password-lock-icon" />
 
-  <button
-    type="button"
-    className="password-toggle"
-    onClick={() => setShowPassword((value) => !value)}
-    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-  >
-    {showPassword ? <FaEyeSlash /> : <FaEye />}
-  </button>
-</div>
+          <button
+            type="button"
+            className="password-toggle"
+            onClick={() =>
+              setShowPassword(
+                (value) => !value
+              )
+            }
+            aria-label={
+              showPassword
+                ? "Ocultar senha"
+                : "Mostrar senha"
+            }
+          >
+            {showPassword ? (
+              <FaEyeSlash />
+            ) : (
+              <FaEye />
+            )}
+          </button>
+        </div>
 
         <div className="recall-forget">
           <label>
@@ -150,6 +208,7 @@ const handleSubmit = (event) => {
                 setRemember(!remember)
               }
             />
+
             Lembrar de mim
           </label>
 
@@ -158,8 +217,13 @@ const handleSubmit = (event) => {
           </Link>
         </div>
 
-        <button type="submit">
-          Entrar
+        <button
+          type="submit"
+          disabled={isLoading}
+        >
+          {isLoading
+            ? "Entrando..."
+            : "Entrar"}
         </button>
 
         <div className="signup-link">
