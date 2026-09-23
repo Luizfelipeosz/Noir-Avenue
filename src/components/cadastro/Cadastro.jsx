@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import logo from "../../assets/logo.png";
 import "./Cadastro.css";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://noir-avenue-api.onrender.com/api";
 
 const Cadastro = () => {
   const navigate = useNavigate();

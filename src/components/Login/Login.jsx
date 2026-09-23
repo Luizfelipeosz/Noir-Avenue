@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import logo from "../../assets/logo.png";
 import "./Login.css";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://noir-avenue-api.onrender.com/api";
 
 const STORAGE_KEY = "noiravenue_email";
 const SESSION_KEY = "noiravenue_session";
