@@ -1,10 +1,9 @@
-
 import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
 
-import authRoutes from "./routes/auth.routes";
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
@@ -18,8 +17,6 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Permite requisições sem origin
-      // (Postman, testes locais etc.)
       if (!origin) {
         return callback(null, true);
       }
@@ -37,26 +34,14 @@ app.use(
 
 app.use(express.json());
 
-/* --------------------------------------------------------------------------
-   ROTAS
--------------------------------------------------------------------------- */
-
 app.use("/api/auth", authRoutes);
 
-/* --------------------------------------------------------------------------
-   HEALTH CHECK
--------------------------------------------------------------------------- */
-
 app.get("/api/health", (_req, res) => {
-  res.status(200).json({
+  return res.status(200).json({
     status: "ok",
     message: "Noir Avenue API funcionando.",
   });
 });
-
-/* --------------------------------------------------------------------------
-   SERVER
--------------------------------------------------------------------------- */
 
 app.listen(PORT, () => {
   console.log(`🚀 Noir Avenue API rodando na porta ${PORT}`);

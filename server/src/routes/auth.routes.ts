@@ -4,11 +4,15 @@ import {
   createPasswordResetToken,
   resetPassword,
   verifyPasswordResetToken,
-} from "../services/passwordReset.service";
+} from "../services/passwordReset.service.js";
 
-import { sendPasswordResetEmail } from "../services/email.services";
-import { registerUser } from "../services/auth.service";
-import { registerUser, loginUser } from "../services/auth.service";
+import { sendPasswordResetEmail } from "../services/email.services.js";
+
+import {
+  registerUser,
+  loginUser,
+  deleteUser,
+} from "../services/auth.service.js";
 
 const router = Router();
 
@@ -333,6 +337,57 @@ router.post("/reset-password", async (req, res) => {
     return res.status(500).json({
       message:
         "Não foi possível redefinir a senha. Tente novamente.",
+    });
+  }
+});
+
+/**
+ * DELETE /api/auth/account
+ *
+ * Remove permanentemente a conta do usuário.
+ */
+router.delete("/account", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email || typeof email !== "string") {
+      return res.status(400).json({
+        message: "E-mail da conta não informado.",
+      });
+    }
+
+    await deleteUser(email);
+
+    return res.status(200).json({
+      message: "Conta removida com sucesso.",
+    });
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "USER_NOT_FOUND"
+    ) {
+      return res.status(404).json({
+        message: "Conta não encontrada.",
+      });
+    }
+
+    if (
+      error instanceof Error &&
+      error.message === "INVALID_EMAIL"
+    ) {
+      return res.status(400).json({
+        message: "Informe um e-mail válido.",
+      });
+    }
+
+    console.error(
+      "❌ Erro ao excluir conta:",
+      error
+    );
+
+    return res.status(500).json({
+      message:
+        "Não foi possível excluir a conta. Tente novamente.",
     });
   }
 });

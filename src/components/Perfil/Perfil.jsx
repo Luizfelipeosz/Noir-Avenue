@@ -23,8 +23,11 @@ import { toast } from "sonner";
 import "./Perfil.css";
 import logo from "../../assets/logo.png";
 
+const API_URL =
+  "https://noir-avenue-api.onrender.com/api";
+
 const SESSION_KEY = "noiravenue_session";
-const USERS_KEY = "noiravenue_users";
+const STORAGE_KEY = "noiravenue_email";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
@@ -47,9 +50,14 @@ function Perfil() {
 
   const getSessionUser = () => {
     try {
-      return (
-        JSON.parse(localStorage.getItem(SESSION_KEY)) || {}
-      );
+      const storedUser =
+        localStorage.getItem(SESSION_KEY);
+
+      if (!storedUser) {
+        return {};
+      }
+
+      return JSON.parse(storedUser);
     } catch {
       return {};
     }
@@ -77,6 +85,9 @@ function Perfil() {
     useState(user.endereco || "");
 
   const [isUploadingPhoto, setIsUploadingPhoto] =
+    useState(false);
+
+  const [isDeletingAccount, setIsDeletingAccount] =
     useState(false);
 
   const profilePercentage =
@@ -110,42 +121,32 @@ function Perfil() {
     setEditName(profile.name || "");
     setEditPhone(profile.telefone || "");
     setEditAddress(profile.endereco || "");
-
     setShowEditModal(true);
   };
 
   /*
    * =========================================================
-   * PHOTO PROFILE
+   * LOCAL SESSION
    * =========================================================
+   *
+   * Informações adicionais do perfil ainda são mantidas
+   * localmente neste momento.
+   *
+   * O cadastro, login e exclusão da conta são tratados
+   * pelo backend.
    */
-
   const updateUserStorage = (updatedUser) => {
     localStorage.setItem(
       SESSION_KEY,
       JSON.stringify(updatedUser)
     );
-
-    const users =
-      JSON.parse(
-        localStorage.getItem(USERS_KEY)
-      ) || [];
-
-    const updatedUsers = users.map((userItem) =>
-      userItem.email?.toLowerCase() ===
-      updatedUser.email?.toLowerCase()
-        ? {
-            ...userItem,
-            ...updatedUser,
-          }
-        : userItem
-    );
-
-    localStorage.setItem(
-      USERS_KEY,
-      JSON.stringify(updatedUsers)
-    );
   };
+
+  /*
+   * =========================================================
+   * PROFILE PHOTO
+   * =========================================================
+   */
 
   const handlePhotoChange = (event) => {
     const file = event.target.files?.[0];
@@ -187,9 +188,7 @@ function Perfil() {
       };
 
       updateUserStorage(updatedUser);
-
       setProfile(updatedUser);
-
       setIsUploadingPhoto(false);
 
       toast.success("Foto atualizada", {
@@ -203,10 +202,13 @@ function Perfil() {
     reader.onerror = () => {
       setIsUploadingPhoto(false);
 
-      toast.error("Não foi possível carregar a imagem", {
-        description:
-          "Tente selecionar outra foto.",
-      });
+      toast.error(
+        "Não foi possível carregar a imagem",
+        {
+          description:
+            "Tente selecionar outra foto.",
+        }
+      );
 
       event.target.value = "";
     };
@@ -225,7 +227,6 @@ function Perfil() {
     };
 
     updateUserStorage(updatedUser);
-
     setProfile(updatedUser);
 
     toast.success("Foto removida", {
@@ -233,6 +234,12 @@ function Perfil() {
         "Sua foto de perfil foi removida.",
     });
   };
+
+  /*
+   * =========================================================
+   * EDIT PROFILE
+   * =========================================================
+   */
 
   const handleSaveProfile = () => {
     const normalizedName = editName.trim();
@@ -257,7 +264,6 @@ function Perfil() {
     };
 
     updateUserStorage(updatedUser);
-
     setProfile(updatedUser);
     setShowEditModal(false);
 
@@ -267,35 +273,89 @@ function Perfil() {
     });
   };
 
-  const handleDeleteAccount = () => {
-    const users =
-      JSON.parse(
-        localStorage.getItem(USERS_KEY)
-      ) || [];
+  /*
+   * =========================================================
+   * DELETE ACCOUNT
+   * =========================================================
+   */
 
-    const updatedUsers = users.filter(
-      (userItem) =>
-        userItem.email?.toLowerCase() !==
-        profile.email?.toLowerCase()
-    );
+  const handleDeleteAccount = async () => {
+    if (!profile.email) {
+      toast.error(
+        "Não foi possível excluir a conta",
+        {
+          description:
+            "Não encontramos o e-mail da sua conta.",
+        }
+      );
 
-    localStorage.setItem(
-      USERS_KEY,
-      JSON.stringify(updatedUsers)
-    );
+      return;
+    }
 
-    localStorage.removeItem(SESSION_KEY);
+    if (isDeletingAccount) {
+      return;
+    }
 
-    setShowDeleteModal(false);
+    try {
+      setIsDeletingAccount(true);
 
-    toast.success("Conta removida", {
-      description:
-        "Sua conta foi removida com sucesso.",
-    });
+      const response = await fetch(
+        `${API_URL}/auth/account`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: profile.email,
+          }),
+        }
+      );
 
-    setTimeout(() => {
-      navigate("/");
-    }, 800);
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(
+          data.message ||
+            "Não foi possível excluir a conta."
+        );
+
+        return;
+      }
+
+      /*
+       * Só limpamos a sessão depois que o backend
+       * confirmar que a conta foi realmente removida.
+       */
+      localStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(STORAGE_KEY);
+
+      setShowDeleteModal(false);
+
+      toast.success("Conta removida", {
+        description:
+          "Sua conta foi excluída permanentemente.",
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 800);
+    } catch (error) {
+      console.error(
+        "❌ Erro ao excluir conta:",
+        error
+      );
+
+      toast.error(
+        "Não foi possível conectar ao servidor.",
+        {
+          description:
+            "A conta não foi removida. Tente novamente.",
+        }
+      );
+    } finally {
+      setIsDeletingAccount(false);
+    }
   };
 
   return (
@@ -352,9 +412,7 @@ function Perfil() {
             <div className="profile-identity">
               <div
                 className={`profile-avatar ${
-                  profilePhoto
-                    ? "has-photo"
-                    : ""
+                  profilePhoto ? "has-photo" : ""
                 }`}
                 aria-label={`Avatar de ${displayName}`}
               >
@@ -448,6 +506,7 @@ function Perfil() {
               }
             >
               <FaImage />
+
               {profilePhoto
                 ? "Trocar foto"
                 : "Adicionar foto"}
@@ -681,6 +740,7 @@ function Perfil() {
               onClick={() =>
                 setShowDeleteModal(true)
               }
+              disabled={isDeletingAccount}
             >
               <div className="account-action-icon">
                 <FaTrash />
@@ -712,8 +772,7 @@ function Perfil() {
           className="profile-modal-overlay"
           onMouseDown={(event) => {
             if (
-              event.target ===
-              event.currentTarget
+              event.target === event.currentTarget
             ) {
               setShowEditModal(false);
             }
@@ -755,9 +814,7 @@ function Perfil() {
             <div className="modal-photo-editor">
               <div
                 className={`modal-profile-avatar ${
-                  profilePhoto
-                    ? "has-photo"
-                    : ""
+                  profilePhoto ? "has-photo" : ""
                 }`}
               >
                 {profilePhoto ? (
@@ -785,6 +842,7 @@ function Perfil() {
                     }
                   >
                     <FaCamera />
+
                     {profilePhoto
                       ? "Trocar foto"
                       : "Adicionar foto"}
@@ -904,8 +962,8 @@ function Perfil() {
           className="profile-modal-overlay"
           onMouseDown={(event) => {
             if (
-              event.target ===
-              event.currentTarget
+              event.target === event.currentTarget &&
+              !isDeletingAccount
             ) {
               setShowDeleteModal(false);
             }
@@ -917,16 +975,18 @@ function Perfil() {
             aria-modal="true"
             aria-labelledby="delete-profile-title"
           >
-            <button
-              type="button"
-              className="modal-close"
-              onClick={() =>
-                setShowDeleteModal(false)
-              }
-              aria-label="Fechar"
-            >
-              <FaTimes />
-            </button>
+            {!isDeletingAccount && (
+              <button
+                type="button"
+                className="modal-close"
+                onClick={() =>
+                  setShowDeleteModal(false)
+                }
+                aria-label="Fechar"
+              >
+                <FaTimes />
+              </button>
+            )}
 
             <div className="delete-icon">
               <FaTrash />
@@ -937,23 +997,26 @@ function Perfil() {
             </span>
 
             <h2 id="delete-profile-title">
-              Excluir sua conta?
+              {isDeletingAccount
+                ? "Excluindo sua conta..."
+                : "Excluir sua conta?"}
             </h2>
 
             <p>
-              Essa ação irá remover sua conta e
-              os dados associados a ela. Depois
-              disso, não será possível recuperar
-              essas informações.
+              {isDeletingAccount
+                ? "Estamos removendo sua conta e os dados associados. Aguarde alguns instantes."
+                : "Essa ação irá remover sua conta e os dados associados a ela. Depois disso, não será possível recuperar essas informações."}
             </p>
 
-            <div className="delete-warning">
-              <FaShieldAlt />
+            {!isDeletingAccount && (
+              <div className="delete-warning">
+                <FaShieldAlt />
 
-              <span>
-                Esta ação não pode ser desfeita.
-              </span>
-            </div>
+                <span>
+                  Esta ação não pode ser desfeita.
+                </span>
+              </div>
+            )}
 
             <div className="modal-actions">
               <button
@@ -962,6 +1025,7 @@ function Perfil() {
                 onClick={() =>
                   setShowDeleteModal(false)
                 }
+                disabled={isDeletingAccount}
               >
                 Manter minha conta
               </button>
@@ -970,9 +1034,13 @@ function Perfil() {
                 type="button"
                 className="modal-delete"
                 onClick={handleDeleteAccount}
+                disabled={isDeletingAccount}
               >
                 <FaTrash />
-                Excluir conta
+
+                {isDeletingAccount
+                  ? "Excluindo..."
+                  : "Excluir conta"}
               </button>
             </div>
           </div>

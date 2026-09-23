@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
-import prisma from "../lib/prisma";
+
+import prisma from "../lib/prisma.js";
 
 interface RegisterData {
   name: string;
@@ -86,5 +87,33 @@ export const loginUser = async ({
     name: user.name,
     email: user.email,
     createdAt: user.createdAt,
+  };
+};
+
+export const deleteUser = async (email: string) => {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    throw new Error("INVALID_EMAIL");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email: normalizedEmail,
+    },
+  });
+
+  if (!user) {
+    throw new Error("USER_NOT_FOUND");
+  }
+
+  await prisma.user.delete({
+    where: {
+      email: normalizedEmail,
+    },
+  });
+
+  return {
+    success: true,
   };
 };

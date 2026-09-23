@@ -2,7 +2,7 @@
 import crypto from "node:crypto";
 import bcrypt from "bcrypt";
 
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 
 const RESET_TOKEN_EXPIRATION_MINUTES = 15;
 
