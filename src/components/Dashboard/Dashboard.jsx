@@ -1,5 +1,10 @@
 import "./Dashboard.css";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { timeAgo } from "../../utils/timeAgo";
 import { categories } from "../../data/categories";
@@ -19,6 +24,8 @@ import {
   FaCheck,
   FaShoppingBag,
   FaShoppingCart,
+  FaBars,
+  FaChevronLeft,
 } from "react-icons/fa";
 
 function calculateProfileCompletion(user) {
@@ -140,6 +147,18 @@ function Dashboard() {
         ) || ""
     );
 
+  const [sidebarOpen, setSidebarOpen] =
+    useState(() => {
+      const saved =
+        localStorage.getItem(
+          "noiravenue_sidebar_open"
+        );
+
+      return saved === null
+        ? true
+        : saved === "true";
+    });
+
   const profilePercentage =
     calculateProfileCompletion(user);
 
@@ -251,6 +270,30 @@ function Dashboard() {
       );
     });
 
+  const toggleSidebar = () => {
+    setSidebarOpen((current) => {
+      const next = !current;
+
+      localStorage.setItem(
+        "noiravenue_sidebar_open",
+        String(next)
+      );
+
+      return next;
+    });
+  };
+
+  const closeSidebarOnMobile = () => {
+    if (window.innerWidth <= 800) {
+      setSidebarOpen(false);
+
+      localStorage.setItem(
+        "noiravenue_sidebar_open",
+        "false"
+      );
+    }
+  };
+
   const openSearch = () => {
     setNotificationsOpen(false);
     setSearchOpen(true);
@@ -297,13 +340,18 @@ function Dashboard() {
     ) {
       navigate(filteredActions[0].route);
       closeSearch();
+      closeSidebarOnMobile();
     }
   };
 
   const handleNavigate = (route) => {
     navigate(route);
+
     closeSearch();
+
     setNotificationsOpen(false);
+
+    closeSidebarOnMobile();
   };
 
   useEffect(() => {
@@ -341,9 +389,22 @@ function Dashboard() {
         theme === "Light"
           ? "theme-light"
           : "theme-dark"
+      } ${
+        sidebarOpen
+          ? "sidebar-open"
+          : "sidebar-collapsed"
       }`}
     >
       <aside className="sidebar">
+        <button
+          type="button"
+          className="sidebar-mobile-close"
+          onClick={toggleSidebar}
+          aria-label="Fechar navegação"
+        >
+          <FaTimes />
+        </button>
+
         <div className="sidebar-brand">
           <span>NOIR</span>
           <strong>AVENUE</strong>
@@ -357,6 +418,7 @@ function Dashboard() {
           {actions.map((item) => (
             <button
               key={item.title}
+              type="button"
               className={
                 item.premium
                   ? "premium-nav-item"
@@ -387,6 +449,24 @@ function Dashboard() {
       </aside>
 
       <main className="dashboard-container">
+        <button
+          type="button"
+          className="sidebar-toggle"
+          onClick={toggleSidebar}
+          aria-label={
+            sidebarOpen
+              ? "Ocultar navegação"
+              : "Mostrar navegação"
+          }
+          aria-expanded={sidebarOpen}
+        >
+          {sidebarOpen ? (
+            <FaChevronLeft />
+          ) : (
+            <FaBars />
+          )}
+        </button>
+
         <header className="dashboard-header">
           <div className="header-user">
             <span className="welcome-label">
@@ -410,6 +490,7 @@ function Dashboard() {
           <div className="header-actions">
             <div className="header-tool">
               <button
+                type="button"
                 className={`icon-button ${
                   notificationsOpen
                     ? "active"
@@ -448,6 +529,7 @@ function Dashboard() {
                     {unreadNotifications.length >
                       0 && (
                       <button
+                        type="button"
                         className="panel-action"
                         onClick={
                           markNotificationsAsRead
@@ -475,6 +557,7 @@ function Dashboard() {
 
                           return (
                             <button
+                              type="button"
                               className={`notification-item ${
                                 isUnread
                                   ? "unread"
@@ -519,6 +602,7 @@ function Dashboard() {
                   </div>
 
                   <button
+                    type="button"
                     className="panel-footer-action"
                     onClick={() =>
                       handleNavigate(
@@ -535,6 +619,7 @@ function Dashboard() {
 
             <div className="header-tool">
               <button
+                type="button"
                 className={`icon-button ${
                   searchOpen ? "active" : ""
                 }`}
@@ -547,6 +632,7 @@ function Dashboard() {
             </div>
 
             <button
+              type="button"
               className="logout-button"
               onClick={logout}
             >
@@ -586,6 +672,7 @@ function Dashboard() {
                 />
 
                 <button
+                  type="button"
                   className="search-close"
                   onClick={closeSearch}
                   aria-label="Fechar busca"
@@ -604,6 +691,7 @@ function Dashboard() {
                 {filteredActions.length > 0 ? (
                   filteredActions.map((item) => (
                     <button
+                      type="button"
                       className="search-result"
                       key={item.title}
                       onClick={() =>
@@ -664,6 +752,7 @@ function Dashboard() {
             </p>
 
             <button
+              type="button"
               className="banner-button"
               onClick={() =>
                 handleNavigate(
@@ -709,14 +798,19 @@ function Dashboard() {
             </div>
 
             <div className="stat-card">
-            <div className="stat-header">
-              <span>{t.collections}</span>
+              <div className="stat-header">
+                <span>
+                  {t.collections}
+                </span>
+
                 <FaCompass />
-            </div>
+              </div>
 
               <strong>
-                {String(categories.length).padStart(2, "0")}
-               </strong>
+                {String(
+                  categories.length
+                ).padStart(2, "0")}
+              </strong>
 
               <p>
                 Coleções disponíveis
@@ -773,6 +867,7 @@ function Dashboard() {
               </div>
 
               <button
+                type="button"
                 onClick={() =>
                   handleNavigate(
                     "/dashboard/historico"
@@ -836,6 +931,7 @@ function Dashboard() {
             </p>
 
             <button
+              type="button"
               onClick={() =>
                 handleNavigate(
                   "/dashboard/perfil"
@@ -878,6 +974,18 @@ function Dashboard() {
                     item.route
                   )
                 }
+                role="button"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (
+                    event.key === "Enter" ||
+                    event.key === " "
+                  ) {
+                    handleNavigate(
+                      item.route
+                    );
+                  }
+                }}
               >
                 <div className="action-icon">
                   {item.icon}
@@ -905,4 +1013,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-

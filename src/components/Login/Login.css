@@ -38,7 +38,7 @@ body {
 
 
 /* =========================================================
-   ÁREA PRINCIPAL DA TELA
+   ÁREA PRINCIPAL
    ========================================================= */
 
 .container {
@@ -56,6 +56,7 @@ body {
         max(20px, env(safe-area-inset-left));
 
     overflow-x: hidden;
+    overflow-y: auto;
 }
 
 
@@ -160,7 +161,7 @@ body {
     width: 100%;
     height: 54px;
 
-    padding: 0 50px 0 19px;
+    padding: 0 52px 0 19px;
 
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 14px;
@@ -237,11 +238,11 @@ body {
 
 
 /* =========================================================
-   CADEADO DOS CAMPOS DE SENHA
+   CADEADO
    ========================================================= */
 
 .container .password-lock-icon {
-    right: 46px;
+    right: 48px;
 }
 
 
@@ -253,10 +254,10 @@ body {
     position: absolute;
 
     top: 50%;
-    right: 16px;
+    right: 12px;
 
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
 
     padding: 0;
 
@@ -342,7 +343,7 @@ body {
     align-items: center;
     justify-content: space-between;
 
-    gap: 15px;
+    gap: 16px;
 
     color: rgba(255, 255, 255, 0.82);
 
@@ -501,47 +502,10 @@ body {
 
 
 /* =========================================================
-   LINK PARA CADASTRO
+   LINKS INFERIORES
    ========================================================= */
 
-.container .signup-link {
-    margin-top: 24px;
-
-    text-align: center;
-
-    color: rgba(255, 255, 255, 0.7);
-
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.container .signup-link p {
-    margin: 0;
-}
-
-.container .signup-link a {
-    color: #fff;
-
-    font-weight: 600;
-
-    text-decoration: none;
-
-    transition:
-        opacity 0.2s ease,
-        text-decoration 0.2s ease;
-}
-
-.container .signup-link a:hover {
-    opacity: 0.85;
-
-    text-decoration: underline;
-}
-
-
-/* =========================================================
-   LINK PARA LOGIN
-   ========================================================= */
-
+.container .signup-link,
 .container .login-link {
     margin-top: 24px;
 
@@ -553,10 +517,12 @@ body {
     line-height: 1.5;
 }
 
+.container .signup-link p,
 .container .login-link p {
     margin: 0;
 }
 
+.container .signup-link a,
 .container .login-link a {
     color: #fff;
 
@@ -569,6 +535,7 @@ body {
         text-decoration 0.2s ease;
 }
 
+.container .signup-link a:hover,
 .container .login-link a:hover {
     opacity: 0.85;
 
@@ -577,45 +544,47 @@ body {
 
 
 /* =========================================================
-   TABLET / TELAS MÉDIAS
+   TABLETS
+   481px — 900px
    ========================================================= */
 
-@media (max-width: 700px) {
+@media (min-width: 481px) and (max-width: 900px) {
 
     .container {
         padding:
-            max(24px, env(safe-area-inset-top))
-            18px
-            max(24px, env(safe-area-inset-bottom))
-            18px;
+            max(28px, env(safe-area-inset-top))
+            max(28px, env(safe-area-inset-right))
+            max(28px, env(safe-area-inset-bottom))
+            max(28px, env(safe-area-inset-left));
     }
 
     .container form {
-        width: min(100%, 430px);
+        width: min(100%, 460px);
 
-        padding: 32px 30px;
+        padding: 36px 34px;
 
-        border-radius: 20px;
+        border-radius: 21px;
     }
 
     .container .logo {
-        width: 150px;
+        width: 155px;
 
         margin-bottom: 22px;
     }
 
     .container h1 {
-        font-size: 27px;
+        font-size: 28px;
     }
 
     .container .subtitle {
-        margin-bottom: 26px;
+        margin-bottom: 28px;
     }
 }
 
 
 /* =========================================================
-   MOBILE
+   CELULARES
+   Até 480px
    ========================================================= */
 
 @media (max-width: 480px) {
@@ -623,19 +592,21 @@ body {
     .container {
         min-height: 100dvh;
 
+        align-items: center;
+        justify-content: center;
+
         padding:
             max(18px, env(safe-area-inset-top))
-            14px
+            16px
             max(18px, env(safe-area-inset-bottom))
-            14px;
-
-        align-items: center;
+            16px;
     }
 
     .container form {
         width: 100%;
+        max-width: 430px;
 
-        padding: 28px 22px;
+        padding: 28px 20px;
 
         border-radius: 18px;
     }
@@ -649,6 +620,8 @@ body {
 
     .container h1 {
         font-size: 25px;
+
+        margin-bottom: 7px;
     }
 
     .container .subtitle {
@@ -664,8 +637,8 @@ body {
     .container .input-field input {
         height: 52px;
 
-        padding-left: 17px;
-        padding-right: 46px;
+        padding-left: 16px;
+        padding-right: 52px;
 
         border-radius: 13px;
 
@@ -680,38 +653,38 @@ body {
     }
 
     .container .password-lock-icon {
-        right: 44px;
+        right: 46px;
     }
 
     .container .password-toggle {
-        right: 13px;
+        right: 10px;
 
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
     }
 
     .container .recall-forget {
-        align-items: flex-start;
+        align-items: center;
 
-        flex-direction: column;
+        margin: 18px 0 21px;
 
-        margin: 19px 0 22px;
-
-        gap: 13px;
+        gap: 12px;
 
         font-size: 12.5px;
     }
 
     .container .recall-forget label {
-        width: 100%;
+        flex: 1;
+
+        white-space: normal;
     }
 
     .container .recall-forget a {
-        align-self: flex-end;
+        flex-shrink: 0;
     }
 
     .container .remember {
-        margin: 18px 0 22px;
+        margin: 18px 0 21px;
 
         font-size: 12.5px;
     }
@@ -732,27 +705,27 @@ body {
 
 
 /* =========================================================
-   MOBILE MUITO PEQUENO
+   CELULARES PEQUENOS
+   Até 360px
    ========================================================= */
 
 @media (max-width: 360px) {
 
     .container {
-        padding:
-            max(14px, env(safe-area-inset-top))
-            10px
-            max(14px, env(safe-area-inset-bottom))
-            10px;
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
     .container form {
-        padding: 24px 17px;
+        padding: 24px 16px;
 
         border-radius: 16px;
     }
 
     .container .logo {
         width: 125px;
+
+        margin-bottom: 17px;
     }
 
     .container h1 {
@@ -760,6 +733,8 @@ body {
     }
 
     .container .subtitle {
+        margin-bottom: 21px;
+
         font-size: 12px;
     }
 
@@ -778,12 +753,17 @@ body {
     }
 
     .container .password-feedback {
-        padding-left: 17px;
+        padding-left: 16px;
     }
 
     .container .password-match,
     .container .password-mismatch {
         font-size: 11px;
+    }
+
+    .container .signup-link,
+    .container .login-link {
+        font-size: 12px;
     }
 }
 
@@ -792,25 +772,18 @@ body {
    TELAS COM POUCA ALTURA
    ========================================================= */
 
-/*
-   Em monitores ultrawide ou notebooks com pouca altura,
-   reduzimos um pouco os espaçamentos para evitar que
-   o formulário fique cortado.
-*/
-
-@media (max-height: 700px) and (min-width: 481px) {
+@media (max-height: 700px) {
 
     .container {
         align-items: flex-start;
 
-        padding-top: 24px;
-        padding-bottom: 24px;
-
-        overflow-y: auto;
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
 
     .container form {
-        margin: auto 0;
+        margin-top: auto;
+        margin-bottom: auto;
     }
 
     .container .logo {
@@ -826,7 +799,8 @@ body {
     }
 
     .container .recall-forget {
-        margin: 17px 0 20px;
+        margin-top: 17px;
+        margin-bottom: 19px;
     }
 
     .container .signup-link,
@@ -843,59 +817,62 @@ body {
 @media (max-height: 650px) and (max-width: 480px) {
 
     .container {
-        align-items: flex-start;
-
-        padding-top: 14px;
-        padding-bottom: 14px;
-
-        overflow-y: auto;
+        padding-top: 12px;
+        padding-bottom: 12px;
     }
 
     .container form {
-        margin: auto 0;
+        padding-top: 22px;
+        padding-bottom: 22px;
     }
 
     .container .logo {
-        width: 120px;
+        width: 115px;
 
-        margin-bottom: 15px;
+        margin-bottom: 14px;
     }
 
     .container h1 {
-        font-size: 23px;
+        font-size: 22px;
 
         margin-bottom: 5px;
     }
 
     .container .subtitle {
-        margin-bottom: 18px;
+        margin-bottom: 17px;
 
         font-size: 12px;
     }
 
     .container .input-field {
-        margin-bottom: 12px;
+        margin-bottom: 11px;
+    }
+
+    .container .input-field input {
+        height: 49px;
     }
 
     .container .recall-forget {
-        margin: 15px 0 18px;
+        margin-top: 14px;
+        margin-bottom: 17px;
 
-        gap: 10px;
+        gap: 9px;
     }
 
     .container .remember {
-        margin: 14px 0 18px;
+        margin-top: 13px;
+        margin-bottom: 17px;
     }
 
     .container .signup-link,
     .container .login-link {
-        margin-top: 17px;
+        margin-top: 16px;
     }
 }
 
 
 /* =========================================================
-   ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
+   ACESSIBILIDADE
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -931,3 +908,4 @@ body {
             scale(1);
     }
 }
+
