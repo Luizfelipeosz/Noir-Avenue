@@ -368,11 +368,10 @@ body {
 
 .sidebar-toggle {
     position: fixed;
-
     z-index: 80;
 
     top: 22px;
-    left: 22px;
+    left: calc(var(--sidebar-width) - 21px);
 
     width: 42px;
     height: 42px;
@@ -381,15 +380,10 @@ body {
     align-items: center;
     justify-content: center;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.09);
-
+    border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 12px;
 
-    background:
-        rgba(18, 18, 18, 0.88);
-
+    background: rgba(18, 18, 18, 0.88);
     color: #aaa;
 
     cursor: pointer;
@@ -398,8 +392,7 @@ body {
     -webkit-backdrop-filter: blur(12px);
 
     box-shadow:
-        0 8px 25px
-        rgba(0, 0, 0, 0.25);
+        0 8px 25px rgba(0, 0, 0, 0.25);
 
     transition:
         background 0.2s ease,
