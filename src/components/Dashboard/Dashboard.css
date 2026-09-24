@@ -26,14 +26,12 @@ html {
 
 body {
     overflow-x: hidden;
-
     font-family:
         "Segoe UI",
         Tahoma,
         Geneva,
         Verdana,
         sans-serif;
-
     background: #050505;
     color: #fff;
 }
@@ -57,34 +55,27 @@ body {
 
 @keyframes pulseGold {
     0% {
-        box-shadow:
-            0 0 0 rgba(212, 175, 55, 0);
+        box-shadow: 0 0 0 rgba(212, 175, 55, 0);
     }
 
     50% {
-        box-shadow:
-            0 0 25px rgba(212, 175, 55, 0.12);
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.12);
     }
 
     100% {
-        box-shadow:
-            0 0 0 rgba(212, 175, 55, 0);
+        box-shadow: 0 0 0 rgba(212, 175, 55, 0);
     }
 }
 
 @keyframes panelIn {
     from {
         opacity: 0;
-        transform:
-            translateY(-8px)
-            scale(0.98);
+        transform: translateY(-8px) scale(0.98);
     }
 
     to {
         opacity: 1;
-        transform:
-            translateY(0)
-            scale(1);
+        transform: translateY(0) scale(1);
     }
 }
 
@@ -97,14 +88,12 @@ body {
     --sidebar-width: 300px;
 
     display: grid;
-
     grid-template-columns:
         var(--sidebar-width)
         minmax(0, 1fr);
 
     width: 100%;
     min-height: 100dvh;
-
     overflow-x: hidden;
 
     transition:
@@ -112,8 +101,7 @@ body {
 }
 
 .layout.sidebar-collapsed {
-    grid-template-columns:
-        minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
 }
 
 
@@ -123,7 +111,6 @@ body {
 
 .sidebar {
     position: sticky;
-
     top: 0;
 
     width: 100%;
@@ -134,9 +121,7 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
 
-    border-right:
-        1px solid
-        rgba(255, 255, 255, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
 
     background:
         linear-gradient(
@@ -164,7 +149,6 @@ body {
     flex-direction: column;
 
     margin-bottom: 45px;
-
     padding-left: 10px;
 }
 
@@ -176,7 +160,6 @@ body {
 
 .sidebar-brand strong {
     color: #d4af37;
-
     font-size: 0.85rem;
     letter-spacing: 4px;
 }
@@ -187,11 +170,9 @@ body {
    ========================================================= */
 
 .sidebar-label {
-    margin:
-        0 0 15px 10px;
+    margin: 0 0 15px 10px;
 
     color: #666;
-
     font-size: 0.7rem;
     letter-spacing: 2px;
 }
@@ -204,7 +185,6 @@ body {
 .sidebar nav {
     display: flex;
     flex-direction: column;
-
     gap: 8px;
 }
 
@@ -215,46 +195,40 @@ body {
 
     display: flex;
     align-items: center;
-
     gap: 13px;
 
     padding: 13px;
 
-    border:
-        1px solid
-        transparent;
-
+    border: 1px solid transparent;
     border-radius: 13px;
 
     background: transparent;
-
     color: #bdbdbd;
 
     text-align: left;
 
     cursor: pointer;
 
-    transition: 0.3s;
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
 }
 
 .sidebar nav button:hover {
-    border-color:
-        rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.05);
 
     background:
         rgba(255, 255, 255, 0.06);
 
     color: #fff;
 
-    transform:
-        translateX(3px);
+    transform: translateX(3px);
 }
 
 .sidebar nav button:focus-visible {
-    outline:
-        2px solid
-        rgba(212, 175, 55, 0.8);
-
+    outline: 2px solid rgba(212, 175, 55, 0.8);
     outline-offset: 2px;
 }
 
@@ -291,7 +265,6 @@ body {
 
     display: flex;
     flex-direction: column;
-
     gap: 3px;
 
     min-width: 0;
@@ -311,7 +284,6 @@ body {
 
 .nav-crown {
     color: #d4af37;
-
     font-size: 13px;
 }
 
@@ -366,57 +338,151 @@ body {
    SIDEBAR TOGGLE
    ========================================================= */
 
+/*
+   IMPORTANTE:
+
+   O botão NÃO acompanha a abertura/fechamento do sidebar.
+
+   Ele possui uma posição horizontal fixa em cada breakpoint.
+
+   Portanto:
+   - sidebar aberto  -> botão fica na borda direita do sidebar;
+   - sidebar fechado -> botão permanece exatamente no mesmo lugar;
+   - não existe animação horizontal;
+   - não existe transition em "left".
+*/
+
 .sidebar-toggle {
     position: fixed;
-    z-index: 80;
+    z-index: 90;
 
-    top: 22px;
+    /*
+       A posição é calculada em relação à largura do sidebar.
+       O botão fica praticamente encostado na borda direita.
+    */
+    top: 68px;
     left: calc(var(--sidebar-width) - 21px);
 
     width: 42px;
-    height: 42px;
+    height: 40px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 12px;
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.11);
 
-    background: rgba(18, 18, 18, 0.88);
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30, 30, 30, 0.97),
+            rgba(13, 13, 13, 0.97)
+        );
+
     color: #aaa;
 
     cursor: pointer;
 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 
     box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.25);
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.02);
+
+    /*
+       NÃO colocar "left" aqui.
+       Isso evita que o botão deslize quando o sidebar abre/fecha.
+    */
+    transition:
+        top 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/*
+   SIDEBAR FECHADO
+
+   O botão continua exatamente na mesma posição horizontal.
+
+   Não existe:
+       left: 22px;
+       left: 0;
+       left: 50%;
+       ou qualquer outra alteração.
+
+   Assim ele não "viaja" pela tela.
+*/
+.layout.sidebar-collapsed .sidebar-toggle {
+    left: calc(var(--sidebar-width) - 21px);
+}
+
+
+/* =========================================================
+   ÍCONE DO TOGGLE
+   ========================================================= */
+
+.sidebar-toggle svg {
+    width: 17px;
+    height: 17px;
+
+    flex-shrink: 0;
 
     transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease,
-        border-color 0.2s ease;
+        transform 0.25s ease,
+        color 0.25s ease;
 }
+
+
+/* =========================================================
+   HOVER DO TOGGLE
+   ========================================================= */
 
 .sidebar-toggle:hover {
     border-color:
-        rgba(255, 255, 255, 0.18);
+        rgba(212, 175, 55, 0.42);
 
     background:
-        rgba(255, 255, 255, 0.08);
+        linear-gradient(
+            145deg,
+            rgba(40, 40, 40, 0.98),
+            rgba(18, 18, 18, 0.98)
+        );
 
-    color: #fff;
+    color: #d4af37;
 
-    transform:
-        translateY(-1px);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(212, 175, 55, 0.08);
+
+    transform: scale(1.05);
 }
+
+.sidebar-toggle:hover svg {
+    transform: scale(1.08);
+}
+
+
+/* =========================================================
+   ACTIVE
+   ========================================================= */
 
 .sidebar-toggle:active {
-    transform: scale(0.95);
+    transform: scale(0.94);
 }
+
+
+/* =========================================================
+   ACESSIBILIDADE
+   ========================================================= */
 
 .sidebar-toggle:focus-visible {
     outline:
@@ -441,7 +507,6 @@ body {
     height: 38px;
 
     display: none;
-
     align-items: center;
     justify-content: center;
 
@@ -505,24 +570,20 @@ body {
 
 .dashboard-header {
     display: flex;
-
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
 
-    gap: 40px;
+    gap: 30px;
 
+    width: 100%;
     margin-bottom: 40px;
 }
 
-.layout.sidebar-collapsed
-.dashboard-header {
-    padding-left: 58px;
-}
-
 .header-user {
+    flex: 1;
+
     display: flex;
     flex-direction: column;
-
     gap: 6px;
 
     min-width: 0;
@@ -538,7 +599,6 @@ body {
 .dashboard-header h1 {
     font-size: 2rem;
     font-weight: 500;
-
     line-height: 1.2;
 }
 
@@ -548,7 +608,6 @@ body {
 
 .dashboard-header p {
     color: #888;
-
     font-size: 0.85rem;
 }
 
@@ -560,6 +619,7 @@ body {
 .header-actions {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
     gap: 10px;
 
@@ -639,7 +699,6 @@ body {
     border-radius: 999px;
 
     background: #d4af37;
-
     color: #111;
 
     font-size: 0.58rem;
@@ -653,7 +712,6 @@ body {
 
 .notifications-panel {
     position: absolute;
-
     z-index: 50;
 
     top: calc(100% + 12px);
@@ -685,7 +743,6 @@ body {
 
 .panel-header {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
@@ -717,13 +774,11 @@ body {
 .panel-action {
     display: flex;
     align-items: center;
-
     gap: 6px;
 
     border: none;
 
     background: transparent;
-
     color: #999;
 
     cursor: pointer;
@@ -737,7 +792,6 @@ body {
 
 .notification-list {
     max-height: 330px;
-
     overflow-y: auto;
 }
 
@@ -752,13 +806,11 @@ body {
     padding: 16px 20px;
 
     border: none;
-
     border-bottom:
         1px solid
         rgba(255, 255, 255, 0.05);
 
     background: transparent;
-
     color: #fff;
 
     text-align: left;
@@ -791,8 +843,7 @@ body {
     background: transparent;
 }
 
-.notification-item.unread
-.notification-dot {
+.notification-item.unread .notification-dot {
     background: #d4af37;
 
     box-shadow:
@@ -803,7 +854,6 @@ body {
 .notification-content {
     display: flex;
     flex-direction: column;
-
     gap: 5px;
 }
 
@@ -818,7 +868,6 @@ body {
 
 .notification-content small {
     color: #666;
-
     font-size: 0.65rem;
 }
 
@@ -826,7 +875,6 @@ body {
 .search-empty {
     display: flex;
     flex-direction: column;
-
     align-items: center;
 
     gap: 8px;
@@ -841,14 +889,12 @@ body {
 .empty-panel svg,
 .search-empty svg {
     margin-bottom: 5px;
-
     color: #555;
 }
 
 .empty-panel strong,
 .search-empty strong {
     color: #aaa;
-
     font-size: 0.8rem;
 }
 
@@ -857,7 +903,6 @@ body {
     max-width: 260px;
 
     font-size: 0.68rem;
-
     line-height: 1.5;
 }
 
@@ -871,7 +916,6 @@ body {
     padding: 15px 20px;
 
     border: none;
-
     border-top:
         1px solid
         rgba(255, 255, 255, 0.07);
@@ -897,13 +941,11 @@ body {
 
 .search-overlay {
     position: fixed;
-
     z-index: 100;
 
     inset: 0;
 
     display: flex;
-
     justify-content: center;
     align-items: flex-start;
 
@@ -954,7 +996,6 @@ body {
 
 .search-input-wrapper > svg {
     flex-shrink: 0;
-
     color: #d4af37;
 }
 
@@ -965,7 +1006,6 @@ body {
     outline: none;
 
     background: transparent;
-
     color: #fff;
 
     font-size: 1rem;
@@ -986,7 +1026,6 @@ body {
     flex-shrink: 0;
 
     border: none;
-
     border-radius: 8px;
 
     background:
@@ -1024,11 +1063,9 @@ body {
     padding: 12px 10px;
 
     border: none;
-
     border-radius: 12px;
 
     background: transparent;
-
     color: #fff;
 
     text-align: left;
@@ -1078,13 +1115,11 @@ body {
 
 .search-result small {
     color: #666;
-
     font-size: 0.65rem;
 }
 
 .search-result > svg {
     color: #555;
-
     font-size: 0.7rem;
 }
 
@@ -1109,7 +1144,6 @@ body {
         13px 21px;
 
     border: none;
-
     border-radius: 12px;
 
     background:
@@ -1171,7 +1205,6 @@ body {
 
 .banner-content {
     position: relative;
-
     z-index: 2;
 
     max-width: 650px;
@@ -1242,7 +1275,6 @@ body {
 
 .banner-button:hover {
     background: #d4af37;
-
     color: #111;
 
     transform:
@@ -1322,7 +1354,6 @@ body {
     border: none;
 
     background: transparent;
-
     color: #999;
 
     cursor: pointer;
@@ -1402,7 +1433,6 @@ body {
 
 .stat-card p {
     color: #666;
-
     font-size: 0.72rem;
 }
 
@@ -1418,8 +1448,7 @@ body {
         rgba(212, 175, 55, 0.22);
 }
 
-.premium-stat
-.stat-header svg {
+.premium-stat .stat-header svg {
     color: #d4af37;
 }
 
@@ -1511,7 +1540,6 @@ body {
 
 .activity li span {
     color: #666;
-
     font-size: 0.7rem;
 }
 
@@ -1523,16 +1551,13 @@ body {
 .profile-progress {
     display: flex;
     flex-direction: column;
-
     align-items: center;
 
     text-align: center;
 }
 
-.profile-progress
-.section-heading {
+.profile-progress .section-heading {
     width: 100%;
-
     text-align: left;
 }
 
@@ -1612,7 +1637,6 @@ body {
 
 .profile-progress > button:hover {
     background: #d4af37;
-
     color: #111;
 }
 
@@ -1700,7 +1724,6 @@ body {
 
 .action-card h3 {
     margin-bottom: 8px;
-
     font-size: 0.95rem;
 }
 
@@ -1729,8 +1752,7 @@ body {
     transition: 0.3s;
 }
 
-.action-card:hover
-.action-link {
+.action-card:hover .action-link {
     color: #fff;
 }
 
@@ -1751,8 +1773,7 @@ body {
         rgba(212, 175, 55, 0.25);
 }
 
-.action-card-premium
-.action-icon {
+.action-card-premium .action-icon {
     background:
         linear-gradient(
             135deg,
@@ -1763,8 +1784,7 @@ body {
     color: #111;
 }
 
-.action-card-premium
-.action-link {
+.action-card-premium .action-link {
     color: #d4af37;
 }
 
@@ -1783,7 +1803,6 @@ body {
 
 ::-webkit-scrollbar-thumb {
     background: #444;
-
     border-radius: 10px;
 }
 
@@ -1794,7 +1813,6 @@ body {
 
 .layout.theme-light {
     background: #f4f4f5;
-
     color: #111;
 }
 
@@ -1814,40 +1832,33 @@ body {
         rgba(0, 0, 0, 0.45);
 }
 
-.layout.theme-light
-.sidebar nav button {
+.layout.theme-light .sidebar nav button {
     color:
         rgba(0, 0, 0, 0.65);
 }
 
-.layout.theme-light
-.sidebar nav button:hover {
+.layout.theme-light .sidebar nav button:hover {
     background:
         rgba(0, 0, 0, 0.05);
 
     color: #111;
 }
 
-.layout.theme-light
-.dashboard-container {
+.layout.theme-light .dashboard-container {
     background: #f4f4f5;
 }
 
-.layout.theme-light
-.welcome-label,
-.layout.theme-light
-.header-user p {
+.layout.theme-light .welcome-label,
+.layout.theme-light .header-user p {
     color:
         rgba(0, 0, 0, 0.5);
 }
 
-.layout.theme-light
-.header-user h1 {
+.layout.theme-light .header-user h1 {
     color: #111;
 }
 
-.layout.theme-light
-.icon-button {
+.layout.theme-light .icon-button {
     border-color:
         rgba(0, 0, 0, 0.1);
 
@@ -1857,24 +1868,18 @@ body {
     color: #111;
 }
 
-.layout.theme-light
-.logout-button {
+.layout.theme-light .logout-button {
     border-color:
         rgba(0, 0, 0, 0.1);
 
     background: #fff;
-
     color: #111;
 }
 
-.layout.theme-light
-.stat-card,
-.layout.theme-light
-.activity,
-.layout.theme-light
-.profile-progress,
-.layout.theme-light
-.action-card {
+.layout.theme-light .stat-card,
+.layout.theme-light .activity,
+.layout.theme-light .profile-progress,
+.layout.theme-light .action-card {
     background: #fff;
 
     border-color:
@@ -1883,61 +1888,70 @@ body {
     color: #111;
 }
 
-.layout.theme-light
-.stat-card p,
-.layout.theme-light
-.activity span,
-.layout.theme-light
-.profile-progress p,
-.layout.theme-light
-.action-card p {
+.layout.theme-light .stat-card p,
+.layout.theme-light .activity span,
+.layout.theme-light .profile-progress p,
+.layout.theme-light .action-card p {
     color:
         rgba(0, 0, 0, 0.55);
 }
 
-.layout.theme-light
-.stat-header {
+.layout.theme-light .stat-header {
     color:
         rgba(0, 0, 0, 0.65);
 }
 
-.layout.theme-light
-.action-link {
+.layout.theme-light .action-link {
     color: #111;
 }
 
 
 /* =========================================================
-   LIGHT THEME — SIDEBAR CONTROLS
+   LIGHT THEME — SIDEBAR TOGGLE
    ========================================================= */
 
-.layout.theme-light
-.sidebar-toggle {
+.layout.theme-light .sidebar-toggle {
     border-color:
         rgba(0, 0, 0, 0.1);
 
     background:
-        rgba(255, 255, 255, 0.9);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(245, 245, 245, 0.98)
+        );
 
-    color: #222;
+    color: #333;
 
     box-shadow:
-        0 8px 25px
-        rgba(0, 0, 0, 0.08);
+        0 8px 25px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(0, 0, 0, 0.02);
 }
 
-.layout.theme-light
-.sidebar-toggle:hover {
-    background: #fff;
-
-    color: #111;
-
+.layout.theme-light .sidebar-toggle:hover {
     border-color:
-        rgba(0, 0, 0, 0.18);
+        rgba(212, 175, 55, 0.45);
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f4f4f4
+        );
+
+    color: #a27d08;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.14),
+        0 0 20px rgba(212, 175, 55, 0.1);
 }
 
-.layout.theme-light
-.sidebar-mobile-close {
+
+/* =========================================================
+   LIGHT THEME — MOBILE CLOSE
+   ========================================================= */
+
+.layout.theme-light .sidebar-mobile-close {
     border-color:
         rgba(0, 0, 0, 0.1);
 
@@ -1947,50 +1961,19 @@ body {
     color: #444;
 }
 
-.layout.theme-light
-.sidebar-mobile-close:hover {
+.layout.theme-light .sidebar-mobile-close:hover {
     background:
         rgba(0, 0, 0, 0.07);
 
     color: #111;
 }
 
-/* =========================================================
-   HEADER — RESPONSIVO
-   ========================================================= */
-
-.dashboard-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-
-    gap: 30px;
-
-    width: 100%;
-    margin-bottom: 40px;
-}
-
-.header-user {
-    flex: 1;
-    min-width: 0;
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    flex-shrink: 0;
-
-    gap: 10px;
-}
 
 /* =========================================================
-   TABLETS
+   TABLETS / NOTEBOOKS
    ========================================================= */
 
 @media (max-width: 1100px) {
-
     .layout {
         --sidebar-width: 250px;
     }
@@ -2000,9 +1983,28 @@ body {
             40px 30px;
     }
 
+    /*
+       O toggle continua preso à mesma referência:
+       largura do sidebar.
+
+       Não existe alteração de left quando o sidebar
+       é fechado.
+    */
+    .sidebar-toggle {
+        top: 58px;
+        left: calc(var(--sidebar-width) - 21px);
+    }
+
+    .layout.sidebar-collapsed .sidebar-toggle {
+        left: calc(var(--sidebar-width) - 21px);
+    }
+
     .dashboard-stats {
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
     }
 
     .dashboard-content-grid {
@@ -2010,12 +2012,12 @@ body {
     }
 }
 
+
 /* =========================================================
    TABLET
    ========================================================= */
 
 @media (max-width: 900px) {
-
     .dashboard-header {
         gap: 20px;
     }
@@ -2045,204 +2047,25 @@ body {
     }
 
     .logout-button {
-        padding: 11px 16px;
+        padding:
+            11px 16px;
     }
 }
 
 
 /* =========================================================
-   TABLET PEQUENO / CELULAR
-   ========================================================= */
-
-@media (max-width: 700px) {
-
-    .dashboard-header {
-        display: grid;
-
-        grid-template-columns:
-            minmax(0, 1fr)
-            auto;
-
-        align-items: start;
-
-        gap: 15px;
-
-        margin-bottom: 30px;
-    }
-
-    .header-user {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .welcome-label {
-        display: block;
-
-        max-width: 100%;
-
-        margin-bottom: 5px;
-
-        font-size: 0.6rem;
-
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .dashboard-header h1 {
-        max-width: 100%;
-
-        margin: 0;
-
-        font-size: 1.45rem;
-
-        line-height: 1.25;
-
-        word-break: normal;
-    }
-
-    .dashboard-header p {
-        max-width: 100%;
-
-        margin-top: 5px;
-
-        font-size: 0.72rem;
-
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .header-actions {
-        width: auto;
-
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-
-        gap: 7px;
-    }
-
-    .icon-button {
-        width: 40px;
-        height: 40px;
-    }
-
-    .logout-button {
-        width: 40px;
-        height: 40px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        padding: 0;
-
-        border-radius: 11px;
-    }
-
-    .logout-button svg {
-        margin: 0;
-    }
-
-    .logout-button {
-        font-size: 0;
-    }
-}
-
-
-/* =========================================================
-   CELULAR
-   ========================================================= */
-
-@media (max-width: 480px) {
-
-    .dashboard-header {
-        grid-template-columns:
-            minmax(0, 1fr)
-            auto;
-
-        gap: 10px;
-
-        margin-bottom: 25px;
-    }
-
-    .welcome-label {
-        font-size: 0.56rem;
-
-        letter-spacing: 1.5px;
-    }
-
-    .dashboard-header h1 {
-        font-size: 1.25rem;
-    }
-
-    .dashboard-header p {
-        font-size: 0.68rem;
-    }
-
-    .header-actions {
-        gap: 5px;
-    }
-
-    .icon-button,
-    .logout-button {
-        width: 37px;
-        height: 37px;
-    }
-
-    .notification-badge {
-        top: -4px;
-        right: -4px;
-
-        min-width: 16px;
-        height: 16px;
-
-        font-size: 0.5rem;
-    }
-}
-
-
-/* =========================================================
-   CELULARES MUITO PEQUENOS
-   ========================================================= */
-
-@media (max-width: 360px) {
-
-    .dashboard-header {
-        gap: 8px;
-    }
-
-    .welcome-label {
-        font-size: 0.52rem;
-    }
-
-    .dashboard-header h1 {
-        font-size: 1.15rem;
-    }
-
-    .dashboard-header p {
-        font-size: 0.62rem;
-    }
-
-    .icon-button,
-    .logout-button {
-        width: 35px;
-        height: 35px;
-    }
-}
-
-/* =========================================================
-   TABLET MENOR / MOBILE
+   MOBILE / TABLET MENOR
    ========================================================= */
 
 @media (max-width: 800px) {
-
     .layout {
         display: block;
-
         min-height: 100dvh;
     }
+
+    /*
+       Sidebar vira drawer.
+    */
 
     .sidebar {
         position: fixed;
@@ -2282,13 +2105,17 @@ body {
             transform 0.3s ease;
     }
 
-    .layout.sidebar-collapsed
-    .sidebar {
+    .layout.sidebar-collapsed .sidebar {
         display: block;
 
         transform:
             translateX(-105%);
     }
+
+
+    /*
+       Overlay quando o menu está aberto.
+    */
 
     .layout.sidebar-open::after {
         content: "";
@@ -2306,13 +2133,52 @@ body {
         -webkit-backdrop-filter: blur(3px);
     }
 
+
+    /*
+       MOBILE TOGGLE
+
+       No mobile o botão realmente precisa ficar
+       no topo esquerdo.
+    */
+
+    .sidebar-toggle {
+        position: fixed;
+
+        z-index: 90;
+
+        top: 22px;
+        left: 20px;
+
+        width: 42px;
+        height: 42px;
+
+        transform: none;
+
+        border-radius: 12px;
+    }
+
+    /*
+       Mesmo lugar aberto ou fechado.
+    */
+
+    .layout.sidebar-collapsed .sidebar-toggle {
+        left: 20px;
+    }
+
+    .sidebar-toggle:hover {
+        transform: scale(1.04);
+    }
+
+    .sidebar-toggle:active {
+        transform: scale(0.94);
+    }
+
     .sidebar-mobile-close {
         display: flex;
     }
 
     .sidebar-brand {
         padding-left: 5px;
-
         margin-bottom: 38px;
     }
 
@@ -2325,15 +2191,12 @@ body {
             30px 24px 50px;
     }
 
-    .layout.sidebar-collapsed
-    .dashboard-header {
-        padding-left: 55px;
-    }
-
     .dashboard-header {
         align-items: flex-start;
 
         gap: 25px;
+
+        padding-left: 52px;
     }
 
     .dashboard-header h1 {
@@ -2349,26 +2212,19 @@ body {
 
     .banner-decoration {
         opacity: 0.3;
-
         right: -50px;
     }
 }
 
 
 /* =========================================================
-   CELULARES
+   MOBILE
    ========================================================= */
 
 @media (max-width: 576px) {
-
     .dashboard-container {
         padding:
             24px 16px 45px;
-    }
-
-    .layout.sidebar-collapsed
-    .dashboard-header {
-        padding-left: 52px;
     }
 
     .sidebar-toggle {
@@ -2377,6 +2233,12 @@ body {
 
         width: 40px;
         height: 40px;
+
+        border-radius: 11px;
+    }
+
+    .layout.sidebar-collapsed .sidebar-toggle {
+        left: 16px;
     }
 
     .dashboard-header {
@@ -2385,13 +2247,14 @@ body {
         gap: 18px;
 
         margin-bottom: 28px;
+
+        padding-left: 50px;
     }
 
     .dashboard-header h1 {
         max-width: 100%;
 
         font-size: 1.55rem;
-
         line-height: 1.2;
     }
 
@@ -2434,7 +2297,6 @@ body {
 
     .dashboard-banner h2 {
         font-size: 1.8rem;
-
         line-height: 1.15;
     }
 
@@ -2442,7 +2304,6 @@ body {
         margin-bottom: 22px;
 
         font-size: 0.82rem;
-
         line-height: 1.6;
     }
 
@@ -2464,7 +2325,6 @@ body {
 
     .dashboard-stats {
         grid-template-columns: 1fr;
-
         gap: 12px;
     }
 
@@ -2487,21 +2347,17 @@ body {
 
     .dashboard-actions {
         grid-template-columns: 1fr;
-
         gap: 12px;
     }
 
     .action-card {
         min-height: 175px;
-
         padding: 21px;
     }
 
     .search-overlay {
         padding:
             18px 12px;
-
-        align-items: flex-start;
     }
 
     .search-panel {
@@ -2510,7 +2366,6 @@ body {
 
     .panel-header {
         align-items: flex-start;
-
         flex-direction: column;
     }
 }
@@ -2521,7 +2376,6 @@ body {
    ========================================================= */
 
 @media (max-width: 360px) {
-
     .dashboard-container {
         padding:
             22px 12px 40px;
@@ -2533,11 +2387,17 @@ body {
 
         width: 38px;
         height: 38px;
+
+        border-radius: 10px;
     }
 
-    .layout.sidebar-collapsed
+    .layout.sidebar-collapsed .sidebar-toggle {
+        left: 13px;
+    }
+
     .dashboard-header {
-        padding-left: 48px;
+        padding-left: 47px;
+        gap: 8px;
     }
 
     .dashboard-header h1 {
@@ -2578,18 +2438,65 @@ body {
 
 
 /* =========================================================
+   MONITORES GRANDES
+   ========================================================= */
+
+@media (min-width: 1600px) {
+    .layout {
+        --sidebar-width: 320px;
+    }
+
+    .dashboard-container {
+        padding:
+            52px 65px;
+    }
+
+    .sidebar-toggle {
+        top: 72px;
+        left: calc(var(--sidebar-width) - 21px);
+    }
+
+    .layout.sidebar-collapsed .sidebar-toggle {
+        left: calc(var(--sidebar-width) - 21px);
+    }
+}
+
+
+/* =========================================================
+   MONITORES MUITO GRANDES
+   ========================================================= */
+
+@media (min-width: 2000px) {
+    .layout {
+        --sidebar-width: 340px;
+    }
+
+    .dashboard-container {
+        padding:
+            56px 80px;
+    }
+
+    .sidebar-toggle {
+        top: 76px;
+        left: calc(var(--sidebar-width) - 21px);
+    }
+
+    .layout.sidebar-collapsed .sidebar-toggle {
+        left: calc(var(--sidebar-width) - 21px);
+    }
+}
+
+
+/* =========================================================
    REDUÇÃO DE MOVIMENTO
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
     .layout,
     .layout *,
     .layout *::before,
     .layout *::after {
         animation: none !important;
-
         transition: none !important;
     }
 }
-
