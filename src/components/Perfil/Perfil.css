@@ -1,5 +1,6 @@
 /* =========================================================
    NOIR AVENUE — PERFIL
+   Account Experience
 ========================================================= */
 
 .profile-page,
@@ -11,21 +12,21 @@
   min-height: 100vh;
   width: 100%;
 
-  padding: 0 24px 70px;
+  padding: 0 24px 80px;
 
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, #ffffff);
 
   background:
     radial-gradient(
-      circle at 50% -10%,
-      rgba(212, 175, 55, 0.08),
-      transparent 35%
+      circle at 50% -8%,
+      rgba(212, 175, 55, 0.075),
+      transparent 34%
     ),
     linear-gradient(
       180deg,
       #080808 0%,
-      #0c0c0f 48%,
-      #090909 100%
+      #0b0b0d 48%,
+      #080808 100%
     );
 
   animation: profileFade 0.45s ease both;
@@ -37,7 +38,6 @@
 
 .profile-topbar {
   width: min(100%, 1180px);
-
   min-height: 82px;
 
   margin: 0 auto;
@@ -46,33 +46,39 @@
   align-items: center;
   justify-content: space-between;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid
+    rgba(255, 255, 255, 0.07);
 }
 
 .profile-logo {
   width: 128px;
   height: auto;
-
   object-fit: contain;
 }
 
 .profile-back-button {
+  min-height: 40px;
+
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+
   gap: 9px;
 
-  padding: 10px 14px;
+  padding: 0 14px;
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid
+    rgba(255, 255, 255, 0.09);
+
   border-radius: 10px;
 
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.68);
 
   background: rgba(255, 255, 255, 0.035);
 
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 650;
 
   cursor: pointer;
 
@@ -81,10 +87,6 @@
     background 0.2s ease,
     border-color 0.2s ease,
     transform 0.2s ease;
-}
-
-.profile-back-button svg {
-  font-size: 10px;
 }
 
 .profile-back-button:hover {
@@ -97,13 +99,16 @@
   transform: translateX(2px);
 }
 
+.profile-back-button svg {
+  font-size: 9px;
+}
+
 /* =========================================================
    MAIN
 ========================================================= */
 
 .profile-main {
   width: min(100%, 1180px);
-
   margin: 0 auto;
 }
 
@@ -112,18 +117,19 @@
 ========================================================= */
 
 .profile-intro {
-  padding: 55px 0 30px;
+  padding: 54px 0 30px;
 }
 
 .profile-eyebrow,
-.section-eyebrow {
+.section-eyebrow,
+.status-label {
   display: block;
 
   margin-bottom: 9px;
 
   color: #d4af37;
 
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
 
   letter-spacing: 0.2em;
@@ -137,22 +143,22 @@
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 650;
 
-  letter-spacing: -0.04em;
+  letter-spacing: -0.045em;
 }
 
 .profile-intro p {
-  max-width: 560px;
+  max-width: 610px;
 
   margin: 12px 0 0;
 
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.5);
 
   font-size: 14px;
   line-height: 1.7;
 }
 
 /* =========================================================
-   PROFILE HERO
+   HERO
 ========================================================= */
 
 .profile-hero {
@@ -160,14 +166,16 @@
 
   overflow: hidden;
 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid
+    rgba(255, 255, 255, 0.1);
+
   border-radius: 24px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(255, 255, 255, 0.09),
-      rgba(255, 255, 255, 0.025)
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.018)
     );
 
   box-shadow:
@@ -175,20 +183,20 @@
 }
 
 .profile-hero-background {
-  height: 170px;
+  height: 175px;
 
   background:
     linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.9),
-      rgba(0, 0, 0, 0.35)
+      rgba(0, 0, 0, 0.94),
+      rgba(0, 0, 0, 0.28)
     ),
     url("/images/new-york-night.jpg");
 
   background-size: cover;
   background-position: center;
 
-  filter: saturate(0.75);
+  filter: saturate(0.72);
 }
 
 .profile-hero-content {
@@ -215,7 +223,7 @@
 }
 
 /* =========================================================
-   PROFILE AVATAR
+   AVATAR
 ========================================================= */
 
 .profile-avatar {
@@ -249,7 +257,8 @@
   font-weight: 800;
 
   box-shadow:
-    0 12px 35px rgba(212, 175, 55, 0.25);
+    0 12px 35px
+      rgba(212, 175, 55, 0.22);
 }
 
 .profile-avatar.has-photo {
@@ -266,10 +275,6 @@
 
   border-radius: 50%;
 }
-
-/* =========================================================
-   CAMERA BUTTON
-========================================================= */
 
 .profile-avatar-camera {
   position: absolute;
@@ -295,9 +300,6 @@
       #d4af37
     );
 
-  box-shadow:
-    0 5px 16px rgba(0, 0, 0, 0.4);
-
   cursor: pointer;
 
   transition:
@@ -307,12 +309,7 @@
 
 .profile-avatar-camera:hover {
   transform: scale(1.08);
-
   filter: brightness(1.08);
-}
-
-.profile-avatar-camera:active {
-  transform: scale(0.96);
 }
 
 .profile-avatar-camera:disabled {
@@ -321,31 +318,30 @@
 }
 
 .profile-avatar-camera svg {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .profile-photo-input {
   display: none;
 }
 
-/* =========================================================
-   PHOTO LOADER
-========================================================= */
-
 .photo-loader {
   width: 13px;
   height: 13px;
 
-  border: 2px solid rgba(0, 0, 0, 0.25);
+  border: 2px solid
+    rgba(0, 0, 0, 0.25);
+
   border-top-color: #111;
 
   border-radius: 50%;
 
-  animation: photoSpin 0.7s linear infinite;
+  animation:
+    photoSpin 0.7s linear infinite;
 }
 
 /* =========================================================
-   PROFILE IDENTITY
+   IDENTITY
 ========================================================= */
 
 .profile-identity-info {
@@ -357,7 +353,7 @@
   align-items: center;
   flex-wrap: wrap;
 
-  gap: 12px;
+  gap: 11px;
 }
 
 .profile-name-row h2 {
@@ -365,69 +361,72 @@
 
   color: #fff;
 
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.45rem, 3vw, 2rem);
   font-weight: 650;
 
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
 }
 
 .premium-badge {
   display: inline-flex;
   align-items: center;
+
   gap: 6px;
 
   padding: 6px 10px;
 
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid
+    rgba(212, 175, 55, 0.25);
+
   border-radius: 999px;
 
   color: #e6ca69;
 
-  background: rgba(212, 175, 55, 0.08);
+  background:
+    rgba(212, 175, 55, 0.08);
 
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
 
   letter-spacing: 0.04em;
 }
 
-.premium-badge svg {
-  font-size: 10px;
-}
-
 .profile-identity-info > p {
   display: flex;
   align-items: center;
+
   gap: 8px;
 
   margin: 9px 0 0;
 
-  color: rgba(255, 255, 255, 0.52);
-
-  font-size: 13px;
-}
-
-.profile-identity-info > p svg {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.5);
 
   font-size: 12px;
 }
 
+.profile-identity-info > p svg {
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 11px;
+}
+
 /* =========================================================
-   PRIMARY EDIT
+   PRIMARY BUTTON
 ========================================================= */
 
 .profile-edit-primary {
+  min-height: 45px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
 
-  min-height: 45px;
+  gap: 9px;
 
   padding: 0 19px;
 
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border: 1px solid
+    rgba(212, 175, 55, 0.3);
+
   border-radius: 11px;
 
   color: #151515;
@@ -440,13 +439,11 @@
     );
 
   font-family: inherit;
-  font-size: 13px;
+
+  font-size: 12px;
   font-weight: 800;
 
   cursor: pointer;
-
-  box-shadow:
-    0 8px 20px rgba(212, 175, 55, 0.12);
 
   transition:
     transform 0.2s ease,
@@ -460,21 +457,556 @@
   filter: brightness(1.05);
 
   box-shadow:
-    0 12px 28px rgba(212, 175, 55, 0.2);
-}
-
-.profile-edit-primary:active {
-  transform: translateY(0);
+    0 12px 28px
+      rgba(212, 175, 55, 0.2);
 }
 
 /* =========================================================
-   PHOTO ACTIONS
+   ACCOUNT STATUS
 ========================================================= */
 
-.profile-photo-actions {
+.profile-account-status {
   margin-top: 14px;
 
-  padding: 19px 22px;
+  padding: 20px 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  border: 1px solid
+    rgba(212, 175, 55, 0.13);
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.055),
+      rgba(255, 255, 255, 0.025)
+    );
+}
+
+.account-status-main {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.status-icon {
+  width: 43px;
+  height: 43px;
+
+  flex: 0 0 43px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid
+    rgba(74, 222, 128, 0.18);
+
+  border-radius: 12px;
+
+  color: #69d98b;
+
+  background:
+    rgba(74, 222, 128, 0.07);
+}
+
+.status-label {
+  margin-bottom: 4px;
+  color: #d4af37;
+}
+
+.account-status-main strong {
+  display: block;
+
+  color: rgba(255, 255, 255, 0.92);
+
+  font-size: 13px;
+}
+
+.account-status-main p {
+  margin: 4px 0 0;
+
+  color: rgba(255, 255, 255, 0.42);
+
+  font-size: 11px;
+}
+
+.profile-progress {
+  width: min(320px, 100%);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 7px;
+
+  color: rgba(255, 255, 255, 0.42);
+
+  font-size: 10px;
+}
+
+.progress-header strong {
+  color: #d4af37;
+}
+
+.progress-track {
+  height: 6px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+.progress-value {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #a77d18,
+      #d4af37,
+      #f8e88c
+    );
+
+  transition: width 0.4s ease;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.profile-stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 12px;
+
+  margin-top: 14px;
+}
+
+.profile-stat {
+  min-height: 88px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 17px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.075);
+
+  border-radius: 15px;
+
+  background:
+    rgba(255, 255, 255, 0.028);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.profile-stat:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(212, 175, 55, 0.18);
+
+  background:
+    rgba(255, 255, 255, 0.045);
+}
+
+.profile-stat-icon {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid
+    rgba(212, 175, 55, 0.15);
+
+  border-radius: 11px;
+
+  color: #d4af37;
+
+  background:
+    rgba(212, 175, 55, 0.055);
+}
+
+.profile-stat strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: rgba(255, 255, 255, 0.92);
+
+  font-size: 15px;
+}
+
+.profile-stat span {
+  display: block;
+
+  color: rgba(255, 255, 255, 0.4);
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.profile-section,
+.profile-actions-section {
+  margin-top: 52px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 25px;
+
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #fff;
+
+  font-size: 1.4rem;
+  font-weight: 650;
+
+  letter-spacing: -0.025em;
+}
+
+.section-heading p {
+  max-width: 590px;
+
+  margin: 7px 0 0;
+
+  color: rgba(255, 255, 255, 0.45);
+
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   SHORTCUTS
+========================================================= */
+
+.profile-shortcuts {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 12px;
+}
+
+.profile-shortcut {
+  width: 100%;
+  min-height: 96px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 17px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.075);
+
+  border-radius: 15px;
+
+  text-align: left;
+
+  color: inherit;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.profile-shortcut:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(212, 175, 55, 0.2);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.025)
+    );
+}
+
+.shortcut-icon {
+  width: 43px;
+  height: 43px;
+
+  flex: 0 0 43px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid
+    rgba(212, 175, 55, 0.16);
+
+  border-radius: 12px;
+
+  color: #d4af37;
+
+  background:
+    rgba(212, 175, 55, 0.055);
+}
+
+.shortcut-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.shortcut-title {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 5px;
+}
+
+.shortcut-title strong {
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 13px;
+}
+
+.shortcut-content > span {
+  display: block;
+
+  color: rgba(255, 255, 255, 0.4);
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.shortcut-badge {
+  min-width: 19px;
+  height: 19px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 5px;
+
+  border-radius: 999px;
+
+  color: #151515;
+
+  background: #d4af37;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.shortcut-arrow {
+  flex: 0 0 auto;
+
+  color: rgba(255, 255, 255, 0.2);
+
+  font-size: 9px;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.profile-shortcut:hover
+.shortcut-arrow {
+  transform: translateX(3px);
+
+  color: #d4af37;
+}
+
+/* =========================================================
+   INFO GRID
+========================================================= */
+
+.section-edit-button {
+  min-height: 37px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 13px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.09);
+
+  border-radius: 9px;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.section-edit-button:hover {
+  color: #fff;
+
+  border-color:
+    rgba(255, 255, 255, 0.17);
+
+  background:
+    rgba(255, 255, 255, 0.07);
+}
+
+.profile-info-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 12px;
+}
+
+.info-card {
+  min-height: 102px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 19px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.075);
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(255, 255, 255, 0.13);
+}
+
+.info-card-icon {
+  width: 43px;
+  height: 43px;
+
+  flex: 0 0 43px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 11px;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  background:
+    rgba(255, 255, 255, 0.04);
+}
+
+.info-card-content {
+  min-width: 0;
+}
+
+.info-card-content span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: rgba(255, 255, 255, 0.38);
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+}
+
+.info-card-content strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 13px;
+  font-weight: 550;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   PHOTO PANEL
+========================================================= */
+
+.profile-photo-panel {
+  min-height: 94px;
 
   display: flex;
   align-items: center;
@@ -482,57 +1014,87 @@
 
   gap: 25px;
 
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 16px;
+  padding: 18px 20px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.075);
+
+  border-radius: 15px;
+
+  background:
+    rgba(255, 255, 255, 0.028);
+}
+
+.photo-panel-preview {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+}
+
+.photo-panel-avatar {
+  width: 54px;
+  height: 54px;
+
+  flex: 0 0 54px;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border: 3px solid #0b0b0b;
+  border-radius: 50%;
+
+  color: #111;
 
   background:
     linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.045),
-      rgba(255, 255, 255, 0.02)
+      135deg,
+      #f8e88c,
+      #d4af37
     );
+
+  font-size: 1.2rem;
+  font-weight: 800;
 }
 
-.photo-actions-eyebrow {
+.photo-panel-avatar img {
+  width: 100%;
+  height: 100%;
+
   display: block;
 
-  margin-bottom: 5px;
-
-  color: #d4af37;
-
-  font-size: 9px;
-  font-weight: 800;
-
-  letter-spacing: 0.15em;
+  object-fit: cover;
 }
 
-.profile-photo-actions h3 {
-  margin: 0;
+.photo-panel-preview strong {
+  display: block;
 
-  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 4px;
 
-  font-size: 14px;
-  font-weight: 650;
+  color: rgba(255, 255, 255, 0.88);
+
+  font-size: 12px;
 }
 
-.profile-photo-actions p {
-  margin: 5px 0 0;
+.photo-panel-preview span {
+  display: block;
 
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.38);
 
-  font-size: 11px;
+  font-size: 10px;
 }
 
-.photo-actions-buttons {
+.photo-panel-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
 
-  flex-shrink: 0;
+  gap: 8px;
 }
 
 .photo-action-button {
-  min-height: 38px;
+  min-height: 37px;
 
   display: inline-flex;
   align-items: center;
@@ -545,19 +1107,20 @@
   border-radius: 9px;
 
   font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
+
+  font-size: 10px;
+  font-weight: 750;
 
   cursor: pointer;
 
   transition:
     transform 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
+    filter 0.2s ease;
 }
 
 .photo-action-button.primary {
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid
+    rgba(212, 175, 55, 0.25);
 
   color: #151515;
 
@@ -571,274 +1134,17 @@
 
 .photo-action-button.primary:hover {
   transform: translateY(-1px);
-
   filter: brightness(1.05);
 }
 
 .photo-action-button.danger {
-  border: 1px solid rgba(239, 68, 68, 0.15);
+  border: 1px solid
+    rgba(239, 68, 68, 0.15);
 
   color: #e98787;
 
-  background: rgba(239, 68, 68, 0.06);
-}
-
-.photo-action-button.danger:hover {
-  border-color: rgba(239, 68, 68, 0.25);
-
-  background: rgba(239, 68, 68, 0.1);
-}
-
-/* =========================================================
-   OVERVIEW
-========================================================= */
-
-.profile-overview {
-  display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 14px;
-
-  margin-top: 18px;
-}
-
-.overview-card {
-  min-height: 90px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 14px;
-
-  padding: 18px;
-
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 16px;
-
   background:
-    rgba(255, 255, 255, 0.035);
-
-  transition:
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    background 0.2s ease;
-}
-
-.overview-card:hover {
-  transform: translateY(-2px);
-
-  border-color: rgba(212, 175, 55, 0.18);
-
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.overview-icon {
-  width: 42px;
-  height: 42px;
-
-  flex: 0 0 42px;
-
-  display: grid;
-  place-items: center;
-
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  border-radius: 12px;
-
-  color: #d4af37;
-
-  background: rgba(212, 175, 55, 0.07);
-}
-
-.overview-card span {
-  display: block;
-
-  margin-bottom: 4px;
-
-  color: rgba(255, 255, 255, 0.43);
-
-  font-size: 11px;
-}
-
-.overview-card strong {
-  display: block;
-
-  color: rgba(255, 255, 255, 0.9);
-
-  font-size: 13px;
-  font-weight: 650;
-}
-
-/* =========================================================
-   SECTION
-========================================================= */
-
-.profile-section {
-  margin-top: 55px;
-}
-
-.section-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-
-  gap: 25px;
-
-  margin-bottom: 22px;
-}
-
-.section-heading h2 {
-  margin: 0;
-
-  color: #fff;
-
-  font-size: 1.45rem;
-  font-weight: 650;
-
-  letter-spacing: -0.025em;
-}
-
-.section-heading p {
-  max-width: 540px;
-
-  margin: 7px 0 0;
-
-  color: rgba(255, 255, 255, 0.48);
-
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.section-edit-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-
-  padding: 9px 13px;
-
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 9px;
-
-  color: rgba(255, 255, 255, 0.72);
-
-  background: rgba(255, 255, 255, 0.035);
-
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 650;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.section-edit-button:hover {
-  color: #fff;
-
-  border-color: rgba(255, 255, 255, 0.17);
-
-  background: rgba(255, 255, 255, 0.07);
-}
-
-/* =========================================================
-   INFO GRID
-========================================================= */
-
-.profile-info-grid {
-  display: grid;
-
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 14px;
-}
-
-.info-card {
-  min-height: 105px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 16px;
-
-  padding: 20px;
-
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 16px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.025)
-    );
-
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.info-card:hover {
-  transform: translateY(-2px);
-
-  border-color: rgba(255, 255, 255, 0.13);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.07),
-      rgba(255, 255, 255, 0.03)
-    );
-}
-
-.info-card-icon {
-  width: 44px;
-  height: 44px;
-
-  flex: 0 0 44px;
-
-  display: grid;
-  place-items: center;
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-
-  color: rgba(255, 255, 255, 0.7);
-
-  background: rgba(255, 255, 255, 0.045);
-}
-
-.info-card-content {
-  min-width: 0;
-}
-
-.info-card-content span {
-  display: block;
-
-  margin-bottom: 5px;
-
-  color: rgba(255, 255, 255, 0.42);
-
-  font-size: 11px;
-  font-weight: 600;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.07em;
-}
-
-.info-card-content strong {
-  display: block;
-
-  overflow: hidden;
-
-  color: rgba(255, 255, 255, 0.9);
-
-  font-size: 14px;
-  font-weight: 550;
-
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    rgba(239, 68, 68, 0.06);
 }
 
 /* =========================================================
@@ -849,36 +1155,41 @@
   display: flex;
   align-items: center;
 
-  gap: 18px;
+  gap: 17px;
 
-  padding: 22px;
+  padding: 21px;
 
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 18px;
+  border: 1px solid
+    rgba(255, 255, 255, 0.075);
+
+  border-radius: 17px;
 
   background:
     linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0.025)
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.018)
     );
 }
 
 .security-icon {
-  width: 50px;
-  height: 50px;
+  width: 49px;
+  height: 49px;
 
-  flex: 0 0 50px;
+  flex: 0 0 49px;
 
   display: grid;
   place-items: center;
 
-  border: 1px solid rgba(74, 222, 128, 0.18);
-  border-radius: 14px;
+  border: 1px solid
+    rgba(74, 222, 128, 0.18);
+
+  border-radius: 13px;
 
   color: #69d98b;
 
-  background: rgba(74, 222, 128, 0.07);
+  background:
+    rgba(74, 222, 128, 0.07);
 }
 
 .security-content {
@@ -891,12 +1202,37 @@
   gap: 25px;
 }
 
+.security-title-row {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
 .security-content h3 {
-  margin: 0 0 6px;
+  margin: 0 0 5px;
 
   color: #fff;
 
-  font-size: 14px;
+  font-size: 13px;
+}
+
+.security-status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 4px;
+
+  margin-bottom: 5px;
+
+  color: #69d98b;
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.security-status svg {
+  font-size: 8px;
 }
 
 .security-content p {
@@ -904,30 +1240,37 @@
 
   margin: 0;
 
-  color: rgba(255, 255, 255, 0.47);
+  color: rgba(255, 255, 255, 0.42);
 
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.6;
 }
 
 .security-action {
   flex: 0 0 auto;
 
+  min-height: 38px;
+
   display: inline-flex;
   align-items: center;
-  gap: 10px;
 
-  padding: 10px 13px;
+  gap: 9px;
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0 13px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.08);
+
   border-radius: 9px;
 
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.7);
 
-  background: rgba(255, 255, 255, 0.035);
+  background:
+    rgba(255, 255, 255, 0.035);
 
   font-family: inherit;
-  font-size: 12px;
+
+  font-size: 10px;
   font-weight: 650;
 
   cursor: pointer;
@@ -935,31 +1278,25 @@
   transition: 0.2s ease;
 }
 
-.security-action svg {
-  font-size: 9px;
-}
-
 .security-action:hover {
   color: #fff;
 
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color:
+    rgba(255, 255, 255, 0.15);
 
-  background: rgba(255, 255, 255, 0.07);
+  background:
+    rgba(255, 255, 255, 0.07);
 }
 
 /* =========================================================
    ACCOUNT ACTIONS
 ========================================================= */
 
-.profile-actions-section {
-  margin-top: 55px;
-}
-
 .account-actions {
   display: flex;
   flex-direction: column;
 
-  gap: 10px;
+  gap: 9px;
 }
 
 .account-action {
@@ -970,14 +1307,17 @@
 
   gap: 15px;
 
-  padding: 18px;
+  padding: 17px;
 
-  border: 1px solid rgba(255, 255, 255, 0.075);
+  border: 1px solid
+    rgba(255, 255, 255, 0.075);
+
   border-radius: 15px;
 
   text-align: left;
 
-  background: rgba(255, 255, 255, 0.03);
+  background:
+    rgba(255, 255, 255, 0.025);
 
   cursor: pointer;
 
@@ -990,9 +1330,11 @@
 .account-action:hover {
   transform: translateX(2px);
 
-  background: rgba(255, 255, 255, 0.055);
+  background:
+    rgba(255, 255, 255, 0.05);
 
-  border-color: rgba(255, 255, 255, 0.13);
+  border-color:
+    rgba(255, 255, 255, 0.13);
 }
 
 .account-action-icon {
@@ -1006,14 +1348,14 @@
 
   border-radius: 11px;
 
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.68);
 
-  background: rgba(255, 255, 255, 0.05);
+  background:
+    rgba(255, 255, 255, 0.05);
 }
 
 .account-action div:nth-child(2) {
   flex: 1;
-
   min-width: 0;
 }
 
@@ -1024,41 +1366,43 @@
 
   color: rgba(255, 255, 255, 0.88);
 
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .account-action span {
   display: block;
 
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.4);
 
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .action-arrow {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.22);
 
-  font-size: 10px;
+  font-size: 9px;
 
-  transition: transform 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .account-action:hover .action-arrow {
   transform: translateX(3px);
-
   color: rgba(255, 255, 255, 0.55);
 }
 
 .account-action.danger {
-  border-color: rgba(239, 68, 68, 0.1);
+  border-color:
+    rgba(239, 68, 68, 0.1);
 
-  background: rgba(127, 29, 29, 0.06);
+  background:
+    rgba(127, 29, 29, 0.05);
 }
 
-.account-action.danger .account-action-icon {
+.account-action.danger
+.account-action-icon {
   color: #ef6969;
-
-  background: rgba(239, 68, 68, 0.08);
+  background:
+    rgba(239, 68, 68, 0.08);
 }
 
 .account-action.danger strong {
@@ -1066,13 +1410,15 @@
 }
 
 .account-action.danger:hover {
-  border-color: rgba(239, 68, 68, 0.2);
+  border-color:
+    rgba(239, 68, 68, 0.2);
 
-  background: rgba(127, 29, 29, 0.1);
+  background:
+    rgba(127, 29, 29, 0.1);
 }
 
 /* =========================================================
-   MODAL OVERLAY
+   MODALS
 ========================================================= */
 
 .profile-modal-overlay {
@@ -1087,30 +1433,31 @@
   align-items: center;
   justify-content: center;
 
-  background: rgba(0, 0, 0, 0.78);
+  background:
+    rgba(0, 0, 0, 0.78);
 
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  animation: modalOverlay 0.2s ease both;
+  animation:
+    modalOverlay 0.2s ease both;
 }
-
-/* =========================================================
-   MODAL
-========================================================= */
 
 .profile-modal {
   position: relative;
 
   width: min(100%, 500px);
 
-  max-height: calc(100vh - 40px);
+  max-height:
+    calc(100vh - 40px);
 
   overflow-y: auto;
 
   padding: 30px;
 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid
+    rgba(255, 255, 255, 0.1);
+
   border-radius: 20px;
 
   background:
@@ -1121,9 +1468,11 @@
     );
 
   box-shadow:
-    0 35px 90px rgba(0, 0, 0, 0.55);
+    0 35px 90px
+      rgba(0, 0, 0, 0.55);
 
-  animation: modalEnter 0.25s ease both;
+  animation:
+    modalEnter 0.25s ease both;
 }
 
 .modal-close {
@@ -1138,12 +1487,15 @@
   display: grid;
   place-items: center;
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid
+    rgba(255, 255, 255, 0.08);
+
   border-radius: 9px;
 
   color: rgba(255, 255, 255, 0.45);
 
-  background: rgba(255, 255, 255, 0.035);
+  background:
+    rgba(255, 255, 255, 0.035);
 
   cursor: pointer;
 
@@ -1153,12 +1505,9 @@
 .modal-close:hover {
   color: #fff;
 
-  background: rgba(255, 255, 255, 0.08);
+  background:
+    rgba(255, 255, 255, 0.08);
 }
-
-/* =========================================================
-   MODAL HEADER
-========================================================= */
 
 .modal-header {
   display: flex;
@@ -1176,12 +1525,15 @@
   display: grid;
   place-items: center;
 
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid
+    rgba(212, 175, 55, 0.2);
+
   border-radius: 11px;
 
   color: #d4af37;
 
-  background: rgba(212, 175, 55, 0.08);
+  background:
+    rgba(212, 175, 55, 0.08);
 }
 
 .modal-header span {
@@ -1206,24 +1558,23 @@
   font-weight: 650;
 }
 
-/* =========================================================
-   MODAL PHOTO EDITOR
-========================================================= */
-
 .modal-photo-editor {
   display: flex;
   align-items: center;
 
   gap: 15px;
 
-  margin: 0 0 22px;
+  margin-bottom: 22px;
 
   padding: 14px;
 
-  border: 1px solid rgba(255, 255, 255, 0.075);
+  border: 1px solid
+    rgba(255, 255, 255, 0.075);
+
   border-radius: 14px;
 
-  background: rgba(255, 255, 255, 0.025);
+  background:
+    rgba(255, 255, 255, 0.025);
 }
 
 .modal-profile-avatar {
@@ -1246,8 +1597,7 @@
     linear-gradient(
       135deg,
       #f8e88c,
-      #d4af37 55%,
-      #a77d18
+      #d4af37
     );
 
   font-size: 1.35rem;
@@ -1259,8 +1609,6 @@
   height: 100%;
 
   object-fit: cover;
-
-  display: block;
 }
 
 .modal-photo-content {
@@ -1287,7 +1635,6 @@
 
 .modal-photo-actions {
   display: flex;
-
   align-items: center;
 
   gap: 8px;
@@ -1300,13 +1647,14 @@
 
   display: inline-flex;
   align-items: center;
-  justify-content: center;
 
   gap: 6px;
 
   padding: 0 10px;
 
-  border: 1px solid rgba(212, 175, 55, 0.22);
+  border: 1px solid
+    rgba(212, 175, 55, 0.22);
+
   border-radius: 8px;
 
   color: #151515;
@@ -1319,28 +1667,22 @@
     );
 
   font-family: inherit;
+
   font-size: 10px;
   font-weight: 750;
 
   cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    filter 0.2s ease;
 }
 
-.modal-photo-actions button:hover {
-  transform: translateY(-1px);
-
-  filter: brightness(1.05);
-}
-
-.modal-photo-actions .modal-photo-remove {
-  border-color: rgba(239, 68, 68, 0.15);
+.modal-photo-actions
+.modal-photo-remove {
+  border-color:
+    rgba(239, 68, 68, 0.15);
 
   color: #e98787;
 
-  background: rgba(239, 68, 68, 0.06);
+  background:
+    rgba(239, 68, 68, 0.06);
 }
 
 .modal-description {
@@ -1351,10 +1693,6 @@
   font-size: 12px;
   line-height: 1.65;
 }
-
-/* =========================================================
-   EDIT FIELDS
-========================================================= */
 
 .edit-fields {
   display: flex;
@@ -1401,16 +1739,20 @@
   width: 100%;
   height: 48px;
 
-  padding: 0 15px 0 42px;
+  padding:
+    0 15px 0 42px;
 
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid
+    rgba(255, 255, 255, 0.09);
+
   border-radius: 10px;
 
   outline: none;
 
   color: #fff;
 
-  background: rgba(255, 255, 255, 0.045);
+  background:
+    rgba(255, 255, 255, 0.045);
 
   font-family: inherit;
   font-size: 13px;
@@ -1418,31 +1760,23 @@
   transition: 0.2s ease;
 }
 
-.modal-input input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.modal-input input:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
 .modal-input input:focus {
-  border-color: rgba(212, 175, 55, 0.55);
+  border-color:
+    rgba(212, 175, 55, 0.55);
 
-  background: rgba(255, 255, 255, 0.065);
+  background:
+    rgba(255, 255, 255, 0.065);
 
   box-shadow:
-    0 0 0 3px rgba(212, 175, 55, 0.08);
+    0 0 0 3px
+      rgba(212, 175, 55, 0.08);
 }
-
-/* =========================================================
-   MODAL ACTIONS
-========================================================= */
 
 .modal-actions {
   display: grid;
 
-  grid-template-columns: 1fr 1.3fr;
+  grid-template-columns:
+    1fr 1.3fr;
 
   gap: 10px;
 
@@ -1461,33 +1795,26 @@
   border-radius: 10px;
 
   font-family: inherit;
+
   font-size: 12px;
   font-weight: 700;
 
   cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
 }
 
 .modal-cancel {
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid
+    rgba(255, 255, 255, 0.09);
 
   color: rgba(255, 255, 255, 0.7);
 
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.modal-cancel:hover {
-  color: #fff;
-
-  background: rgba(255, 255, 255, 0.08);
+  background:
+    rgba(255, 255, 255, 0.04);
 }
 
 .modal-save {
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid
+    rgba(212, 175, 55, 0.25);
 
   color: #111;
 
@@ -1499,22 +1826,12 @@
     );
 }
 
-.modal-save:hover {
-  transform: translateY(-1px);
-
-  filter: brightness(1.05);
-}
-
 /* =========================================================
    DELETE MODAL
 ========================================================= */
 
 .delete-profile-modal {
   text-align: center;
-}
-
-.delete-profile-modal .modal-close {
-  color: rgba(255, 255, 255, 0.4);
 }
 
 .delete-icon {
@@ -1526,12 +1843,15 @@
   display: grid;
   place-items: center;
 
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border: 1px solid
+    rgba(239, 68, 68, 0.2);
+
   border-radius: 16px;
 
   color: #ef6969;
 
-  background: rgba(239, 68, 68, 0.08);
+  background:
+    rgba(239, 68, 68, 0.08);
 
   font-size: 19px;
 }
@@ -1581,22 +1901,22 @@
 
   gap: 8px;
 
-  border: 1px solid rgba(239, 68, 68, 0.12);
+  border: 1px solid
+    rgba(239, 68, 68, 0.12);
+
   border-radius: 9px;
 
   color: rgba(255, 160, 160, 0.8);
 
-  background: rgba(239, 68, 68, 0.05);
+  background:
+    rgba(239, 68, 68, 0.05);
 
   font-size: 11px;
 }
 
-.delete-warning svg {
-  font-size: 12px;
-}
-
 .modal-delete {
-  border: 1px solid rgba(239, 68, 68, 0.25);
+  border: 1px solid
+    rgba(239, 68, 68, 0.25);
 
   color: #fff;
 
@@ -1608,24 +1928,14 @@
     );
 }
 
-.modal-delete:hover {
-  transform: translateY(-1px);
-
-  background:
-    linear-gradient(
-      135deg,
-      #ef4444,
-      #b91c1c
-    );
-}
-
 /* =========================================================
    FOCUS
 ========================================================= */
 
 button:focus-visible,
 input:focus-visible {
-  outline: 2px solid rgba(212, 175, 55, 0.8);
+  outline: 2px solid
+    rgba(212, 175, 55, 0.8);
 
   outline-offset: 3px;
 }
@@ -1637,13 +1947,11 @@ input:focus-visible {
 @keyframes profileFade {
   from {
     opacity: 0;
-
     transform: translateY(10px);
   }
 
   to {
     opacity: 1;
-
     transform: translateY(0);
   }
 }
@@ -1661,13 +1969,11 @@ input:focus-visible {
 @keyframes modalEnter {
   from {
     opacity: 0;
-
     transform: translateY(12px) scale(0.98);
   }
 
   to {
     opacity: 1;
-
     transform: translateY(0) scale(1);
   }
 }
@@ -1682,16 +1988,26 @@ input:focus-visible {
    RESPONSIVE
 ========================================================= */
 
-@media (max-width: 850px) {
-  .profile-overview {
-    grid-template-columns: 1fr;
+@media (max-width: 950px) {
+  .profile-stats {
+    grid-template-columns:
+      repeat(2, 1fr);
   }
 
+  .profile-account-status {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profile-progress {
+    width: 100%;
+  }
+}
+
+@media (max-width: 850px) {
   .profile-hero-content {
     align-items: flex-start;
     flex-direction: column;
-
-    padding-top: 0;
   }
 
   .profile-edit-primary {
@@ -1702,19 +2018,6 @@ input:focus-visible {
     width: 100%;
   }
 
-  .profile-photo-actions {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .photo-actions-buttons {
-    width: 100%;
-  }
-
-  .photo-action-button {
-    flex: 1;
-  }
-
   .security-content {
     align-items: flex-start;
     flex-direction: column;
@@ -1722,14 +2025,26 @@ input:focus-visible {
 
   .security-action {
     width: 100%;
-
     justify-content: center;
+  }
+
+  .profile-photo-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .photo-panel-actions {
+    width: 100%;
+  }
+
+  .photo-action-button {
+    flex: 1;
   }
 }
 
 @media (max-width: 650px) {
   .profile-page {
-    padding: 0 15px 50px;
+    padding: 0 15px 55px;
   }
 
   .profile-topbar {
@@ -1748,7 +2063,7 @@ input:focus-visible {
     width: 36px;
     height: 36px;
 
-    justify-content: center;
+    padding: 0;
   }
 
   .profile-intro {
@@ -1764,7 +2079,8 @@ input:focus-visible {
   }
 
   .profile-hero-content {
-    padding: 0 20px 22px;
+    padding:
+      0 20px 22px;
   }
 
   .profile-identity {
@@ -1783,13 +2099,6 @@ input:focus-visible {
     height: 100px;
 
     flex-basis: 100px;
-
-    font-size: 2rem;
-  }
-
-  .profile-avatar-camera {
-    width: 33px;
-    height: 33px;
   }
 
   .profile-name-row {
@@ -1800,18 +2109,11 @@ input:focus-visible {
     justify-content: center;
   }
 
-  .profile-photo-actions {
-    padding: 17px;
+  .profile-stats {
+    grid-template-columns: 1fr;
   }
 
-  .photo-actions-buttons {
-    flex-direction: column;
-  }
-
-  .photo-action-button {
-    width: 100%;
-  }
-
+  .profile-shortcuts,
   .profile-info-grid {
     grid-template-columns: 1fr;
   }
@@ -1823,7 +2125,6 @@ input:focus-visible {
 
   .section-edit-button {
     width: 100%;
-
     justify-content: center;
   }
 
@@ -1832,12 +2133,16 @@ input:focus-visible {
     margin-top: 42px;
   }
 
-  .modal-photo-editor {
-    align-items: flex-start;
+  .photo-panel-actions {
+    flex-direction: column;
   }
 
-  .modal-photo-content {
-    flex: 1;
+  .photo-action-button {
+    width: 100%;
+  }
+
+  .security-card {
+    align-items: flex-start;
   }
 }
 
@@ -1860,38 +2165,29 @@ input:focus-visible {
     padding-right: 17px;
   }
 
-  .premium-badge {
-    font-size: 9px;
-  }
-
   .profile-name-row h2 {
     font-size: 1.45rem;
   }
 
-  .overview-card {
-    min-height: 80px;
+  .profile-account-status {
+    padding: 17px;
+  }
 
-    padding: 15px;
+  .profile-stat {
+    min-height: 78px;
   }
 
   .info-card {
     min-height: 92px;
+    padding: 16px;
+  }
 
+  .profile-photo-panel {
     padding: 16px;
   }
 
   .security-card {
     padding: 17px;
-
-    align-items: flex-start;
-  }
-
-  .account-action {
-    padding: 15px;
-  }
-
-  .account-action span {
-    line-height: 1.5;
   }
 
   .profile-modal-overlay {
@@ -1900,25 +2196,7 @@ input:focus-visible {
 
   .profile-modal {
     padding: 24px 19px;
-
     border-radius: 17px;
-  }
-
-  .modal-photo-editor {
-    gap: 11px;
-
-    padding: 12px;
-  }
-
-  .modal-profile-avatar {
-    width: 55px;
-    height: 55px;
-
-    flex-basis: 55px;
-  }
-
-  .modal-photo-actions {
-    flex-wrap: wrap;
   }
 
   .modal-actions {
@@ -1929,7 +2207,8 @@ input:focus-visible {
     order: -1;
   }
 
-  .delete-profile-modal .modal-actions {
+  .delete-profile-modal
+  .modal-actions {
     grid-template-columns: 1fr;
   }
 }
@@ -1954,17 +2233,6 @@ input:focus-visible {
   .profile-identity {
     margin-top: -45px;
   }
-
-  .overview-card {
-    gap: 10px;
-  }
-
-  .overview-icon {
-    width: 38px;
-    height: 38px;
-
-    flex-basis: 38px;
-  }
 }
 
 /* =========================================================
@@ -1977,7 +2245,6 @@ input:focus-visible {
   .profile-page *::before,
   .profile-page *::after {
     animation: none !important;
-
     transition: none !important;
   }
 }

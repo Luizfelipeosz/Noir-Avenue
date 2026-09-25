@@ -1,435 +1,1016 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  FaCog,
-  FaBell,
-  FaMoon,
-  FaGlobe,
-  FaShieldAlt,
-  FaCrown,
-  FaChevronRight,
-  FaCheck,
   FaArrowLeft,
+  FaBell,
+  FaCheck,
+  FaChevronRight,
+  FaCircle,
+  FaCog,
+  FaCrown,
+  FaGlobe,
+  FaLock,
+  FaMoon,
+  FaPalette,
+  FaShoppingBag,
+  FaShieldAlt,
+  FaSignOutAlt,
+  FaSun,
+  FaSyncAlt,
+  FaUser,
+  FaUserCircle,
 } from "react-icons/fa";
 
 import "./Configurações.css";
 
+const DEFAULT_SETTINGS = {
+  notifications: true,
+  orderNotifications: true,
+  promotionalNotifications: false,
+  theme: "Dark",
+  language: "Português",
+  currency: "BRL",
+  compactMode: false,
+};
+
+function readSession() {
+  try {
+    return JSON.parse(localStorage.getItem("noiravenue_session")) || {};
+  } catch {
+    return {};
+  }
+}
+
 function Configuracoes() {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState(() => {
-    return (
-      JSON.parse(
-        localStorage.getItem("noiravenue_session")
-      ) || {}
-    );
+  const [user, setUser] = useState(readSession);
+
+  const [settings, setSettings] = useState(() => {
+    const session = readSession();
+
+    return {
+      notifications:
+        session.notifications ?? DEFAULT_SETTINGS.notifications,
+
+      orderNotifications:
+        session.orderNotifications ??
+        DEFAULT_SETTINGS.orderNotifications,
+
+      promotionalNotifications:
+        session.promotionalNotifications ??
+        DEFAULT_SETTINGS.promotionalNotifications,
+
+      theme: session.theme || DEFAULT_SETTINGS.theme,
+
+      language: session.language || DEFAULT_SETTINGS.language,
+
+      currency: session.currency || DEFAULT_SETTINGS.currency,
+
+      compactMode:
+        session.compactMode ?? DEFAULT_SETTINGS.compactMode,
+    };
   });
 
-  const [notifications, setNotifications] = useState(
-    () => user.notifications ?? true
-  );
-
-  const [theme, setTheme] = useState(
-    () => user.theme || "Dark"
-  );
-
-  const [language, setLanguage] = useState(
-    () => user.language || "Português"
-  );
+  const [savedSettings, setSavedSettings] = useState(settings);
+  const [isSaving, setIsSaving] = useState(false);
+  const [savedMessage, setSavedMessage] = useState("");
 
   const isPremium = Boolean(user.isPremium);
 
-  const handleSaveSettings = () => {
-  const updatedUser = {
-    ...user,
-    notifications,
-    theme,
-    language,
-  };
-
-  localStorage.setItem(
-    "noiravenue_session",
-    JSON.stringify(updatedUser)
+  const hasChanges = useMemo(
+    () => JSON.stringify(settings) !== JSON.stringify(savedSettings),
+    [settings, savedSettings]
   );
 
-  const users =
-    JSON.parse(
-      localStorage.getItem("noiravenue_users")
-    ) || [];
+  useEffect(() => {
+    applyTheme(settings.theme);
+  }, [settings.theme]);
 
-  const updatedUsers = users.map((item) =>
-    item.email?.toLowerCase() ===
-    updatedUser.email?.toLowerCase()
-      ? {
-          ...item,
-          notifications,
-          theme,
-          language,
-        }
-      : item
-  );
+  useEffect(() => {
+    const handleStorage = () => {
+      setUser(readSession());
+    };
 
-  localStorage.setItem(
-    "noiravenue_users",
-    JSON.stringify(updatedUsers)
-  );
+    window.addEventListener("storage", handleStorage);
 
-  setUser(updatedUser);
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+    };
+  }, []);
 
-  navigate("/dashboard");
-};
+  function applyTheme(selectedTheme) {
+    const root = document.documentElement;
+
+    if (selectedTheme === "Light") {
+      root.dataset.theme = "light";
+      root.classList.add("theme-light");
+    } else {
+      root.dataset.theme = "dark";
+      root.classList.remove("theme-light");
+    }
+
+    localStorage.setItem(
+      "noiravenue_theme",
+      selectedTheme.toLowerCase()
+    );
+  }
+
+  function updateSetting(key, value) {
+    setSettings((current) => ({
+      ...current,
+      [key]: value,
+    }));
+
+    setSavedMessage("");
+  }
+
+  function handleSaveSettings() {
+    if (!hasChanges) return;
+
+    setIsSaving(true);
+    setSavedMessage("");
+
+    const updatedUser = {
+      ...user,
+      ...settings,
+    };
+
+    localStorage.setItem(
+      "noiravenue_session",
+      JSON.stringify(updatedUser)
+    );
+
+    try {
+      const users =
+        JSON.parse(
+          localStorage.getItem("noiravenue_users")
+        ) || [];
+
+      const updatedUsers = users.map((item) =>
+        item.email?.toLowerCase() ===
+        updatedUser.email?.toLowerCase()
+          ? {
+              ...item,
+              ...settings,
+            }
+          : item
+      );
+
+      localStorage.setItem(
+        "noiravenue_users",
+        JSON.stringify(updatedUsers)
+      );
+    } catch {
+      // Mantém a sessão local mesmo se o registro de usuários
+      // estiver indisponível ou inválido.
+    }
+
+    applyTheme(settings.theme);
+
+    setTimeout(() => {
+      setUser(updatedUser);
+      setSavedSettings(settings);
+      setIsSaving(false);
+      setSavedMessage("Alterações salvas com sucesso.");
+
+      setTimeout(() => {
+        setSavedMessage("");
+      }, 3000);
+    }, 350);
+  }
+
+  function handleResetSettings() {
+    setSettings(DEFAULT_SETTINGS);
+    setSavedMessage("");
+  }
+
+  function handleBack() {
+    navigate("/dashboard");
+  }
+
+  const displayName =
+    user.name ||
+    user.fullName ||
+    user.username ||
+    "Usuário Noir Avenue";
+
+  const email =
+    user.email || "E-mail não informado";
+
+  const initials = displayName
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("");
 
   return (
-    <main
-      className={`settings-page ${
-        isPremium ? "settings-premium" : ""
-      }`}
-    >
-      {/* ==========================
-          HEADER
-      ========================== */}
+    <main className="settings-page">
+      <div className="settings-background-glow settings-glow-one" />
+      <div className="settings-background-glow settings-glow-two" />
 
-      <header className="settings-header">
-        <button
-          className="settings-back-button"
-          onClick={() => navigate("/dashboard")}
-        >
-          <FaArrowLeft />
-          Voltar ao Dashboard
-        </button>
+      <div className="settings-container">
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
 
-        <div className="settings-header-main">
-          <div className="settings-title">
-            <div className="settings-title-icon">
+        <header className="settings-header">
+          <button
+            type="button"
+            className="settings-back-button"
+            onClick={handleBack}
+          >
+            <FaArrowLeft />
+            <span>Voltar ao Dashboard</span>
+          </button>
+
+          <div className="settings-heading">
+            <div className="settings-heading-icon">
               <FaCog />
             </div>
 
-            <div>
-              <span>NOIR AVENUE</span>
+            <div className="settings-heading-content">
+              <span className="settings-eyebrow">
+                NOIR AVENUE
+              </span>
 
               <h1>Configurações</h1>
-            </div>
-          </div>
-
-          <p>
-            Personalize sua experiência dentro da
-            plataforma.
-          </p>
-        </div>
-
-        {isPremium && (
-          <div className="settings-premium-badge">
-            <FaCrown />
-            Premium
-          </div>
-        )}
-      </header>
-
-      <div className="settings-layout">
-
-        {/* ==========================
-            NOTIFICAÇÕES
-        ========================== */}
-
-        <section className="settings-section">
-          <div className="section-title">
-            <FaBell />
-
-            <div>
-              <h2>Notificações</h2>
 
               <p>
-                Controle como o Noir Avenue se
-                comunica com você.
+                Controle sua conta, preferências e experiência
+                dentro da plataforma.
               </p>
             </div>
+
+            {isPremium && (
+              <div className="settings-premium-badge">
+                <FaCrown />
+                <span>Premium</span>
+              </div>
+            )}
           </div>
+        </header>
 
-          <div className="setting-row">
-            <div>
-              <strong>
-                Notificações da plataforma
-              </strong>
+        {/* =====================================================
+            ACCOUNT SUMMARY
+        ===================================================== */}
 
-              <span>
-                Receba atualizações, novidades e
-                informações importantes.
-              </span>
+        <section className="account-summary">
+          <div className="account-summary-profile">
+            <div className="account-avatar">
+              {user.profilePhoto ? (
+                <img
+                  src={user.profilePhoto}
+                  alt={`Foto de perfil de ${displayName}`}
+                />
+              ) : (
+                <span>{initials || <FaUser />}</span>
+              )}
             </div>
 
-            <button
-              type="button"
-              className={`toggle ${
-                notifications ? "active" : ""
-              }`}
-              onClick={() =>
-                setNotifications((value) => !value)
-              }
-              aria-label="Alternar notificações"
-              aria-pressed={notifications}
-            >
-              <span />
-            </button>
+            <div className="account-summary-info">
+              <span className="account-label">
+                CONTA
+              </span>
+
+              <h2>{displayName}</h2>
+
+              <p>{email}</p>
+            </div>
           </div>
+
+          <div className="account-summary-status">
+            <span className="status-dot" />
+
+            <div>
+              <strong>Conta ativa</strong>
+              <span>
+                Sua conta está pronta para uso.
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="account-profile-button"
+            onClick={() => navigate("/dashboard/perfil")}
+          >
+            <FaUserCircle />
+            Ver perfil
+            <FaChevronRight />
+          </button>
         </section>
 
-        {/* ==========================
-            APARÊNCIA
-        ========================== */}
+        <div className="settings-grid">
+          {/* ===================================================
+              LEFT COLUMN
+          =================================================== */}
 
-        <section className="settings-section">
-          <div className="section-title">
-            <FaMoon />
+          <div className="settings-main-column">
+            {/* NOTIFICATIONS */}
 
-            <div>
-              <h2>Aparência</h2>
+            <section className="settings-card">
+              <div className="settings-card-header">
+                <div className="settings-card-icon">
+                  <FaBell />
+                </div>
 
-              <p>
-                Defina como a interface deve ser
-                apresentada.
-              </p>
-            </div>
+                <div>
+                  <span className="settings-card-kicker">
+                    COMUNICAÇÃO
+                  </span>
+
+                  <h2>Notificações</h2>
+
+                  <p>
+                    Escolha quais informações o Noir Avenue
+                    pode enviar para você.
+                  </p>
+                </div>
+              </div>
+
+              <div className="settings-list">
+                <div className="setting-item">
+                  <div className="setting-item-content">
+                    <strong>
+                      Notificações da plataforma
+                    </strong>
+
+                    <span>
+                      Receba atualizações importantes sobre
+                      sua conta e sua experiência.
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`settings-toggle ${
+                      settings.notifications
+                        ? "is-active"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      updateSetting(
+                        "notifications",
+                        !settings.notifications
+                      )
+                    }
+                    aria-label="Alternar notificações da plataforma"
+                    aria-pressed={settings.notifications}
+                  >
+                    <span />
+                  </button>
+                </div>
+
+                <div
+                  className={`setting-item nested-setting ${
+                    !settings.notifications
+                      ? "is-disabled"
+                      : ""
+                  }`}
+                >
+                  <div className="setting-item-content">
+                    <strong>
+                      Atualizações de pedidos
+                    </strong>
+
+                    <span>
+                      Status, confirmação e informações
+                      relacionadas às compras.
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`settings-toggle ${
+                      settings.orderNotifications
+                        ? "is-active"
+                        : ""
+                    }`}
+                    disabled={!settings.notifications}
+                    onClick={() =>
+                      updateSetting(
+                        "orderNotifications",
+                        !settings.orderNotifications
+                      )
+                    }
+                    aria-label="Alternar notificações de pedidos"
+                    aria-pressed={
+                      settings.orderNotifications
+                    }
+                  >
+                    <span />
+                  </button>
+                </div>
+
+                <div
+                  className={`setting-item nested-setting ${
+                    !settings.notifications
+                      ? "is-disabled"
+                      : ""
+                  }`}
+                >
+                  <div className="setting-item-content">
+                    <strong>
+                      Ofertas e novidades
+                    </strong>
+
+                    <span>
+                      Receba novidades, lançamentos e
+                      comunicações comerciais do Noir Avenue.
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`settings-toggle ${
+                      settings.promotionalNotifications
+                        ? "is-active"
+                        : ""
+                    }`}
+                    disabled={!settings.notifications}
+                    onClick={() =>
+                      updateSetting(
+                        "promotionalNotifications",
+                        !settings.promotionalNotifications
+                      )
+                    }
+                    aria-label="Alternar ofertas e novidades"
+                    aria-pressed={
+                      settings.promotionalNotifications
+                    }
+                  >
+                    <span />
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            {/* APPEARANCE */}
+
+            <section className="settings-card">
+              <div className="settings-card-header">
+                <div className="settings-card-icon">
+                  <FaPalette />
+                </div>
+
+                <div>
+                  <span className="settings-card-kicker">
+                    INTERFACE
+                  </span>
+
+                  <h2>Aparência</h2>
+
+                  <p>
+                    Personalize a forma como o Noir Avenue
+                    aparece para você.
+                  </p>
+                </div>
+              </div>
+
+              <div className="theme-selector">
+                <button
+                  type="button"
+                  className={`theme-option ${
+                    settings.theme === "Dark"
+                      ? "is-selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    updateSetting("theme", "Dark")
+                  }
+                >
+                  <div className="theme-option-preview theme-preview-dark">
+                    <FaMoon />
+                  </div>
+
+                  <div>
+                    <strong>Dark</strong>
+                    <span>
+                      Experiência escura e sofisticada.
+                    </span>
+                  </div>
+
+                  {settings.theme === "Dark" && (
+                    <FaCheck className="theme-check" />
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  className={`theme-option ${
+                    settings.theme === "Light"
+                      ? "is-selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    updateSetting("theme", "Light")
+                  }
+                >
+                  <div className="theme-option-preview theme-preview-light">
+                    <FaSun />
+                  </div>
+
+                  <div>
+                    <strong>Light</strong>
+                    <span>
+                      Interface clara e minimalista.
+                    </span>
+                  </div>
+
+                  {settings.theme === "Light" && (
+                    <FaCheck className="theme-check" />
+                  )}
+                </button>
+              </div>
+
+              <div className="setting-item compact-setting">
+                <div className="setting-item-content">
+                  <strong>Interface compacta</strong>
+
+                  <span>
+                    Reduza espaçamentos para visualizar
+                    mais informações por tela.
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  className={`settings-toggle ${
+                    settings.compactMode
+                      ? "is-active"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    updateSetting(
+                      "compactMode",
+                      !settings.compactMode
+                    )
+                  }
+                  aria-label="Alternar interface compacta"
+                  aria-pressed={settings.compactMode}
+                >
+                  <span />
+                </button>
+              </div>
+            </section>
+
+            {/* PREFERENCES */}
+
+            <section className="settings-card">
+              <div className="settings-card-header">
+                <div className="settings-card-icon">
+                  <FaGlobe />
+                </div>
+
+                <div>
+                  <span className="settings-card-kicker">
+                    PREFERÊNCIAS
+                  </span>
+
+                  <h2>Preferências gerais</h2>
+
+                  <p>
+                    Defina padrões para sua experiência no
+                    Noir Avenue.
+                  </p>
+                </div>
+              </div>
+
+              <div className="settings-form-grid">
+                <label className="settings-field">
+                  <span>Idioma</span>
+
+                  <select
+                    value={settings.language}
+                    onChange={(event) =>
+                      updateSetting(
+                        "language",
+                        event.target.value
+                      )
+                    }
+                  >
+                    <option value="Português">
+                      Português
+                    </option>
+
+                    <option value="English">
+                      English
+                    </option>
+
+                    <option value="Español">
+                      Español
+                    </option>
+                  </select>
+                </label>
+
+                <label className="settings-field">
+                  <span>Moeda</span>
+
+                  <select
+                    value={settings.currency}
+                    onChange={(event) =>
+                      updateSetting(
+                        "currency",
+                        event.target.value
+                      )
+                    }
+                  >
+                    <option value="BRL">
+                      BRL — Real brasileiro
+                    </option>
+
+                    <option value="USD">
+                      USD — Dólar americano
+                    </option>
+
+                    <option value="EUR">
+                      EUR — Euro
+                    </option>
+                  </select>
+                </label>
+              </div>
+            </section>
+
+            {/* SHOPPING */}
+
+            <section className="settings-card">
+              <div className="settings-card-header">
+                <div className="settings-card-icon">
+                  <FaShoppingBag />
+                </div>
+
+                <div>
+                  <span className="settings-card-kicker">
+                    EXPERIÊNCIA DE COMPRA
+                  </span>
+
+                  <h2>Compras</h2>
+
+                  <p>
+                    Acesse rapidamente recursos relacionados
+                    à sua experiência de compra.
+                  </p>
+                </div>
+              </div>
+
+              <div className="settings-action-list">
+                <button
+                  type="button"
+                  className="settings-action"
+                  onClick={() =>
+                    navigate("/dashboard/perfil")
+                  }
+                >
+                  <div className="action-icon">
+                    <FaUser />
+                  </div>
+
+                  <div className="action-content">
+                    <strong>
+                      Dados e endereço
+                    </strong>
+
+                    <span>
+                      Confira seus dados utilizados durante
+                      identificação e entrega.
+                    </span>
+                  </div>
+
+                  <FaChevronRight />
+                </button>
+
+                <button
+                  type="button"
+                  className="settings-action"
+                  onClick={() =>
+                    navigate("/dashboard/cart")
+                  }
+                >
+                  <div className="action-icon">
+                    <FaShoppingBag />
+                  </div>
+
+                  <div className="action-content">
+                    <strong>
+                      Meu carrinho
+                    </strong>
+
+                    <span>
+                      Revise os produtos adicionados à sua
+                      experiência de compra.
+                    </span>
+                  </div>
+
+                  <FaChevronRight />
+                </button>
+              </div>
+            </section>
           </div>
 
-          <div className="setting-row">
-            <div>
-              <strong>
-                Tema da interface
-              </strong>
+          {/* ===================================================
+              RIGHT COLUMN
+          =================================================== */}
 
-              <span>
-                Escolha o tema utilizado pela
-                plataforma.
-              </span>
-            </div>
+          <aside className="settings-side-column">
+            {/* SECURITY */}
 
-            <select
-              value={theme}
-              onChange={(event) =>
-                setTheme(event.target.value)
-              }
-            >
-              <option value="Dark">
-                Dark
-              </option>
+            <section className="settings-card settings-security-card">
+              <div className="settings-card-header">
+                <div className="settings-card-icon">
+                  <FaShieldAlt />
+                </div>
 
-              <option value="Light">
-                Light
-              </option>
-            </select>
-          </div>
+                <div>
+                  <span className="settings-card-kicker">
+                    PROTEÇÃO
+                  </span>
 
-          {isPremium && (
-            <div className="premium-setting">
-              <div className="premium-setting-icon">
-                <FaCrown />
+                  <h2>Segurança</h2>
+
+                  <p>
+                    Controle informações relacionadas ao
+                    acesso da sua conta.
+                  </p>
+                </div>
+              </div>
+
+              <div className="security-status">
+                <div className="security-status-icon">
+                  <FaLock />
+                </div>
+
+                <div>
+                  <strong>
+                    Sessão protegida
+                  </strong>
+
+                  <span>
+                    Sua sessão atual está ativa.
+                  </span>
+                </div>
+
+                <FaCheck />
+              </div>
+
+              <div className="settings-action-list">
+                <button
+                  type="button"
+                  className="settings-action"
+                  onClick={() =>
+                    navigate("/dashboard/perfil")
+                  }
+                >
+                  <div className="action-content">
+                    <strong>
+                      Credenciais da conta
+                    </strong>
+
+                    <span>
+                      Gerencie informações relacionadas ao
+                      seu acesso.
+                    </span>
+                  </div>
+
+                  <FaChevronRight />
+                </button>
+
+                <button
+                  type="button"
+                  className="settings-action"
+                  onClick={() =>
+                    alert(
+                      "A área de gerenciamento de dados será integrada ao backend do Noir Avenue."
+                    )
+                  }
+                >
+                  <div className="action-content">
+                    <strong>
+                      Dados pessoais
+                    </strong>
+
+                    <span>
+                      Consulte as informações armazenadas
+                      na sua conta.
+                    </span>
+                  </div>
+
+                  <FaChevronRight />
+                </button>
+              </div>
+            </section>
+
+            {/* ACCOUNT */}
+
+            <section className="settings-card">
+              <div className="settings-card-header">
+                <div className="settings-card-icon">
+                  <FaUser />
+                </div>
+
+                <div>
+                  <span className="settings-card-kicker">
+                    SUA CONTA
+                  </span>
+
+                  <h2>Conta</h2>
+
+                  <p>
+                    Ações rápidas relacionadas ao seu
+                    perfil.
+                  </p>
+                </div>
+              </div>
+
+              <div className="account-detail-list">
+                <div>
+                  <span>Nome</span>
+                  <strong>{displayName}</strong>
+                </div>
+
+                <div>
+                  <span>E-mail</span>
+                  <strong>{email}</strong>
+                </div>
+
+                <div>
+                  <span>Status</span>
+
+                  <strong className="account-active">
+                    <FaCircle />
+                    Ativa
+                  </strong>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="secondary-action-button"
+                onClick={() =>
+                  navigate("/dashboard/perfil")
+                }
+              >
+                <FaUserCircle />
+                Gerenciar perfil
+              </button>
+            </section>
+
+            {/* PREMIUM */}
+
+            {isPremium ? (
+              <section className="premium-card premium-card-active">
+                <div className="premium-card-top">
+                  <div className="premium-icon">
+                    <FaCrown />
+                  </div>
+
+                  <span className="premium-status">
+                    ATIVO
+                  </span>
+                </div>
+
+                <span className="premium-kicker">
+                  NOIR PREMIUM
+                </span>
+
+                <h2>
+                  Sua experiência Premium está ativa.
+                </h2>
+
+                <p>
+                  Sua conta possui acesso aos recursos
+                  exclusivos disponíveis no Noir Avenue.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    navigate("/dashboard/premium")
+                  }
+                >
+                  Gerenciar Premium
+                  <FaChevronRight />
+                </button>
+              </section>
+            ) : (
+              <section className="premium-card">
+                <div className="premium-card-top">
+                  <div className="premium-icon">
+                    <FaCrown />
+                  </div>
+
+                  <span className="premium-kicker">
+                    NOIR PREMIUM
+                  </span>
+                </div>
+
+                <h2>
+                  Uma experiência ainda mais exclusiva.
+                </h2>
+
+                <p>
+                  Conheça os recursos adicionais e a
+                  experiência Premium do Noir Avenue.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    navigate("/dashboard/premium")
+                  }
+                >
+                  Conhecer Premium
+                  <FaChevronRight />
+                </button>
+              </section>
+            )}
+
+            {/* SESSION */}
+
+            <section className="settings-session-card">
+              <div className="session-icon">
+                <FaSignOutAlt />
               </div>
 
               <div>
+                <span>Sessão atual</span>
+
                 <strong>
-                  Personalização Premium
+                  Você está conectado ao Noir Avenue.
                 </strong>
-
-                <span>
-                  Recursos avançados de
-                  personalização estão disponíveis
-                  para sua conta.
-                </span>
               </div>
+            </section>
+          </aside>
+        </div>
 
-              <FaCheck className="premium-check" />
-            </div>
-          )}
-        </section>
+        {/* =====================================================
+            SAVE BAR
+        ===================================================== */}
 
-        {/* ==========================
-            PREFERÊNCIAS
-        ========================== */}
-
-        <section className="settings-section">
-          <div className="section-title">
-            <FaGlobe />
-
-            <div>
-              <h2>Preferências</h2>
-
-              <p>
-                Configure suas preferências de
-                utilização.
-              </p>
-            </div>
+        <footer
+          className={`settings-save-bar ${
+            hasChanges ? "has-changes" : ""
+          }`}
+        >
+          <div className="save-status">
+            {savedMessage ? (
+              <>
+                <FaCheck />
+                <span>{savedMessage}</span>
+              </>
+            ) : hasChanges ? (
+              <>
+                <FaCircle />
+                <span>
+                  Você possui alterações não salvas.
+                </span>
+              </>
+            ) : (
+              <>
+                <FaCheck />
+                <span>
+                  Todas as configurações estão salvas.
+                </span>
+              </>
+            )}
           </div>
 
-          <div className="setting-row">
-            <div>
-              <strong>Idioma</strong>
-
-              <span>
-                Idioma principal da plataforma.
-              </span>
-            </div>
-
-            <select
-              value={language}
-              onChange={(event) =>
-                setLanguage(event.target.value)
-              }
+          <div className="save-actions">
+            <button
+              type="button"
+              className="reset-settings-button"
+              onClick={handleResetSettings}
+              disabled={!hasChanges}
             >
-              <option value="Português">
-                Português
-              </option>
-
-              <option value="English">
-                English
-              </option>
-
-              <option value="Español">
-                Español
-              </option>
-            </select>
-          </div>
-        </section>
-
-        {/* ==========================
-            SEGURANÇA
-        ========================== */}
-
-        <section className="settings-section">
-          <div className="section-title">
-            <FaShieldAlt />
-
-            <div>
-              <h2>
-                Privacidade e segurança
-              </h2>
-
-              <p>
-                Gerencie informações relacionadas à
-                sua conta.
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="settings-action"
-            onClick={() =>
-              alert(
-                "Gerenciamento de dados em desenvolvimento."
-              )
-            }
-          >
-            <div>
-              <strong>Dados da conta</strong>
-
-              <span>
-                Consulte e gerencie seus dados
-                pessoais.
-              </span>
-            </div>
-
-            <FaChevronRight />
-          </button>
-
-          <button
-            type="button"
-            className="settings-action"
-            onClick={() =>
-              alert(
-                "Gerenciamento de segurança em desenvolvimento."
-              )
-            }
-          >
-            <div>
-              <strong>Segurança</strong>
-
-              <span>
-                Gerencie suas credenciais e
-                preferências de acesso.
-              </span>
-            </div>
-
-            <FaChevronRight />
-          </button>
-        </section>
-
-        {/* ==========================
-            PREMIUM
-        ========================== */}
-
-        {!isPremium && (
-          <section className="settings-upgrade">
-            <div className="upgrade-icon">
-              <FaCrown />
-            </div>
-
-            <div className="upgrade-content">
-              <span>NOIR PREMIUM</span>
-
-              <h2>
-                Uma experiência mais exclusiva.
-              </h2>
-
-              <p>
-                Desbloqueie recursos avançados,
-                personalização exclusiva e uma
-                experiência premium dentro do Noir
-                Avenue.
-              </p>
-            </div>
+              <FaSyncAlt />
+              Restaurar
+            </button>
 
             <button
               type="button"
-              onClick={() =>
-                navigate("/dashboard/premium")
-              }
+              className="settings-save-button"
+              onClick={handleSaveSettings}
+              disabled={!hasChanges || isSaving}
             >
-              Conhecer Premium
-              <FaChevronRight />
+              {isSaving ? (
+                <>
+                  <span className="save-spinner" />
+                  Salvando...
+                </>
+              ) : (
+                <>
+                  <FaCheck />
+                  Salvar alterações
+                </>
+              )}
             </button>
-          </section>
-        )}
-
-        {isPremium && (
-          <section className="premium-active-card">
-            <div className="premium-active-icon">
-              <FaCrown />
-            </div>
-
-            <div>
-              <span>NOIR PREMIUM</span>
-
-              <h2>
-                Sua experiência Premium está ativa.
-              </h2>
-
-              <p>
-                Sua conta possui acesso aos recursos
-                exclusivos do Noir Avenue.
-              </p>
-            </div>
-
-            <div className="premium-active-status">
-              <FaCheck />
-              Ativo
-            </div>
-          </section>
-        )}
-
-            <div className="settings-save-container">
-              <button
-                type="button"
-                className="settings-save-button"
-                onClick={handleSaveSettings}>
-              <FaCheck />
-                Salvar alterações
-              </button>
-            </div>
+          </div>
+        </footer>
       </div>
     </main>
   );
 }
 
 export default Configuracoes;
-

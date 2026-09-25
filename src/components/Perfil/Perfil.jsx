@@ -14,6 +14,12 @@ import {
   FaCamera,
   FaImage,
   FaTrashAlt,
+  FaHeart,
+  FaShoppingCart,
+  FaStore,
+  FaCog,
+  FaArrowRight,
+  FaLock,
 } from "react-icons/fa";
 
 import { useRef, useState } from "react";
@@ -28,8 +34,24 @@ const API_URL =
 
 const SESSION_KEY = "noiravenue_session";
 const STORAGE_KEY = "noiravenue_email";
+const CART_KEY = "noiravenue_cart";
+const FAVORITES_KEY = "noiravenue_favorites";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+
+function readStorage(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+
+    if (!value) {
+      return fallback;
+    }
+
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
 
 function calculateProfileCompletion(user) {
   const fields = [
@@ -90,6 +112,21 @@ function Perfil() {
   const [isDeletingAccount, setIsDeletingAccount] =
     useState(false);
 
+  const cart = readStorage(CART_KEY, []);
+  const favorites = readStorage(FAVORITES_KEY, []);
+
+  const cartCount = Array.isArray(cart)
+    ? cart.reduce(
+        (total, item) =>
+          total + Number(item.quantity || 1),
+        0
+      )
+    : 0;
+
+  const favoritesCount = Array.isArray(favorites)
+    ? favorites.length
+    : 0;
+
   const profilePercentage =
     calculateProfileCompletion(profile);
 
@@ -113,6 +150,13 @@ function Perfil() {
 
   const profilePhoto = profile.photo || "";
 
+  const updateUserStorage = (updatedUser) => {
+    localStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify(updatedUser)
+    );
+  };
+
   const handleBack = () => {
     navigate("/dashboard");
   };
@@ -123,30 +167,6 @@ function Perfil() {
     setEditAddress(profile.endereco || "");
     setShowEditModal(true);
   };
-
-  /*
-   * =========================================================
-   * LOCAL SESSION
-   * =========================================================
-   *
-   * Informações adicionais do perfil ainda são mantidas
-   * localmente neste momento.
-   *
-   * O cadastro, login e exclusão da conta são tratados
-   * pelo backend.
-   */
-  const updateUserStorage = (updatedUser) => {
-    localStorage.setItem(
-      SESSION_KEY,
-      JSON.stringify(updatedUser)
-    );
-  };
-
-  /*
-   * =========================================================
-   * PROFILE PHOTO
-   * =========================================================
-   */
 
   const handlePhotoChange = (event) => {
     const file = event.target.files?.[0];
@@ -235,12 +255,6 @@ function Perfil() {
     });
   };
 
-  /*
-   * =========================================================
-   * EDIT PROFILE
-   * =========================================================
-   */
-
   const handleSaveProfile = () => {
     const normalizedName = editName.trim();
     const normalizedPhone = editPhone.trim();
@@ -272,12 +286,6 @@ function Perfil() {
         "Suas informações foram salvas com sucesso.",
     });
   };
-
-  /*
-   * =========================================================
-   * DELETE ACCOUNT
-   * =========================================================
-   */
 
   const handleDeleteAccount = async () => {
     if (!profile.email) {
@@ -323,10 +331,6 @@ function Perfil() {
         return;
       }
 
-      /*
-       * Só limpamos a sessão depois que o backend
-       * confirmar que a conta foi realmente removida.
-       */
       localStorage.removeItem(SESSION_KEY);
       localStorage.removeItem(STORAGE_KEY);
 
@@ -342,7 +346,7 @@ function Perfil() {
       }, 800);
     } catch (error) {
       console.error(
-        "❌ Erro ao excluir conta:",
+        "Erro ao excluir conta:",
         error
       );
 
@@ -358,12 +362,61 @@ function Perfil() {
     }
   };
 
+  const profileShortcuts = [
+    {
+      icon: <FaStore />,
+      title: "Explorar catálogo",
+      description:
+        "Descubra produtos e continue sua experiência.",
+      action: () =>
+        navigate("/dashboard/catalogo"),
+    },
+    {
+      icon: <FaHeart />,
+      title: "Meus favoritos",
+      description:
+        favoritesCount > 0
+          ? `${favoritesCount} ${
+              favoritesCount === 1
+                ? "item salvo"
+                : "itens salvos"
+            } para você.`
+          : "Você ainda não salvou produtos.",
+      action: () =>
+        navigate("/dashboard/favoritos"),
+      badge:
+        favoritesCount > 0
+          ? favoritesCount
+          : null,
+    },
+    {
+      icon: <FaShoppingCart />,
+      title: "Meu carrinho",
+      description:
+        cartCount > 0
+          ? `${cartCount} ${
+              cartCount === 1
+                ? "item aguardando"
+                : "itens aguardando"
+            } no carrinho.`
+          : "Seu carrinho está vazio.",
+      action: () =>
+        navigate("/dashboard/cart"),
+      badge:
+        cartCount > 0 ? cartCount : null,
+    },
+    {
+      icon: <FaCog />,
+      title: "Configurações",
+      description:
+        "Preferências e personalização da sua conta.",
+      action: () =>
+        navigate("/dashboard/configuracoes"),
+    },
+  ];
+
   return (
     <div className="profile-page">
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
-
       <header className="profile-topbar">
         <img
           src={logo}
@@ -382,28 +435,19 @@ function Perfil() {
       </header>
 
       <main className="profile-main">
-        {/* ===================================================
-            INTRO
-        =================================================== */}
-
         <section className="profile-intro">
-          <div>
-            <span className="profile-eyebrow">
-              CONTA
-            </span>
+          <span className="profile-eyebrow">
+            SUA CONTA
+          </span>
 
-            <h1>Meu Perfil</h1>
+          <h1>Meu Perfil</h1>
 
-            <p>
-              Gerencie suas informações pessoais,
-              preferências e segurança da conta.
-            </p>
-          </div>
+          <p>
+            Gerencie sua identidade, acompanhe sua
+            experiência e mantenha sua conta Noir
+            Avenue sempre atualizada.
+          </p>
         </section>
-
-        {/* ===================================================
-            PROFILE HERO
-        =================================================== */}
 
         <section className="profile-hero">
           <div className="profile-hero-background" />
@@ -414,7 +458,6 @@ function Perfil() {
                 className={`profile-avatar ${
                   profilePhoto ? "has-photo" : ""
                 }`}
-                aria-label={`Avatar de ${displayName}`}
               >
                 {profilePhoto ? (
                   <img
@@ -479,99 +522,146 @@ function Perfil() {
           </div>
         </section>
 
-        {/* ===================================================
-            PHOTO ACTIONS
-        =================================================== */}
-
-        <section className="profile-photo-actions">
-          <div>
-            <span className="photo-actions-eyebrow">
-              PERSONALIZAÇÃO
-            </span>
-
-            <h3>Foto de perfil</h3>
-
-            <p>
-              Adicione uma imagem para personalizar
-              sua conta no Noir Avenue.
-            </p>
-          </div>
-
-          <div className="photo-actions-buttons">
-            <button
-              type="button"
-              className="photo-action-button primary"
-              onClick={() =>
-                fileInputRef.current?.click()
-              }
-            >
-              <FaImage />
-
-              {profilePhoto
-                ? "Trocar foto"
-                : "Adicionar foto"}
-            </button>
-
-            {profilePhoto && (
-              <button
-                type="button"
-                className="photo-action-button danger"
-                onClick={handleRemovePhoto}
-              >
-                <FaTrashAlt />
-                Remover
-              </button>
-            )}
-          </div>
-        </section>
-
-        {/* ===================================================
-            ACCOUNT OVERVIEW
-        =================================================== */}
-
-        <section className="profile-overview">
-          <div className="overview-card">
-            <div className="overview-icon">
-              <FaCrown />
-            </div>
-
-            <div>
-              <span>Status da conta</span>
-              <strong>Membro Noir</strong>
-            </div>
-          </div>
-
-          <div className="overview-card">
-            <div className="overview-icon">
-              <FaShieldAlt />
-            </div>
-
-            <div>
-              <span>Segurança</span>
-              <strong>Conta protegida</strong>
-            </div>
-          </div>
-
-          <div className="overview-card">
-            <div className="overview-icon">
+        <section className="profile-account-status">
+          <div className="account-status-main">
+            <div className="status-icon">
               <FaCheckCircle />
             </div>
 
             <div>
-              <span>Perfil</span>
+              <span className="status-label">
+                PERFIL DA CONTA
+              </span>
 
               <strong>
                 {profilePercentage === 100
-                  ? "Completo"
-                  : `${profilePercentage}% preenchido`}
+                  ? "Seu perfil está completo"
+                  : "Complete seu perfil"}
               </strong>
+
+              <p>
+                {profilePercentage === 100
+                  ? "Todos os dados essenciais estão preenchidos."
+                  : "Mantenha seus dados atualizados para aproveitar melhor sua experiência."}
+              </p>
+            </div>
+          </div>
+
+          <div className="profile-progress">
+            <div className="progress-header">
+              <span>Completude</span>
+              <strong>
+                {profilePercentage}%
+              </strong>
+            </div>
+
+            <div className="progress-track">
+              <div
+                className="progress-value"
+                style={{
+                  width: `${profilePercentage}%`,
+                }}
+              />
             </div>
           </div>
         </section>
 
-        {/* ===================================================
-            PERSONAL INFORMATION
-        =================================================== */}
+        <section className="profile-stats">
+          <article className="profile-stat">
+            <div className="profile-stat-icon">
+              <FaHeart />
+            </div>
+
+            <div>
+              <strong>{favoritesCount}</strong>
+              <span>Favoritos</span>
+            </div>
+          </article>
+
+          <article className="profile-stat">
+            <div className="profile-stat-icon">
+              <FaShoppingCart />
+            </div>
+
+            <div>
+              <strong>{cartCount}</strong>
+              <span>No carrinho</span>
+            </div>
+          </article>
+
+          <article className="profile-stat">
+            <div className="profile-stat-icon">
+              <FaShieldAlt />
+            </div>
+
+            <div>
+              <strong>Ativa</strong>
+              <span>Status da conta</span>
+            </div>
+          </article>
+
+          <article className="profile-stat">
+            <div className="profile-stat-icon">
+              <FaLock />
+            </div>
+
+            <div>
+              <strong>Protegida</strong>
+              <span>Acesso da conta</span>
+            </div>
+          </article>
+        </section>
+
+        <section className="profile-section profile-experience-section">
+          <div className="section-heading">
+            <div>
+              <span className="section-eyebrow">
+                EXPERIÊNCIA
+              </span>
+
+              <h2>Atalhos da sua conta</h2>
+
+              <p>
+                Acesse rapidamente as principais áreas
+                da sua experiência no Noir Avenue.
+              </p>
+            </div>
+          </div>
+
+          <div className="profile-shortcuts">
+            {profileShortcuts.map((item) => (
+              <button
+                type="button"
+                className="profile-shortcut"
+                key={item.title}
+                onClick={item.action}
+              >
+                <div className="shortcut-icon">
+                  {item.icon}
+                </div>
+
+                <div className="shortcut-content">
+                  <div className="shortcut-title">
+                    <strong>{item.title}</strong>
+
+                    {item.badge !== null &&
+                      item.badge !== undefined && (
+                        <span className="shortcut-badge">
+                          {item.badge}
+                        </span>
+                      )}
+                  </div>
+
+                  <span>
+                    {item.description}
+                  </span>
+                </div>
+
+                <FaArrowRight className="shortcut-arrow" />
+              </button>
+            ))}
+          </div>
+        </section>
 
         <section className="profile-section">
           <div className="section-heading">
@@ -583,9 +673,8 @@ function Perfil() {
               <h2>Dados pessoais</h2>
 
               <p>
-                Informações utilizadas para
-                identificar e personalizar sua
-                experiência.
+                Informações utilizadas para identificar
+                e personalizar sua experiência.
               </p>
             </div>
 
@@ -595,7 +684,7 @@ function Perfil() {
               onClick={handleOpenEdit}
             >
               <FaPen />
-              Editar
+              Editar dados
             </button>
           </div>
 
@@ -646,9 +735,75 @@ function Perfil() {
           </div>
         </section>
 
-        {/* ===================================================
-            SECURITY
-        =================================================== */}
+        <section className="profile-section">
+          <div className="section-heading">
+            <div>
+              <span className="section-eyebrow">
+                PERSONALIZAÇÃO
+              </span>
+
+              <h2>Foto de perfil</h2>
+
+              <p>
+                Personalize a identidade visual da sua
+                conta dentro do Noir Avenue.
+              </p>
+            </div>
+          </div>
+
+          <div className="profile-photo-panel">
+            <div className="photo-panel-preview">
+              <div
+                className={`photo-panel-avatar ${
+                  profilePhoto ? "has-photo" : ""
+                }`}
+              >
+                {profilePhoto ? (
+                  <img
+                    src={profilePhoto}
+                    alt={`Foto de ${displayName}`}
+                  />
+                ) : (
+                  <span>{initial}</span>
+                )}
+              </div>
+
+              <div>
+                <strong>{displayName}</strong>
+                <span>
+                  JPG, PNG ou WEBP · até 5 MB
+                </span>
+              </div>
+            </div>
+
+            <div className="photo-panel-actions">
+              <button
+                type="button"
+                className="photo-action-button primary"
+                onClick={() =>
+                  fileInputRef.current?.click()
+                }
+              >
+                <FaImage />
+
+                {profilePhoto
+                  ? "Trocar foto"
+                  : "Adicionar foto"}
+              </button>
+
+              {profilePhoto && (
+                <button
+                  type="button"
+                  className="photo-action-button danger"
+                  onClick={handleRemovePhoto}
+                >
+                  <FaTrashAlt />
+                  Remover
+                </button>
+              )}
+            </div>
+          </div>
+        </section>
 
         <section className="profile-section">
           <div className="section-heading">
@@ -660,8 +815,8 @@ function Perfil() {
               <h2>Acesso e segurança</h2>
 
               <p>
-                Mantenha sua conta protegida e
-                controle suas credenciais de acesso.
+                Controle suas credenciais e mantenha
+                sua conta protegida.
               </p>
             </div>
           </div>
@@ -673,12 +828,18 @@ function Perfil() {
 
             <div className="security-content">
               <div>
-                <h3>Senha da conta</h3>
+                <div className="security-title-row">
+                  <h3>Senha da conta</h3>
+
+                  <span className="security-status">
+                    <FaCheckCircle />
+                    Protegida
+                  </span>
+                </div>
 
                 <p>
-                  Sua senha é armazenada de forma
-                  protegida e pode ser atualizada
-                  sempre que necessário.
+                  Atualize sua senha sempre que desejar
+                  manter o acesso à conta sob controle.
                 </p>
               </div>
 
@@ -696,10 +857,6 @@ function Perfil() {
           </div>
         </section>
 
-        {/* ===================================================
-            ACCOUNT ACTIONS
-        =================================================== */}
-
         <section className="profile-actions-section">
           <div className="section-heading">
             <div>
@@ -707,7 +864,12 @@ function Perfil() {
                 CONTA
               </span>
 
-              <h2>Ações da conta</h2>
+              <h2>Gerenciamento da conta</h2>
+
+              <p>
+                Ações relacionadas à sua sessão e aos
+                seus dados no Noir Avenue.
+              </p>
             </div>
           </div>
 
@@ -752,8 +914,8 @@ function Perfil() {
                 </strong>
 
                 <span>
-                  Essa ação remove permanentemente
-                  seus dados.
+                  Remove permanentemente sua conta e
+                  os dados associados.
                 </span>
               </div>
 
@@ -762,10 +924,6 @@ function Perfil() {
           </div>
         </section>
       </main>
-
-      {/* =====================================================
-          EDIT PROFILE MODAL
-      ===================================================== */}
 
       {showEditModal && (
         <div
@@ -808,8 +966,6 @@ function Perfil() {
                 </h2>
               </div>
             </div>
-
-            {/* PHOTO EDITOR */}
 
             <div className="modal-photo-editor">
               <div
@@ -862,9 +1018,9 @@ function Perfil() {
             </div>
 
             <p className="modal-description">
-              Atualize seus dados pessoais. As
-              alterações serão aplicadas
-              imediatamente ao seu perfil.
+              Mantenha seus dados atualizados para
+              proporcionar uma experiência mais completa
+              dentro do Noir Avenue.
             </p>
 
             <div className="edit-fields">
@@ -952,10 +1108,6 @@ function Perfil() {
           </div>
         </div>
       )}
-
-      {/* =====================================================
-          DELETE MODAL
-      ===================================================== */}
 
       {showDeleteModal && (
         <div
