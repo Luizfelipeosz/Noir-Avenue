@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaHeart, FaTrash } from "react-icons/fa";
-
+import { addActivity } from "../../utils/activityLogger";
 import "./Favoritos.css";
 
 function Favoritos() {
   const navigate = useNavigate();
-
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
@@ -22,8 +21,10 @@ function Favoritos() {
   }
 
   function removeFavorite(productId) {
+    const product = favorites.find((item) => item.id === productId);
+
     const updatedFavorites = favorites.filter(
-      (product) => product.id !== productId
+      (item) => item.id !== productId
     );
 
     localStorage.setItem(
@@ -32,6 +33,18 @@ function Favoritos() {
     );
 
     setFavorites(updatedFavorites);
+
+    if (product) {
+      addActivity({
+        type: "favorite",
+        action: "removed",
+        message: `Removeu "${product.name}" dos favoritos.`,
+        metadata: {
+          productId: product.id,
+          productName: product.name,
+        },
+      });
+    }
   }
 
   function handleProductClick(slug) {
@@ -67,9 +80,7 @@ function Favoritos() {
 
         <span className="favoritos-count">
           {favorites.length}{" "}
-          {favorites.length === 1
-            ? "produto"
-            : "produtos"}
+          {favorites.length === 1 ? "produto" : "produtos"}
         </span>
       </div>
 
@@ -82,8 +93,8 @@ function Favoritos() {
           <h2>Nenhum favorito ainda</h2>
 
           <p>
-            Explore o catálogo e salve os produtos que
-            você mais gostar.
+            Explore o catálogo e salve os produtos que você
+            mais gostar.
           </p>
 
           <button

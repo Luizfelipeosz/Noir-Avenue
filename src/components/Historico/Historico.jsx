@@ -10,15 +10,24 @@ import {
   FaFilter,
   FaHistory,
   FaArrowLeft,
+  FaShoppingCart,
+  FaBoxOpen,
+  FaCreditCard,
+  FaUserPlus,
+  FaSignOutAlt,
+  FaLock,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
 
-import { addActivity } from "../../utils/activityLogger";
 import { useNavigate } from "react-router-dom";
-import { timeAgo } from "../../utils/timeAgo";
+
 import {
   getActivities,
   clearActivities,
 } from "../../utils/activityLogger";
+
+import { timeAgo } from "../../utils/timeAgo";
+
 import "./Historico.css";
 
 function Historico() {
@@ -62,76 +71,101 @@ function Historico() {
     };
   }, []);
 
-  const getActivityType = (message = "") => {
-    const text = message.toLowerCase();
+  const activityTypes = {
+    login: {
+      label: "Acesso",
+      icon: <FaSignInAlt />,
+    },
 
-    if (
-      text.includes("login") ||
-      text.includes("acesso") ||
-      text.includes("entrou") ||
-      text.includes("sessão")
-    ) {
-      return "login";
-    }
+    register: {
+      label: "Cadastro",
+      icon: <FaUserPlus />,
+    },
 
-    if (
-      text.includes("perfil") ||
-      text.includes("nome") ||
-      text.includes("telefone") ||
-      text.includes("endereço") ||
-      text.includes("senha")
-    ) {
-      return "profile";
-    }
+    profile: {
+      label: "Perfil",
+      icon: <FaUser />,
+    },
 
-    if (
-      text.includes("favorito") ||
-      text.includes("favoritos")
-    ) {
-      return "favorite";
-    }
+    favorite: {
+      label: "Favoritos",
+      icon: <FaHeart />,
+    },
 
-    if (
-      text.includes("premium") ||
-      text.includes("assinatura")
-    ) {
-      return "premium";
-    }
+    cart: {
+      label: "Carrinho",
+      icon: <FaShoppingCart />,
+    },
 
-    if (
-      text.includes("exclu") ||
-      text.includes("remov")
-    ) {
-      return "delete";
-    }
+    purchase: {
+      label: "Compra",
+      icon: <FaCreditCard />,
+    },
 
-    return "system";
+    order: {
+      label: "Pedido",
+      icon: <FaBoxOpen />,
+    },
+
+    address: {
+      label: "Endereço",
+      icon: <FaMapMarkerAlt />,
+    },
+
+    password: {
+      label: "Segurança",
+      icon: <FaLock />,
+    },
+
+    premium: {
+      label: "Premium",
+      icon: <FaCrown />,
+    },
+
+    logout: {
+      label: "Sessão",
+      icon: <FaSignOutAlt />,
+    },
+
+    delete: {
+      label: "Conta",
+      icon: <FaTrash />,
+    },
+
+    system: {
+      label: "Sistema",
+      icon: <FaCheckCircle />,
+    },
   };
 
-  const getActivityIcon = (type) => {
-    const icons = {
-      login: <FaSignInAlt />,
-      profile: <FaUser />,
-      favorite: <FaHeart />,
-      premium: <FaCrown />,
-      delete: <FaTrash />,
-      system: <FaCheckCircle />,
-    };
-
-    return icons[type] || icons.system;
+  const getActivityConfig = (type) => {
+    return (
+      activityTypes[type] ||
+      activityTypes.system
+    );
   };
 
-  const getActivityLabel = (type) => {
-    const labels = {
-      login: "Acesso",
-      profile: "Perfil",
-      favorite: "Favoritos",
-      premium: "Premium",
-      delete: "Conta",
-      system: "Sistema",
-    };
+  const formatDate = (date) => {
+    if (!date) {
+      return "Data não disponível";
+    }
 
-    return labels[type] || "Sistema";
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return "Data não disponível";
+    }
+
+    return parsedDate.toLocaleString(
+      "pt-BR",
+      {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }
+    );
   };
 
   const filteredActivities = useMemo(() => {
@@ -140,8 +174,7 @@ function Historico() {
     }
 
     return activities.filter(
-      (item) =>
-        getActivityType(item.message) === filter
+      (item) => item.type === filter
     );
   }, [activities, filter]);
 
@@ -155,7 +188,6 @@ function Historico() {
     }
 
     clearActivities();
-    setActivities([]);
   };
 
   const filters = [
@@ -163,18 +195,32 @@ function Historico() {
       value: "all",
       label: "Todas",
     },
+
     {
       value: "login",
       label: "Acessos",
     },
+
     {
-      value: "profile",
-      label: "Perfil",
+      value: "cart",
+      label: "Carrinho",
     },
+
+    {
+      value: "purchase",
+      label: "Compras",
+    },
+
     {
       value: "favorite",
       label: "Favoritos",
     },
+
+    {
+      value: "profile",
+      label: "Perfil",
+    },
+
     {
       value: "premium",
       label: "Premium",
@@ -205,20 +251,30 @@ function Historico() {
 
         <div className="history-header-actions">
           <button
+            type="button"
             className="back-dashboard"
-            onClick={() => navigate("/dashboard")}
+            onClick={() =>
+              navigate("/dashboard")
+            }
           >
             <FaArrowLeft />
-            Voltar para Dashboard
+
+            <span>
+              Voltar para Dashboard
+            </span>
           </button>
 
           {activities.length > 0 && (
             <button
+              type="button"
               className="clear-history"
               onClick={clearHistory}
             >
               <FaTrash />
-              Limpar histórico
+
+              <span>
+                Limpar histórico
+              </span>
             </button>
           )}
         </div>
@@ -232,7 +288,10 @@ function Historico() {
 
           <div>
             <span>ATIVIDADES</span>
-            <strong>{activities.length}</strong>
+
+            <strong>
+              {activities.length}
+            </strong>
           </div>
         </div>
 
@@ -243,7 +302,10 @@ function Historico() {
 
           <div>
             <span>STATUS</span>
-            <strong>Conta ativa</strong>
+
+            <strong>
+              Conta ativa
+            </strong>
           </div>
         </div>
 
@@ -276,6 +338,7 @@ function Historico() {
             {filters.map((item) => (
               <button
                 key={item.value}
+                type="button"
                 className={
                   filter === item.value
                     ? "active"
@@ -311,7 +374,10 @@ function Historico() {
 
             {filter !== "all" && (
               <button
-                onClick={() => setFilter("all")}
+                type="button"
+                onClick={() =>
+                  setFilter("all")
+                }
               >
                 Ver todas as atividades
               </button>
@@ -321,8 +387,10 @@ function Historico() {
           <div className="timeline">
             {filteredActivities.map(
               (item, index) => {
-                const type =
-                  getActivityType(item.message);
+                const config =
+                  getActivityConfig(
+                    item.type
+                  );
 
                 return (
                   <article
@@ -333,39 +401,36 @@ function Historico() {
                     }
                   >
                     <div
-                      className={`timeline-icon ${type}`}
+                      className={`timeline-icon ${item.type}`}
                     >
-                      {getActivityIcon(type)}
+                      {config.icon}
                     </div>
 
                     {index <
-                      filteredActivities.length - 1 && (
+                      filteredActivities.length -
+                        1 && (
                       <div className="timeline-line" />
                     )}
 
                     <div className="activity-card">
                       <div className="activity-card-header">
                         <span
-                          className={`activity-category ${type}`}
+                          className={`activity-category ${item.type}`}
                         >
-                          {getActivityLabel(type)}
+                          {config.label}
                         </span>
 
-                        <time>
-                          {item.createdAt
-                            ? new Date(
-                                item.createdAt
-                              ).toLocaleString(
-                                "pt-BR",
-                                {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                }
-                              )
-                            : "Data não disponível"}
+                        <time
+                          dateTime={
+                            item.createdAt
+                          }
+                          title={formatDate(
+                            item.createdAt
+                          )}
+                        >
+                          {formatDate(
+                            item.createdAt
+                          )}
                         </time>
                       </div>
 
