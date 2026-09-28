@@ -1,0 +1,669 @@
+.privacy-page {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(255, 255, 255, 0.06),
+            transparent 30%
+        ),
+        #0b0b0d;
+
+    color: #e9e9eb;
+
+    padding:
+        32px 20px 70px;
+}
+
+.privacy-container {
+    width: 100%;
+    max-width: 1180px;
+
+    margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.privacy-header {
+    padding-bottom: 45px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+.privacy-back-link {
+    display: inline-flex;
+    align-items: center;
+
+    color: rgba(255, 255, 255, 0.7);
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    margin-bottom: 35px;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.privacy-back-link:hover {
+    color: #fff;
+
+    transform:
+        translateX(-3px);
+}
+
+.privacy-back-link:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 5px;
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.privacy-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 60px;
+}
+
+.privacy-brand-mark {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 10px;
+
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+.privacy-brand div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.privacy-brand strong {
+    color: #fff;
+
+    font-size: 15px;
+
+    letter-spacing: 0.03em;
+}
+
+.privacy-brand span {
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 11px;
+}
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.privacy-heading {
+    max-width: 760px;
+}
+
+.privacy-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 14px;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+}
+
+.privacy-heading h1 {
+    margin-bottom: 15px;
+
+    color: #fff;
+
+    font-size:
+        clamp(36px, 5vw, 58px);
+
+    line-height: 1.05;
+
+    font-weight: 600;
+}
+
+.privacy-heading p {
+    max-width: 650px;
+
+    color: rgba(255, 255, 255, 0.62);
+
+    font-size: 17px;
+
+    line-height: 1.7;
+}
+
+.privacy-meta {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 25px;
+
+    margin-top: 30px;
+
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 12px;
+}
+
+.privacy-meta strong {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.privacy-layout {
+    display: grid;
+
+    grid-template-columns:
+        230px minmax(0, 1fr);
+
+    gap: 70px;
+
+    padding-top: 55px;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.privacy-sidebar nav {
+    position: sticky;
+
+    top: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.privacy-sidebar nav p {
+    margin-bottom: 12px;
+
+    color: rgba(255, 255, 255, 0.4);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.12em;
+}
+
+.privacy-sidebar nav a {
+    padding: 7px 0;
+
+    color: rgba(255, 255, 255, 0.48);
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.privacy-sidebar nav a:hover {
+    color: #fff;
+
+    transform:
+        translateX(3px);
+}
+
+.privacy-sidebar nav a:focus-visible {
+    outline: 2px solid #fff;
+
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.privacy-content {
+    min-width: 0;
+
+    max-width: 780px;
+}
+
+.privacy-content section {
+    scroll-margin-top: 35px;
+
+    padding-bottom: 55px;
+
+    margin-bottom: 55px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.08);
+}
+
+.privacy-content section:last-of-type {
+    border-bottom: none;
+}
+
+.privacy-intro {
+    margin-bottom: 55px;
+
+    padding:
+        28px 30px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+.privacy-content p {
+    margin-bottom: 18px;
+
+    color: rgba(255, 255, 255, 0.66);
+
+    font-size: 15px;
+
+    line-height: 1.85;
+}
+
+.privacy-content p:last-child {
+    margin-bottom: 0;
+}
+
+.privacy-content h2 {
+    margin:
+        8px 0 22px;
+
+    color: #fff;
+
+    font-size: 26px;
+
+    line-height: 1.3;
+
+    font-weight: 600;
+}
+
+.privacy-content h3 {
+    margin:
+        25px 0 10px;
+
+    color: rgba(255, 255, 255, 0.9);
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+.privacy-content a {
+    color: #fff;
+
+    font-weight: 600;
+
+    text-decoration:
+        underline;
+
+    text-underline-offset: 3px;
+}
+
+.privacy-content a:focus-visible {
+    outline: 2px solid #fff;
+
+    outline-offset: 3px;
+}
+
+.privacy-section-number {
+    display: inline-flex;
+
+    color: rgba(255, 255, 255, 0.35);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.15em;
+}
+
+/* =========================================================
+   DATA GRID
+   ========================================================= */
+
+.privacy-data-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+.privacy-data-grid > div {
+    padding:
+        20px 21px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 12px;
+}
+
+.privacy-data-grid h3 {
+    margin: 0 0 8px;
+
+    color: #fff;
+
+    font-size: 14px;
+}
+
+.privacy-data-grid p {
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 12px;
+
+    line-height: 1.65;
+}
+
+/* =========================================================
+   LISTA
+   ========================================================= */
+
+.privacy-list {
+    margin:
+        20px 0 0;
+
+    padding-left: 20px;
+}
+
+.privacy-list li {
+    margin-bottom: 12px;
+
+    padding-left: 7px;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    font-size: 15px;
+
+    line-height: 1.75;
+}
+
+.privacy-list li::marker {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.privacy-card,
+.privacy-contact {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-top: 25px;
+
+    padding:
+        22px 24px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 12px;
+}
+
+.privacy-card > span,
+.privacy-contact > span {
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.1em;
+}
+
+.privacy-card > strong,
+.privacy-contact > strong {
+    color: #fff;
+
+    font-size: 15px;
+}
+
+.privacy-card p,
+.privacy-contact small {
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.privacy-warning {
+    margin-top: 10px !important;
+
+    color: #f5c76b !important;
+
+    font-size: 12px !important;
+}
+
+/* =========================================================
+   NOTE
+   ========================================================= */
+
+.privacy-note {
+    margin-top: 28px;
+
+    padding:
+        22px 24px;
+
+    border-left:
+        3px solid rgba(255, 255, 255, 0.5);
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border-radius:
+        0 10px 10px 0;
+}
+
+.privacy-note strong {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #fff;
+
+    font-size: 13px;
+}
+
+.privacy-note p {
+    margin: 0;
+
+    font-size: 13px;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.privacy-footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 25px;
+
+    padding-top: 25px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+.privacy-footer p {
+    margin: 0;
+
+    font-size: 12px;
+}
+
+.privacy-footer div {
+    display: flex;
+
+    gap: 20px;
+}
+
+.privacy-footer a {
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 12px;
+
+    text-decoration: none;
+}
+
+.privacy-footer a:hover {
+    color: #fff;
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+
+@media (max-width: 850px) {
+    .privacy-layout {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+    .privacy-sidebar nav {
+        position: static;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 2px 20px;
+    }
+
+    .privacy-sidebar nav p {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .privacy-page {
+        padding:
+            22px 16px 50px;
+    }
+
+    .privacy-brand {
+        margin-bottom: 45px;
+    }
+
+    .privacy-heading h1 {
+        font-size: 36px;
+    }
+
+    .privacy-heading p {
+        font-size: 15px;
+    }
+
+    .privacy-meta {
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .privacy-layout {
+        padding-top: 35px;
+    }
+
+    .privacy-sidebar nav {
+        grid-template-columns: 1fr;
+    }
+
+    .privacy-intro {
+        padding: 22px;
+    }
+
+    .privacy-content h2 {
+        font-size: 22px;
+    }
+
+    .privacy-content p,
+    .privacy-list li {
+        font-size: 14px;
+    }
+
+    .privacy-data-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .privacy-footer {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+
+        transition: none !important;
+
+        scroll-behavior: auto !important;
+    }
+}
+

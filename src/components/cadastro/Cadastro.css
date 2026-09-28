@@ -8,113 +8,130 @@
 .container {
     width: 100%;
     max-width: 450px;
-
     padding: 50px 40px;
 
-    background: rgba(255, 255, 255, .12);
-
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(18px);
 
-    border: 1px solid rgba(255, 255, 255, .25);
-
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 20px;
 
     box-shadow:
-        0 15px 40px
-        rgba(0, 0, 0, .25);
+        0 15px 40px rgba(0, 0, 0, 0.25);
 
-    animation: fade .6s ease;
+    animation: fade 0.6s ease;
 }
+
+/* =========================================================
+   ACESSIBILIDADE
+   ========================================================= */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* =========================================================
+   LOGO / TÍTULO
+   ========================================================= */
 
 .logo {
     width: 170px;
-
     display: block;
-
     margin: 0 auto 25px;
 }
 
 .container h1 {
     text-align: center;
-
     color: #fff;
-
     font-size: 30px;
-
     font-weight: 600;
-
     margin-bottom: 8px;
 }
 
 .subtitle {
     text-align: center;
-
-    color: rgba(255, 255, 255, .75);
-
+    color: rgba(255, 255, 255, 0.75);
     margin-bottom: 35px;
-
     font-size: 14px;
 }
 
-/* ===================================
+/* =========================================================
    INPUTS
-=================================== */
+   ========================================================= */
 
 .input-field {
     position: relative;
-
     margin-bottom: 20px;
 }
 
 .input-field input {
     width: 100%;
-
     height: 55px;
 
     padding: 0 85px 0 20px;
 
-    border: 2px solid
-        rgba(255, 255, 255, .2);
-
+    border: 2px solid rgba(255, 255, 255, 0.2);
     outline: none;
 
-    background:
-        rgba(255, 255, 255, .08);
+    background: rgba(255, 255, 255, 0.08);
 
     border-radius: 30px;
 
     color: #fff;
-
     font-size: 16px;
 
-    transition: .3s;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .input-field input::placeholder {
-    color:
-        rgba(255, 255, 255, .75);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .input-field input:focus {
     border-color: #fff;
+    background: rgba(255, 255, 255, 0.15);
 
-    background:
-        rgba(255, 255, 255, .15);
+    box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.12);
 }
 
-/* ===================================
-   ÍCONE
-=================================== */
+/* =========================================================
+   ESTADO DE ERRO
+   ========================================================= */
+
+.input-field input[aria-invalid="true"] {
+    border-color: #f87171;
+}
+
+.input-field input[aria-invalid="true"]:focus {
+    border-color: #f87171;
+
+    box-shadow:
+        0 0 0 3px rgba(248, 113, 113, 0.15);
+}
+
+/* =========================================================
+   ÍCONES
+   ========================================================= */
 
 .icon {
     position: absolute;
 
     right: 20px;
-
     top: 50%;
 
-    transform:
-        translateY(-50%);
+    transform: translateY(-50%);
 
     color: #fff;
 
@@ -123,30 +140,24 @@
     z-index: 2;
 }
 
-/* ===================================
-   CADEADO DOS CAMPOS DE SENHA
-=================================== */
-
 .password-lock-icon {
     right: 20px;
 }
 
-/* ===================================
+/* =========================================================
    MOSTRAR / OCULTAR SENHA
-=================================== */
+   ========================================================= */
 
 .password-toggle {
     position: absolute;
 
     right: 48px;
-
     top: 50%;
 
     width: auto;
     height: auto;
 
     padding: 0;
-
     margin: 0;
 
     border: none;
@@ -158,87 +169,148 @@
     font-size: 16px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     cursor: pointer;
 
-    transform:
-        translateY(-50%);
+    transform: translateY(-50%);
 
     box-shadow: none;
 
     z-index: 3;
+
+    transition:
+        opacity 0.2s ease,
+        color 0.2s ease;
 }
 
 .password-toggle:hover {
     background: transparent;
-
     box-shadow: none;
 
-    transform:
-        translateY(-50%);
+    transform: translateY(-50%);
 
     color: #f5f5f5;
-
-    opacity: .8;
+    opacity: 0.8;
 }
 
-.password-toggle:focus {
-    outline: none;
-
-    box-shadow: none;
+.password-toggle:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 
 .password-toggle:active {
-    transform:
-        translateY(-50%);
+    transform: translateY(-50%);
 }
 
-/* ===================================
-   FEEDBACK DAS SENHAS
-=================================== */
+/* =========================================================
+   REQUISITOS DA SENHA
+   ========================================================= */
 
-.password-feedback {
-    min-height: 18px;
+.password-requirements {
+    margin-top: -8px;
+    margin-bottom: 20px;
 
-    margin-top: -10px;
-
-    margin-bottom: 14px;
-
-    padding-left: 20px;
+    padding: 0 8px;
 }
 
-.password-match,
-.password-mismatch {
-    display: block;
+.requirements-title {
+    color: rgba(255, 255, 255, 0.8);
 
-    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+
+    margin-bottom: 8px;
+}
+
+.password-requirements ul {
+    list-style: none;
+
+    display: grid;
+    gap: 5px;
+}
+
+.requirement {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: rgba(255, 255, 255, 0.65);
 
     font-size: 12px;
 
     line-height: 1.4;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
-.password-match {
+.requirement svg {
+    flex-shrink: 0;
+
+    width: 11px;
+    height: 11px;
+}
+
+.requirement.valid {
     color: #4ade80;
 }
 
-.password-mismatch {
+/* =========================================================
+   CONFIRMAÇÃO DA SENHA
+   ========================================================= */
+
+.confirm-password-field {
+    margin-bottom: 8px;
+}
+
+.password-feedback {
+    min-height: 22px;
+
+    margin:
+        0 8px 16px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 12px;
+
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.password-feedback svg {
+    flex-shrink: 0;
+
+    width: 11px;
+    height: 11px;
+}
+
+.password-feedback.match {
+    color: #4ade80;
+}
+
+.password-feedback.mismatch {
     color: #f87171;
 }
 
-/* ===================================
+/* =========================================================
    TERMOS
-=================================== */
+   ========================================================= */
 
 .remember {
     color: #fff;
 
     font-size: 13px;
 
-    margin: 20px 0 25px;
+    margin:
+        20px 0 25px;
 }
 
 .remember label {
@@ -255,54 +327,90 @@
     margin-top: 3px;
 
     flex-shrink: 0;
+
+    width: 15px;
+    height: 15px;
+
+    cursor: pointer;
+}
+
+.remember input:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
 }
 
 .remember span {
     line-height: 1.4;
 }
 
-/* ===================================
+.remember a {
+    color: #fff;
+
+    font-weight: 600;
+
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.remember a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* =========================================================
    BOTÃO PRINCIPAL
-=================================== */
+   ========================================================= */
 
 .submit-button {
     width: 100%;
-
     height: 52px;
 
     padding: 0;
 
     border: none;
-
     border-radius: 30px;
 
     background: #fff;
-
     color: #111;
 
     font-size: 17px;
-
     font-weight: 700;
 
     cursor: pointer;
 
-    transition: .3s;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
 }
 
-.submit-button:hover {
-    transform:
-        translateY(-2px);
+.submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
 
     background: #f5f5f5;
 
     box-shadow:
-        0 10px 25px
-        rgba(255, 255, 255, .18);
+        0 10px 25px rgba(255, 255, 255, 0.18);
 }
 
-/* ===================================
+.submit-button:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.75);
+    outline-offset: 4px;
+}
+
+.submit-button:disabled {
+    cursor: not-allowed;
+
+    opacity: 0.45;
+
+    box-shadow: none;
+}
+
+/* =========================================================
    LINK PARA LOGIN
-=================================== */
+   ========================================================= */
 
 .login-link {
     text-align: center;
@@ -324,9 +432,15 @@
     text-decoration: underline;
 }
 
-/* ===================================
+.login-link a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* =========================================================
    ANIMAÇÃO
-=================================== */
+   ========================================================= */
 
 @keyframes fade {
     from {
@@ -344,12 +458,11 @@
     }
 }
 
-/* ===================================
+/* =========================================================
    RESPONSIVO
-=================================== */
+   ========================================================= */
 
 @media (max-width: 480px) {
-
     .container {
         padding: 40px 25px;
     }
@@ -360,6 +473,45 @@
 
     .container h1 {
         font-size: 26px;
+    }
+
+    .input-field input {
+        height: 52px;
+
+        font-size: 15px;
+    }
+
+    .password-requirements {
+        padding: 0 4px;
+    }
+
+    .requirement {
+        font-size: 11px;
+    }
+
+    .remember {
+        font-size: 12px;
+    }
+
+    .submit-button {
+        height: 50px;
+
+        font-size: 16px;
+    }
+}
+
+/* =========================================================
+   REDUÇÃO DE MOVIMENTO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
 

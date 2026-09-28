@@ -1,8 +1,10 @@
 import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
+
 import { Toaster } from "sonner";
 import { ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 // Autenticação
@@ -37,12 +39,19 @@ import { CartProvider } from "./context/CartContext";
 // Checkout
 import Checkout from "./components/Checkout/Checkout";
 
+// Termos e políticas
+import TermosdeUso from "./components/TermosdeUso/TermosDeUso";
+import PoliticaPrivacidade from "./components/PoliticaDePrivacidade/PoliticaDePrivacidade";
+
 function App() {
   return (
     <div className="App">
       <CartProvider>
         <Routes>
-          {/* Rotas Públicas */}
+
+          {/* =========================================
+              ROTAS PÚBLICAS
+          ========================================= */}
 
           <Route
             path="/"
@@ -62,7 +71,23 @@ function App() {
             }
           />
 
-          {/* Dashboard */}
+          {/* =========================================
+              TERMOS E POLÍTICAS
+          ========================================= */}
+
+          <Route
+            path="/TermosdeUso"
+            element={<TermosdeUso />}
+          />
+
+          <Route
+            path="/PoliticaDePrivacidade"
+            element={<PoliticaPrivacidade />}
+          />
+
+          {/* =========================================
+              DASHBOARD
+          ========================================= */}
 
           <Route
             path="/dashboard"
@@ -75,7 +100,9 @@ function App() {
             }
           />
 
-          {/* Rotas internas */}
+          {/* =========================================
+              PERFIL
+          ========================================= */}
 
           <Route
             path="/dashboard/perfil"
@@ -88,6 +115,10 @@ function App() {
             }
           />
 
+          {/* =========================================
+              FAVORITOS
+          ========================================= */}
+
           <Route
             path="/dashboard/favoritos"
             element={
@@ -98,6 +129,10 @@ function App() {
               </PrivateRoute>
             }
           />
+
+          {/* =========================================
+              CONFIGURAÇÕES
+          ========================================= */}
 
           <Route
             path="/dashboard/configuracoes"
@@ -110,6 +145,10 @@ function App() {
             }
           />
 
+          {/* =========================================
+              PREMIUM
+          ========================================= */}
+
           <Route
             path="/dashboard/premium"
             element={
@@ -120,6 +159,10 @@ function App() {
               </PrivateRoute>
             }
           />
+
+          {/* =========================================
+              HISTÓRICO
+          ========================================= */}
 
           <Route
             path="/dashboard/historico"
@@ -132,7 +175,9 @@ function App() {
             }
           />
 
-          {/* Catálogo */}
+          {/* =========================================
+              CATÁLOGO
+          ========================================= */}
 
           <Route
             path="/dashboard/catalogo"
@@ -145,7 +190,9 @@ function App() {
             }
           />
 
-          {/* Detalhes do produto */}
+          {/* =========================================
+              DETALHES DO PRODUTO
+          ========================================= */}
 
           <Route
             path="/dashboard/catalogo/:slug"
@@ -158,23 +205,39 @@ function App() {
             }
           />
 
+          {/* =========================================
+              CARRINHO
+          ========================================= */}
+
           <Route
-  path="/dashboard/cart"
-  element={<Cart />}
-/>
+            path="/dashboard/cart"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <Cart />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
 
-<Route 
-path="/dashboard/checkout" 
-element={
-<PrivateRoute>
-<DashboardLayout>
-<Checkout />
-</DashboardLayout>
-</PrivateRoute>
-} 
-/>
+          {/* =========================================
+              CHECKOUT
+          ========================================= */}
 
-          {/* Recuperar senha */}
+          <Route
+            path="/dashboard/checkout"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <Checkout />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+
+          {/* =========================================
+              RECUPERAÇÃO DE SENHA
+          ========================================= */}
 
           <Route
             path="/recuperar-senha"
@@ -185,21 +248,23 @@ element={
             path="/redefinir-senha"
             element={<RedefinirSenha />}
           />
+
         </Routes>
       </CartProvider>
-     <Toaster position="top-right" />
-     <ToastContainer
-  position="bottom-right"
-  autoClose={3000}
-  hideProgressBar={false}
-  newestOnTop
-  closeOnClick
-  pauseOnHover
-  theme="dark"
-/>
+
+      <Toaster position="top-right" />
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }
 
 export default App;
-

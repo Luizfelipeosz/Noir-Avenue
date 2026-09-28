@@ -4,6 +4,8 @@ import {
   FaLock,
   FaEye,
   FaEyeSlash,
+  FaCheck,
+  FaTimes,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -13,6 +15,34 @@ import logo from "../../assets/logo.png";
 import "./Cadastro.css";
 
 const API_URL = "https://noir-avenue-api.onrender.com/api";
+
+const passwordRequirements = [
+  {
+    key: "minLength",
+    label: "Entre 8 e 16 caracteres",
+    test: (password) => password.length >= 8 && password.length <= 16,
+  },
+  {
+    key: "uppercase",
+    label: "Pelo menos uma letra maiúscula",
+    test: (password) => /[A-Z]/.test(password),
+  },
+  {
+    key: "lowercase",
+    label: "Pelo menos uma letra minúscula",
+    test: (password) => /[a-z]/.test(password),
+  },
+  {
+    key: "number",
+    label: "Pelo menos um número",
+    test: (password) => /\d/.test(password),
+  },
+  {
+    key: "symbol",
+    label: "Pelo menos um símbolo",
+    test: (password) => /[^A-Za-z0-9]/.test(password),
+  },
+];
 
 const Cadastro = () => {
   const navigate = useNavigate();
@@ -27,30 +57,55 @@ const Cadastro = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const passwordValidation = passwordRequirements.map(
+    (requirement) => ({
+      ...requirement,
+      valid: requirement.test(password),
+    })
+  );
+
+  const isPasswordValid =
+    password.length > 0 &&
+    passwordValidation.every((requirement) => requirement.valid);
+
+  const passwordsMatch =
+    confirmPassword.length > 0 &&
+    password === confirmPassword;
+
+  const passwordsMismatch =
+    confirmPassword.length > 0 &&
+    password !== confirmPassword;
+
+  const isFormValid =
+    name.trim() &&
+    email.trim() &&
+    isPasswordValid &&
+    passwordsMatch;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!name.trim() || !email.trim()) {
       toast.warning("Campos obrigatórios", {
-        description: "Preencha todos os campos.",
+        description: "Preencha seu nome e e-mail para continuar.",
       });
 
       return;
     }
 
-    if (password.length < 8) {
+    if (!isPasswordValid) {
       toast.warning("Senha inválida", {
         description:
-          "A senha deve possuir no mínimo 8 caracteres.",
+          "Sua senha precisa atender a todos os requisitos indicados.",
       });
 
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (!passwordsMatch) {
       toast.error("As senhas não coincidem.", {
         description:
-          "Verifique os campos de senha antes de continuar.",
+          "Confira a confirmação da senha antes de continuar.",
       });
 
       return;
@@ -102,57 +157,104 @@ const Cadastro = () => {
   };
 
   return (
-    <div className="container">
-      <form onSubmit={handleSubmit}>
+    <main className="container">
+      <form
+        onSubmit={handleSubmit}
+        noValidate
+        aria-labelledby="cadastro-title"
+      >
         <img
           src={logo}
           alt="Noir Avenue"
           className="logo"
         />
 
-        <h1>Criar conta</h1>
+        <h1 id="cadastro-title">Criar conta</h1>
 
         <p className="subtitle">
           Faça parte da Noir Avenue.
         </p>
 
+        {/* NOME */}
         <div className="input-field">
+          <label htmlFor="name" className="sr-only">
+            Nome completo
+          </label>
+
           <input
+            id="name"
+            name="name"
             type="text"
             placeholder="Nome completo"
             value={name}
             required
             autoComplete="name"
+            maxLength={100}
+            aria-required="true"
             onChange={(event) => setName(event.target.value)}
           />
 
-          <FaUser className="icon" />
+          <FaUser
+            className="icon"
+            aria-hidden="true"
+          />
         </div>
 
+        {/* E-MAIL */}
         <div className="input-field">
+          <label htmlFor="email" className="sr-only">
+            E-mail
+          </label>
+
           <input
+            id="email"
+            name="email"
             type="email"
             placeholder="E-mail"
             value={email}
             required
             autoComplete="email"
+            maxLength={254}
+            aria-required="true"
             onChange={(event) => setEmail(event.target.value)}
           />
 
-          <FaEnvelope className="icon" />
+          <FaEnvelope
+            className="icon"
+            aria-hidden="true"
+          />
         </div>
 
+        {/* SENHA */}
         <div className="input-field">
+          <label htmlFor="password" className="sr-only">
+            Senha
+          </label>
+
           <input
+            id="password"
+            name="password"
             type={showPassword ? "text" : "password"}
             placeholder="Senha"
             value={password}
             required
+            minLength={8}
+            maxLength={16}
             autoComplete="new-password"
-            onChange={(event) => setPassword(event.target.value)}
+            aria-required="true"
+            aria-describedby="password-requirements"
+            aria-invalid={
+              password.length > 0 && !isPasswordValid
+            }
+            onChange={(event) =>
+              setPassword(event.target.value)
+            }
           />
 
-          <FaLock className="icon password-lock-icon" />
+          <FaLock
+            className="icon password-lock-icon"
+            aria-hidden="true"
+          />
 
           <button
             type="button"
@@ -165,36 +267,98 @@ const Cadastro = () => {
                 ? "Ocultar senha"
                 : "Mostrar senha"
             }
+            aria-pressed={showPassword}
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
 
-        <div className="input-field">
+        {/* REQUISITOS DA SENHA */}
+        <div
+          id="password-requirements"
+          className="password-requirements"
+          aria-live="polite"
+        >
+          <p className="requirements-title">
+            Sua senha deve conter:
+          </p>
+
+          <ul>
+            {passwordValidation.map((requirement) => (
+              <li
+                key={requirement.key}
+                className={
+                  requirement.valid
+                    ? "requirement valid"
+                    : "requirement"
+                }
+              >
+                {requirement.valid ? (
+                  <FaCheck
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <FaTimes
+                    aria-hidden="true"
+                  />
+                )}
+
+                <span>{requirement.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* CONFIRMAÇÃO DA SENHA */}
+        <div className="input-field confirm-password-field">
+          <label
+            htmlFor="confirm-password"
+            className="sr-only"
+          >
+            Confirmar senha
+          </label>
+
           <input
-            type={showConfirmPassword ? "text" : "password"}
+            id="confirm-password"
+            name="confirmPassword"
+            type={
+              showConfirmPassword
+                ? "text"
+                : "password"
+            }
             placeholder="Confirmar senha"
             value={confirmPassword}
             required
+            minLength={8}
+            maxLength={16}
             autoComplete="new-password"
+            aria-required="true"
+            aria-describedby="password-match"
+            aria-invalid={passwordsMismatch}
             onChange={(event) =>
               setConfirmPassword(event.target.value)
             }
           />
 
-          <FaLock className="icon password-lock-icon" />
+          <FaLock
+            className="icon password-lock-icon"
+            aria-hidden="true"
+          />
 
           <button
             type="button"
             className="password-toggle"
             onClick={() =>
-              setShowConfirmPassword((value) => !value)
+              setShowConfirmPassword(
+                (value) => !value
+              )
             }
             aria-label={
               showConfirmPassword
                 ? "Ocultar confirmação da senha"
                 : "Mostrar confirmação da senha"
             }
+            aria-pressed={showConfirmPassword}
           >
             {showConfirmPassword ? (
               <FaEyeSlash />
@@ -204,39 +368,73 @@ const Cadastro = () => {
           </button>
         </div>
 
-        <div className="password-feedback">
-          {confirmPassword && (
-            <small
-              className={
-                password === confirmPassword
-                  ? "password-match"
-                  : "password-mismatch"
-              }
-            >
-              {password === confirmPassword
-                ? "✓ As senhas coincidem."
-                : "✕ As senhas não coincidem."}
-            </small>
+        {/* FEEDBACK DE CONFIRMAÇÃO */}
+        <div
+          id="password-match"
+          className={`password-feedback ${
+            passwordsMatch
+              ? "match"
+              : passwordsMismatch
+                ? "mismatch"
+                : ""
+          }`}
+          aria-live="polite"
+        >
+          {passwordsMatch && (
+            <>
+              <FaCheck aria-hidden="true" />
+              <span>As senhas coincidem.</span>
+            </>
+          )}
+
+          {passwordsMismatch && (
+            <>
+              <FaTimes aria-hidden="true" />
+              <span>
+                As senhas ainda não coincidem.
+              </span>
+            </>
           )}
         </div>
 
+        {/* TERMOS */}
         <div className="remember">
-          <label>
-            <input type="checkbox" required />
+          <label htmlFor="terms">
+            <input
+              id="terms"
+              name="terms"
+              type="checkbox"
+              required
+              aria-required="true"
+            />
 
             <span>
-              Eu aceito os Termos de Uso e Política de
-              Privacidade.
+              Eu aceito os{" "}
+              <a href="/TermosdeUso" target="_blank">
+                Termos de Uso
+              </a>{" "}
+              e a{" "}
+              <a
+                href="/PoliticaDePrivacidade"
+                target="_blank"
+              >
+                Política de Privacidade
+              </a>
+              .
             </span>
           </label>
         </div>
 
+        {/* BOTÃO */}
         <button
           type="submit"
           className="submit-button"
-          disabled={isLoading}
+          disabled={isLoading || !isFormValid}
+          aria-disabled={isLoading || !isFormValid}
         >
-          {isLoading ? "Criando conta..." : "Criar conta"}
+          {isLoading
+            ? "Criando conta..."
+            : "Criar conta"}
         </button>
 
         <div className="login-link">
@@ -246,8 +444,9 @@ const Cadastro = () => {
           </p>
         </div>
       </form>
-    </div>
+    </main>
   );
 };
 
 export default Cadastro;
+
