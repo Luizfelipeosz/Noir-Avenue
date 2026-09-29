@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { toast } from "sonner";
+
 import "./ProductCard.css";
 
 function ProductCard({ product }) {
@@ -54,6 +56,8 @@ function ProductCard({ product }) {
 
       setIsFavorite(false);
 
+      toast.success(`${name} removido dos favoritos.`);
+
       return;
     }
 
@@ -71,7 +75,12 @@ function ProductCard({ product }) {
 
     setIsFavorite(true);
 
-    navigate("/dashboard/favoritos");
+    toast.success(`${name} foi adicionado aos favoritos.`, {
+      action: {
+        label: "Ver favoritos",
+        onClick: () => navigate("/dashboard/favoritos"),
+      },
+    });
   }
 
   return (
@@ -82,6 +91,7 @@ function ProductCard({ product }) {
       role="button"
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
           handleProductClick();
         }
       }}

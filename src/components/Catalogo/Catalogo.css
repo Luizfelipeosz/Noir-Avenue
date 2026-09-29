@@ -1,10 +1,29 @@
+/* =========================================================
+   NOIR AVENUE — CATÁLOGO
+   ========================================================= */
+
 .catalogo {
+  --catalogo-bg: #050509;
+  --catalogo-bg-secondary: #080912;
+
+  --catalogo-text: #ffffff;
+  --catalogo-text-soft: rgba(255, 255, 255, 0.72);
+  --catalogo-text-muted: rgba(255, 255, 255, 0.44);
+  --catalogo-text-subtle: rgba(255, 255, 255, 0.28);
+
+  --catalogo-border: rgba(255, 255, 255, 0.09);
+  --catalogo-border-hover: rgba(255, 255, 255, 0.18);
+
+  --catalogo-surface: rgba(255, 255, 255, 0.035);
+  --catalogo-surface-hover: rgba(255, 255, 255, 0.06);
+
+  --catalogo-accent: #e50914;
+  --catalogo-accent-hover: #ff1a25;
+
   position: relative;
   isolation: isolate;
-
   width: 100%;
   min-height: 100vh;
-
   overflow: hidden;
 
   background:
@@ -20,27 +39,65 @@
     ),
     linear-gradient(
       135deg,
-      #050509 0%,
-      #080912 48%,
-      #050507 100%
+      var(--catalogo-bg) 0%,
+      var(--catalogo-bg-secondary) 48%,
+      var(--catalogo-bg) 100%
     );
 
-  color: #fff;
+  color: var(--catalogo-text);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
+/* =========================================================
+   LIGHT THEME
+   ========================================================= */
 
-/* =========================
+.catalogo.theme-light {
+  --catalogo-bg: #f5f6f8;
+  --catalogo-bg-secondary: #ffffff;
+
+  --catalogo-text: #15171c;
+  --catalogo-text-soft: rgba(21, 23, 28, 0.78);
+  --catalogo-text-muted: rgba(21, 23, 28, 0.58);
+  --catalogo-text-subtle: rgba(21, 23, 28, 0.38);
+
+  --catalogo-border: rgba(21, 23, 28, 0.10);
+  --catalogo-border-hover: rgba(21, 23, 28, 0.18);
+
+  --catalogo-surface: rgba(21, 23, 28, 0.035);
+  --catalogo-surface-hover: rgba(21, 23, 28, 0.06);
+
+  background:
+    radial-gradient(
+      circle at 18% 8%,
+      rgba(74, 86, 150, 0.08),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 32%,
+      rgba(70, 80, 140, 0.05),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      var(--catalogo-bg) 0%,
+      var(--catalogo-bg-secondary) 55%,
+      #f2f3f6 100%
+    );
+}
+
+/* =========================================================
    ATMOSPHERIC BACKGROUND
-========================= */
+   ========================================================= */
 
 .catalogo::before {
   content: "";
-
   position: absolute;
   inset: 0;
-
   z-index: -2;
-
   pointer-events: none;
 
   background:
@@ -54,14 +111,21 @@
   opacity: 0.8;
 }
 
+.catalogo.theme-light::before {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.025) 50%,
+      transparent 100%
+    );
+}
+
 .catalogo::after {
   content: "";
-
   position: absolute;
   inset: 0;
-
   z-index: -3;
-
   pointer-events: none;
 
   background-image:
@@ -84,14 +148,25 @@
   );
 }
 
+.catalogo.theme-light::after {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.025) 1px,
+      transparent 1px
+    );
+}
 
-/* =========================
+/* =========================================================
    GLOW
-========================= */
+   ========================================================= */
 
 .catalogo-glow {
   position: absolute;
-
   z-index: -1;
 
   width: 500px;
@@ -102,28 +177,28 @@
   pointer-events: none;
 
   filter: blur(100px);
-
   opacity: 0.12;
 }
 
 .catalogo-glow-one {
   top: -220px;
   left: -180px;
-
   background: #39447a;
 }
 
 .catalogo-glow-two {
   top: 420px;
   right: -300px;
-
   background: #202b62;
 }
 
+.catalogo.theme-light .catalogo-glow {
+  opacity: 0.06;
+}
 
-/* =========================
+/* =========================================================
    CONTENT
-========================= */
+   ========================================================= */
 
 .catalogo-content {
   position: relative;
@@ -132,14 +207,12 @@
   max-width: 1400px;
 
   margin: 0 auto;
-
   padding: 55px 40px 90px;
 }
 
-
-/* =========================
+/* =========================================================
    ACTIONS
-========================= */
+   ========================================================= */
 
 .catalogo-actions {
   display: flex;
@@ -147,31 +220,27 @@
   justify-content: space-between;
 
   gap: 20px;
-
   margin-bottom: 55px;
 }
 
-
-/* =========================
+/* =========================================================
    BACK
-========================= */
+   ========================================================= */
 
 .catalogo-back {
   display: inline-flex;
   align-items: center;
-
   gap: 9px;
 
   min-height: 40px;
-
   padding: 9px 14px;
 
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 7px;
+  border: 1px solid var(--catalogo-border);
+  border-radius: 8px;
 
-  background: linear-gradient(135deg, rgba(240, 6, 6, 0.884), rgba(221, 7, 7, 0.911));
+  background: var(--catalogo-surface);
 
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--catalogo-text-soft);
 
   font-family: inherit;
   font-size: 13px;
@@ -187,11 +256,11 @@
 }
 
 .catalogo-back:hover {
-  color: #fff;
+  color: var(--catalogo-text);
 
-  background: rgba(240, 6, 6, 0.884);
+  background: var(--catalogo-surface-hover);
 
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: var(--catalogo-border-hover);
 
   transform: translateX(-3px);
 }
@@ -200,22 +269,14 @@
   transform: translateX(-3px) scale(0.98);
 }
 
-.catalogo-back:focus-visible,
-.catalogo-cart:focus-visible,
-.catalogo-category:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.7);
-  outline-offset: 3px;
-}
-
 .catalogo-back-icon {
   font-size: 17px;
   line-height: 1;
 }
 
-
-/* =========================
+/* =========================================================
    CART
-========================= */
+   ========================================================= */
 
 .catalogo-cart {
   position: relative;
@@ -227,15 +288,14 @@
   gap: 9px;
 
   min-height: 40px;
-
   padding: 9px 14px;
 
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 7px;
+  border: 1px solid var(--catalogo-border);
+  border-radius: 8px;
 
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--catalogo-surface);
 
-  color: #fff;
+  color: var(--catalogo-text);
 
   font-family: inherit;
   font-size: 13px;
@@ -251,12 +311,12 @@
 }
 
 .catalogo-cart:hover {
-  background: rgba(255, 255, 255, 0.085);
+  background: var(--catalogo-surface-hover);
 
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--catalogo-border-hover);
 
   box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.2);
+    0 8px 30px rgba(0, 0, 0, 0.12);
 
   transform: translateY(-1px);
 }
@@ -278,14 +338,12 @@
   line-height: 1;
 }
 
-
-/* =========================
+/* =========================================================
    CART BADGE
-========================= */
+   ========================================================= */
 
 .catalogo-cart-badge {
   position: absolute;
-
   top: -7px;
   right: -7px;
 
@@ -295,23 +353,20 @@
 
   min-width: 19px;
   height: 19px;
-
   padding: 0 5px;
 
-  border: 2px solid #07080d;
+  border: 2px solid var(--catalogo-bg);
   border-radius: 999px;
 
-  background: #fff;
-
-  color: #08090e;
+  background: var(--catalogo-text);
+  color: var(--catalogo-bg);
 
   font-size: 9px;
   font-weight: 800;
-
   line-height: 1;
 
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.35);
+    0 4px 12px rgba(0, 0, 0, 0.25);
 
   animation: cartBadgeIn 0.2s ease;
 }
@@ -328,10 +383,9 @@
   }
 }
 
-
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+   ========================================================= */
 
 .catalogo-header {
   display: flex;
@@ -339,7 +393,6 @@
   justify-content: space-between;
 
   gap: 30px;
-
   margin-bottom: 28px;
 }
 
@@ -352,25 +405,22 @@
 
   margin-bottom: 10px;
 
-  color: rgba(255, 255, 255, 0.38);
+  color: var(--catalogo-text-subtle);
 
   font-size: 10px;
   font-weight: 700;
-
   letter-spacing: 0.18em;
 }
 
 .catalogo-header h1 {
   margin: 0;
 
-  color: #fff;
+  color: var(--catalogo-text);
 
   font-size: clamp(2rem, 3vw, 2.5rem);
-
   font-weight: 600;
 
   letter-spacing: -0.04em;
-
   line-height: 1.1;
 }
 
@@ -379,48 +429,41 @@
 
   margin: 12px 0 0;
 
-  color: rgba(255, 255, 255, 0.44);
+  color: var(--catalogo-text-muted);
 
   font-size: 13px;
-
   line-height: 1.7;
 }
 
-
-/* =========================
+/* =========================================================
    COUNT
-========================= */
+   ========================================================= */
 
 .catalogo-count-wrapper {
   display: flex;
   flex-direction: column;
-
   align-items: flex-end;
 
   gap: 4px;
-
   flex-shrink: 0;
 }
 
 .catalogo-count-label {
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--catalogo-text-subtle);
 
   font-size: 8px;
   font-weight: 700;
-
   letter-spacing: 0.18em;
 }
 
 .catalogo-count {
-  color: rgba(255, 255, 255, 0.5);
-
+  color: var(--catalogo-text-muted);
   font-size: 12px;
 }
 
-
-/* =========================
+/* =========================================================
    DIVIDER
-========================= */
+   ========================================================= */
 
 .catalogo-divider {
   width: 100%;
@@ -430,23 +473,21 @@
 
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.025),
+    var(--catalogo-border),
+    rgba(128, 128, 128, 0.04),
     transparent
   );
 }
 
-
-/* =========================
+/* =========================================================
    CATEGORIES
-========================= */
+   ========================================================= */
 
 .catalogo-categories {
   display: flex;
   align-items: center;
 
   gap: 8px;
-
   margin-bottom: 32px;
 
   overflow-x: auto;
@@ -462,18 +503,16 @@
   flex-shrink: 0;
 
   min-height: 38px;
-
   padding: 9px 15px;
 
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 7px;
+  border: 1px solid var(--catalogo-border);
+  border-radius: 8px;
 
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--catalogo-surface);
 
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--catalogo-text-muted);
 
   font-family: inherit;
-
   font-size: 12px;
   font-weight: 500;
 
@@ -487,25 +526,24 @@
 }
 
 .catalogo-category:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: var(--catalogo-border-hover);
 
-  background: rgba(255, 255, 255, 0.045);
+  background: var(--catalogo-surface-hover);
 
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--catalogo-text-soft);
 }
 
 .catalogo-category.active {
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: var(--catalogo-border-hover);
 
-  background: rgba(255, 255, 255, 0.09);
+  background: var(--catalogo-text);
 
-  color: #fff;
+  color: var(--catalogo-bg);
 }
 
-
-/* =========================
+/* =========================================================
    GRID
-========================= */
+   ========================================================= */
 
 .catalogo-grid {
   display: grid;
@@ -516,10 +554,20 @@
   gap: 18px;
 }
 
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
 
-/* =========================
+.catalogo-back:focus-visible,
+.catalogo-cart:focus-visible,
+.catalogo-category:focus-visible {
+  outline: 2px solid var(--catalogo-text);
+  outline-offset: 3px;
+}
+
+/* =========================================================
    RESPONSIVENESS
-========================= */
+   ========================================================= */
 
 @media (max-width: 1100px) {
   .catalogo-grid {
@@ -539,7 +587,6 @@
 
   .catalogo-header {
     align-items: flex-start;
-
     flex-direction: column;
   }
 
@@ -560,7 +607,6 @@
 
   .catalogo-actions {
     gap: 12px;
-
     margin-bottom: 40px;
   }
 

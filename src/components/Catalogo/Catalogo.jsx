@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { products } from "../../data/products";
@@ -16,6 +16,29 @@ function Catalogo() {
   const [selectedCategory, setSelectedCategory] =
     useState("Todos");
 
+  const [theme, setTheme] = useState(
+    localStorage.getItem("noiravenue_theme") || "dark"
+  );
+
+  useEffect(() => {
+    function handleThemeChange() {
+      setTheme(
+        localStorage.getItem("noiravenue_theme") || "dark"
+      );
+    }
+
+    window.addEventListener("storage", handleThemeChange);
+    window.addEventListener("noiravenue-theme-change", handleThemeChange);
+
+    return () => {
+      window.removeEventListener("storage", handleThemeChange);
+      window.removeEventListener(
+        "noiravenue-theme-change",
+        handleThemeChange
+      );
+    };
+  }, []);
+
   const filteredProducts =
     selectedCategory === "Todos"
       ? products
@@ -30,7 +53,11 @@ function Catalogo() {
   );
 
   return (
-    <section className="catalogo">
+    <section
+      className={`catalogo ${
+        theme === "light" ? "theme-light" : "theme-dark"
+      }`}
+    >
       <div className="catalogo-glow catalogo-glow-one" />
       <div className="catalogo-glow catalogo-glow-two" />
 
@@ -58,9 +85,7 @@ function Catalogo() {
             aria-label={
               cartQuantity > 0
                 ? `Abrir carrinho com ${cartQuantity} ${
-                    cartQuantity === 1
-                      ? "item"
-                      : "itens"
+                    cartQuantity === 1 ? "item" : "itens"
                   }`
                 : "Abrir carrinho vazio"
             }
@@ -81,9 +106,7 @@ function Catalogo() {
                 className="catalogo-cart-badge"
                 aria-hidden="true"
               >
-                {cartQuantity > 99
-                  ? "99+"
-                  : cartQuantity}
+                {cartQuantity > 99 ? "99+" : cartQuantity}
               </span>
             )}
           </button>
@@ -144,9 +167,7 @@ function Catalogo() {
                   ? "catalogo-category active"
                   : "catalogo-category"
               }
-              onClick={() =>
-                setSelectedCategory(category)
-              }
+              onClick={() => setSelectedCategory(category)}
             >
               {category}
             </button>
@@ -167,4 +188,3 @@ function Catalogo() {
 }
 
 export default Catalogo;
-
