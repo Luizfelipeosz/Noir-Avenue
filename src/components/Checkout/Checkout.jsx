@@ -482,7 +482,7 @@ function Checkout() {
           <button
             type="button"
             className="checkout-back"
-            onClick={() => navigate("/dashboard/carrinho")}
+            onClick={() => navigate("/dashboard/Cart")}
           >
             <span>←</span>
             Voltar ao carrinho
