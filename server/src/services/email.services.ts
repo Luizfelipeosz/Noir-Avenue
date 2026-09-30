@@ -115,6 +115,8 @@ export async function sendPasswordResetEmail(
     `,
   });
   console.log("📧 E-mail enviado:", info.messageId);
-  console.log("📬 Destinatário:", info.accepted);
-  console.log("❌ Rejeitado:", info.rejected);
+  console.log("📬 Destinatário aceito:", info.accepted);
+  console.log("❌ Destinatário rejeitado:", info.rejected);
+  console.log("📨 Resposta SMTP:", info.response);
+  console.log("📦 Envelope:", info.envelope);
 }
