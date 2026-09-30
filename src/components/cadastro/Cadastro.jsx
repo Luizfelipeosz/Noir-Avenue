@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import logo from "../../assets/logo.png";
-import TermosDeUso from "../TermosDeUso/TermosDeUso";
+import TermosDeUso from "../TermosdeUso/TermosDeUso";
 import PoliticaDePrivacidade from "../PoliticaDePrivacidade/PoliticaDePrivacidade";
 
 import "./Cadastro.css";
