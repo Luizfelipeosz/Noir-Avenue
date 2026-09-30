@@ -1,18 +1,33 @@
 import { Link } from "react-router-dom";
 import "./PoliticaDePrivacidade.css";
 
-const PoliticaDePrivacidade = () => {
-  return (
+const PoliticaDePrivacidade = ({
+  isModal = false,
+  onClose,
+  onOpenTerms,
+}) => {
+    return (
     <main className="privacy-page">
       <div className="privacy-container">
         <header className="privacy-header">
-          <Link
-            to="/cadastro"
-            className="privacy-back-link"
-            aria-label="Voltar para a página de cadastro"
-          >
-            ← Voltar
-          </Link>
+          {isModal ? (
+  <button
+    type="button"
+    className="privacy-back-link privacy-close-link"
+    onClick={onClose}
+    aria-label="Fechar Política de Privacidade"
+  >
+    ← Voltar para o cadastro
+  </button>
+) : (
+  <Link
+    to="/cadastro"
+    className="privacy-back-link"
+    aria-label="Voltar para a página de cadastro"
+  >
+    ← Voltar
+  </Link>
+)}
 
           <div className="privacy-brand">
             <span className="privacy-brand-mark">
@@ -664,9 +679,19 @@ const PoliticaDePrivacidade = () => {
               </p>
 
               <div>
-                <Link to="/termos">
-                  Termos de Uso
-                </Link>
+                {isModal ? (
+  <button
+    type="button"
+    className="privacy-document-link"
+    onClick={onOpenTerms}
+  >
+    Termos de Uso
+  </button>
+) : (
+  <Link to="/termos">
+    Termos de Uso
+  </Link>
+)}
 
                 <Link to="/">
                   Entrar

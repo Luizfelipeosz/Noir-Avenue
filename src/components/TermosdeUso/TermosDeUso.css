@@ -476,6 +476,36 @@
     color: #fff;
 }
 
+.legal-close-link,
+.legal-document-link {
+    border: none;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+}
+
+.legal-close-link {
+    text-align: left;
+}
+
+.legal-document-link {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.legal-document-link:hover {
+    opacity: 0.8;
+}
+
+.legal-document-link:focus-visible,
+.legal-close-link:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+    border-radius: 3px;
+}
+
 /* =========================================================
    RESPONSIVO
    ========================================================= */

@@ -182,6 +182,7 @@ function Dashboard() {
       keywords:
         "perfil conta usuário dados pessoais",
       icon: <FaUser />,
+      iconClass: "nav-icon-profile",
       route: "/dashboard/perfil",
     },
 
@@ -192,6 +193,7 @@ function Dashboard() {
       keywords:
         "favoritos salvos itens coleção",
       icon: <FaHeart />,
+      iconClass: "nav-icon-favorites",
       route: "/dashboard/favoritos",
     },
 
@@ -202,6 +204,7 @@ function Dashboard() {
       keywords:
         "catálogo produtos coleção roupas",
       icon: <FaShoppingBag />,
+      iconClass: "nav-icon-catalog",
       route: "/dashboard/catalogo",
     },
 
@@ -212,6 +215,7 @@ function Dashboard() {
       keywords:
         "carrinho compras itens selecionados",
       icon: <FaShoppingCart />,
+      iconClass: "nav-icon-cart",
       route: "/dashboard/cart",
     },
 
@@ -222,6 +226,7 @@ function Dashboard() {
       keywords:
         "configurações preferências ajustes tema",
       icon: <FaCog />,
+      iconClass: "nav-icon-settings",
       route: "/dashboard/configuracoes",
     },
 
@@ -232,6 +237,7 @@ function Dashboard() {
       keywords:
         "premium assinatura benefícios exclusivo",
       icon: <FaCrown />,
+      iconClass: "nav-icon-premium",
       route: "/dashboard/premium",
       premium: true,
     },
@@ -243,6 +249,7 @@ function Dashboard() {
       keywords:
         "histórico atividades recentes jornada",
       icon: <FaClock />,
+      iconClass: "nav-icon-history",
       route: "/dashboard/historico",
     },
   ];
@@ -428,9 +435,9 @@ function Dashboard() {
                 handleNavigate(item.route)
               }
             >
-              <span className="nav-icon">
-                {item.icon}
-              </span>
+              <span className={`nav-icon ${item.iconClass}`}>
+  {item.icon}
+</span>
 
               <span className="nav-content">
                 <span>{item.title}</span>

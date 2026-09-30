@@ -1,19 +1,33 @@
 import { Link } from "react-router-dom";
 import "./TermosDeUso.css";
 
-const TermosDeUso = () => {
+const TermosDeUso = ({
+  isModal = false,
+  onClose,
+  onOpenPrivacy,
+}) => {
   return (
     <main className="legal-page">
       <div className="legal-container">
         <header className="legal-header">
-          <Link
-            to="/cadastro"
-            className="legal-back-link"
-            aria-label="Voltar para a página de cadastro"
-          >
-            ← Voltar
-          </Link>
-
+          {isModal ? (
+  <button
+    type="button"
+    className="legal-back-link legal-close-link"
+    onClick={onClose}
+    aria-label="Fechar Termos de Uso"
+  >
+    ← Voltar para o cadastro
+  </button>
+) : (
+  <Link
+    to="/cadastro"
+    className="legal-back-link"
+    aria-label="Voltar para a página de cadastro"
+  >
+    ← Voltar
+  </Link>
+)}
           <div className="legal-brand">
             <span className="legal-brand-mark">NA</span>
 
@@ -83,9 +97,19 @@ const TermosDeUso = () => {
                 plataforma, você declara que leu, compreendeu
                 e concorda com estes Termos, bem como com a
                 nossa{" "}
-                <Link to="/privacidade">
-                  Política de Privacidade
-                </Link>
+                {isModal ? (
+  <button
+    type="button"
+    className="legal-document-link"
+    onClick={onOpenPrivacy}
+  >
+    Política de Privacidade
+  </button>
+) : (
+  <Link to="/privacidade">
+    Política de Privacidade
+  </Link>
+)}
                 .
               </p>
             </section>
@@ -427,9 +451,19 @@ const TermosDeUso = () => {
                 O tratamento de dados pessoais realizado pela
                 Noir Avenue é explicado de forma detalhada na
                 nossa{" "}
-                <Link to="/privacidade">
-                  Política de Privacidade
-                </Link>
+                {isModal ? (
+  <button
+    type="button"
+    className="legal-document-link"
+    onClick={onOpenPrivacy}
+  >
+    Política de Privacidade
+  </button>
+) : (
+  <Link to="/privacidade">
+    Política de Privacidade
+  </Link>
+)}
                 .
               </p>
 

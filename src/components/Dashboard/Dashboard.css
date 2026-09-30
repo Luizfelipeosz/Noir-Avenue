@@ -253,6 +253,52 @@ body {
         rgba(255, 255, 255, 0.05);
 
     font-size: 15px;
+    transition:
+     background 0.3s ease,
+        color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+/* Perfil */
+.nav-icon-profile {
+    color: #7da7ff;
+    background: rgba(125, 167, 255, 0.09);
+}
+
+/* Favoritos */
+.nav-icon-favorites {
+    color: #ff4d5a;
+    background: rgba(255, 77, 90, 0.10);
+}
+
+/* Catálogo */
+.nav-icon-catalog {
+    color: #b58cff;
+    background: rgba(181, 140, 255, 0.10);
+}
+
+/* Carrinho */
+.nav-icon-cart {
+    color: #f0a35b;
+    background: rgba(240, 163, 91, 0.10);
+}
+
+/* Configurações */
+.nav-icon-settings {
+    color: #9da7b8;
+    background: rgba(157, 167, 184, 0.09);
+}
+
+/* Premium */
+.nav-icon-premium {
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.10);
+}
+
+/* Histórico */
+.nav-icon-history {
+    color: #67c7d9;
+    background: rgba(103, 199, 217, 0.09);
 }
 
 

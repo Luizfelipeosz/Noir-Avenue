@@ -439,6 +439,224 @@
 }
 
 /* =========================================================
+   LINKS DOS DOCUMENTOS
+   ========================================================= */
+
+.legal-inline-button {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+
+.legal-inline-button:hover {
+    opacity: 0.8;
+}
+
+.legal-inline-button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+
+/* =========================================================
+   MODAL DE DOCUMENTOS
+   ========================================================= */
+
+.legal-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(8px);
+
+    animation: legalModalOverlayIn 0.2s ease;
+}
+
+.legal-modal {
+    position: relative;
+
+    width: min(1180px, 100%);
+    height: min(90vh, 900px);
+
+    overflow: hidden;
+
+    background: #0b0b0d;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 18px;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.55);
+
+    animation: legalModalIn 0.25s ease;
+}
+
+.legal-modal-content {
+    width: 100%;
+    height: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: thin;
+    scrollbar-color:
+        rgba(255, 255, 255, 0.25)
+        transparent;
+}
+
+.legal-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.legal-modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.legal-modal-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.legal-modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+
+/* =========================================================
+   BOTÃO FECHAR
+   ========================================================= */
+
+.legal-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+
+    z-index: 20;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+
+    background: rgba(15, 15, 17, 0.88);
+    color: #fff;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(10px);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.legal-modal-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+
+    border-color:
+        rgba(255, 255, 255, 0.3);
+
+    transform: scale(1.05);
+}
+
+.legal-modal-close:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+}
+
+
+/* =========================================================
+   AJUSTES DOS DOCUMENTOS DENTRO DO MODAL
+   ========================================================= */
+
+.legal-modal-content .legal-page,
+.legal-modal-content .privacy-page {
+    min-height: 100%;
+}
+
+
+/* =========================================================
+   ANIMAÇÕES
+   ========================================================= */
+
+@keyframes legalModalOverlayIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes legalModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+
+@media (max-width: 700px) {
+    .legal-modal-overlay {
+        padding: 0;
+    }
+
+    .legal-modal {
+        width: 100%;
+        height: 100vh;
+
+        border-radius: 0;
+        border: none;
+    }
+
+    .legal-modal-close {
+        top: 14px;
+        right: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .legal-modal-overlay,
+    .legal-modal {
+        animation: none;
+    }
+}
+
+/* =========================================================
    ANIMAÇÃO
    ========================================================= */
 
