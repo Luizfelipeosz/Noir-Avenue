@@ -200,7 +200,7 @@ function Dashboard() {
     {
       title: "Catálogo",
       description:
-        "Explore a nossa coleção.",
+        "Explore  nossa coleção.",
       keywords:
         "catálogo produtos coleção roupas",
       icon: <FaShoppingBag />,
