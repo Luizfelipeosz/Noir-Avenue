@@ -18,17 +18,29 @@ function Cart() {
   const [showClearModal, setShowClearModal] = useState(false);
 
   const subtotal = cartItems.reduce(
-    (total, item) =>
-      total + item.price * item.quantity,
+    (total, item) => total + item.price * item.quantity,
     0
   );
 
   const shipping =
-    subtotal >= 500 || subtotal === 0
-      ? 0
-      : 29.9;
+    subtotal >= 500 || subtotal === 0 ? 0 : 29.9;
 
   const total = subtotal + shipping;
+
+  const shippingProgress = Math.min(
+    (subtotal / 500) * 100,
+    100
+  );
+
+  const remainingForFreeShipping = Math.max(
+    500 - subtotal,
+    0
+  );
+
+  const totalItems = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   const formatPrice = (value) =>
     new Intl.NumberFormat("pt-BR", {
@@ -41,49 +53,82 @@ function Cart() {
     setShowClearModal(false);
   }
 
+  function goToCatalog() {
+    navigate("/dashboard/catalogo");
+  }
+
+  function goToCheckout() {
+    navigate("/dashboard/checkout");
+  }
+
   if (cartItems.length === 0) {
     return (
-      <main className="cart">
+      <main className="cart cart-empty-page">
         <div className="cart-container">
-          <button
-            type="button"
-            className="cart-back"
-            onClick={() =>
-              navigate("/dashboard/catalogo")
-            }
-          >
-            <span aria-hidden="true">←</span>
+          {/* BRAND */}
+          <div className="cart-brand">
+            <button
+              type="button"
+              className="cart-brand-button"
+              onClick={goToCatalog}
+              aria-label="Voltar para o catálogo Noir Avenue"
+            >
+              <img
+                src="/src/assets/logo.png"
+                alt="Noir Avenue"
+              />
+            </button>
+          </div>
 
-            <span>Continuar comprando</span>
-          </button>
+          {/* TOP NAVIGATION */}
+          <div className="cart-topbar cart-topbar-empty">
+            <button
+              type="button"
+              className="cart-continue-button"
+              onClick={goToCatalog}
+            >
+              <span className="cart-continue-arrow">
+                ←
+              </span>
 
+              <span>
+                Continuar comprando
+              </span>
+            </button>
+          </div>
+
+          {/* EMPTY STATE */}
           <section className="cart-empty">
             <div
               className="cart-empty-icon"
               aria-hidden="true"
             >
-              🛍
+              <span>🛍</span>
             </div>
 
             <span className="cart-empty-label">
               SEU CARRINHO
             </span>
 
-            <h1>Seu carrinho está vazio.</h1>
+            <h1>
+              Seu carrinho
+              <br />
+              está vazio.
+            </h1>
 
             <p>
-              Explore a coleção Noir Avenue e encontre
-              peças selecionadas para você.
+              Você ainda não adicionou nenhum produto.
+              Explore nossa coleção e encontre peças
+              selecionadas para você.
             </p>
 
             <button
               type="button"
-              className="cart-empty-button"
-              onClick={() =>
-                navigate("/dashboard/catalogo")
-              }
+              className="cart-primary-action cart-empty-button"
+              onClick={goToCatalog}
             >
-              Explorar coleção
+              <span>Explorar coleção</span>
+              <span aria-hidden="true">→</span>
             </button>
           </section>
         </div>
@@ -94,29 +139,54 @@ function Cart() {
   return (
     <main className="cart">
       <div className="cart-container">
-        <button
-          type="button"
-          className="cart-back"
-          onClick={() =>
-            navigate("/dashboard/catalogo")
-          }
-        >
-          <span aria-hidden="true">←</span>
+        {/* BRAND */}
+        <div className="cart-brand">
+          <button
+            type="button"
+            className="cart-brand-button"
+            onClick={goToCatalog}
+            aria-label="Voltar para o catálogo Noir Avenue"
+          >
+            <img
+              src="/src/assets/logo.png"
+              alt="Noir Avenue"
+            />
+          </button>
+        </div>
 
-          <span>Continuar comprando</span>
-        </button>
+        {/* TOP NAVIGATION */}
+        <div className="cart-topbar">
+          <button
+            type="button"
+            className="cart-continue-button"
+            onClick={goToCatalog}
+          >
+            <span className="cart-continue-arrow">
+              ←
+            </span>
 
+            <span>
+              Continuar comprando
+            </span>
+          </button>
+
+          <span className="cart-page-indicator">
+            CARRINHO
+          </span>
+        </div>
+
+        {/* HEADER */}
         <header className="cart-header">
-          <div>
+          <div className="cart-header-content">
             <span className="cart-eyebrow">
-              NOIR AVENUE
+              SUA SELEÇÃO
             </span>
 
             <h1>Seu carrinho</h1>
 
             <p>
-              {cartItems.length}{" "}
-              {cartItems.length === 1
+              {totalItems}{" "}
+              {totalItems === 1
                 ? "item selecionado"
                 : "itens selecionados"}
             </p>
@@ -124,130 +194,267 @@ function Cart() {
 
           <button
             type="button"
-            className="cart-clear"
-            onClick={() =>
-              setShowClearModal(true)
-            }
+            className="cart-clear-button"
+            onClick={() => setShowClearModal(true)}
           >
-            <span aria-hidden="true">×</span>
+            <span
+              className="cart-clear-icon"
+              aria-hidden="true"
+            >
+              ×
+            </span>
 
             <span>Limpar carrinho</span>
           </button>
         </header>
 
+        {/* CONTENT */}
         <div className="cart-content">
+          {/* PRODUCTS */}
           <section
-            className="cart-items"
+            className="cart-products-section"
             aria-label="Produtos no carrinho"
           >
-            {cartItems.map((item) => (
-              <article
-                className="cart-item"
-                key={item.id}
-              >
-                <div className="cart-item-image">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                  />
-                </div>
+            <div className="cart-section-heading">
+              <span>PRODUTOS</span>
 
-                <div className="cart-item-info">
-                  <span className="cart-item-category">
-                    {item.category || "Coleção Noir"}
-                  </span>
+              <span>
+                {cartItems.length}{" "}
+                {cartItems.length === 1
+                  ? "produto"
+                  : "produtos"}
+              </span>
+            </div>
 
-                  <h2>{item.name}</h2>
+            <div className="cart-items">
+              {cartItems.map((item) => (
+                <article
+                  className="cart-item"
+                  key={item.id}
+                >
+                  <div className="cart-item-image">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                    />
+                  </div>
 
-                  <span className="cart-item-price">
-                    {formatPrice(item.price)}
-                  </span>
+                  <div className="cart-item-info">
+                    <span className="cart-item-category">
+                      {item.category ||
+                        "Coleção Noir"}
+                    </span>
 
-                  <button
-                    type="button"
-                    className="cart-item-remove mobile-remove"
-                    onClick={() =>
-                      removeFromCart(item.id)
-                    }
-                  >
-                    <span aria-hidden="true">×</span>
-                    Remover
-                  </button>
-                </div>
+                    <h2>{item.name}</h2>
 
-                <div className="cart-item-actions">
-                  <div
-                    className="cart-quantity"
-                    aria-label={`Quantidade de ${item.name}`}
-                  >
-                    <button
-                      type="button"
-                      aria-label={`Diminuir quantidade de ${item.name}`}
-                      disabled={item.quantity <= 1}
-                      onClick={() =>
-                        decreaseQuantity(item.id)
-                      }
-                    >
-                      −
-                    </button>
-
-                    <span aria-live="polite">
-                      {item.quantity}
+                    <span className="cart-item-unit-price">
+                      {formatPrice(item.price)}{" "}
+                      <span>/ unidade</span>
                     </span>
 
                     <button
                       type="button"
-                      aria-label={`Aumentar quantidade de ${item.name}`}
-                      disabled={
-                        item.quantity >= item.stock
-                      }
+                      className="cart-remove-mobile"
                       onClick={() =>
-                        increaseQuantity(item.id)
+                        removeFromCart(item.id)
                       }
                     >
-                      +
+                      <span aria-hidden="true">
+                        ×
+                      </span>
+
+                      Remover produto
                     </button>
                   </div>
 
-                  <strong className="cart-item-total">
-                    {formatPrice(
-                      item.price * item.quantity
-                    )}
-                  </strong>
+                  <div className="cart-item-actions">
+                    <div className="cart-quantity-wrapper">
+                      <span className="cart-action-label">
+                        QUANTIDADE
+                      </span>
 
-                  <button
-                    type="button"
-                    className="cart-item-remove desktop-remove"
-                    onClick={() =>
-                      removeFromCart(item.id)
-                    }
-                  >
-                    <span aria-hidden="true">×</span>
-                    Remover
-                  </button>
-                </div>
-              </article>
-            ))}
-          </section>
+                      <div
+                        className="cart-quantity"
+                        aria-label={`Quantidade de ${item.name}`}
+                      >
+                        <button
+                          type="button"
+                          aria-label={`Diminuir quantidade de ${item.name}`}
+                          disabled={
+                            item.quantity <= 1
+                          }
+                          onClick={() =>
+                            decreaseQuantity(item.id)
+                          }
+                        >
+                          −
+                        </button>
 
-          <aside className="cart-summary">
-            <div className="cart-summary-header">
-              <span>RESUMO DO PEDIDO</span>
+                        <span aria-live="polite">
+                          {item.quantity}
+                        </span>
+
+                        <button
+                          type="button"
+                          aria-label={`Aumentar quantidade de ${item.name}`}
+                          disabled={
+                            item.quantity >=
+                            item.stock
+                          }
+                          onClick={() =>
+                            increaseQuantity(item.id)
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="cart-item-price-block">
+                      <span className="cart-action-label">
+                        TOTAL
+                      </span>
+
+                      <strong className="cart-item-total">
+                        {formatPrice(
+                          item.price * item.quantity
+                        )}
+                      </strong>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="cart-remove-button"
+                      onClick={() =>
+                        removeFromCart(item.id)
+                      }
+                    >
+                      <span aria-hidden="true">
+                        ×
+                      </span>
+
+                      Remover
+                    </button>
+                  </div>
+                </article>
+              ))}
             </div>
 
-            <div className="cart-summary-lines">
+            {/* CONTINUE SHOPPING */}
+            <button
+              type="button"
+              className="cart-secondary-action"
+              onClick={goToCatalog}
+            >
+              <span className="cart-secondary-arrow">
+                ←
+              </span>
+
+              <span>
+                Continuar comprando
+              </span>
+            </button>
+          </section>
+
+          {/* ORDER SUMMARY */}
+          <aside className="cart-summary">
+            <div className="cart-summary-top">
               <div>
-                <span>Subtotal</span>
+                <span className="cart-summary-eyebrow">
+                  NOIR AVENUE
+                </span>
+
+                <h2>Resumo do pedido</h2>
+              </div>
+
+              <span className="cart-summary-count">
+                {totalItems}
+              </span>
+            </div>
+
+            {/* SHIPPING PROGRESS */}
+            {subtotal < 500 && (
+              <div className="cart-free-shipping">
+                <div className="cart-free-shipping-header">
+                  <span>
+                    FRETE GRÁTIS
+                  </span>
+
+                  <strong>
+                    {Math.round(
+                      shippingProgress
+                    )}
+                    %
+                  </strong>
+                </div>
+
+                <div className="cart-progress-track">
+                  <div
+                    className="cart-progress-bar"
+                    style={{
+                      width: `${shippingProgress}%`,
+                    }}
+                  />
+                </div>
+
+                <p>
+                  Faltam{" "}
+                  <strong>
+                    {formatPrice(
+                      remainingForFreeShipping
+                    )}
+                  </strong>{" "}
+                  para ganhar frete grátis.
+                </p>
+              </div>
+            )}
+
+            {subtotal >= 500 && (
+              <div className="cart-free-shipping-success">
+                <span
+                  className="cart-success-check"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+
+                <div>
+                  <strong>
+                    Frete grátis desbloqueado
+                  </strong>
+
+                  <span>
+                    Seu pedido já atingiu o valor
+                    necessário.
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* VALUES */}
+            <div className="cart-summary-details">
+              <div className="cart-summary-row">
+                <span>
+                  Subtotal
+                </span>
 
                 <strong>
                   {formatPrice(subtotal)}
                 </strong>
               </div>
 
-              <div>
-                <span>Frete</span>
+              <div className="cart-summary-row">
+                <span>
+                  Frete
+                </span>
 
-                <strong>
+                <strong
+                  className={
+                    shipping === 0
+                      ? "cart-free-value"
+                      : ""
+                  }
+                >
                   {shipping === 0
                     ? "Grátis"
                     : formatPrice(shipping)}
@@ -255,50 +462,32 @@ function Cart() {
               </div>
             </div>
 
-            {subtotal > 0 && subtotal < 500 && (
-              <div className="cart-shipping-message">
-                <span>
-                  Faltam{" "}
-                  <strong>
-                    {formatPrice(500 - subtotal)}
-                  </strong>{" "}
-                  para você ganhar frete grátis.
-                </span>
-              </div>
-            )}
-
-            {subtotal >= 500 && (
-              <div className="cart-shipping-success">
-                <span
-                  className="cart-shipping-success-icon"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
-
-                <p>
-                  Você ganhou{" "}
-                  <strong>frete grátis!</strong>
-                </p>
-              </div>
-            )}
-
+            {/* TOTAL */}
             <div className="cart-summary-total">
-              <span>Total</span>
+              <div>
+                <span>
+                  TOTAL DO PEDIDO
+                </span>
+
+                <small>
+                  Incluindo frete
+                </small>
+              </div>
 
               <strong>
                 {formatPrice(total)}
               </strong>
             </div>
 
+            {/* CHECKOUT */}
             <button
               type="button"
-              className="cart-checkout"
-              onClick={() =>
-                navigate("/dashboard/checkout")
-              }
+              className="cart-checkout-button"
+              onClick={goToCheckout}
             >
-              <span>Finalizar compra</span>
+              <span>
+                Finalizar compra
+              </span>
 
               <span
                 className="cart-checkout-arrow"
@@ -308,29 +497,59 @@ function Cart() {
               </span>
             </button>
 
-            <div className="cart-security">
-              <span
-                className="cart-security-icon"
-                aria-hidden="true"
-              >
-                ✓
-              </span>
+            {/* TRUST */}
+            <div className="cart-trust">
+              <div className="cart-trust-item">
+                <span
+                  className="cart-trust-icon"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
 
-              <p>
-                Compra segura e protegida
-              </p>
+                <div>
+                  <strong>
+                    Compra segura
+                  </strong>
+
+                  <span>
+                    Seus dados protegidos
+                  </span>
+                </div>
+              </div>
+
+              <div className="cart-trust-item">
+                <span
+                  className="cart-trust-icon"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+
+                <div>
+                  <strong>
+                    Checkout protegido
+                  </strong>
+
+                  <span>
+                    Processo seguro
+                  </span>
+                </div>
+              </div>
             </div>
           </aside>
         </div>
       </div>
 
+      {/* CLEAR CART MODAL */}
       {showClearModal && (
         <div
           className="cart-modal-overlay"
           role="presentation"
           onMouseDown={(event) => {
             if (
-              event.target === event.currentTarget
+              event.target ===
+              event.currentTarget
             ) {
               setShowClearModal(false);
             }
@@ -372,7 +591,7 @@ function Cart() {
                   setShowClearModal(false)
                 }
               >
-                Cancelar
+                Manter produtos
               </button>
 
               <button
