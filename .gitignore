@@ -29,6 +29,8 @@ dist-ssr
 server/node_modules
 server/dist
 server/.env
+server/.env*
+server/!.env.example
 server/prisma/*.db
 server/prisma/*.db-journal
 server/*.db
