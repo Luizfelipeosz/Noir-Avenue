@@ -1,122 +1,130 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const mailHost = process.env.MAIL_HOST;
-const mailPort = Number(process.env.MAIL_PORT) || 465;
-const mailUser = process.env.MAIL_USER;
-const mailPassword = process.env.MAIL_PASSWORD;
+const resend = new Resend(
+  process.env.RESEND_API_KEY
+);
 
-if (!mailHost || !mailUser || !mailPassword) {
+if (!process.env.RESEND_API_KEY) {
   console.warn(
-    "⚠️ Configurações de e-mail não encontradas. " +
-      "Verifique MAIL_HOST, MAIL_PORT, MAIL_USER e MAIL_PASSWORD no .env."
+    "⚠️ RESEND_API_KEY não configurada."
   );
 }
-
-const transporter = nodemailer.createTransport({
-  host: mailHost,
-  port: mailPort,
-  secure: mailPort === 465,
-  auth: {
-    user: mailUser,
-    pass: mailPassword,
-  },
-});
-
-transporter.verify((error) => {
-  if (error) {
-    console.error("❌ Erro na configuração do e-mail:", error);
-  } else {
-    console.log("📧 Servidor de e-mail conectado com sucesso.");
-  }
-});
 
 export async function sendPasswordResetEmail(
   email: string,
   userName: string,
   resetUrl: string
 ) {
-    console.log("📨 Tentando enviar e-mail para:", email);
+  console.log(
+    "📨 Tentando enviar e-mail para:",
+    email
+  );
 
-  if (!mailUser || !mailPassword) {
-    throw new Error("Credenciais de e-mail não configuradas.");
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error(
+      "RESEND_API_KEY não configurada."
+    );
   }
 
-  const info = await transporter.sendMail({
-    from: `"Noir Avenue" <${mailUser}>`,
-    to: email,
-    subject: "Redefinição de senha — Noir Avenue",
-    html: `
-      <div style="
-        font-family: Arial, sans-serif;
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 32px;
-        background: #ffffff;
-        color: #111111;
-        border: 1px solid #e5e5e5;
-        border-radius: 12px;
-      ">
-        <h2 style="margin-bottom: 24px;">
-          Redefinição de senha
-        </h2>
-
-        <p>
-          Olá, ${userName}.
-        </p>
-
-        <p>
-          Recebemos uma solicitação para redefinir a senha
-          da sua conta na Noir Avenue.
-        </p>
-
-        <p>
-          Clique no botão abaixo para criar uma nova senha:
-        </p>
-
-        <a
-          href="${resetUrl}"
-          style="
-            display: inline-block;
-            margin: 20px 0;
-            padding: 12px 24px;
-            background: #111111;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-          "
-        >
-          Redefinir minha senha
-        </a>
-
-        <p style="color: #666666; font-size: 14px;">
-          Este link é válido por 15 minutos.
-        </p>
-
-        <p style="color: #666666; font-size: 14px;">
-          Se você não solicitou a redefinição da sua senha,
-          ignore este e-mail.
-        </p>
-
-        <hr style="
-          margin: 28px 0;
-          border: none;
-          border-top: 1px solid #eeeeee;
-        " />
-
-        <p style="
-          color: #999999;
-          font-size: 12px;
-          text-align: center;
+  const { data, error } =
+    await resend.emails.send({
+      from: "Noir Avenue <onboarding@resend.dev>",
+      to: [email],
+      subject:
+        "Redefinição de senha — Noir Avenue",
+      html: `
+        <div style="
+          font-family: Arial, sans-serif;
+          max-width: 600px;
+          margin: 40px auto;
+          padding: 32px;
+          background: #ffffff;
+          color: #111111;
+          border: 1px solid #e5e5e5;
+          border-radius: 12px;
         ">
-          Noir Avenue — Segurança da sua conta
-        </p>
-      </div>
-    `,
-  });
-  console.log("📧 E-mail enviado:", info.messageId);
-  console.log("📬 Destinatário aceito:", info.accepted);
-  console.log("❌ Destinatário rejeitado:", info.rejected);
-  console.log("📨 Resposta SMTP:", info.response);
-  console.log("📦 Envelope:", info.envelope);
+          <h2 style="margin-bottom: 24px;">
+            Redefinição de senha
+          </h2>
+
+          <p>
+            Olá, ${userName}.
+          </p>
+
+          <p>
+            Recebemos uma solicitação para redefinir
+            a senha da sua conta na Noir Avenue.
+          </p>
+
+          <p>
+            Clique no botão abaixo para criar uma
+            nova senha:
+          </p>
+
+          <a
+            href="${resetUrl}"
+            style="
+              display: inline-block;
+              margin: 20px 0;
+              padding: 12px 24px;
+              background: #111111;
+              color: #ffffff;
+              text-decoration: none;
+              border-radius: 8px;
+              font-weight: 600;
+            "
+          >
+            Redefinir minha senha
+          </a>
+
+          <p style="
+            color: #666666;
+            font-size: 14px;
+          ">
+            Este link é válido por 15 minutos.
+          </p>
+
+          <p style="
+            color: #666666;
+            font-size: 14px;
+          ">
+            Se você não solicitou a redefinição da
+            sua senha, ignore este e-mail.
+          </p>
+
+          <hr style="
+            margin: 28px 0;
+            border: none;
+            border-top: 1px solid #eeeeee;
+          " />
+
+          <p style="
+            color: #999999;
+            font-size: 12px;
+            text-align: center;
+          ">
+            Noir Avenue — Segurança da sua conta
+          </p>
+        </div>
+      `,
+    });
+
+  if (error) {
+    console.error(
+      "❌ Erro retornado pelo Resend:",
+      error
+    );
+
+    throw new Error(
+      error.message ||
+        "Não foi possível enviar o e-mail."
+    );
+  }
+
+  console.log(
+    "✅ E-mail enviado pelo Resend:",
+    data
+  );
+
+  return data;
 }

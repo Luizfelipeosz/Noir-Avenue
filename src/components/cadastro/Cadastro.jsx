@@ -18,7 +18,8 @@ import PoliticaDePrivacidade from "../PoliticaDePrivacidade/PoliticaDePrivacidad
 import "./Cadastro.css";
 
 const API_URL =
-  "https://noir-avenue-api.onrender.com/api";
+  "https://noir-avenue-api.onrender.com/api"
+  "http://localhost:3000/api";
 
 const passwordRequirements = [
   {

@@ -1,8 +1,12 @@
-
 import crypto from "node:crypto";
 import bcrypt from "bcrypt";
 
 import prisma from "../lib/prisma.js";
+
+import {
+  generateResetToken,
+  getResetTokenExpiration,
+} from "../utils/resetToken.js";
 
 const RESET_TOKEN_EXPIRATION_MINUTES = 15;
 
@@ -42,12 +46,10 @@ export async function createPasswordResetToken(email: string) {
   });
 
   // Gera um token criptograficamente seguro.
-  const token = crypto.randomBytes(32).toString("hex");
+  const token = generateResetToken();
 
   // Token válido por 15 minutos.
-  const expiresAt = new Date(
-    Date.now() + RESET_TOKEN_EXPIRATION_MINUTES * 60 * 1000
-  );
+  const expiresAt = getResetTokenExpiration();
 
   await prisma.passwordResetToken.create({
     data: {

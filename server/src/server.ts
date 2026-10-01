@@ -1,13 +1,10 @@
-import "dotenv/config";
-
 import express from "express";
 import cors from "cors";
 
+import { env } from "./config/env.js";
 import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
-
-const PORT = process.env.PORT || 3001;
 
 const allowedOrigins = [
   "http://localhost:5173",
@@ -43,6 +40,8 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Noir Avenue API rodando na porta ${PORT}`);
+app.listen(env.port, () => {
+  console.log(
+    `🚀 Noir Avenue API rodando na porta ${env.port}`
+  );
 });
