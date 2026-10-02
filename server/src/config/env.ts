@@ -25,23 +25,8 @@ export const env = {
     process.env.DATABASE_URL
   ),
 
-  mail: {
-    host: requiredEnv(
-      "MAIL_HOST",
-      process.env.MAIL_HOST
-    ),
-
-    port:
-      Number(process.env.MAIL_PORT) || 587,
-
-    user: requiredEnv(
-      "MAIL_USER",
-      process.env.MAIL_USER
-    ),
-
-    password: requiredEnv(
-      "MAIL_PASSWORD",
-      process.env.MAIL_PASSWORD
-    ),
-  },
+  resendApiKey: requiredEnv(
+    "RESEND_API_KEY",
+    process.env.RESEND_API_KEY
+  ),
 };

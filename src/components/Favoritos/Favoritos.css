@@ -1,383 +1,1012 @@
 .favoritos {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 55px 40px 80px;
+  min-height: 100%;
+  padding: 48px 40px 90px;
 }
 
-/* ================================
+.favoritos-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ========================================
    HEADER
-================================ */
+======================================== */
 
 .favoritos-header {
-  position: relative;
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-
-  gap: 30px;
-  margin-bottom: 40px;
+  margin-bottom: 46px;
 }
 
 .favoritos-back {
-  position: absolute;
-  top: -5px;
-  left: 0;
-
-  padding: 9px 14px;
-
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 38px;
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-
+  background: rgba(255, 255, 255, 0.025);
+  color: rgba(255, 255, 255, 0.58);
   font-family: inherit;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
-
   cursor: pointer;
-
   transition:
     color 0.2s ease,
     background 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.favoritos-back svg {
+  font-size: 10px;
 }
 
 .favoritos-back:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateX(-2px);
 }
 
-.favoritos-title {
-  width: 100%;
-  padding-top: 50px;
+.favoritos-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.favoritos-heading-main {
+  min-width: 0;
 }
 
 .favoritos-eyebrow {
   display: block;
-  margin-bottom: 9px;
-
-  color: rgba(255, 255, 255, 0.42);
-
-  font-size: 11px;
-  font-weight: 600;
-
-  letter-spacing: 0.12em;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.36);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
 }
 
-.favoritos-title h1 {
+.favoritos-heading h1 {
   margin: 0;
-
-  color: #fff;
-
-  font-size: 2.2rem;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: clamp(2.3rem, 4vw, 3.5rem);
   font-weight: 650;
-
-  letter-spacing: -0.035em;
+  letter-spacing: -0.055em;
+  line-height: 1;
 }
 
-.favoritos-title p {
-  max-width: 560px;
-  margin: 10px 0 0;
-
-  color: rgba(255, 255, 255, 0.48);
-
+.favoritos-heading p {
+  max-width: 590px;
+  margin: 17px 0 0;
+  color: rgba(255, 255, 255, 0.44);
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-.favoritos-count {
-  flex-shrink: 0;
+/* ========================================
+   CONTADOR
+======================================== */
 
-  color: rgba(255, 255, 255, 0.42);
-
-  font-size: 12px;
-}
-
-/* ================================
-   GRID
-================================ */
-
-.favoritos-grid {
-  display: grid;
-
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-
-  gap: 18px;
-}
-
-/* ================================
-   CARD
-================================ */
-
-.favorito-card {
-  overflow: hidden;
-
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 16px;
-
-  background: rgba(255, 255, 255, 0.025);
-
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.favorito-card:hover {
-  transform: translateY(-3px);
-
-  border-color: rgba(255, 255, 255, 0.13);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.favorito-card-image {
-  display: block;
-
-  width: 100%;
-  aspect-ratio: 4 / 5;
-
-  padding: 0;
-  border: 0;
-
-  overflow: hidden;
-
-  background: rgba(255, 255, 255, 0.035);
-
-  cursor: pointer;
-}
-
-.favorito-card-image img {
-  width: 100%;
-  height: 100%;
-
-  display: block;
-
-  object-fit: cover;
-
-  transition: transform 0.35s ease;
-}
-
-.favorito-card:hover .favorito-card-image img {
-  transform: scale(1.03);
-}
-
-/* ================================
-   CONTENT
-================================ */
-
-.favorito-card-content {
-  padding: 17px 18px 18px;
-}
-
-.favorito-card-category {
-  display: block;
-
-  margin-bottom: 6px;
-
-  color: rgba(255, 255, 255, 0.42);
-
-  font-size: 11px;
-  font-weight: 600;
-
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.favorito-card-content h3 {
-  margin: 0 0 14px;
-
-  color: rgba(255, 255, 255, 0.92);
-
-  font-size: 15px;
-  font-weight: 600;
-
-  line-height: 1.35;
-}
-
-.favorito-card-footer {
+.favoritos-count-card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-
-  gap: 15px;
+  gap: 12px;
+  flex-shrink: 0;
+  min-width: 155px;
+  padding: 14px 17px;
+  border: 1px solid rgba(159, 34, 61, 0.25);
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(117, 23, 45, 0.17),
+      rgba(255, 255, 255, 0.025)
+    );
 }
 
-.favorito-card-footer strong {
-  color: rgba(255, 255, 255, 0.78);
-
-  font-size: 14px;
-  font-weight: 600;
-}
-
-/* ================================
-   REMOVER
-================================ */
-
-.favorito-remove {
+.favoritos-count-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 34px;
   height: 34px;
-
-  padding: 0;
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.55);
-
+  border: 1px solid rgba(177, 43, 70, 0.3);
+  border-radius: 9px;
+  background: rgba(130, 23, 48, 0.16);
+  color: #b83a59;
   font-size: 13px;
+}
 
+.favoritos-count-card div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.favoritos-count-card strong {
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.favoritos-count-card span {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 10px;
+}
+
+/* ========================================
+   ESTADO VAZIO
+======================================== */
+
+.favoritos-empty {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(320px, 0.85fr) minmax(380px, 1.15fr);
+  align-items: stretch;
+  min-height: 520px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      circle at 24% 48%,
+      rgba(137, 25, 50, 0.15),
+      transparent 33%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 255, 255, 0.025),
+      transparent 35%
+    ),
+    rgba(255, 255, 255, 0.018);
+}
+
+.favoritos-empty::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.025) 48%,
+      transparent 49%
+    );
+}
+
+.favoritos-empty-decoration {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 450px;
+  overflow: hidden;
+}
+
+.favoritos-empty-heart {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 138px;
+  height: 138px;
+  border: 1px solid rgba(175, 42, 70, 0.3);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(145, 26, 53, 0.2),
+      rgba(255, 255, 255, 0.018)
+    );
+  box-shadow:
+    0 0 0 20px rgba(140, 25, 52, 0.045),
+    0 0 0 42px rgba(140, 25, 52, 0.018),
+    0 25px 70px rgba(0, 0, 0, 0.25);
+  color: #b33b59;
+  font-size: 45px;
+}
+
+.empty-line {
+  position: absolute;
+  display: block;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(176, 42, 70, 0.3),
+    transparent
+  );
+}
+
+.empty-line-1 {
+  top: 28%;
+  left: 8%;
+  width: 170px;
+  transform: rotate(-20deg);
+}
+
+.empty-line-2 {
+  right: 8%;
+  bottom: 25%;
+  width: 150px;
+  transform: rotate(-25deg);
+}
+
+.empty-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(185, 52, 78, 0.6);
+}
+
+.empty-dot-1 {
+  top: 22%;
+  left: 30%;
+  width: 5px;
+  height: 5px;
+}
+
+.empty-dot-2 {
+  top: 35%;
+  right: 24%;
+  width: 4px;
+  height: 4px;
+}
+
+.empty-dot-3 {
+  bottom: 28%;
+  left: 24%;
+  width: 3px;
+  height: 3px;
+}
+
+.favoritos-empty-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 65px 75px;
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.favoritos-empty-eyebrow {
+  display: block;
+  margin-bottom: 15px;
+  color: #a93452;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.favoritos-empty-content h2 {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1.07;
+}
+
+.favoritos-empty-content p {
+  max-width: 480px;
+  margin: 20px 0 30px;
+  color: rgba(255, 255, 255, 0.44);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.favoritos-empty-primary {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 11px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(178, 48, 75, 0.4);
+  border-radius: 9px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 29, 54, 0.95),
+    rgba(104, 21, 42, 0.95)
+  );
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 8px 24px rgba(95, 17, 37, 0.2);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
 
+.favoritos-empty-primary svg:first-child {
+  font-size: 11px;
+}
+
+.favoritos-empty-primary svg:last-child {
+  margin-left: 5px;
+  font-size: 9px;
+  transition: transform 0.2s ease;
+}
+
+.favoritos-empty-primary:hover {
+  border-color: rgba(205, 67, 96, 0.55);
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(95, 17, 37, 0.3);
+}
+
+.favoritos-empty-primary:hover svg:last-child {
+  transform: translateX(3px);
+}
+
+.favoritos-empty-secondary {
+  align-self: flex-start;
+  margin-top: 13px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.favoritos-empty-secondary:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ========================================
+   TOOLBAR
+======================================== */
+
+.favoritos-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 21px;
+  padding: 0 2px 17px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.favoritos-toolbar-info > span {
+  display: block;
+  color: rgba(255, 255, 255, 0.34);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.favoritos-toolbar-info p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 12px;
+}
+
+.favoritos-continue {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+  color: rgba(255, 255, 255, 0.58);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
   transition:
     color 0.2s ease,
     background 0.2s ease,
     border-color 0.2s ease;
 }
 
-.favorito-remove:hover {
-  color: #fff;
-
-  background: rgba(255, 255, 255, 0.08);
-
-  border-color: rgba(255, 255, 255, 0.22);
+.favoritos-continue svg {
+  font-size: 9px;
+  transition: transform 0.2s ease;
 }
 
-/* ================================
-   ESTADO VAZIO
-================================ */
+.favoritos-continue:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+}
 
-.favoritos-empty {
-  min-height: 420px;
+.favoritos-continue:hover svg {
+  transform: translateX(3px);
+}
 
+/* ========================================
+   GRID
+======================================== */
+
+.favoritos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* ========================================
+   CARD
+======================================== */
+
+.favorito-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.022);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.favorito-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(173, 43, 70, 0.28);
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.23);
+}
+
+/* ========================================
+   IMAGE
+======================================== */
+
+.favorito-image-area {
+  position: relative;
+  overflow: hidden;
+}
+
+.favorito-image-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: #111;
+  cursor: pointer;
+}
+
+.favorito-image-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7),
+    transparent 48%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.favorito-image-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.favorito-card:hover .favorito-image-button img {
+  transform: scale(1.045);
+}
+
+.favorito-card:hover .favorito-image-button::after {
+  opacity: 1;
+}
+
+/* ========================================
+   STATUS FAVORITADO
+======================================== */
+
+.favorito-status {
+  position: absolute;
+  z-index: 4;
+  top: 13px;
+  left: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border: 1px solid rgba(191, 49, 78, 0.3);
+  border-radius: 7px;
+  background: rgba(55, 10, 23, 0.72);
+  backdrop-filter: blur(9px);
+  color: #d65a76;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.favorito-status svg {
+  font-size: 9px;
+}
+
+/* ========================================
+   IMAGE OVERLAY
+======================================== */
+
+.favorito-image-overlay {
+  position: absolute;
+  z-index: 3;
+  right: 15px;
+  bottom: 15px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.favorito-image-overlay svg {
+  font-size: 9px;
+}
+
+.favorito-card:hover .favorito-image-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   CONTENT
+======================================== */
+
+.favorito-card-content {
+  padding: 18px;
+}
+
+.favorito-category {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.36);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.favorito-product-name {
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.91);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.favorito-product-name:hover {
+  color: #d55b76;
+}
+
+.favorito-product-price {
   display: flex;
   flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 16px;
-
-  background: rgba(255, 255, 255, 0.02);
+  gap: 3px;
+  margin-top: 16px;
 }
 
-.favoritos-empty-icon {
+.favorito-product-price span {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 9px;
+}
+
+.favorito-product-price strong {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+/* ========================================
+   ACTIONS
+======================================== */
+
+.favorito-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.favorito-view-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.055);
+  color: rgba(255, 255, 255, 0.83);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.favorito-view-button svg {
+  font-size: 9px;
+  transition: transform 0.2s ease;
+}
+
+.favorito-view-button:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+}
+
+.favorito-view-button:hover svg {
+  transform: translateX(3px);
+}
+
+.favorito-remove-button {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  width: 58px;
-  height: 58px;
-
-  margin-bottom: 20px;
-
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-
-  color: rgba(255, 255, 255, 0.45);
-
-  font-size: 22px;
-}
-
-.favoritos-empty h2 {
-  margin: 0 0 8px;
-
-  color: rgba(255, 255, 255, 0.9);
-
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.favoritos-empty p {
-  max-width: 400px;
-
-  margin: 0 0 22px;
-
-  color: rgba(255, 255, 255, 0.45);
-
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.favoritos-empty-button {
-  padding: 11px 17px;
-
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-
-  background: rgba(255, 255, 255, 0.07);
-  color: #fff;
-
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.34);
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-
+  font-size: 10px;
+  font-weight: 500;
   cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
 
+.favorito-remove-button svg {
+  font-size: 9px;
+}
+
+.favorito-remove-button:hover {
+  border-radius: 7px;
+  background: rgba(170, 35, 61, 0.08);
+  color: #c0526b;
+}
+
+/* ========================================
+   TOAST / UNDO
+======================================== */
+
+.favoritos-toast {
+  position: fixed;
+  z-index: 1000;
+  right: 28px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(470px, calc(100vw - 30px));
+  padding: 13px 14px;
+  border: 1px solid rgba(180, 45, 72, 0.28);
+  border-radius: 12px;
+  background: rgba(24, 10, 15, 0.94);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  animation: favoritos-toast-in 0.25s ease forwards;
+}
+
+@keyframes favoritos-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.favoritos-toast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(157, 32, 58, 0.16);
+  color: #bd4a67;
+  font-size: 12px;
+}
+
+.favoritos-toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.favoritos-toast-content strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.favoritos-toast-content span {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.43);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.favoritos-toast-undo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 7px 9px;
+  border: 1px solid rgba(191, 53, 80, 0.3);
+  border-radius: 7px;
+  background: rgba(156, 31, 57, 0.12);
+  color: #cf5a76;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
   transition:
     background 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
-.favoritos-empty-button:hover {
-  background: rgba(255, 255, 255, 0.11);
-  border-color: rgba(255, 255, 255, 0.25);
+.favoritos-toast-undo svg {
+  font-size: 9px;
 }
 
-/* ================================
+.favoritos-toast-undo:hover {
+  border-color: rgba(210, 70, 98, 0.45);
+  background: rgba(156, 31, 57, 0.22);
+  color: #e27690;
+}
+
+.favoritos-toast-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 18px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.favoritos-toast-close:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ========================================
+   FOCUS
+======================================== */
+
+.favoritos button:focus-visible {
+  outline: 2px solid rgba(194, 63, 91, 0.8);
+  outline-offset: 3px;
+}
+
+/* ========================================
    RESPONSIVIDADE
-================================ */
+======================================== */
 
-@media (max-width: 1100px) {
+@media (max-width: 1150px) {
   .favoritos-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .favoritos-empty {
+    grid-template-columns: 0.7fr 1.3fr;
+  }
+
+  .favoritos-empty-content {
+    padding: 55px;
+  }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .favoritos {
-    padding: 45px 25px 65px;
+    padding: 40px 25px 70px;
   }
 
-  .favoritos-header {
+  .favoritos-heading {
     align-items: flex-start;
     flex-direction: column;
+    gap: 25px;
   }
 
-  .favoritos-count {
-    align-self: flex-end;
+  .favoritos-count-card {
+    min-width: 145px;
   }
 
   .favoritos-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
-@media (max-width: 520px) {
-  .favoritos {
-    padding: 35px 15px 50px;
+  .favoritos-empty {
+    grid-template-columns: 1fr;
   }
 
-  .favoritos-title h1 {
-    font-size: 1.8rem;
+  .favoritos-empty-decoration {
+    min-height: 300px;
+  }
+
+  .favoritos-empty-content {
+    padding: 15px 45px 55px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .favoritos {
+    padding: 30px 15px 60px;
+  }
+
+  .favoritos-header {
+    margin-bottom: 35px;
+  }
+
+  .favoritos-back {
+    margin-bottom: 30px;
+  }
+
+  .favoritos-heading h1 {
+    font-size: 2.2rem;
+  }
+
+  .favoritos-heading p {
+    font-size: 12px;
+  }
+
+  .favoritos-count-card {
+    width: 100%;
+  }
+
+  .favoritos-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .favoritos-continue {
+    width: 100%;
+    justify-content: center;
   }
 
   .favoritos-grid {
     grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .favorito-image-button {
+    aspect-ratio: 5 / 4;
+  }
+
+  .favorito-image-overlay {
+    opacity: 1;
+    transform: none;
+  }
+
+  .favorito-image-button::after {
+    opacity: 1;
   }
 
   .favoritos-empty {
-    min-height: 350px;
+    border-radius: 17px;
+  }
+
+  .favoritos-empty-decoration {
+    min-height: 230px;
+  }
+
+  .favoritos-empty-heart {
+    width: 105px;
+    height: 105px;
+    font-size: 34px;
+  }
+
+  .favoritos-empty-content {
+    padding: 5px 25px 38px;
+  }
+
+  .favoritos-empty-content h2 {
+    font-size: 1.9rem;
+  }
+
+  .favoritos-empty-content p {
+    font-size: 12px;
+  }
+
+  .favoritos-empty-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .favoritos-empty-secondary {
+    align-self: center;
+  }
+
+  .favoritos-toast {
+    right: 15px;
+    bottom: 15px;
+    gap: 9px;
+    padding: 11px;
+  }
+
+  .favoritos-toast-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .favoritos-toast-content span {
+    max-width: 130px;
+  }
+
+  .favoritos-toast-undo {
+    padding: 7px 8px;
+  }
+
+  .favoritos-toast-undo span {
+    display: none;
+  }
+
+  .favoritos-toast-undo svg {
+    font-size: 10px;
   }
 }
