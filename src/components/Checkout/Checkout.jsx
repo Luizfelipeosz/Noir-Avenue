@@ -507,7 +507,8 @@ function Checkout() {
             ["4", "Revisão"],
           ].map(([number, label], index) => {
             const step = index + 1;
-            const active = currentStep >= step;
+            const completed = currentStep > step;
+            const active = currentStep === step;
 
             return (
               <div className="checkout-progress-group" key={number}>
@@ -515,11 +516,11 @@ function Checkout() {
                   type="button"
                   className={`checkout-progress-step ${
                     active ? "active" : ""
-                  }`}
+                  } ${completed ? "completed" : ""}`}
                   onClick={() => {
-                    if (step < currentStep) setCurrentStep(step);
+                    if (step <= currentStep) setCurrentStep(step);
                   }}
-                  disabled={step >= currentStep}
+                  disabled={step > currentStep}
                 >
                   <span>{number}</span>
                   <p>{label}</p>
@@ -1176,7 +1177,7 @@ function Checkout() {
                     className="checkout-submit"
                     disabled={isProcessing}
                   >
-                    Ir para revisão
+                    Revisar pedido
                     <span>→</span>
                   </button>
                 </div>
@@ -1187,27 +1188,82 @@ function Checkout() {
               <section className="checkout-section checkout-review">
                 <div className="checkout-section-header">
                   <div>
-                    <span className="checkout-section-number">
-                      05
-                    </span>
+                    <span className="checkout-section-number">04</span>
 
                     <div>
-                      <h2>Revisar pedido</h2>
+                      <h2>Revisão final do pedido</h2>
                       <p>
-                        Confira os dados antes de confirmar sua compra.
+                        Confira produtos, entrega, pagamento e valor total antes
+                        de confirmar a compra.
                       </p>
                     </div>
                   </div>
 
                   <span className="checkout-section-status">
-                    REVISÃO FINAL
+                    ✓ TUDO PRONTO
                   </span>
+                </div>
+
+                <div className="checkout-review-alert">
+                  <span>✓</span>
+                  <div>
+                    <strong>Revise antes de finalizar</strong>
+                    <p>
+                      Depois da confirmação, o pedido será registrado com os
+                      dados abaixo. Você ainda pode editar qualquer etapa.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="checkout-review-order">
+                  <div className="checkout-review-order-header">
+                    <div>
+                      <span>ITENS DO PEDIDO</span>
+                      <strong>
+                        {cartItems.length}{" "}
+                        {cartItems.length === 1 ? "item" : "itens"}
+                      </strong>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="checkout-review-edit-link"
+                      onClick={() => navigate("/dashboard/Cart")}
+                      disabled={isProcessing}
+                    >
+                      Alterar carrinho
+                    </button>
+                  </div>
+
+                  <div className="checkout-review-products">
+                    {cartItems.map((item) => (
+                      <div className="checkout-review-product" key={item.id}>
+                        <div className="checkout-review-product-image">
+                          <img src={item.image} alt={item.name} />
+                          <span>{item.quantity}</span>
+                        </div>
+
+                        <div className="checkout-review-product-info">
+                          <strong>{item.name}</strong>
+                          <span>{item.category || "Coleção Noir"}</span>
+                          <small>
+                            {item.quantity} × {formatPrice(item.price)}
+                          </small>
+                        </div>
+
+                        <strong className="checkout-review-product-price">
+                          {formatPrice(item.price * item.quantity)}
+                        </strong>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="checkout-review-list">
                   <div className="checkout-review-card">
-                    <div>
-                      <span>CLIENTE</span>
+                    <div className="checkout-review-card-icon">01</div>
+                    <div className="checkout-review-card-content">
+                      <span>IDENTIFICAÇÃO</span>
                       <strong>{form.name}</strong>
                       <p>{form.email}</p>
                       <p>{form.phone}</p>
@@ -1216,14 +1272,16 @@ function Checkout() {
                     <button
                       type="button"
                       onClick={() => setCurrentStep(1)}
+                      disabled={isProcessing}
                     >
-                      Editar
+                      Editar dados
                     </button>
                   </div>
 
                   <div className="checkout-review-card">
-                    <div>
-                      <span>ENTREGA</span>
+                    <div className="checkout-review-card-icon">02</div>
+                    <div className="checkout-review-card-content">
+                      <span>ENDEREÇO DE ENTREGA</span>
                       <strong>
                         {form.address}, {form.number}
                       </strong>
@@ -1236,14 +1294,16 @@ function Checkout() {
                     <button
                       type="button"
                       onClick={() => setCurrentStep(2)}
+                      disabled={isProcessing}
                     >
-                      Editar
+                      Editar endereço
                     </button>
                   </div>
 
                   <div className="checkout-review-card">
-                    <div>
-                      <span>FORMA DE ENTREGA</span>
+                    <div className="checkout-review-card-icon">03</div>
+                    <div className="checkout-review-card-content">
+                      <span>ENTREGA</span>
                       <strong>
                         {shippingMethod === "express"
                           ? "Entrega expressa"
@@ -1254,57 +1314,92 @@ function Checkout() {
                           ? "1 a 3 dias úteis"
                           : "3 a 7 dias úteis"}
                       </p>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep(2)}
-                    >
-                      Editar
-                    </button>
-                  </div>
-
-                  <div className="checkout-review-card">
-                    <div>
-                      <span>PAGAMENTO</span>
-
-                      <strong>
-                        {paymentMethod === "card"
-                          ? `Cartão final •••• ${getCardLastFour(
-                              form.cardNumber
-                            )}`
-                          : paymentMethod === "pix"
-                            ? "PIX"
-                            : "Boleto bancário"}
-                      </strong>
-
                       <p>
-                        {paymentMethod === "card"
-                          ? form.cardName
-                          : "Pagamento simulado"}
+                        {shipping === 0
+                          ? "Frete grátis"
+                          : `Frete: ${formatPrice(shipping)}`}
                       </p>
                     </div>
 
                     <button
                       type="button"
-                      onClick={() => setCurrentStep(3)}
+                      onClick={() => setCurrentStep(2)}
+                      disabled={isProcessing}
                     >
-                      Editar
+                      Alterar entrega
+                    </button>
+                  </div>
+
+                  <div className="checkout-review-card checkout-review-payment-card">
+                    <div className="checkout-review-card-icon">04</div>
+                    <div className="checkout-review-card-content">
+                      <span>PAGAMENTO</span>
+                      <strong>
+                        {paymentMethod === "card"
+                          ? `Cartão •••• ${getCardLastFour(form.cardNumber)}`
+                          : paymentMethod === "pix"
+                            ? "PIX"
+                            : "Boleto bancário"}
+                      </strong>
+                      <p>
+                        {paymentMethod === "card"
+                          ? `Titular: ${form.cardName}`
+                          : paymentMethod === "pix"
+                            ? "Pagamento via PIX"
+                            : "Pagamento via boleto"}
+                      </p>
+                      <small>Pagamento demonstrativo</small>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep(3)}
+                      disabled={isProcessing}
+                    >
+                      Alterar pagamento
                     </button>
                   </div>
                 </div>
 
-                <div className="checkout-review-total">
-                  <div>
-                    <span>Total da compra</span>
-                    <small>
-                      {cartItems.length}{" "}
-                      {cartItems.length === 1 ? "item" : "itens"} ·{" "}
-                      {shipping === 0 ? "frete grátis" : "frete incluso"}
-                    </small>
+                <div className="checkout-review-price-card">
+                  <div className="checkout-review-price-header">
+                    <div>
+                      <span>RESUMO FINANCEIRO</span>
+                      <strong>Quanto você vai pagar</strong>
+                    </div>
                   </div>
 
-                  <strong>{formatPrice(total)}</strong>
+                  <div className="checkout-review-price-lines">
+                    <div>
+                      <span>Produtos</span>
+                      <strong>{formatPrice(subtotal)}</strong>
+                    </div>
+                    <div>
+                      <span>
+                        Frete ·{" "}
+                        {shippingMethod === "express"
+                          ? "Expressa"
+                          : "Padrão"}
+                      </span>
+                      <strong>
+                        {shipping === 0 ? "Grátis" : formatPrice(shipping)}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div className="checkout-review-total">
+                    <div>
+                      <span>Total do pedido</span>
+                      <small>
+                        {paymentMethod === "card"
+                          ? "Pagamento no cartão"
+                          : paymentMethod === "pix"
+                            ? "Pagamento via PIX"
+                            : "Pagamento via boleto"}
+                      </small>
+                    </div>
+                    <strong>{formatPrice(total)}</strong>
+                  </div>
                 </div>
 
                 <div className="checkout-step-navigation checkout-review-navigation">
@@ -1314,23 +1409,23 @@ function Checkout() {
                     onClick={goToPreviousStep}
                     disabled={isProcessing}
                   >
-                    ← Pagamento
+                    ← Voltar ao pagamento
                   </button>
 
                   <button
                     type="submit"
-                    className="checkout-submit"
+                    className="checkout-submit checkout-final-submit"
                     disabled={isProcessing}
                   >
                     {isProcessing ? (
                       <>
                         <span className="checkout-spinner" />
-                        Processando pedido...
+                        Confirmando pedido...
                       </>
                     ) : (
                       <>
-                        Confirmar pedido
-                        <span>→</span>
+                        Confirmar compra
+                        <span>✓</span>
                       </>
                     )}
                   </button>

@@ -325,6 +325,7 @@ function Cart() {
                     <button
                       type="button"
                       className="cart-remove-button"
+                      aria-label={`Remover ${item.name} do carrinho`}
                       onClick={() =>
                         removeFromCart(item.id)
                       }
