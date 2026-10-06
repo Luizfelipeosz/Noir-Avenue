@@ -1929,6 +1929,144 @@
 }
 
 /* =========================================================
+   ALTERAÇÃO DE SENHA
+   ========================================================= */
+
+.password-modal {
+  width: min(100%, 520px);
+}
+
+.password-header-icon {
+  position: relative;
+}
+
+.password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.password-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.password-form label > span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.password-input {
+  position: relative;
+}
+
+.password-input input {
+  padding-right: 48px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 8px;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.password-toggle:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.password-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.password-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 15px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+
+.password-requirements-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.password-requirements-title svg {
+  font-size: 0.78rem;
+}
+
+.password-requirement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.password-requirement svg {
+  opacity: 0.45;
+  font-size: 0.7rem;
+}
+
+.password-requirement.valid {
+  color: var(--success-color);
+}
+
+.password-requirement.valid svg {
+  opacity: 1;
+}
+
+.password-save {
+  min-width: 165px;
+}
+
+@media (max-width: 600px) {
+  .password-modal {
+    width: 100%;
+  }
+
+  .password-form {
+    gap: 15px;
+  }
+
+  .password-requirements {
+    padding: 13px;
+  }
+
+  .password-save {
+    min-width: 0;
+  }
+}
+
+/* =========================================================
    FOCUS
 ========================================================= */
 

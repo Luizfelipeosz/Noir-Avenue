@@ -1,3 +1,6 @@
 node_modules/
 .vscode/chrome-debug/
 dist/
+.env
+.env.*
+!.env.example

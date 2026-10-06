@@ -117,3 +117,66 @@ export const deleteUser = async (email: string) => {
     success: true,
   };
 };
+interface ChangePasswordData {
+  email: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
+export const changeUserPassword = async ({
+  email,
+  currentPassword,
+  newPassword,
+}: ChangePasswordData) => {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (
+    !normalizedEmail ||
+    !currentPassword ||
+    !newPassword
+  ) {
+    throw new Error("INVALID_PASSWORD_DATA");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email: normalizedEmail,
+    },
+  });
+
+  if (!user) {
+    throw new Error("USER_NOT_FOUND");
+  }
+
+  const currentPasswordMatches =
+    await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+
+  if (!currentPasswordMatches) {
+    throw new Error("INVALID_CURRENT_PASSWORD");
+  }
+
+  if (currentPassword === newPassword) {
+    throw new Error("SAME_PASSWORD");
+  }
+
+  const hashedPassword = await bcrypt.hash(
+    newPassword,
+    12
+  );
+
+  await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      password: hashedPassword,
+    },
+  });
+
+  return {
+    success: true,
+  };
+};

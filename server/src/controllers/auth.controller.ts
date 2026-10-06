@@ -12,6 +12,7 @@ import {
   registerUser,
   loginUser,
   deleteUser,
+  changeUserPassword,
 } from "../services/auth.service.js";
 
 import { env } from "../config/env.js";
@@ -366,6 +367,114 @@ export async function deleteAccountController(
     return res.status(500).json({
       message:
         "Não foi possível excluir a conta. Tente novamente.",
+    });
+  }
+}
+export async function changePasswordController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const {
+      email,
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    } = req.body;
+
+    if (
+      !email ||
+      typeof email !== "string" ||
+      !currentPassword ||
+      typeof currentPassword !== "string" ||
+      !newPassword ||
+      typeof newPassword !== "string"
+    ) {
+      return res.status(400).json({
+        message:
+          "Preencha todos os campos obrigatórios.",
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        message:
+          "A nova senha deve possuir pelo menos 8 caracteres.",
+      });
+    }
+
+    if (
+      confirmPassword !== undefined &&
+      newPassword !== confirmPassword
+    ) {
+      return res.status(400).json({
+        message: "As senhas não coincidem.",
+      });
+    }
+
+    const result = await changeUserPassword({
+      email,
+      currentPassword,
+      newPassword,
+    });
+
+    if (!result.success) {
+      return res.status(400).json({
+        message:
+          "Não foi possível alterar sua senha.",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Senha alterada com sucesso.",
+    });
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "INVALID_CURRENT_PASSWORD"
+    ) {
+      return res.status(401).json({
+        message: "A senha atual está incorreta.",
+      });
+    }
+
+    if (
+      error instanceof Error &&
+      error.message === "SAME_PASSWORD"
+    ) {
+      return res.status(400).json({
+        message:
+          "A nova senha precisa ser diferente da senha atual.",
+      });
+    }
+
+    if (
+      error instanceof Error &&
+      error.message === "USER_NOT_FOUND"
+    ) {
+      return res.status(404).json({
+        message: "Conta não encontrada.",
+      });
+    }
+
+    if (
+      error instanceof Error &&
+      error.message === "INVALID_PASSWORD_DATA"
+    ) {
+      return res.status(400).json({
+        message:
+          "Informe corretamente os dados da senha.",
+      });
+    }
+
+    console.error(
+      "❌ Erro ao alterar senha:",
+      error
+    );
+
+    return res.status(500).json({
+      message:
+        "Não foi possível alterar sua senha. Tente novamente.",
     });
   }
 }

@@ -7,6 +7,7 @@ import {
   loginController,
   registerController,
   deleteAccountController,
+  changePasswordController,
 } from "../controllers/auth.controller.js";
 
 const router = Router();
@@ -34,6 +35,11 @@ router.post(
 router.post(
   "/register",
   registerController
+);
+
+router.post(
+  "/change-password",
+  changePasswordController
 );
 
 router.delete(
