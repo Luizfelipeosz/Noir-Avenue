@@ -29,6 +29,8 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
+import { addActivity } from "../../utils/activityLogger";
+
 import "./Perfil.css";
 import logo from "../../assets/logo.png";
 
@@ -98,29 +100,31 @@ function Perfil() {
   const [showDeleteModal, setShowDeleteModal] =
     useState(false);
 
-    const [showPasswordModal, setShowPasswordModal] =
-  useState(false);
+  const [showPasswordModal, setShowPasswordModal] =
+    useState(false);
 
-const [currentPassword, setCurrentPassword] =
-  useState("");
+  const [currentPassword, setCurrentPassword] =
+    useState("");
 
-const [newPassword, setNewPassword] =
-  useState("");
+  const [newPassword, setNewPassword] =
+    useState("");
 
-const [confirmNewPassword, setConfirmNewPassword] =
-  useState("");
+  const [confirmNewPassword, setConfirmNewPassword] =
+    useState("");
 
-const [showCurrentPassword, setShowCurrentPassword] =
-  useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] =
+    useState(false);
 
-const [showNewPassword, setShowNewPassword] =
-  useState(false);
+  const [showNewPassword, setShowNewPassword] =
+    useState(false);
 
-const [showConfirmNewPassword, setShowConfirmNewPassword] =
-  useState(false);
+  const [
+    showConfirmNewPassword,
+    setShowConfirmNewPassword,
+  ] = useState(false);
 
-const [isChangingPassword, setIsChangingPassword] =
-  useState(false);
+  const [isChangingPassword, setIsChangingPassword] =
+    useState(false);
 
   const [editName, setEditName] = useState(
     user.name || ""
@@ -130,8 +134,9 @@ const [isChangingPassword, setIsChangingPassword] =
     user.telefone || ""
   );
 
-  const [editAddress, setEditAddress] =
-    useState(user.endereco || "");
+  const [editAddress, setEditAddress] = useState(
+    user.endereco || ""
+  );
 
   const [isUploadingPhoto, setIsUploadingPhoto] =
     useState(false);
@@ -140,7 +145,10 @@ const [isChangingPassword, setIsChangingPassword] =
     useState(false);
 
   const cart = readStorage(CART_KEY, []);
-  const favorites = readStorage(FAVORITES_KEY, []);
+  const favorites = readStorage(
+    FAVORITES_KEY,
+    []
+  );
 
   const cartCount = Array.isArray(cart)
     ? cart.reduce(
@@ -238,6 +246,13 @@ const [isChangingPassword, setIsChangingPassword] =
       setProfile(updatedUser);
       setIsUploadingPhoto(false);
 
+      addActivity({
+        type: "profile",
+        action: "photo_updated",
+        message:
+          "Atualizou sua foto de perfil.",
+      });
+
       toast.success("Foto atualizada", {
         description:
           "Sua foto de perfil foi salva com sucesso.",
@@ -276,6 +291,13 @@ const [isChangingPassword, setIsChangingPassword] =
     updateUserStorage(updatedUser);
     setProfile(updatedUser);
 
+    addActivity({
+      type: "profile",
+      action: "photo_removed",
+      message:
+        "Removeu sua foto de perfil.",
+    });
+
     toast.success("Foto removida", {
       description:
         "Sua foto de perfil foi removida.",
@@ -308,6 +330,20 @@ const [isChangingPassword, setIsChangingPassword] =
     setProfile(updatedUser);
     setShowEditModal(false);
 
+    addActivity({
+      type: "profile",
+      action: "updated",
+      message:
+        "Atualizou suas informações de perfil.",
+      metadata: {
+        fields: [
+          "name",
+          "telefone",
+          "endereco",
+        ],
+      },
+    });
+
     toast.success("Perfil atualizado", {
       description:
         "Suas informações foram salvas com sucesso.",
@@ -315,140 +351,163 @@ const [isChangingPassword, setIsChangingPassword] =
   };
 
   const handleOpenPasswordModal = () => {
-  setCurrentPassword("");
-  setNewPassword("");
-  setConfirmNewPassword("");
-
-  setShowCurrentPassword(false);
-  setShowNewPassword(false);
-  setShowConfirmNewPassword(false);
-
-  setShowPasswordModal(true);
-};
-
-const handleClosePasswordModal = () => {
-  if (isChangingPassword) {
-    return;
-  }
-
-  setShowPasswordModal(false);
-};
-
-const handleChangePassword = async (event) => {
-  event.preventDefault();
-
-  if (isChangingPassword) {
-    return;
-  }
-
-  if (!profile.email) {
-    toast.error("Não foi possível continuar", {
-      description:
-        "Não encontramos os dados da sua conta.",
-    });
-
-    return;
-  }
-
-  if (!currentPassword) {
-    toast.warning("Senha atual obrigatória", {
-      description:
-        "Informe sua senha atual para continuar.",
-    });
-
-    return;
-  }
-
-  if (!newPassword) {
-    toast.warning("Nova senha obrigatória", {
-      description:
-        "Informe a nova senha que deseja utilizar.",
-    });
-
-    return;
-  }
-
-  if (newPassword.length < 8) {
-    toast.warning("Senha muito curta", {
-      description:
-        "A nova senha deve possuir pelo menos 8 caracteres.",
-    });
-
-    return;
-  }
-
-  if (newPassword !== confirmNewPassword) {
-    toast.error("As senhas não coincidem", {
-      description:
-        "Confira a confirmação da nova senha.",
-    });
-
-    return;
-  }
-
-  if (currentPassword === newPassword) {
-    toast.warning("Senha sem alteração", {
-      description:
-        "A nova senha precisa ser diferente da senha atual.",
-    });
-
-    return;
-  }
-
-  try {
-    setIsChangingPassword(true);
-
-    const response = await fetch(
-      `${API_URL}/auth/change-password`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: profile.email,
-          currentPassword,
-          newPassword,
-          confirmPassword: confirmNewPassword,
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data?.message ||
-          "Não foi possível alterar sua senha."
-      );
-    }
-
-    setShowPasswordModal(false);
-
     setCurrentPassword("");
     setNewPassword("");
     setConfirmNewPassword("");
 
-    toast.success("Senha atualizada", {
-      description:
-        "Sua senha foi alterada com sucesso.",
-    });
-  } catch (error) {
-    console.error(
-      "Erro ao alterar senha:",
-      error
-    );
+    setShowCurrentPassword(false);
+    setShowNewPassword(false);
+    setShowConfirmNewPassword(false);
 
-    toast.error("Não foi possível alterar a senha", {
-      description:
-        error instanceof Error
-          ? error.message
-          : "Tente novamente.",
-    });
-  } finally {
-    setIsChangingPassword(false);
-  }
-};
+    setShowPasswordModal(true);
+  };
+
+  const handleClosePasswordModal = () => {
+    if (isChangingPassword) {
+      return;
+    }
+
+    setShowPasswordModal(false);
+  };
+
+  const handleChangePassword = async (event) => {
+    event.preventDefault();
+
+    if (isChangingPassword) {
+      return;
+    }
+
+    if (!profile.email) {
+      toast.error("Não foi possível continuar", {
+        description:
+          "Não encontramos os dados da sua conta.",
+      });
+
+      return;
+    }
+
+    if (!currentPassword) {
+      toast.warning(
+        "Senha atual obrigatória",
+        {
+          description:
+            "Informe sua senha atual para continuar.",
+        }
+      );
+
+      return;
+    }
+
+    if (!newPassword) {
+      toast.warning(
+        "Nova senha obrigatória",
+        {
+          description:
+            "Informe a nova senha que deseja utilizar.",
+        }
+      );
+
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      toast.warning("Senha muito curta", {
+        description:
+          "A nova senha deve possuir pelo menos 8 caracteres.",
+      });
+
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      toast.error(
+        "As senhas não coincidem",
+        {
+          description:
+            "Confira a confirmação da nova senha.",
+        }
+      );
+
+      return;
+    }
+
+    if (currentPassword === newPassword) {
+      toast.warning(
+        "Senha sem alteração",
+        {
+          description:
+            "A nova senha precisa ser diferente da senha atual.",
+        }
+      );
+
+      return;
+    }
+
+    try {
+      setIsChangingPassword(true);
+
+      const response = await fetch(
+        `${API_URL}/auth/change-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: profile.email,
+            currentPassword,
+            newPassword,
+            confirmPassword:
+              confirmNewPassword,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message ||
+            "Não foi possível alterar sua senha."
+        );
+      }
+
+      setShowPasswordModal(false);
+
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+
+      addActivity({
+        type: "password",
+        action: "changed",
+        message:
+          "Alterou sua senha com sucesso.",
+      });
+
+      toast.success("Senha atualizada", {
+        description:
+          "Sua senha foi alterada com sucesso.",
+      });
+    } catch (error) {
+      console.error(
+        "Erro ao alterar senha:",
+        error
+      );
+
+      toast.error(
+        "Não foi possível alterar a senha",
+        {
+          description:
+            error instanceof Error
+              ? error.message
+              : "Tente novamente.",
+        }
+      );
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
 
   const handleDeleteAccount = async () => {
     if (!profile.email) {
@@ -713,6 +772,7 @@ const handleChangePassword = async (event) => {
           <div className="profile-progress">
             <div className="progress-header">
               <span>Completude</span>
+
               <strong>
                 {profilePercentage}%
               </strong>
@@ -933,6 +993,7 @@ const handleChangePassword = async (event) => {
 
               <div>
                 <strong>{displayName}</strong>
+
                 <span>
                   JPG, PNG ou WEBP · até 5 MB
                 </span>
@@ -1271,258 +1332,267 @@ const handleChangePassword = async (event) => {
       )}
 
       {showPasswordModal && (
-  <div
-    className="profile-modal-overlay"
-    onMouseDown={(event) => {
-      if (
-        event.target === event.currentTarget &&
-        !isChangingPassword
-      ) {
-        handleClosePasswordModal();
-      }
-    }}
-  >
-    <div
-      className="profile-modal password-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="change-password-title"
-    >
-      {!isChangingPassword && (
-        <button
-          type="button"
-          className="modal-close"
-          onClick={handleClosePasswordModal}
-          aria-label="Fechar"
+        <div
+          className="profile-modal-overlay"
+          onMouseDown={(event) => {
+            if (
+              event.target === event.currentTarget &&
+              !isChangingPassword
+            ) {
+              handleClosePasswordModal();
+            }
+          }}
         >
-          <FaTimes />
-        </button>
+          <div
+            className="profile-modal password-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="change-password-title"
+          >
+            {!isChangingPassword && (
+              <button
+                type="button"
+                className="modal-close"
+                onClick={handleClosePasswordModal}
+                aria-label="Fechar"
+              >
+                <FaTimes />
+              </button>
+            )}
+
+            <div className="modal-header">
+              <div className="modal-header-icon password-header-icon">
+                <FaShieldAlt />
+              </div>
+
+              <div>
+                <span>SEGURANÇA</span>
+
+                <h2 id="change-password-title">
+                  Alterar senha
+                </h2>
+              </div>
+            </div>
+
+            <p className="modal-description">
+              Atualize sua senha para manter o acesso à
+              sua conta protegido.
+            </p>
+
+            <form
+              className="password-form"
+              onSubmit={handleChangePassword}
+            >
+              <label>
+                <span>Senha atual</span>
+
+                <div className="modal-input password-input">
+                  <FaLock />
+
+                  <input
+                    type={
+                      showCurrentPassword
+                        ? "text"
+                        : "password"
+                    }
+                    value={currentPassword}
+                    placeholder="Digite sua senha atual"
+                    autoComplete="current-password"
+                    disabled={isChangingPassword}
+                    onChange={(event) =>
+                      setCurrentPassword(
+                        event.target.value
+                      )
+                    }
+                  />
+
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() =>
+                      setShowCurrentPassword(
+                        (value) => !value
+                      )
+                    }
+                    disabled={isChangingPassword}
+                    aria-label={
+                      showCurrentPassword
+                        ? "Ocultar senha"
+                        : "Mostrar senha"
+                    }
+                  >
+                    {showCurrentPassword ? (
+                      <FaEyeSlash />
+                    ) : (
+                      <FaEye />
+                    )}
+                  </button>
+                </div>
+              </label>
+
+              <label>
+                <span>Nova senha</span>
+
+                <div className="modal-input password-input">
+                  <FaLock />
+
+                  <input
+                    type={
+                      showNewPassword
+                        ? "text"
+                        : "password"
+                    }
+                    value={newPassword}
+                    placeholder="Digite sua nova senha"
+                    autoComplete="new-password"
+                    disabled={isChangingPassword}
+                    onChange={(event) =>
+                      setNewPassword(
+                        event.target.value
+                      )
+                    }
+                  />
+
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() =>
+                      setShowNewPassword(
+                        (value) => !value
+                      )
+                    }
+                    disabled={isChangingPassword}
+                    aria-label={
+                      showNewPassword
+                        ? "Ocultar senha"
+                        : "Mostrar senha"
+                    }
+                  >
+                    {showNewPassword ? (
+                      <FaEyeSlash />
+                    ) : (
+                      <FaEye />
+                    )}
+                  </button>
+                </div>
+              </label>
+
+              <label>
+                <span>
+                  Confirmar nova senha
+                </span>
+
+                <div className="modal-input password-input">
+                  <FaLock />
+
+                  <input
+                    type={
+                      showConfirmNewPassword
+                        ? "text"
+                        : "password"
+                    }
+                    value={confirmNewPassword}
+                    placeholder="Repita sua nova senha"
+                    autoComplete="new-password"
+                    disabled={isChangingPassword}
+                    onChange={(event) =>
+                      setConfirmNewPassword(
+                        event.target.value
+                      )
+                    }
+                  />
+
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() =>
+                      setShowConfirmNewPassword(
+                        (value) => !value
+                      )
+                    }
+                    disabled={isChangingPassword}
+                    aria-label={
+                      showConfirmNewPassword
+                        ? "Ocultar senha"
+                        : "Mostrar senha"
+                    }
+                  >
+                    {showConfirmNewPassword ? (
+                      <FaEyeSlash />
+                    ) : (
+                      <FaEye />
+                    )}
+                  </button>
+                </div>
+              </label>
+
+              <div className="password-requirements">
+                <div className="password-requirements-title">
+                  <FaShieldAlt />
+                  <span>
+                    Requisitos da nova senha
+                  </span>
+                </div>
+
+                <div
+                  className={
+                    newPassword.length >= 8
+                      ? "password-requirement valid"
+                      : "password-requirement"
+                  }
+                >
+                  <FaCheck />
+
+                  <span>
+                    Pelo menos 8 caracteres
+                  </span>
+                </div>
+
+                <div
+                  className={
+                    newPassword &&
+                    newPassword ===
+                      confirmNewPassword
+                      ? "password-requirement valid"
+                      : "password-requirement"
+                  }
+                >
+                  <FaCheck />
+
+                  <span>
+                    As senhas precisam coincidir
+                  </span>
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="modal-cancel"
+                  onClick={
+                    handleClosePasswordModal
+                  }
+                  disabled={isChangingPassword}
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  type="submit"
+                  className="modal-save password-save"
+                  disabled={isChangingPassword}
+                >
+                  <FaCheckCircle />
+
+                  {isChangingPassword
+                    ? "Atualizando..."
+                    : "Atualizar senha"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
-
-      <div className="modal-header">
-        <div className="modal-header-icon password-header-icon">
-          <FaShieldAlt />
-        </div>
-
-        <div>
-          <span>SEGURANÇA</span>
-
-          <h2 id="change-password-title">
-            Alterar senha
-          </h2>
-        </div>
-      </div>
-
-      <p className="modal-description">
-        Atualize sua senha para manter o acesso à
-        sua conta protegido.
-      </p>
-
-      <form
-        className="password-form"
-        onSubmit={handleChangePassword}
-      >
-        <label>
-          <span>Senha atual</span>
-
-          <div className="modal-input password-input">
-            <FaLock />
-
-            <input
-              type={
-                showCurrentPassword
-                  ? "text"
-                  : "password"
-              }
-              value={currentPassword}
-              placeholder="Digite sua senha atual"
-              autoComplete="current-password"
-              disabled={isChangingPassword}
-              onChange={(event) =>
-                setCurrentPassword(
-                  event.target.value
-                )
-              }
-            />
-
-            <button
-              type="button"
-              className="password-toggle"
-              onClick={() =>
-                setShowCurrentPassword(
-                  (value) => !value
-                )
-              }
-              disabled={isChangingPassword}
-              aria-label={
-                showCurrentPassword
-                  ? "Ocultar senha"
-                  : "Mostrar senha"
-              }
-            >
-              {showCurrentPassword ? (
-                <FaEyeSlash />
-              ) : (
-                <FaEye />
-              )}
-            </button>
-          </div>
-        </label>
-
-        <label>
-          <span>Nova senha</span>
-
-          <div className="modal-input password-input">
-            <FaLock />
-
-            <input
-              type={
-                showNewPassword
-                  ? "text"
-                  : "password"
-              }
-              value={newPassword}
-              placeholder="Digite sua nova senha"
-              autoComplete="new-password"
-              disabled={isChangingPassword}
-              onChange={(event) =>
-                setNewPassword(
-                  event.target.value
-                )
-              }
-            />
-
-            <button
-              type="button"
-              className="password-toggle"
-              onClick={() =>
-                setShowNewPassword(
-                  (value) => !value
-                )
-              }
-              disabled={isChangingPassword}
-              aria-label={
-                showNewPassword
-                  ? "Ocultar senha"
-                  : "Mostrar senha"
-              }
-            >
-              {showNewPassword ? (
-                <FaEyeSlash />
-              ) : (
-                <FaEye />
-              )}
-            </button>
-          </div>
-        </label>
-
-        <label>
-          <span>Confirmar nova senha</span>
-
-          <div className="modal-input password-input">
-            <FaLock />
-
-            <input
-              type={
-                showConfirmNewPassword
-                  ? "text"
-                  : "password"
-              }
-              value={confirmNewPassword}
-              placeholder="Repita sua nova senha"
-              autoComplete="new-password"
-              disabled={isChangingPassword}
-              onChange={(event) =>
-                setConfirmNewPassword(
-                  event.target.value
-                )
-              }
-            />
-
-            <button
-              type="button"
-              className="password-toggle"
-              onClick={() =>
-                setShowConfirmNewPassword(
-                  (value) => !value
-                )
-              }
-              disabled={isChangingPassword}
-              aria-label={
-                showConfirmNewPassword
-                  ? "Ocultar senha"
-                  : "Mostrar senha"
-              }
-            >
-              {showConfirmNewPassword ? (
-                <FaEyeSlash />
-              ) : (
-                <FaEye />
-              )}
-            </button>
-          </div>
-        </label>
-
-        <div className="password-requirements">
-          <div className="password-requirements-title">
-            <FaShieldAlt />
-            <span>Requisitos da nova senha</span>
-          </div>
-
-          <div
-            className={
-              newPassword.length >= 8
-                ? "password-requirement valid"
-                : "password-requirement"
-            }
-          >
-            <FaCheck />
-            <span>
-              Pelo menos 8 caracteres
-            </span>
-          </div>
-
-          <div
-            className={
-              newPassword &&
-              newPassword === confirmNewPassword
-                ? "password-requirement valid"
-                : "password-requirement"
-            }
-          >
-            <FaCheck />
-            <span>
-              As senhas precisam coincidir
-            </span>
-          </div>
-        </div>
-
-        <div className="modal-actions">
-          <button
-            type="button"
-            className="modal-cancel"
-            onClick={handleClosePasswordModal}
-            disabled={isChangingPassword}
-          >
-            Cancelar
-          </button>
-
-          <button
-            type="submit"
-            className="modal-save password-save"
-            disabled={isChangingPassword}
-          >
-            <FaCheckCircle />
-
-            {isChangingPassword
-              ? "Atualizando..."
-              : "Atualizar senha"}
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
 
       {showDeleteModal && (
         <div

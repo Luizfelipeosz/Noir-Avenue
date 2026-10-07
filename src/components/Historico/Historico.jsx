@@ -17,6 +17,8 @@ import {
   FaSignOutAlt,
   FaLock,
   FaMapMarkerAlt,
+  FaTimes,
+  FaExclamationTriangle,
 } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
@@ -38,6 +40,9 @@ function Historico() {
   );
 
   const [filter, setFilter] = useState("all");
+  const [showClearModal, setShowClearModal] = useState(false);
+  const [isClearing, setIsClearing] = useState(false);
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     const handleActivity = () => {
@@ -71,70 +76,131 @@ function Historico() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!feedback) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setFeedback("");
+    }, 4000);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [feedback]);
+
+  useEffect(() => {
+    if (!showClearModal) {
+      return;
+    }
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape" && !isClearing) {
+        setShowClearModal(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleEscape
+      );
+    };
+  }, [showClearModal, isClearing]);
+
   const activityTypes = {
     login: {
       label: "Acesso",
+      filterLabel: "Acessos",
       icon: <FaSignInAlt />,
+      colorClass: "login",
     },
 
     register: {
       label: "Cadastro",
+      filterLabel: "Cadastros",
       icon: <FaUserPlus />,
+      colorClass: "register",
     },
 
     profile: {
       label: "Perfil",
+      filterLabel: "Perfil",
       icon: <FaUser />,
+      colorClass: "profile",
     },
 
     favorite: {
       label: "Favoritos",
+      filterLabel: "Favoritos",
       icon: <FaHeart />,
+      colorClass: "favorite",
     },
 
     cart: {
       label: "Carrinho",
+      filterLabel: "Carrinho",
       icon: <FaShoppingCart />,
+      colorClass: "cart",
     },
 
     purchase: {
       label: "Compra",
+      filterLabel: "Compras",
       icon: <FaCreditCard />,
+      colorClass: "purchase",
     },
 
     order: {
       label: "Pedido",
+      filterLabel: "Pedidos",
       icon: <FaBoxOpen />,
+      colorClass: "order",
     },
 
     address: {
       label: "Endereço",
+      filterLabel: "Endereços",
       icon: <FaMapMarkerAlt />,
+      colorClass: "address",
     },
 
     password: {
       label: "Segurança",
+      filterLabel: "Segurança",
       icon: <FaLock />,
+      colorClass: "password",
     },
 
     premium: {
       label: "Premium",
+      filterLabel: "Premium",
       icon: <FaCrown />,
+      colorClass: "premium",
     },
 
     logout: {
       label: "Sessão",
+      filterLabel: "Sessão",
       icon: <FaSignOutAlt />,
+      colorClass: "logout",
     },
 
     delete: {
       label: "Conta",
+      filterLabel: "Conta",
       icon: <FaTrash />,
+      colorClass: "delete",
     },
 
     system: {
       label: "Sistema",
+      filterLabel: "Sistema",
       icon: <FaCheckCircle />,
+      colorClass: "system",
     },
   };
 
@@ -168,6 +234,30 @@ function Historico() {
     );
   };
 
+  const filters = useMemo(() => {
+    const availableTypes = Object.entries(
+      activityTypes
+    );
+
+    return [
+      {
+        value: "all",
+        label: "Todas",
+        count: activities.length,
+      },
+
+      ...availableTypes.map(
+        ([value, config]) => ({
+          value,
+          label: config.filterLabel,
+          count: activities.filter(
+            (item) => item.type === value
+          ).length,
+        })
+      ),
+    ];
+  }, [activities]);
+
   const filteredActivities = useMemo(() => {
     if (filter === "all") {
       return activities;
@@ -179,59 +269,84 @@ function Historico() {
   }, [activities, filter]);
 
   const clearHistory = () => {
-    const confirmed = window.confirm(
-      "Deseja realmente limpar todo o seu histórico de atividades?"
-    );
-
-    if (!confirmed) {
+    if (activities.length === 0) {
       return;
     }
 
-    clearActivities();
+    setShowClearModal(true);
   };
 
-  const filters = [
-    {
-      value: "all",
-      label: "Todas",
-    },
+  const confirmClearHistory = () => {
+    if (isClearing) {
+      return;
+    }
 
-    {
-      value: "login",
-      label: "Acessos",
-    },
+    setIsClearing(true);
 
-    {
-      value: "cart",
-      label: "Carrinho",
-    },
+    try {
+      clearActivities();
 
-    {
-      value: "purchase",
-      label: "Compras",
-    },
+      setActivities([]);
+      setFilter("all");
+      setShowClearModal(false);
+      setFeedback(
+        "Seu histórico de atividades foi limpo."
+      );
+    } finally {
+      setIsClearing(false);
+    }
+  };
 
-    {
-      value: "favorite",
-      label: "Favoritos",
-    },
+  const handleFilterChange = (value) => {
+    setFilter(value);
+  };
 
-    {
-      value: "profile",
-      label: "Perfil",
-    },
+  const getActivityKey = (item, index) => {
+    if (item.id) {
+      return item.id;
+    }
 
-    {
-      value: "premium",
-      label: "Premium",
-    },
-  ];
+    return `${item.type || "activity"}-${
+      item.createdAt || "unknown"
+    }-${index}`;
+  };
 
   return (
     <main className="history-page">
+      {feedback && (
+        <div
+          className="history-feedback"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="feedback-icon">
+            <FaCheckCircle />
+          </div>
+
+          <div className="feedback-content">
+            <strong>Histórico atualizado</strong>
+
+            <span>{feedback}</span>
+          </div>
+
+          <button
+            type="button"
+            className="feedback-close"
+            onClick={() => setFeedback("")}
+            aria-label="Fechar aviso"
+            title="Fechar aviso"
+          >
+            <FaTimes />
+          </button>
+        </div>
+      )}
+
       <header className="history-header">
         <div className="history-heading">
-          <div className="history-title-icon">
+          <div
+            className="history-title-icon"
+            aria-hidden="true"
+          >
             <FaHistory />
           </div>
 
@@ -253,9 +368,8 @@ function Historico() {
           <button
             type="button"
             className="back-dashboard"
-            onClick={() =>
-              navigate("/dashboard")
-            }
+            onClick={() => navigate("/dashboard")}
+            title="Voltar para o Dashboard"
           >
             <FaArrowLeft />
 
@@ -269,6 +383,7 @@ function Historico() {
               type="button"
               className="clear-history"
               onClick={clearHistory}
+              title="Limpar todo o histórico"
             >
               <FaTrash />
 
@@ -280,32 +395,41 @@ function Historico() {
         </div>
       </header>
 
-      <section className="history-summary">
+      <section
+        className="history-summary"
+        aria-label="Resumo do histórico"
+      >
         <div className="summary-card">
           <div className="summary-icon">
             <FaClock />
           </div>
 
-          <div>
+          <div className="summary-content">
             <span>ATIVIDADES</span>
 
-            <strong>
-              {activities.length}
-            </strong>
+            <strong>{activities.length}</strong>
+
+            <small>
+              {activities.length === 1
+                ? "registro armazenado"
+                : "registros armazenados"}
+            </small>
           </div>
         </div>
 
         <div className="summary-card">
-          <div className="summary-icon">
+          <div className="summary-icon success">
             <FaCheckCircle />
           </div>
 
-          <div>
+          <div className="summary-content">
             <span>STATUS</span>
 
-            <strong>
-              Conta ativa
-            </strong>
+            <strong>Conta ativa</strong>
+
+            <small>
+              Histórico funcionando normalmente
+            </small>
           </div>
         </div>
 
@@ -314,12 +438,18 @@ function Historico() {
             <FaHistory />
           </div>
 
-          <div>
+          <div className="summary-content">
             <span>EXIBINDO</span>
 
             <strong>
               {filteredActivities.length}
             </strong>
+
+            <small>
+              {filter === "all"
+                ? "todos os registros"
+                : "registros filtrados"}
+            </small>
           </div>
         </div>
       </section>
@@ -327,14 +457,24 @@ function Historico() {
       <section className="history-content">
         <div className="history-toolbar">
           <div className="filter-title">
-            <FaFilter />
+            <div className="filter-title-icon">
+              <FaFilter />
+            </div>
 
-            <strong>
-              Filtrar atividades
-            </strong>
+            <div>
+              <strong>Filtrar atividades</strong>
+
+              <span>
+                Encontre rapidamente uma ação específica
+              </span>
+            </div>
           </div>
 
-          <div className="history-filters">
+          <div
+            className="history-filters"
+            role="group"
+            aria-label="Filtros de atividades"
+          >
             {filters.map((item) => (
               <button
                 key={item.value}
@@ -344,11 +484,27 @@ function Historico() {
                     ? "active"
                     : ""
                 }
+                aria-pressed={
+                  filter === item.value
+                }
                 onClick={() =>
-                  setFilter(item.value)
+                  handleFilterChange(
+                    item.value
+                  )
+                }
+                disabled={
+                  item.value !== "all" &&
+                  item.count === 0
+                }
+                title={
+                  item.count === 0
+                    ? `Nenhuma atividade em ${item.label.toLowerCase()}`
+                    : `Mostrar ${item.label.toLowerCase()}`
                 }
               >
-                {item.label}
+                <span>{item.label}</span>
+
+                <small>{item.count}</small>
               </button>
             ))}
           </div>
@@ -356,9 +512,22 @@ function Historico() {
 
         {filteredActivities.length === 0 ? (
           <div className="history-empty">
-            <div className="empty-icon">
-              <FaHistory />
+            <div
+              className="empty-icon"
+              aria-hidden="true"
+            >
+              {activities.length === 0 ? (
+                <FaHistory />
+              ) : (
+                <FaFilter />
+              )}
             </div>
+
+            <span className="empty-eyebrow">
+              {activities.length === 0
+                ? "HISTÓRICO VAZIO"
+                : "NENHUM RESULTADO"}
+            </span>
 
             <h2>
               {activities.length === 0
@@ -368,17 +537,33 @@ function Historico() {
 
             <p>
               {activities.length === 0
-                ? "Quando você realizar ações na plataforma, elas aparecerão aqui."
-                : "Não encontramos atividades para o filtro selecionado."}
+                ? "Quando você realizar ações na plataforma, como acessar sua conta, adicionar produtos aos favoritos ou concluir uma compra, elas aparecerão aqui."
+                : `Não encontramos atividades na categoria "${
+                    filters.find(
+                      (item) =>
+                        item.value === filter
+                    )?.label || "selecionada"
+                  }".`}
             </p>
 
-            {filter !== "all" && (
+            {activities.length === 0 ? (
               <button
                 type="button"
+                className="empty-action"
                 onClick={() =>
-                  setFilter("all")
+                  navigate("/dashboard")
                 }
               >
+                <FaArrowLeft />
+                Voltar para Dashboard
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="empty-action"
+                onClick={() => setFilter("all")}
+              >
+                <FaHistory />
                 Ver todas as atividades
               </button>
             )}
@@ -392,37 +577,49 @@ function Historico() {
                     item.type
                   );
 
+                const colorClass =
+                  config.colorClass;
+
                 return (
                   <article
                     className="timeline-item"
-                    key={
-                      item.id ||
-                      `${item.createdAt}-${index}`
-                    }
+                    key={getActivityKey(
+                      item,
+                      index
+                    )}
                   >
                     <div
-                      className={`timeline-icon ${item.type}`}
+                      className={`timeline-marker ${colorClass}`}
                     >
-                      {config.icon}
+                      <div className="timeline-icon">
+                        {config.icon}
+                      </div>
                     </div>
 
                     {index <
                       filteredActivities.length -
                         1 && (
-                      <div className="timeline-line" />
+                      <div
+                        className="timeline-line"
+                        aria-hidden="true"
+                      />
                     )}
 
                     <div className="activity-card">
                       <div className="activity-card-header">
                         <span
-                          className={`activity-category ${item.type}`}
+                          className={`activity-category ${colorClass}`}
                         >
-                          {config.label}
+                          {config.icon}
+
+                          <span>
+                            {config.label}
+                          </span>
                         </span>
 
                         <time
                           dateTime={
-                            item.createdAt
+                            item.createdAt || undefined
                           }
                           title={formatDate(
                             item.createdAt
@@ -436,16 +633,17 @@ function Historico() {
 
                       <div className="activity-message">
                         <strong>
-                          {item.message}
+                          {item.message ||
+                            "Atividade registrada."}
                         </strong>
 
-                        <span>
-                          {item.createdAt
-                            ? timeAgo(
-                                item.createdAt
-                              )
-                            : ""}
-                        </span>
+                        {item.createdAt && (
+                          <span>
+                            {timeAgo(
+                              item.createdAt
+                            )}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </article>
@@ -457,13 +655,106 @@ function Historico() {
       </section>
 
       <footer className="history-footer">
-        <FaClock />
+        <FaLock />
 
         <span>
-          O histórico é armazenado localmente
+          Seu histórico é armazenado localmente
           neste dispositivo.
         </span>
       </footer>
+
+      {showClearModal && (
+        <div
+          className="history-modal-overlay"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (
+              event.target === event.currentTarget &&
+              !isClearing
+            ) {
+              setShowClearModal(false);
+            }
+          }}
+        >
+          <div
+            className="history-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="clear-history-title"
+            aria-describedby="clear-history-description"
+          >
+            <button
+              type="button"
+              className="modal-close"
+              onClick={() =>
+                setShowClearModal(false)
+              }
+              disabled={isClearing}
+              aria-label="Fechar confirmação"
+              title="Fechar"
+            >
+              <FaTimes />
+            </button>
+
+            <div className="modal-warning-icon">
+              <FaExclamationTriangle />
+            </div>
+
+            <span className="modal-eyebrow">
+              AÇÃO IRREVERSÍVEL
+            </span>
+
+            <h2 id="clear-history-title">
+              Limpar histórico?
+            </h2>
+
+            <p id="clear-history-description">
+              Você está prestes a remover todas as
+              atividades registradas nesta conta
+              neste dispositivo.
+            </p>
+
+            <div className="modal-info">
+              <FaHistory />
+
+              <span>
+                {activities.length}{" "}
+                {activities.length === 1
+                  ? "atividade será removida."
+                  : "atividades serão removidas."}
+              </span>
+            </div>
+
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="modal-cancel"
+                onClick={() =>
+                  setShowClearModal(false)
+                }
+                disabled={isClearing}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                className="modal-confirm"
+                onClick={confirmClearHistory}
+                disabled={isClearing}
+              >
+                <FaTrash />
+
+                <span>
+                  {isClearing
+                    ? "Limpando..."
+                    : "Sim, limpar histórico"}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
