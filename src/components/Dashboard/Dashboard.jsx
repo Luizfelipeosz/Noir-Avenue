@@ -1,10 +1,6 @@
 import "./Dashboard.css";
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { timeAgo } from "../../utils/timeAgo";
 import { categories } from "../../data/categories";
@@ -46,9 +42,7 @@ function Dashboard() {
   const searchInputRef = useRef(null);
 
   const session =
-    JSON.parse(
-      localStorage.getItem("noiravenue_session")
-    ) || {};
+    JSON.parse(localStorage.getItem("noiravenue_session")) || {};
 
   const user = session;
   const theme = user.theme || "Dark";
@@ -103,26 +97,20 @@ function Dashboard() {
       favorites: "Favoritos",
       collections: "Colecciones",
       premium: "Premium",
-      profile: "Profile",
+      profile: "Perfil",
       recentActivities: "Actividades recientes",
       quickAccess: "ACCESO RÁPIDO",
       explorePlatform: "Explora tu plataforma",
     },
   };
 
-  const t =
-    translations[language] ||
-    translations.Português;
+  const t = translations[language] || translations.Português;
 
   const favorites =
-    JSON.parse(
-      localStorage.getItem("noiravenue_favorites")
-    ) || [];
+    JSON.parse(localStorage.getItem("noiravenue_favorites")) || [];
 
   const activities =
-    JSON.parse(
-      localStorage.getItem("noiravenue_activities")
-    ) || [
+    JSON.parse(localStorage.getItem("noiravenue_activities")) || [
       {
         id: 1,
         message: "Bem-vindo ao Noir Avenue.",
@@ -130,37 +118,23 @@ function Dashboard() {
       },
     ];
 
-  const [searchOpen, setSearchOpen] =
-    useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
 
-  const [searchTerm, setSearchTerm] =
-    useState("");
-
-  const [notificationsOpen, setNotificationsOpen] =
-    useState(false);
-
-  const [notificationsReadAt, setNotificationsReadAt] =
-    useState(
-      () =>
-        localStorage.getItem(
-          "noiravenue_notifications_read_at"
-        ) || ""
+  const [notificationsReadAt, setNotificationsReadAt] = useState(() => {
+    return (
+      localStorage.getItem("noiravenue_notifications_read_at") || ""
     );
+  });
 
-  const [sidebarOpen, setSidebarOpen] =
-    useState(() => {
-      const saved =
-        localStorage.getItem(
-          "noiravenue_sidebar_open"
-        );
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem("noiravenue_sidebar_open");
 
-      return saved === null
-        ? true
-        : saved === "true";
-    });
+    return saved === null ? true : saved === "true";
+  });
 
-  const profilePercentage =
-    calculateProfileCompletion(user);
+  const profilePercentage = calculateProfileCompletion(user);
 
   const hour = new Date().getHours();
 
@@ -177,10 +151,8 @@ function Dashboard() {
   const actions = [
     {
       title: "Meu Perfil",
-      description:
-        "Gerencie suas informações pessoais.",
-      keywords:
-        "perfil conta usuário dados pessoais",
+      description: "Gerencie suas informações pessoais.",
+      keywords: "perfil conta usuário dados pessoais",
       icon: <FaUser />,
       iconClass: "nav-icon-profile",
       route: "/dashboard/perfil",
@@ -188,10 +160,8 @@ function Dashboard() {
 
     {
       title: "Favoritos",
-      description:
-        "Acesse os itens que você salvou.",
-      keywords:
-        "favoritos salvos itens coleção",
+      description: "Acesse os itens que você salvou.",
+      keywords: "favoritos salvos itens coleção",
       icon: <FaHeart />,
       iconClass: "nav-icon-favorites",
       route: "/dashboard/favoritos",
@@ -199,10 +169,8 @@ function Dashboard() {
 
     {
       title: "Catálogo",
-      description:
-        "Explore  nossa coleção.",
-      keywords:
-        "catálogo produtos coleção roupas",
+      description: "Explore nossa coleção.",
+      keywords: "catálogo produtos coleção roupas",
       icon: <FaShoppingBag />,
       iconClass: "nav-icon-catalog",
       route: "/dashboard/catalogo",
@@ -210,10 +178,8 @@ function Dashboard() {
 
     {
       title: "Carrinho",
-      description:
-        "Confira seus itens selecionados.",
-      keywords:
-        "carrinho compras itens selecionados",
+      description: "Confira seus itens selecionados.",
+      keywords: "carrinho compras itens selecionados",
       icon: <FaShoppingCart />,
       iconClass: "nav-icon-cart",
       route: "/dashboard/cart",
@@ -221,10 +187,8 @@ function Dashboard() {
 
     {
       title: "Configurações",
-      description:
-        "Personalize sua experiência.",
-      keywords:
-        "configurações preferências ajustes tema",
+      description: "Personalize sua experiência.",
+      keywords: "configurações preferências ajustes tema",
       icon: <FaCog />,
       iconClass: "nav-icon-settings",
       route: "/dashboard/configuracoes",
@@ -232,10 +196,8 @@ function Dashboard() {
 
     {
       title: "Noir Premium",
-      description:
-        "Descubra benefícios exclusivos.",
-      keywords:
-        "premium assinatura benefícios exclusivo",
+      description: "Descubra benefícios exclusivos.",
+      keywords: "premium assinatura benefícios exclusivo",
       icon: <FaCrown />,
       iconClass: "nav-icon-premium",
       route: "/dashboard/premium",
@@ -244,10 +206,8 @@ function Dashboard() {
 
     {
       title: "Histórico",
-      description:
-        "Consulte suas atividades recentes.",
-      keywords:
-        "histórico atividades recentes jornada",
+      description: "Consulte suas atividades recentes.",
+      keywords: "histórico atividades recentes jornada",
       icon: <FaClock />,
       iconClass: "nav-icon-history",
       route: "/dashboard/historico",
@@ -255,10 +215,11 @@ function Dashboard() {
   ];
 
   const filteredActions = useMemo(() => {
-    const normalizedTerm =
-      searchTerm.trim().toLowerCase();
+    const normalizedTerm = searchTerm.trim().toLowerCase();
 
-    if (!normalizedTerm) return actions;
+    if (!normalizedTerm) {
+      return actions;
+    }
 
     return actions.filter((item) =>
       `${item.title} ${item.description} ${item.keywords}`
@@ -267,15 +228,15 @@ function Dashboard() {
     );
   }, [searchTerm]);
 
-  const unreadNotifications =
-    activities.filter((item) => {
-      if (!notificationsReadAt) return true;
+  const unreadNotifications = activities.filter((item) => {
+    if (!notificationsReadAt) {
+      return true;
+    }
 
-      return (
-        new Date(item.createdAt) >
-        new Date(notificationsReadAt)
-      );
-    });
+    return (
+      new Date(item.createdAt) > new Date(notificationsReadAt)
+    );
+  });
 
   const toggleSidebar = () => {
     setSidebarOpen((current) => {
@@ -318,14 +279,11 @@ function Dashboard() {
   const openNotifications = () => {
     setSearchOpen(false);
 
-    setNotificationsOpen(
-      (current) => !current
-    );
+    setNotificationsOpen((current) => !current);
   };
 
   const markNotificationsAsRead = () => {
-    const now =
-      new Date().toISOString();
+    const now = new Date().toISOString();
 
     localStorage.setItem(
       "noiravenue_notifications_read_at",
@@ -355,9 +313,7 @@ function Dashboard() {
     navigate(route);
 
     closeSearch();
-
     setNotificationsOpen(false);
-
     closeSidebarOnMobile();
   };
 
@@ -369,38 +325,23 @@ function Dashboard() {
       }
     };
 
-    document.addEventListener(
-      "keydown",
-      handleEscape
-    );
+    document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener(
-        "keydown",
-        handleEscape
-      );
+      document.removeEventListener("keydown", handleEscape);
     };
   }, []);
 
   const logout = () => {
-    localStorage.removeItem(
-      "noiravenue_session"
-    );
-
+    localStorage.removeItem("noiravenue_session");
     navigate("/");
   };
 
   return (
     <div
       className={`layout ${
-        theme === "Light"
-          ? "theme-light"
-          : "theme-dark"
-      } ${
-        sidebarOpen
-          ? "sidebar-open"
-          : "sidebar-collapsed"
-      }`}
+        theme === "Light" ? "theme-light" : "theme-dark"
+      } ${sidebarOpen ? "sidebar-open" : "sidebar-collapsed"}`}
     >
       <aside className="sidebar">
         <button
@@ -417,34 +358,24 @@ function Dashboard() {
           <strong>AVENUE</strong>
         </div>
 
-        <p className="sidebar-label">
-          NAVEGAÇÃO
-        </p>
+        <p className="sidebar-label">NAVEGAÇÃO</p>
 
         <nav>
           {actions.map((item) => (
             <button
               key={item.title}
               type="button"
-              className={
-                item.premium
-                  ? "premium-nav-item"
-                  : ""
-              }
-              onClick={() =>
-                handleNavigate(item.route)
-              }
+              className={item.premium ? "premium-nav-item" : ""}
+              onClick={() => handleNavigate(item.route)}
             >
               <span className={`nav-icon ${item.iconClass}`}>
-  {item.icon}
-</span>
+                {item.icon}
+              </span>
 
               <span className="nav-content">
                 <span>{item.title}</span>
 
-                {item.premium && (
-                  <small>EXCLUSIVO</small>
-                )}
+                {item.premium && <small>EXCLUSIVO</small>}
               </span>
 
               {item.premium && (
@@ -467,22 +398,15 @@ function Dashboard() {
           }
           aria-expanded={sidebarOpen}
         >
-          {sidebarOpen ? (
-            <FaChevronLeft />
-          ) : (
-            <FaBars />
-          )}
+          {sidebarOpen ? <FaChevronLeft /> : <FaBars />}
         </button>
 
         <header className="dashboard-header">
           <div className="header-user">
-            <span className="welcome-label">
-              {t.area}
-            </span>
+            <span className="welcome-label">{t.area}</span>
 
             <h1>
-              {greeting},{" "}
-              <span>{user.name}</span>
+              {greeting}, <span>{user.name}</span>
             </h1>
 
             <p>
@@ -499,23 +423,17 @@ function Dashboard() {
               <button
                 type="button"
                 className={`icon-button ${
-                  notificationsOpen
-                    ? "active"
-                    : ""
+                  notificationsOpen ? "active" : ""
                 }`}
                 aria-label="Notificações"
-                aria-expanded={
-                  notificationsOpen
-                }
+                aria-expanded={notificationsOpen}
                 onClick={openNotifications}
               >
                 <FaBell />
 
-                {unreadNotifications.length >
-                  0 && (
+                {unreadNotifications.length > 0 && (
                   <span className="notification-badge">
-                    {unreadNotifications.length >
-                    9
+                    {unreadNotifications.length > 9
                       ? "9+"
                       : unreadNotifications.length}
                   </span>
@@ -526,21 +444,15 @@ function Dashboard() {
                 <div className="notifications-panel">
                   <div className="panel-header">
                     <div>
-                      <span>
-                        NOIR AVENUE
-                      </span>
-
+                      <span>NOIR AVENUE</span>
                       <h3>Notificações</h3>
                     </div>
 
-                    {unreadNotifications.length >
-                      0 && (
+                    {unreadNotifications.length > 0 && (
                       <button
                         type="button"
                         className="panel-action"
-                        onClick={
-                          markNotificationsAsRead
-                        }
+                        onClick={markNotificationsAsRead}
                       >
                         <FaCheck />
                         Marcar como lidas
@@ -550,49 +462,37 @@ function Dashboard() {
 
                   <div className="notification-list">
                     {activities.length > 0 ? (
-                      activities
-                        .slice(0, 5)
-                        .map((item) => {
-                          const isUnread =
-                            !notificationsReadAt ||
-                            new Date(
-                              item.createdAt
-                            ) >
-                              new Date(
-                                notificationsReadAt
-                              );
+                      activities.slice(0, 5).map((item) => {
+                        const isUnread =
+                          !notificationsReadAt ||
+                          new Date(item.createdAt) >
+                            new Date(notificationsReadAt);
 
-                          return (
-                            <button
-                              type="button"
-                              className={`notification-item ${
-                                isUnread
-                                  ? "unread"
-                                  : ""
-                              }`}
-                              key={item.id}
-                              onClick={() =>
-                                handleNavigate(
-                                  "/dashboard/historico"
-                                )
-                              }
-                            >
-                              <span className="notification-dot" />
+                        return (
+                          <button
+                            type="button"
+                            className={`notification-item ${
+                              isUnread ? "unread" : ""
+                            }`}
+                            key={item.id}
+                            onClick={() =>
+                              handleNavigate(
+                                "/dashboard/historico"
+                              )
+                            }
+                          >
+                            <span className="notification-dot" />
 
-                              <span className="notification-content">
-                                <strong>
-                                  {item.message}
-                                </strong>
+                            <span className="notification-content">
+                              <strong>{item.message}</strong>
 
-                                <small>
-                                  {timeAgo(
-                                    item.createdAt
-                                  )}
-                                </small>
-                              </span>
-                            </button>
-                          );
-                        })
+                              <small>
+                                {timeAgo(item.createdAt)}
+                              </small>
+                            </span>
+                          </button>
+                        );
+                      })
                     ) : (
                       <div className="empty-panel">
                         <FaBell />
@@ -656,9 +556,7 @@ function Dashboard() {
           >
             <div
               className="search-panel"
-              onClick={(event) =>
-                event.stopPropagation()
-              }
+              onClick={(event) => event.stopPropagation()}
             >
               <div className="search-input-wrapper">
                 <FaSearch />
@@ -667,13 +565,9 @@ function Dashboard() {
                   ref={searchInputRef}
                   value={searchTerm}
                   onChange={(event) =>
-                    setSearchTerm(
-                      event.target.value
-                    )
+                    setSearchTerm(event.target.value)
                   }
-                  onKeyDown={
-                    handleSearchKeyDown
-                  }
+                  onKeyDown={handleSearchKeyDown}
                   placeholder="Pesquisar na sua área..."
                   aria-label="Pesquisar na plataforma"
                 />
@@ -690,9 +584,7 @@ function Dashboard() {
 
               <div className="search-results">
                 <span className="search-results-label">
-                  {searchTerm
-                    ? "RESULTADOS"
-                    : "ACESSO RÁPIDO"}
+                  {searchTerm ? "RESULTADOS" : "ACESSO RÁPIDO"}
                 </span>
 
                 {filteredActions.length > 0 ? (
@@ -702,23 +594,20 @@ function Dashboard() {
                       className="search-result"
                       key={item.title}
                       onClick={() =>
-                        handleNavigate(
-                          item.route
-                        )
+                        handleNavigate(item.route)
                       }
                     >
-                      <span className="search-result-icon">
+                      <span
+                        className={`search-result-icon ${item.iconClass}`}
+                        aria-hidden="true"
+                      >
                         {item.icon}
                       </span>
 
                       <span>
-                        <strong>
-                          {item.title}
-                        </strong>
+                        <strong>{item.title}</strong>
 
-                        <small>
-                          {item.description}
-                        </small>
+                        <small>{item.description}</small>
                       </span>
 
                       <FaArrowRight />
@@ -733,9 +622,8 @@ function Dashboard() {
                     </strong>
 
                     <span>
-                      Tente buscar por perfil,
-                      favoritos, configurações,
-                      premium ou histórico.
+                      Tente buscar por perfil, favoritos,
+                      configurações, premium ou histórico.
                     </span>
                   </div>
                 )}
@@ -750,13 +638,9 @@ function Dashboard() {
               NOIR AVENUE
             </span>
 
-            <h2>
-              {t.bannerTitle}
-            </h2>
+            <h2>{t.bannerTitle}</h2>
 
-            <p>
-              {t.bannerDescription}
-            </p>
+            <p>{t.bannerDescription}</p>
 
             <button
               type="button"
@@ -788,40 +672,26 @@ function Dashboard() {
           <div className="dashboard-stats">
             <div className="stat-card">
               <div className="stat-header">
-                <span>
-                  {t.favorites}
-                </span>
-
+                <span>{t.favorites}</span>
                 <FaHeart />
               </div>
 
-              <strong>
-                {favorites.length}
-              </strong>
+              <strong>{favorites.length}</strong>
 
-              <p>
-                Itens salvos por você
-              </p>
+              <p>Itens salvos por você</p>
             </div>
 
             <div className="stat-card">
               <div className="stat-header">
-                <span>
-                  {t.collections}
-                </span>
-
+                <span>{t.collections}</span>
                 <FaCompass />
               </div>
 
               <strong>
-                {String(
-                  categories.length
-                ).padStart(2, "0")}
+                {String(categories.length).padStart(2, "0")}
               </strong>
 
-              <p>
-                Coleções disponíveis
-              </p>
+              <p>Coleções disponíveis</p>
             </div>
 
             <div className="stat-card premium-stat">
@@ -831,9 +701,7 @@ function Dashboard() {
               </div>
 
               <strong>
-                {user.isPremium
-                  ? "Ativo"
-                  : "Inativo"}
+                {user.isPremium ? "Ativo" : "Inativo"}
               </strong>
 
               <p>
@@ -849,13 +717,9 @@ function Dashboard() {
                 <FaUser />
               </div>
 
-              <strong>
-                {profilePercentage}%
-              </strong>
+              <strong>{profilePercentage}%</strong>
 
-              <p>
-                Perfil preenchido
-              </p>
+              <p>Perfil preenchido</p>
             </div>
           </div>
         </section>
@@ -864,13 +728,9 @@ function Dashboard() {
           <div className="activity">
             <div className="section-heading compact">
               <div>
-                <span>
-                  ACOMPANHAMENTO
-                </span>
+                <span>ACOMPANHAMENTO</span>
 
-                <h2>
-                  {t.recentActivities}
-                </h2>
+                <h2>{t.recentActivities}</h2>
               </div>
 
               <button
@@ -892,14 +752,10 @@ function Dashboard() {
                   <div className="activity-dot" />
 
                   <div>
-                    <strong>
-                      {item.message}
-                    </strong>
+                    <strong>{item.message}</strong>
 
                     <span>
-                      {timeAgo(
-                        item.createdAt
-                      )}
+                      {timeAgo(item.createdAt)}
                     </span>
                   </div>
                 </li>
@@ -926,9 +782,7 @@ function Dashboard() {
                 "--profile-progress": `${profilePercentage}%`,
               }}
             >
-              <strong>
-                {profilePercentage}%
-              </strong>
+              <strong>{profilePercentage}%</strong>
             </div>
 
             <p>
@@ -957,13 +811,9 @@ function Dashboard() {
         <section className="dashboard-actions-section">
           <div className="section-heading">
             <div>
-              <span>
-                {t.quickAccess}
-              </span>
+              <span>{t.quickAccess}</span>
 
-              <h2>
-                {t.explorePlatform}
-              </h2>
+              <h2>{t.explorePlatform}</h2>
             </div>
           </div>
 
@@ -977,34 +827,30 @@ function Dashboard() {
                     : ""
                 }`}
                 onClick={() =>
-                  handleNavigate(
-                    item.route
-                  )
+                  handleNavigate(item.route)
                 }
                 role="button"
+                aria-label={`${item.title}: ${item.description}`}
                 tabIndex={0}
                 onKeyDown={(event) => {
                   if (
                     event.key === "Enter" ||
                     event.key === " "
                   ) {
-                    handleNavigate(
-                      item.route
-                    );
+                    handleNavigate(item.route);
                   }
                 }}
               >
-                <div className="action-icon">
+                <div
+                  className={`action-icon ${item.iconClass}`}
+                  aria-hidden="true"
+                >
                   {item.icon}
                 </div>
 
-                <h3>
-                  {item.title}
-                </h3>
+                <h3>{item.title}</h3>
 
-                <p>
-                  {item.description}
-                </p>
+                <p>{item.description}</p>
 
                 <span className="action-link">
                   Acessar
