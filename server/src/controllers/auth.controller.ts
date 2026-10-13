@@ -214,47 +214,82 @@ export async function loginController(
     const { email, password } = req.body;
 
     if (
-      !email ||
       typeof email !== "string" ||
-      !password ||
-      typeof password !== "string"
+      typeof password !== "string" ||
+      !email.trim() ||
+      !password
     ) {
       return res.status(400).json({
+        code: "MISSING_CREDENTIALS",
+        message: "Informe seu e-mail e sua senha.",
+      });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(normalizedEmail)) {
+      return res.status(400).json({
+        code: "INVALID_EMAIL",
         message:
-          "Informe seu e-mail e sua senha.",
+          "Informe um endereço de e-mail válido, como nome@gmail.com.",
       });
     }
 
     const user = await loginUser({
-      email,
+      email: normalizedEmail,
       password,
     });
 
     return res.status(200).json({
+      code: "LOGIN_SUCCESS",
       message: "Login realizado com sucesso.",
       user,
     });
   } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message === "INVALID_CREDENTIALS"
-    ) {
-      return res.status(401).json({
-        message: "E-mail ou senha inválidos.",
-      });
+    if (error instanceof Error) {
+      if (error.message === "USER_NOT_FOUND") {
+        return res.status(404).json({
+          code: "USER_NOT_FOUND",
+          message:
+            "Não encontramos uma conta cadastrada com este e-mail.",
+        });
+      }
+
+      if (error.message === "INVALID_PASSWORD") {
+        return res.status(401).json({
+          code: "INVALID_PASSWORD",
+          message:
+            "A senha informada está incorreta. Tente novamente.",
+        });
+      }
+
+      if (error.message === "INVALID_EMAIL") {
+        return res.status(400).json({
+          code: "INVALID_EMAIL",
+          message:
+            "Informe um endereço de e-mail válido, como nome@gmail.com.",
+        });
+      }
+
+      if (error.message === "INVALID_CREDENTIALS") {
+        return res.status(400).json({
+          code: "MISSING_CREDENTIALS",
+          message: "Informe seu e-mail e sua senha.",
+        });
+      }
     }
 
-    console.error(
-      "❌ Erro ao realizar login:",
-      error
-    );
+    console.error("Erro ao realizar login:", error);
 
     return res.status(500).json({
+      code: "INTERNAL_SERVER_ERROR",
       message:
-        "Não foi possível realizar o login. Tente novamente.",
+        "Não foi possível realizar o login agora. Tente novamente em instantes.",
     });
   }
 }
+
 
 export async function registerController(
   req: Request,

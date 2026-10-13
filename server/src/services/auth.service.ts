@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-
 import prisma from "../lib/prisma.js";
 
 interface RegisterData {
@@ -13,6 +12,8 @@ interface LoginData {
   password: string;
 }
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export const registerUser = async ({
   name,
   email,
@@ -25,10 +26,12 @@ export const registerUser = async ({
     throw new Error("Dados obrigatórios não informados.");
   }
 
+  if (!EMAIL_REGEX.test(normalizedEmail)) {
+    throw new Error("INVALID_EMAIL");
+  }
+
   const existingUser = await prisma.user.findUnique({
-    where: {
-      email: normalizedEmail,
-    },
+    where: { email: normalizedEmail },
   });
 
   if (existingUser) {
@@ -59,18 +62,20 @@ export const loginUser = async ({
 }: LoginData) => {
   const normalizedEmail = email.trim().toLowerCase();
 
-  if (!normalizedEmail || !password) {
+  if (!normalizedEmail || !EMAIL_REGEX.test(normalizedEmail)) {
+    throw new Error("INVALID_EMAIL");
+  }
+
+  if (!password) {
     throw new Error("INVALID_CREDENTIALS");
   }
 
   const user = await prisma.user.findUnique({
-    where: {
-      email: normalizedEmail,
-    },
+    where: { email: normalizedEmail },
   });
 
   if (!user) {
-    throw new Error("INVALID_CREDENTIALS");
+    throw new Error("USER_NOT_FOUND");
   }
 
   const passwordMatches = await bcrypt.compare(
@@ -79,7 +84,7 @@ export const loginUser = async ({
   );
 
   if (!passwordMatches) {
-    throw new Error("INVALID_CREDENTIALS");
+    throw new Error("INVALID_PASSWORD");
   }
 
   return {
@@ -98,9 +103,7 @@ export const deleteUser = async (email: string) => {
   }
 
   const user = await prisma.user.findUnique({
-    where: {
-      email: normalizedEmail,
-    },
+    where: { email: normalizedEmail },
   });
 
   if (!user) {
@@ -108,15 +111,12 @@ export const deleteUser = async (email: string) => {
   }
 
   await prisma.user.delete({
-    where: {
-      email: normalizedEmail,
-    },
+    where: { email: normalizedEmail },
   });
 
-  return {
-    success: true,
-  };
+  return { success: true };
 };
+
 interface ChangePasswordData {
   email: string;
   currentPassword: string;
@@ -130,29 +130,22 @@ export const changeUserPassword = async ({
 }: ChangePasswordData) => {
   const normalizedEmail = email.trim().toLowerCase();
 
-  if (
-    !normalizedEmail ||
-    !currentPassword ||
-    !newPassword
-  ) {
+  if (!normalizedEmail || !currentPassword || !newPassword) {
     throw new Error("INVALID_PASSWORD_DATA");
   }
 
   const user = await prisma.user.findUnique({
-    where: {
-      email: normalizedEmail,
-    },
+    where: { email: normalizedEmail },
   });
 
   if (!user) {
     throw new Error("USER_NOT_FOUND");
   }
 
-  const currentPasswordMatches =
-    await bcrypt.compare(
-      currentPassword,
-      user.password
-    );
+  const currentPasswordMatches = await bcrypt.compare(
+    currentPassword,
+    user.password
+  );
 
   if (!currentPasswordMatches) {
     throw new Error("INVALID_CURRENT_PASSWORD");
@@ -162,21 +155,12 @@ export const changeUserPassword = async ({
     throw new Error("SAME_PASSWORD");
   }
 
-  const hashedPassword = await bcrypt.hash(
-    newPassword,
-    12
-  );
+  const hashedPassword = await bcrypt.hash(newPassword, 12);
 
   await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      password: hashedPassword,
-    },
+    where: { id: user.id },
+    data: { password: hashedPassword },
   });
 
-  return {
-    success: true,
-  };
+  return { success: true };
 };

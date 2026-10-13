@@ -22,6 +22,12 @@ const API_URL = "https://noir-avenue-api.onrender.com/api";
 const STORAGE_KEY = "noiravenue_email";
 const SESSION_KEY = "noiravenue_session";
 
+const normalizeEmail = (value) =>
+  value.trim().toLowerCase();
+
+const isValidEmail = (value) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+
 const Login = () => {
   const navigate = useNavigate();
 
@@ -32,8 +38,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const savedEmail =
-      localStorage.getItem(STORAGE_KEY);
+    const savedEmail = localStorage.getItem(STORAGE_KEY);
 
     if (savedEmail) {
       setEmail(savedEmail);
@@ -44,10 +49,23 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!email.trim() || !password.trim()) {
-      toast.warning("Campos obrigatórios", {
+    if (isLoading) return;
+
+    const normalizedEmail = normalizeEmail(email);
+
+    if (!normalizedEmail || !password) {
+      toast.warning("Preencha os campos obrigatórios", {
         description:
-          "Informe seu e-mail e sua senha para continuar.",
+          "Informe seu e-mail e sua senha para acessar sua conta.",
+      });
+
+      return;
+    }
+
+    if (!isValidEmail(normalizedEmail)) {
+      toast.warning("E-mail inválido", {
+        description:
+          "Verifique o endereço informado. Exemplo: nome@gmail.com.",
       });
 
       return;
@@ -56,36 +74,111 @@ const Login = () => {
     try {
       setIsLoading(true);
 
-      const response = await fetch(
-        `${API_URL}/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email.trim(),
-            password,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: normalizedEmail,
+          password,
+        }),
+      });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        toast.error(
-          data.message ||
-            "Não foi possível realizar o login."
-        );
+        const errorCode = String(
+          data.code || data.error || ""
+        ).toUpperCase();
+
+        const errorMessage = String(
+          data.message || ""
+        ).toLowerCase();
+
+        const accountNotFound =
+          response.status === 404 ||
+          errorCode === "USER_NOT_FOUND" ||
+          errorCode === "ACCOUNT_NOT_FOUND" ||
+          errorMessage.includes("usuário não encontrado") ||
+          errorMessage.includes("usuario nao encontrado") ||
+          errorMessage.includes("conta não encontrada") ||
+          errorMessage.includes("conta nao encontrada");
+
+        const incorrectPassword =
+          errorCode === "INVALID_PASSWORD" ||
+          errorCode === "INCORRECT_PASSWORD" ||
+          errorMessage.includes("senha incorreta") ||
+          errorMessage.includes("senha inválida") ||
+          errorMessage.includes("senha invalida");
+
+        if (accountNotFound) {
+          toast.error("Conta não encontrada", {
+            description:
+              "Não identificamos uma conta com este e-mail. Confira o endereço ou crie sua conta.",
+            duration: 5000,
+          });
+
+          return;
+        }
+
+        if (incorrectPassword) {
+          toast.error("Senha incorreta", {
+            description:
+              "A senha informada não confere. Tente novamente ou recupere sua senha.",
+            duration: 5000,
+          });
+
+          return;
+        }
+
+        if (
+          response.status === 400 &&
+          (
+            errorCode.includes("EMAIL") ||
+            errorMessage.includes("formato") ||
+            errorMessage.includes("e-mail inválido") ||
+            errorMessage.includes("email invalido")
+          )
+        ) {
+          toast.warning("Verifique seu e-mail", {
+            description:
+              "Informe um endereço válido, como nome@gmail.com.",
+          });
+
+          return;
+        }
+
+        if (response.status === 401) {
+          toast.error("Não foi possível entrar", {
+            description:
+              "Confira seu e-mail e sua senha e tente novamente.",
+            duration: 5000,
+          });
+
+          return;
+        }
+
+        toast.error("Não foi possível realizar o login", {
+          description:
+            "Ocorreu um problema ao acessar sua conta. Tente novamente em instantes.",
+          duration: 5000,
+        });
+
+        return;
+      }
+
+      if (!data.user) {
+        toast.error("Não foi possível concluir o login", {
+          description:
+            "O servidor não retornou os dados esperados. Tente novamente.",
+        });
 
         return;
       }
 
       if (remember) {
-        localStorage.setItem(
-          STORAGE_KEY,
-          email.trim()
-        );
+        localStorage.setItem(STORAGE_KEY, normalizedEmail);
       } else {
         localStorage.removeItem(STORAGE_KEY);
       }
@@ -100,30 +193,20 @@ const Login = () => {
         JSON.stringify(session)
       );
 
-      toast.success(
-        `Bem-vindo, ${data.user.name}!`,
-        {
-          description:
-            "Redirecionando para sua conta...",
-        }
-      );
+      toast.success("Login realizado com sucesso", {
+        description: `Bem-vindo, ${data.user.name}!`,
+        duration: 2000,
+      });
 
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 1000);
+      navigate("/dashboard");
     } catch (error) {
-      console.error(
-        "❌ Erro ao realizar login:",
-        error
-      );
+      console.error("Erro ao realizar login:", error);
 
-      toast.error(
-        "Não foi possível conectar ao servidor.",
-        {
-          description:
-            "Verifique se a API do Noir Avenue está funcionando.",
-        }
-      );
+      toast.error("Não foi possível conectar ao servidor", {
+        description:
+          "Verifique sua conexão e tente novamente em instantes.",
+        duration: 5000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -151,8 +234,8 @@ const Login = () => {
             value={email}
             required
             autoComplete="email"
-            onChange={(e) =>
-              setEmail(e.target.value)
+            onChange={(event) =>
+              setEmail(event.target.value)
             }
           />
 
@@ -161,17 +244,13 @@ const Login = () => {
 
         <div className="input-field">
           <input
-            type={
-              showPassword
-                ? "text"
-                : "password"
-            }
+            type={showPassword ? "text" : "password"}
             placeholder="Senha"
             value={password}
             required
             autoComplete="current-password"
-            onChange={(e) =>
-              setPassword(e.target.value)
+            onChange={(event) =>
+              setPassword(event.target.value)
             }
           />
 
@@ -181,9 +260,7 @@ const Login = () => {
             type="button"
             className="password-toggle"
             onClick={() =>
-              setShowPassword(
-                (value) => !value
-              )
+              setShowPassword((value) => !value)
             }
             aria-label={
               showPassword
@@ -191,11 +268,7 @@ const Login = () => {
                 : "Mostrar senha"
             }
           >
-            {showPassword ? (
-              <FaEyeSlash />
-            ) : (
-              <FaEye />
-            )}
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
 
@@ -204,8 +277,8 @@ const Login = () => {
             <input
               type="checkbox"
               checked={remember}
-              onChange={() =>
-                setRemember(!remember)
+              onChange={(event) =>
+                setRemember(event.target.checked)
               }
             />
 
@@ -221,9 +294,7 @@ const Login = () => {
           type="submit"
           disabled={isLoading}
         >
-          {isLoading
-            ? "Entrando..."
-            : "Entrar"}
+          {isLoading ? "Entrando..." : "Entrar"}
         </button>
 
         <div className="signup-link">
