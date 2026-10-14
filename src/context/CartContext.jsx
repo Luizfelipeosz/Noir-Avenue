@@ -238,25 +238,17 @@ export function CartProvider({ children }) {
   }
 
   /**
-   * Remove todos os produtos depois de confirmação.
-   */
-  function clearCart() {
-    if (cartItems.length === 0) {
-      return;
-    }
-
-    const confirmed = window.confirm(
-      "Tem certeza que deseja limpar o carrinho?\n\nTodos os produtos serão removidos."
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    setCartItems([]);
-
-    toast.success("Carrinho limpo com sucesso.");
+ * Remove todos os produtos do carrinho.
+ * A confirmação visual é controlada pelo Cart.jsx.
+ */
+function clearCart() {
+  if (cartItems.length === 0) {
+    return;
   }
+
+  setCartItems([]);
+  toast.success("Carrinho limpo com sucesso.");
+}
 
   const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
