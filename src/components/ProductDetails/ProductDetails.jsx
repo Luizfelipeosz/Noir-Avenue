@@ -45,15 +45,11 @@ function ProductDetails() {
     );
   }
 
-  function handleAddToCart() {
+function handleAddToCart() {
   if (isOutOfStock) return;
 
   try {
     addToCart(product, quantity);
-
-    toast.success("Produto adicionado ao carrinho", {
-      description: `${quantity} unidade${quantity > 1 ? "s" : ""} de ${product.name}.`,
-    });
   } catch (error) {
     console.error("Erro ao adicionar produto ao carrinho:", error);
 
@@ -62,6 +58,7 @@ function ProductDetails() {
     });
   }
 }
+
 
   return (
     <section className="product-details">

@@ -7,6 +7,7 @@ import {
 } from "react";
 
 import { toast } from "react-toastify";
+import { playSound } from "../utils/soundEffects";
 
 const CartContext = createContext(null);
 
@@ -133,7 +134,8 @@ export function CartProvider({ children }) {
           addedQuantity === 1 ? "" : "s"
         }. Limite de estoque atingido.`
       );
-
+      
+      playSound("cart");
       return true;
     }
 
@@ -146,6 +148,8 @@ export function CartProvider({ children }) {
         `${product.name} foi adicionado ao carrinho.`
       );
     }
+    
+    playSound("cart");
 
     return true;
   }

@@ -189,6 +189,44 @@
   font-weight: 600;
 }
 
+.product-card-add-cart {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border: 1px solid rgba(201, 164, 108, 0.65);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #d8bd91, #b99765);
+  color: #17130e;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    filter 180ms ease,
+    opacity 180ms ease;
+}
+
+.product-card-add-cart:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.product-card-add-cart:focus-visible {
+  outline: 2px solid #e7cda3;
+  outline-offset: 3px;
+}
+
+.product-card-add-cart:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card-add-cart {
+    transition: none;
+  }
+}
+
 /* =========================================================
    ACCESSIBILITY
    ========================================================= */
