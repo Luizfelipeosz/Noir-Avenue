@@ -846,7 +846,7 @@
     linear-gradient(
       135deg,
       var(--surface),
-      var(--surface-soft)
+      var(--surface-light)
     );
   display: flex;
   align-items: center;
