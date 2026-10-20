@@ -1461,7 +1461,7 @@ function Dashboard() {
 
                 handleNavigate(
 
-                  "/dashboard/favoritos"
+                  "/dashboard/catalogo"
 
                 )
 
