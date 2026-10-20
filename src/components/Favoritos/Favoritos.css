@@ -32,11 +32,7 @@
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition:
-    color 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .favoritos-back svg {
@@ -100,12 +96,7 @@
   padding: 14px 17px;
   border: 1px solid rgba(159, 34, 61, 0.25);
   border-radius: 12px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(117, 23, 45, 0.17),
-      rgba(255, 255, 255, 0.025)
-    );
+  background: linear-gradient(135deg, rgba(117, 23, 45, 0.17), rgba(255, 255, 255, 0.025));
 }
 
 .favoritos-count-icon {
@@ -152,18 +143,7 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.075);
   border-radius: 22px;
-  background:
-    radial-gradient(
-      circle at 24% 48%,
-      rgba(137, 25, 50, 0.15),
-      transparent 33%
-    ),
-    radial-gradient(
-      circle at 80% 80%,
-      rgba(255, 255, 255, 0.025),
-      transparent 35%
-    ),
-    rgba(255, 255, 255, 0.018);
+  background: radial-gradient(circle at 24% 48%, rgba(137, 25, 50, 0.15), transparent 33%), radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.025), transparent 35%), rgba(255, 255, 255, 0.018);
 }
 
 .favoritos-empty::after {
@@ -171,13 +151,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(
-      115deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.025) 48%,
-      transparent 49%
-    );
+  background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.025) 48%, transparent 49%);
 }
 
 .favoritos-empty-decoration {
@@ -199,16 +173,8 @@
   height: 138px;
   border: 1px solid rgba(175, 42, 70, 0.3);
   border-radius: 50%;
-  background:
-    radial-gradient(
-      circle,
-      rgba(145, 26, 53, 0.2),
-      rgba(255, 255, 255, 0.018)
-    );
-  box-shadow:
-    0 0 0 20px rgba(140, 25, 52, 0.045),
-    0 0 0 42px rgba(140, 25, 52, 0.018),
-    0 25px 70px rgba(0, 0, 0, 0.25);
+  background: radial-gradient(circle, rgba(145, 26, 53, 0.2), rgba(255, 255, 255, 0.018));
+  box-shadow: 0 0 0 20px rgba(140, 25, 52, 0.045), 0 0 0 42px rgba(140, 25, 52, 0.018), 0 25px 70px rgba(0, 0, 0, 0.25);
   color: #b33b59;
   font-size: 45px;
 }
@@ -217,12 +183,7 @@
   position: absolute;
   display: block;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(176, 42, 70, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(176, 42, 70, 0.3), transparent);
 }
 
 .empty-line-1 {
@@ -311,22 +272,14 @@
   padding: 0 16px;
   border: 1px solid rgba(178, 48, 75, 0.4);
   border-radius: 9px;
-  background: linear-gradient(
-    135deg,
-    rgba(139, 29, 54, 0.95),
-    rgba(104, 21, 42, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(139, 29, 54, 0.95), rgba(104, 21, 42, 0.95));
   color: #fff;
   font-family: inherit;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 8px 24px rgba(95, 17, 37, 0.2);
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .favoritos-empty-primary svg:first-child {
@@ -408,10 +361,7 @@
   font-size: 11px;
   font-weight: 500;
   cursor: pointer;
-  transition:
-    color 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .favoritos-continue svg {
@@ -449,11 +399,7 @@
   border: 1px solid rgba(255, 255, 255, 0.075);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.022);
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    background 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .favorito-card:hover {
@@ -489,11 +435,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.7),
-    transparent 48%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 48%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -563,9 +505,7 @@
   font-weight: 600;
   opacity: 0;
   transform: translateY(8px);
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .favorito-image-overlay svg {
@@ -662,10 +602,7 @@
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .favorito-view-button svg {
@@ -697,9 +634,7 @@
   font-size: 10px;
   font-weight: 500;
   cursor: pointer;
-  transition:
-    color 0.2s ease,
-    background 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
 .favorito-remove-button svg {
@@ -739,7 +674,6 @@
     opacity: 0;
     transform: translateY(12px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -795,10 +729,7 @@
   font-size: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .favoritos-toast-undo svg {
@@ -833,12 +764,251 @@
 }
 
 /* ========================================
-   FOCUS
+   FOCO ACESSÍVEL
 ======================================== */
 
 .favoritos button:focus-visible {
   outline: 2px solid rgba(194, 63, 91, 0.8);
   outline-offset: 3px;
+}
+
+/* =========================================================
+   TEMA CLARO
+   Os estilos claros são ativados pela classe theme-light no elemento html.
+   O tema escuro original permanece como padrão.
+========================================================= */
+
+html.theme-light .favoritos {
+  color: #34242c;
+}
+
+html.theme-light .favoritos-back,
+html.theme-light .favoritos-continue {
+  color: #5d4b54;
+  background: #fff;
+  border-color: #e6d9df;
+}
+
+html.theme-light .favoritos-back:hover,
+html.theme-light .favoritos-continue:hover {
+  color: #8e2947;
+  background: #fff3f6;
+  border-color: #d6b4c0;
+}
+
+html.theme-light .favoritos-eyebrow {
+  color: #927783;
+}
+
+html.theme-light .favoritos-heading h1 {
+  color: #30232a;
+}
+
+html.theme-light .favoritos-heading p {
+  color: #75656d;
+}
+
+html.theme-light .favoritos-count-card {
+  background: linear-gradient(135deg, #fff0f4, #fff);
+  border-color: #ead1da;
+}
+
+html.theme-light .favoritos-count-icon {
+  background: #fbe8ee;
+  border-color: #edcbd6;
+  color: #a63252;
+}
+
+html.theme-light .favoritos-count-card strong {
+  color: #34242c;
+}
+
+html.theme-light .favoritos-count-card span {
+  color: #806c76;
+}
+
+html.theme-light .favoritos-empty {
+  background:
+    radial-gradient(circle at 24% 48%, rgba(173, 55, 87, 0.08), transparent 36%),
+    radial-gradient(circle at 80% 80%, rgba(173, 55, 87, 0.025), transparent 38%),
+    #fff;
+  border-color: #e9dce2;
+  box-shadow: 0 18px 50px rgba(70, 35, 48, 0.05);
+}
+
+html.theme-light .favoritos-empty::after {
+  background: linear-gradient(115deg, transparent 0%, rgba(150, 70, 95, 0.025) 48%, transparent 49%);
+}
+
+html.theme-light .favoritos-empty-heart {
+  background: radial-gradient(circle, #fbe5ec, #fff8fa);
+  border-color: #e7bdcb;
+  box-shadow: 0 0 0 20px rgba(140, 25, 52, 0.035), 0 0 0 42px rgba(140, 25, 52, 0.015), 0 20px 55px rgba(90, 35, 55, 0.07);
+  color: #a63252;
+}
+
+html.theme-light .empty-line {
+  background: linear-gradient(90deg, transparent, rgba(166, 50, 82, 0.3), transparent);
+}
+
+html.theme-light .empty-dot {
+  background: rgba(166, 50, 82, 0.55);
+}
+
+html.theme-light .favoritos-empty-content {
+  border-left-color: #eee2e7;
+}
+
+html.theme-light .favoritos-empty-eyebrow {
+  color: #9b3453;
+}
+
+html.theme-light .favoritos-empty-content h2 {
+  color: #30232a;
+}
+
+html.theme-light .favoritos-empty-content p {
+  color: #75656d;
+}
+
+html.theme-light .favoritos-empty-primary {
+  background: linear-gradient(135deg, #922d4b, #711d39);
+  border-color: #a74460;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(95, 17, 37, 0.15);
+}
+
+html.theme-light .favoritos-empty-primary:hover {
+  border-color: #b95773;
+  box-shadow: 0 12px 30px rgba(95, 17, 37, 0.2);
+}
+
+html.theme-light .favoritos-empty-secondary {
+  color: #786570;
+}
+
+html.theme-light .favoritos-empty-secondary:hover {
+  color: #922d4b;
+}
+
+html.theme-light .favoritos-toolbar {
+  border-bottom-color: #e8dce2;
+}
+
+html.theme-light .favoritos-toolbar-info > span {
+  color: #8c7580;
+}
+
+html.theme-light .favoritos-toolbar-info p {
+  color: #71616a;
+}
+
+html.theme-light .favorito-card {
+  background: #fff;
+  border-color: #e8dce2;
+  box-shadow: 0 5px 20px rgba(65, 35, 48, 0.035);
+}
+
+html.theme-light .favorito-card:hover {
+  background: #fff;
+  border-color: #d6b0be;
+  box-shadow: 0 15px 35px rgba(65, 35, 48, 0.09);
+}
+
+html.theme-light .favorito-category {
+  color: #8b737e;
+}
+
+html.theme-light .favorito-product-name {
+  color: #30232a;
+}
+
+html.theme-light .favorito-product-name:hover {
+  color: #a03252;
+}
+
+html.theme-light .favorito-product-price span {
+  color: #897680;
+}
+
+html.theme-light .favorito-product-price strong {
+  color: #34242c;
+}
+
+html.theme-light .favorito-actions {
+  border-top-color: #eee4e9;
+}
+
+html.theme-light .favorito-view-button {
+  color: #59454f;
+  background: #faf5f7;
+  border-color: #e7d9e0;
+}
+
+html.theme-light .favorito-view-button:hover {
+  color: #8e2947;
+  background: #fff0f4;
+  border-color: #d7b3c1;
+}
+
+html.theme-light .favorito-remove-button {
+  color: #806d76;
+}
+
+html.theme-light .favorito-remove-button:hover {
+  color: #a52f4e;
+  background: #fff0f3;
+}
+
+html.theme-light .favorito-status {
+  color: #9f3452;
+  background: rgba(255, 248, 250, 0.94);
+  border-color: #e9cbd5;
+}
+
+/* Mantém o overlay escuro para contraste sobre as imagens. */
+
+html.theme-light .favoritos-toast {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: #e5cbd5;
+  box-shadow: 0 16px 45px rgba(55, 30, 40, 0.15);
+}
+
+html.theme-light .favoritos-toast-icon {
+  background: #fbe8ee;
+  color: #a63252;
+}
+
+html.theme-light .favoritos-toast-content strong {
+  color: #34242c;
+}
+
+html.theme-light .favoritos-toast-content span {
+  color: #786771;
+}
+
+html.theme-light .favoritos-toast-undo {
+  color: #922d4b;
+  background: #fff2f5;
+  border-color: #e8c7d2;
+}
+
+html.theme-light .favoritos-toast-undo:hover {
+  color: #7b1f3d;
+  background: #ffe7ee;
+  border-color: #d9aab9;
+}
+
+html.theme-light .favoritos-toast-close {
+  color: #8b7880;
+}
+
+html.theme-light .favoritos-toast-close:hover {
+  color: #34242c;
+}
+
+html.theme-light .favoritos button:focus-visible {
+  outline-color: #a63252;
 }
 
 /* ========================================
@@ -889,6 +1059,11 @@
   .favoritos-empty-content {
     padding: 15px 45px 55px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: 0;
+  }
+
+  html.theme-light .favoritos-empty-content {
+    border-top-color: #eee2e7;
     border-left: 0;
   }
 }
@@ -1008,5 +1183,16 @@
 
   .favoritos-toast-undo svg {
     font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .favoritos *,
+  .favoritos *::before,
+  .favoritos *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
