@@ -239,25 +239,24 @@ function Dashboard() {
 
 
 
-  const activities =
+  const activities = (() => {
+    try {
+      const storedActivities = JSON.parse(
+        localStorage.getItem("noiravenue_activities") || "[]"
+      );
 
-    JSON.parse(
-
-      localStorage.getItem("noiravenue_activities")
-
-    ) || [
-
-      {
-
-        id: 1,
-
-        message: "Bem-vindo ao Noir Avenue.",
-
-        createdAt: new Date().toISOString(),
-
-      },
-
-    ];
+      return Array.isArray(storedActivities)
+        ? storedActivities.filter(
+            (item) =>
+              item &&
+              item.id !== undefined &&
+              typeof item.message === "string"
+          )
+        : [];
+    } catch {
+      return [];
+    }
+  })();
 
 
 
@@ -510,23 +509,28 @@ function Dashboard() {
 
 
 
-  const unreadNotifications =
+  const sortedActivities = [...activities].sort((a, b) => {
+    const dateA = new Date(a.createdAt || 0).getTime();
+    const dateB = new Date(b.createdAt || 0).getTime();
 
-    activities.filter((item) => {
+    return (Number.isFinite(dateB) ? dateB : 0) -
+      (Number.isFinite(dateA) ? dateA : 0);
+  });
 
-      if (!notificationsReadAt) return true;
+  const readAtTimestamp = notificationsReadAt
+    ? new Date(notificationsReadAt).getTime()
+    : 0;
 
+  const unreadNotifications = activities.filter((item) => {
+    if (!notificationsReadAt || !Number.isFinite(readAtTimestamp)) {
+      return true;
+    }
 
+    const createdAtTimestamp = new Date(item.createdAt || 0).getTime();
 
-      return (
-
-        new Date(item.createdAt) >
-
-        new Date(notificationsReadAt)
-
-      );
-
-    });
+    return Number.isFinite(createdAtTimestamp) &&
+      createdAtTimestamp > readAtTimestamp;
+  });
 
 
 
@@ -1033,29 +1037,25 @@ function Dashboard() {
 
                   <div className="notification-list">
 
-                    {activities.length > 0 ? (
+                    {sortedActivities.length > 0 ? (
 
-                      activities
+                      sortedActivities
 
                         .slice(0, 5)
 
                         .map((item) => {
 
+                          const createdAtTimestamp = new Date(
+                            item.createdAt || 0
+                          ).getTime();
+
                           const isUnread =
-
                             !notificationsReadAt ||
-
-                            new Date(
-
-                              item.createdAt
-
-                            ) >
-
-                              new Date(
-
-                                notificationsReadAt
-
-                              );
+                            !Number.isFinite(readAtTimestamp) ||
+                            (
+                              Number.isFinite(createdAtTimestamp) &&
+                              createdAtTimestamp > readAtTimestamp
+                            );
 
 
 
@@ -1077,15 +1077,10 @@ function Dashboard() {
 
                               key={item.id}
 
-                              onClick={() =>
-
-                                handleNavigate(
-
-                                  "/dashboard/historico"
-
-                                )
-
-                              }
+                              onClick={() => {
+                                markNotificationsAsRead();
+                                handleNavigate("/dashboard/historico");
+                              }}
 
                             >
 
@@ -1506,153 +1501,107 @@ function Dashboard() {
 
 
           <div className="dashboard-stats">
-
-            <div className="stat-card">
-
-              <div className="stat-header">
-
-                <span>
-
-                  {t.favorites}
-
-                </span>
-
-
-
-                <FaHeart />
-
-              </div>
-
-
-
-              <strong>
-
-                {favorites.length}
-
-              </strong>
-
-
-
-              <p>
-
-                Itens salvos por você
-
-              </p>
-
-            </div>
-
-
-
-            <div className="stat-card">
-
-              <div className="stat-header">
-
-                <span>
-
-                  {t.collections}
-
-                </span>
-
-
-
-                <FaCompass />
-
-              </div>
-
-
-
-              <strong>
-
-                {String(
-
-                  categories.length
-
-                ).padStart(2, "0")}
-
-              </strong>
-
-
-
-              <p>
-
-                Coleções disponíveis
-
-              </p>
-
-            </div>
-
-
-
-            <div className="stat-card premium-stat">
-
-              <div className="stat-header">
-
-                <span>{t.premium}</span>
-
-                <FaCrown />
-
-              </div>
-
-
-
-              <strong>
-
-                {user.isPremium
-
-                  ? "Ativo"
-
-                  : "Inativo"}
-
-              </strong>
-
-
-
-              <p>
-
-                {user.isPremium
-
-                  ? "Benefícios desbloqueados"
-
-                  : "Conheça o Noir Premium"}
-
-              </p>
-
-            </div>
-
-
-
-            <div className="stat-card">
-
-              <div className="stat-header">
-
-                <span>{t.profile}</span>
-
-                <FaUser />
-
-              </div>
-
-
-
-              <strong>
-
-                {profilePercentage}%
-
-              </strong>
-
-
-
-              <p>
-
-                Perfil preenchido
-
-              </p>
-
-            </div>
-
-          </div>
-
-        </section>
-
+  <div
+    className="stat-card"
+    role="link"
+    tabIndex={0}
+    aria-label="Acessar Favoritos"
+    onClick={() => handleNavigate("/dashboard/favoritos")}
+    onKeyDown={(event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleNavigate("/dashboard/favoritos");
+      }
+    }}
+  >
+    <div className="stat-header">
+      <span>{t.favorites}</span>
+      <FaHeart />
+    </div>
+
+    <strong>{favorites.length}</strong>
+
+    <p>Itens salvos por você</p>
+  </div>
+
+  <div
+    className="stat-card"
+    role="link"
+    tabIndex={0}
+    aria-label="Acessar Catálogo"
+    onClick={() => handleNavigate("/dashboard/catalogo")}
+    onKeyDown={(event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleNavigate("/dashboard/catalogo");
+      }
+    }}
+  >
+    <div className="stat-header">
+      <span>{t.collections}</span>
+      <FaCompass />
+    </div>
+
+    <strong>
+      {String(categories.length).padStart(2, "0")}
+    </strong>
+
+    <p>Coleções disponíveis</p>
+  </div>
+
+  <div
+    className="stat-card premium-stat"
+    role="link"
+    tabIndex={0}
+    aria-label="Acessar Noir Premium"
+    onClick={() => handleNavigate("/dashboard/premium")}
+    onKeyDown={(event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleNavigate("/dashboard/premium");
+      }
+    }}
+  >
+    <div className="stat-header">
+      <span>{t.premium}</span>
+      <FaCrown />
+    </div>
+
+    <strong>
+      {user.isPremium ? "Ativo" : "Inativo"}
+    </strong>
+
+    <p>
+      {user.isPremium
+        ? "Benefícios desbloqueados"
+        : "Conheça o Noir Premium"}
+    </p>
+  </div>
+
+  <div
+    className="stat-card"
+    role="link"
+    tabIndex={0}
+    aria-label="Acessar Perfil"
+    onClick={() => handleNavigate("/dashboard/perfil")}
+    onKeyDown={(event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleNavigate("/dashboard/perfil");
+      }
+    }}
+  >
+    <div className="stat-header">
+      <span>{t.profile}</span>
+      <FaUser />
+    </div>
+
+    <strong>{profilePercentage}%</strong>
+
+    <p>Perfil preenchido</p>
+  </div>
+</div>
+</section>
 
 
         <section className="dashboard-content-grid">
