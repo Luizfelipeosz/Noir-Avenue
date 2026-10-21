@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { playSound } from "../../utils/soundEffects";
 import { useCart } from "../../context/CartContext";
+import { addNotification } from "../../utils/notifications";
 
 import "./ProductCard.css";
 
@@ -27,8 +28,12 @@ function ProductCard({ product }) {
         localStorage.getItem("noiravenue_favorites") || "[]"
       );
 
-      return Array.isArray(savedFavorites)
-        && savedFavorites.some((favorite) => favorite.id === product.id);
+      return (
+        Array.isArray(savedFavorites) &&
+        savedFavorites.some(
+          (favorite) => favorite.id === product.id
+        )
+      );
     } catch {
       return false;
     }
@@ -64,6 +69,11 @@ function ProductCard({ product }) {
 
         setIsFavorite(false);
 
+        addNotification(
+          `${name} foi removido dos favoritos.`,
+          "favorite"
+        );
+
         toast.success(`${name} removido dos favoritos.`);
 
         return;
@@ -84,6 +94,11 @@ function ProductCard({ product }) {
       setIsFavorite(true);
 
       playSound("favorite");
+
+      addNotification(
+        `${name} foi adicionado aos favoritos.`,
+        "favorite"
+      );
 
       toast.success(`${name} foi adicionado aos favoritos.`, {
         action: {
@@ -107,9 +122,14 @@ function ProductCard({ product }) {
     }
 
     try {
+      // O CartContext registra a notificação somente se a
+      // operação for aceita.
       addToCart(product, 1);
     } catch (error) {
-      console.error("Erro ao adicionar produto ao carrinho:", error);
+      console.error(
+        "Erro ao adicionar produto ao carrinho:",
+        error
+      );
 
       toast.error("Não foi possível adicionar ao carrinho.");
     }
