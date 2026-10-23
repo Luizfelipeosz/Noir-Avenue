@@ -443,7 +443,7 @@ button:focus-visible,
 
   top: 62px;
 
-  left: calc(var(--sidebar-width) -290px);
+  left: calc(var(--sidebar-width) - 22px);
 
   display: flex;
 
@@ -475,7 +475,13 @@ button:focus-visible,
 
 .layout.sidebar-collapsed .sidebar-toggle {
 
-  left: calc(var(--sidebar-width) - 270px);
+  left: 14px;
+
+}
+
+.layout.sidebar-open .sidebar-toggle {
+
+  left: calc(var(--sidebar-width) - 22px);
 
 }
 
@@ -2208,7 +2214,9 @@ button:focus-visible,
 
   .sidebar-toggle,
 
-  .layout.sidebar-collapsed .sidebar-toggle { top: 22px; left: auto; right: 20px; width: 40px; height: 40px; }
+  .layout.sidebar-collapsed .sidebar-toggle,
+
+  .layout.sidebar-open .sidebar-toggle { top: 22px; left: auto; right: 20px; width: 40px; height: 40px; }
 
   .dashboard-container { padding: 28px 22px 42px; }
 
@@ -2248,7 +2256,9 @@ button:focus-visible,
 
   .sidebar-toggle,
 
-  .layout.sidebar-collapsed .sidebar-toggle { top: 18px; right: 14px; width: 36px; height: 36px; }
+  .layout.sidebar-collapsed .sidebar-toggle,
+
+  .layout.sidebar-open .sidebar-toggle { top: 18px; left: auto; right: 14px; width: 36px; height: 36px; }
 
   .dashboard-banner { display: block; padding: 25px 22px; border-radius: 18px; }
 
