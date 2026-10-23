@@ -41,6 +41,8 @@ function Historico() {
 
   const [filter, setFilter] = useState("all");
   const [showClearModal, setShowClearModal] = useState(false);
+  const [activityToDelete, setActivityToDelete] = useState(null);
+  const [isDeletingActivity, setIsDeletingActivity] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
   const [feedback, setFeedback] = useState("");
 
@@ -204,11 +206,31 @@ function Historico() {
     },
   };
 
+  const getNormalizedActivityType = (type) => {
+    const normalized = String(type || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[\s-]+/g, "_");
+
+    const aliases = {
+      add_to_cart: "cart",
+      added_to_cart: "cart",
+      cart_add: "cart",
+      cart_added: "cart",
+      product_added_to_cart: "cart",
+      product_add_to_cart: "cart",
+      add_cart: "cart",
+      carrinho: "cart",
+      adicionar_ao_carrinho: "cart",
+      produto_adicionado_ao_carrinho: "cart",
+    };
+
+    return aliases[normalized] || normalized;
+  };
+
   const getActivityConfig = (type) => {
-    return (
-      activityTypes[type] ||
-      activityTypes.system
-    );
+    const normalizedType = getNormalizedActivityType(type);
+    return activityTypes[normalizedType] || activityTypes.system;
   };
 
   const formatDate = (date) => {
@@ -251,7 +273,7 @@ function Historico() {
           value,
           label: config.filterLabel,
           count: activities.filter(
-            (item) => item.type === value
+            (item) => getNormalizedActivityType(item.type) === value
           ).length,
         })
       ),
@@ -264,7 +286,7 @@ function Historico() {
     }
 
     return activities.filter(
-      (item) => item.type === filter
+      (item) => getNormalizedActivityType(item.type) === filter
     );
   }, [activities, filter]);
 
@@ -294,6 +316,59 @@ function Historico() {
       );
     } finally {
       setIsClearing(false);
+    }
+  };
+
+  const removeActivity = (activity) => {
+    setActivityToDelete(activity);
+  };
+
+  const confirmRemoveActivity = () => {
+    if (!activityToDelete || isDeletingActivity) return;
+
+    setIsDeletingActivity(true);
+
+    const activity = activityToDelete;
+    const isSameActivity = (item) => {
+      if (activity.id && item.id) {
+        return item.id === activity.id;
+      }
+
+      return (
+        item.type === activity.type &&
+        item.createdAt === activity.createdAt &&
+        item.message === activity.message
+      );
+    };
+
+    try {
+      const currentActivities = getActivities();
+      const activityIndex = currentActivities.findIndex(isSameActivity);
+
+      if (activityIndex === -1) {
+        setActivities(currentActivities);
+        setFeedback("Esta atividade não foi encontrada no histórico.");
+        setActivityToDelete(null);
+        return;
+      }
+
+      const updatedActivities = [...currentActivities];
+      updatedActivities.splice(activityIndex, 1);
+
+      window.localStorage.setItem(
+        "noiravenue_activities",
+        JSON.stringify(updatedActivities)
+      );
+
+      setActivities(updatedActivities);
+      window.dispatchEvent(new Event("noiravenue:activity"));
+      setActivityToDelete(null);
+      setFeedback("A atividade selecionada foi excluída.");
+    } catch (error) {
+      console.error("Não foi possível excluir a atividade:", error);
+      setFeedback("Não foi possível excluir a atividade. Tente novamente.");
+    } finally {
+      setIsDeletingActivity(false);
     }
   };
 
@@ -629,12 +704,25 @@ function Historico() {
                             item.createdAt
                           )}
                         </time>
+
+                        <button
+                          type="button"
+                          className="delete-activity"
+                          onClick={() => removeActivity(item)}
+                          aria-label={`Excluir atividade: ${item.message || config.label}`}
+                          title="Excluir esta atividade"
+                        >
+                          <FaTrash aria-hidden="true" />
+                        </button>
                       </div>
 
                       <div className="activity-message">
                         <strong>
-                          {item.message ||
-                            "Atividade registrada."}
+                          {typeof item.message === "string"
+                            ? item.message || "Atividade registrada."
+                            : item.message
+                              ? JSON.stringify(item.message)
+                              : "Atividade registrada."}
                         </strong>
 
                         {item.createdAt && (
@@ -662,6 +750,81 @@ function Historico() {
           neste dispositivo.
         </span>
       </footer>
+
+      {activityToDelete && (
+        <div
+          className="history-modal-overlay"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && !isDeletingActivity) {
+              setActivityToDelete(null);
+            }
+          }}
+        >
+          <div
+            className="history-modal history-delete-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-activity-title"
+            aria-describedby="delete-activity-description"
+          >
+            <button
+              type="button"
+              className="modal-close"
+              onClick={() => setActivityToDelete(null)}
+              disabled={isDeletingActivity}
+              aria-label="Fechar confirmação"
+              title="Fechar"
+            >
+              <FaTimes />
+            </button>
+
+            <div className="modal-warning-icon">
+              <FaTrash />
+            </div>
+
+            <span className="modal-eyebrow">EXCLUSÃO INDIVIDUAL</span>
+
+            <h2 id="delete-activity-title">Excluir esta atividade?</h2>
+
+            <p id="delete-activity-description">
+              Esta ação removerá somente o registro selecionado. O restante do seu histórico será mantido.
+            </p>
+
+            <div className="modal-info delete-activity-preview">
+              {getActivityConfig(activityToDelete.type).icon}
+              <span>
+                {typeof activityToDelete.message === "string"
+                  ? activityToDelete.message || "Atividade registrada."
+                  : activityToDelete.message
+                    ? JSON.stringify(activityToDelete.message)
+                    : "Atividade registrada."}
+              </span>
+            </div>
+
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="modal-cancel"
+                onClick={() => setActivityToDelete(null)}
+                disabled={isDeletingActivity}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                className="modal-confirm"
+                onClick={confirmRemoveActivity}
+                disabled={isDeletingActivity}
+              >
+                <FaTrash />
+                <span>{isDeletingActivity ? "Excluindo..." : "Sim, excluir"}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showClearModal && (
         <div
