@@ -1,12 +1,19 @@
 import "dotenv/config";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
+import { neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
 
-const databaseUrl =
-  process.env.DATABASE_URL || "file:./prisma/dev.db";
+neonConfig.webSocketConstructor = ws;
 
-const adapter = new PrismaBetterSqlite3({
-  url: databaseUrl,
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error("A variável DATABASE_URL não foi configurada.");
+}
+
+const adapter = new PrismaNeon({
+  connectionString,
 });
 
 const prisma = new PrismaClient({
