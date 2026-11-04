@@ -1,16 +1,52 @@
 # Noir Avenue
 
-> A product-oriented marketplace application built with React and TypeScript, evolving from a Front-End project into a complete web application with API integration, authentication, persistence, checkout flows and production deployment.
+> A product-oriented marketplace application built with React and TypeScript, focused on Front-End engineering, application architecture, API integration, authentication, persistence and continuous product evolution.
 
-[![Live Application](https://img.shields.io/badge/Live%20Application-Noir%20Avenue-111111?style=flat-square)](https://luizfelipeosz.github.io/Noir-Avenue/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square\&logo=react\&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Enabled-3178C6?style=flat-square\&logo=typescript\&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-Frontend-646CFF?style=flat-square\&logo=vite\&logoColor=white)](https://vitejs.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-Backend-339933?style=flat-square\&logo=node.js\&logoColor=white)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-API-000000?style=flat-square\&logo=express\&logoColor=white)](https://expressjs.com/)
-[![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?style=flat-square\&logo=prisma\&logoColor=white)](https://www.prisma.io/)
+<p align="center">
+  <a href="https://luizfelipeosz.github.io/Noir-Avenue/">
+    <img src="https://img.shields.io/badge/Live%20Application-Noir%20Avenue-111111?style=for-the-badge" alt="Live Application" />
+  </a>
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" />
+  <img src="https://img.shields.io/badge/TypeScript-Enabled-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+</p>
 
-**Live:** https://luizfelipeosz.github.io/Noir-Avenue/
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-Backend-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/Express-5-000000?style=flat-square&logo=express&logoColor=white" alt="Express" />
+  <img src="https://img.shields.io/badge/Prisma-7-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma" />
+  <img src="https://img.shields.io/badge/PostgreSQL-Migration-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+</p>
+
+**Live Application:** https://luizfelipeosz.github.io/Noir-Avenue/
+
+**Repository:** https://github.com/Luizfelipeosz/Noir-Avenue
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Product Preview](#product-preview)
+- [Core Features](#core-features)
+- [Product Flows](#product-flows)
+- [Technical Architecture](#technical-architecture)
+- [Front-End Engineering](#front-end-engineering)
+- [Backend and API](#backend-and-api)
+- [Authentication and Account Management](#authentication-and-account-management)
+- [Business Rules](#business-rules)
+- [State Management](#state-management)
+- [Engineering Decisions and Challenges](#engineering-decisions-and-challenges)
+- [Quality and Validation](#quality-and-validation)
+- [Security](#security)
+- [Deployment and Infrastructure](#deployment-and-infrastructure)
+- [Development Workflow](#development-workflow)
+- [Project Status](#project-status)
+- [Roadmap](#roadmap)
+- [Project Structure](#project-structure)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Author](#author)
 
 ---
 
@@ -18,466 +54,514 @@
 
 **Noir Avenue** is a marketplace-inspired web application developed as a continuous product-engineering project.
 
-The project started with a strong Front-End focus and progressively evolved to include:
+The project began as a Front-End application and progressively evolved to incorporate backend services, authentication, database integration and more complete user journeys.
 
-* React and TypeScript application architecture
-* Authentication and protected routes
-* REST API integration
-* Server-side validation
-* Database persistence
-* Password recovery and reset
-* Product catalog and product details
-* Favorites and cart management
-* Checkout flow
-* Account and profile management
-* Responsive interface
-* CI/CD and production deployment
-* Debugging and architectural evolution
+Its development focuses on:
 
-The objective is not to reproduce an existing marketplace.
+- Building responsive and maintainable interfaces.
+- Organizing React application responsibilities.
+- Integrating REST APIs.
+- Implementing authentication and protected routes.
+- Managing shared application state.
+- Translating business requirements into application behavior.
+- Handling asynchronous operations and error states.
+- Investigating technical problems across different application layers.
+- Validating features in local and production environments.
 
-Instead, Noir Avenue is used to simulate the type of development process involved in building and evolving a real digital product:
+Noir Avenue is intentionally **Front-End first**.
 
-```text
-Requirement
-    ↓
-User Flow
-    ↓
-Technical Analysis
-    ↓
-Architecture / Responsibility
-    ↓
-Implementation
-    ↓
-Validation
-    ↓
-Production
-    ↓
-Investigation / Feedback
-    ↓
-Iteration
-```
+Backend development supports the product experience while the primary engineering focus remains on React, TypeScript, application architecture and user-facing functionality.
 
-The project is **Front-End first**, with practical backend and API development used to support complete product flows.
+The project is not intended to reproduce an existing marketplace. It is an independent environment for applying technical decisions, implementing features and evolving a digital product incrementally.
+
+## Product Preview
+
+The following sections are reserved for real screenshots of the application.
+
+Replace the image files with screenshots captured from the running Noir Avenue application.
+
+### Dashboard
+
+<!-- Screenshot: Dashboard -->
+![Noir Avenue Dashboard](docs/images/dashboard.png)
+
+### Product Catalog
+
+<!-- Screenshot: Catalog -->
+![Noir Avenue Product Catalog](docs/images/catalog.png)
+
+### Wishlist and Favorites
+
+<!-- Screenshot: Wishlist -->
+![Noir Avenue Wishlist](docs/images/wishlist.png)
+
+### Shopping Cart
+
+<!-- Screenshot: Shopping Cart -->
+![Noir Avenue Shopping Cart](docs/images/cart.png)
+
+### Checkout
+
+<!-- Screenshot: Checkout -->
+![Noir Avenue Checkout](docs/images/checkout.png)
+
+### Additional Screens
+
+Additional screenshots can be added to `docs/images/` as the product evolves.
+
+Suggested future captures:
+
+- Product details
+- User profile
+- Account settings
+- Authentication
+- Premium experience
+- Notifications
 
 ---
 
-# Product Experience
+## Core Features
 
-The main user journey is organized around a marketplace experience:
+### Authentication and Account
+
+- User registration.
+- Login.
+- Authenticated sessions.
+- Protected application routes.
+- Profile management.
+- Account settings.
+- Account-related persistence.
+- Password recovery.
+- Password reset.
+- Expiring password-reset tokens.
+- Server-side authentication validation.
+
+### Marketplace
+
+- Product catalog.
+- Product categories.
+- Product details.
+- Reusable product cards.
+- Favorites.
+- Wishlist experience.
+- Shopping cart.
+- Quantity management.
+- Subtotal calculation.
+- Shipping calculation.
+- Checkout flow.
+- Customer information reuse.
+- Shipping information.
+- Simulated payment selection.
+- Order review.
+
+### Dashboard and Application
+
+- Personalized dashboard.
+- Account information.
+- Application navigation.
+- Search interface.
+- Notifications.
+- Activity history.
+- Theme preferences.
+- Language preferences.
+- Responsive layouts.
+- User feedback and notifications.
+- Loading, success, error and empty states.
+
+### Additional Product Features
+
+- Premium experience and account status.
+- Profile completion indicators.
+- Persistent user preferences.
+- Account-related interactions.
+
+Some product areas, including Wishlist refinements and Premium functionality, continue to evolve.
+
+---
+
+## Product Flows
+
+The application connects multiple features into coherent user journeys.
+
+### Main Marketplace Journey
 
 ```text
 Authentication
-      ↓
-Dashboard
-      ↓
-Catalog
-      ↓
-Product Details
-      ↓
-Favorites / Cart
-      ↓
-Checkout
-      ↓
-Order Flow
+      |
+      v
+   Dashboard
+      |
+      v
+    Catalog
+      |
+      v
+ Product Details
+      |
+      +----------+
+      |          |
+      v          v
+  Favorites    Cart
+                 |
+                 v
+              Checkout
+                 |
+                 v
+             Order Review
 ```
 
-Account-related functionality includes:
+### Account Journey
 
 ```text
-Register
-   ↓
-Login
-   ↓
+Registration
+     |
+     v
+    Login
+     |
+     v
 Authenticated Session
-   ↓
+     |
+     v
 Profile / Settings
-   ↓
+     |
+     v
 Account Management
 ```
 
-Password recovery is handled through the API:
+### Password Recovery
 
 ```text
 Forgot Password
-      ↓
-API
-      ↓
+       |
+       v
+Authentication API
+       |
+       v
 Token Generation
-      ↓
-Database
-      ↓
+       |
+       v
+Database Persistence
+       |
+       v
 Recovery Email
-      ↓
-Reset Link
-      ↓
+       |
+       v
+Password Reset Link
+       |
+       v
 Token Validation
-      ↓
+       |
+       v
 Password Update
 ```
 
 ---
 
-# Current Features
+## Technical Architecture
 
-## Authentication & Account
-
-* User registration
-* Login
-* Authenticated sessions
-* Protected routes
-* Profile management
-* Account settings
-* Account-related persistence
-* Password recovery
-* Password reset
-* Expiring reset tokens
-* Server-side authentication validation
-
-## Marketplace
-
-* Product catalog
-* Product categories
-* Product details
-* Reusable product cards
-* Favorites
-* Shopping cart
-* Quantity management
-* Subtotal calculation
-* Free-shipping business rule
-* Checkout flow
-* Customer information reuse
-* Shipping information
-* Payment selection simulation
-* Order review
-* Responsive marketplace interface
-
-## Application
-
-* React SPA
-* React Router
-* Component-based architecture
-* Reusable components
-* Context API
-* React Hooks
-* API service integration
-* Protected route architecture
-* Client-side persistence where appropriate
-* Loading and error states
-* Form validation
-* Responsive behavior
-* Light/dark interface theme
-
----
-
-# Architecture
-
-Noir Avenue follows a client → API → persistence architecture.
+Noir Avenue follows a client-server architecture with separated application responsibilities.
 
 ```text
-┌───────────────────────────────────┐
-│          React Front-End          │
-│                                   │
-│ UI                                │
-│ Routing                           │
-│ Forms                             │
-│ Client State                      │
-│ User Feedback                     │
-│ API Consumption                   │
-└────────────────┬──────────────────┘
-                 │
-                 │ HTTP / REST
-                 ↓
-┌───────────────────────────────────┐
-│            Express API            │
-│                                   │
-│ Routes                            │
-│ Validation                        │
-│ Authentication                    │
-│ Application Logic                 │
-└───────────────┬───────────────────┘
-                │
-        ┌───────┴────────┐
-        ↓                ↓
-   ┌─────────┐      ┌────────────┐
-   │ Prisma  │      │ Nodemailer │
-   └────┬────┘      └─────┬──────┘
-        ↓                  ↓
-     SQLite              Email
++--------------------------------------+
+|             FRONT-END                |
+|                                      |
+|          React 19 + TypeScript       |
+|                                      |
+|  Components                          |
+|  Pages                               |
+|  Routing                             |
+|  Context API                         |
+|  Hooks                               |
+|  Forms                               |
+|  Client State                        |
+|  API Integration                     |
++-------------------+------------------+
+                    |
+                    | HTTP / REST
+                    |
+                    v
++--------------------------------------+
+|              BACKEND                 |
+|                                      |
+|       Node.js + Express + TypeScript |
+|                                      |
+|  Routes                              |
+|  Controllers / Application Logic     |
+|  Authentication                     |
+|  Validation                          |
+|  API Responses                       |
++-------------------+------------------+
+                    |
+                    v
++--------------------------------------+
+|           DATA ACCESS                |
+|                                      |
+|              Prisma 7               |
+|                                      |
++-------------------+------------------+
+                    |
+                    v
++--------------------------------------+
+|        PostgreSQL / Neon             |
+|                                      |
+|       Database Persistence           |
++--------------------------------------+
 ```
 
-The Front-End remains the primary area of responsibility.
+**Database migration status:** the backend code has been configured for PostgreSQL using Prisma's Neon adapter. The transition from the previous SQLite database requires final migration and production validation.
 
-The backend exists to provide realistic server-side capabilities and to allow the application to evolve beyond a purely client-side implementation.
+The architecture is designed to keep user interface responsibilities separate from server-side validation, authentication and persistence.
 
 ---
 
-# Front-End Engineering
+## Front-End Engineering
 
-The main engineering focus of Noir Avenue is **Front-End development**.
+The Front-End is the primary engineering focus of Noir Avenue.
 
 The React application is responsible for:
 
-* User interface
-* Component composition
-* Client-side navigation
-* Forms
-* UI state
-* Application state
-* Loading states
-* Error feedback
-* Cart interactions
-* Checkout interactions
-* API consumption
-* Protected route behavior
-* Responsive behavior
-* Client-side validation
-* Translating API responses into user-facing states
+- User interface composition.
+- Component architecture.
+- Client-side navigation.
+- Protected routes.
+- Form handling.
+- Application state.
+- UI state.
+- API consumption.
+- Asynchronous operations.
+- Loading and error feedback.
+- Cart and checkout interactions.
+- Responsive behavior.
+- Client-side validation.
+- Translating API responses into user-facing states.
 
-The project uses React, TypeScript and reusable application patterns to keep responsibilities understandable as features are added.
+### Component Architecture
 
-The goal is not to introduce abstraction for its own sake.
+Components are organized according to their responsibilities and practical reuse.
 
-> **Architecture should solve product problems, not create unnecessary complexity.**
+Examples include:
 
----
+- Navigation components.
+- Product cards.
+- Dashboard sections.
+- Form components.
+- Account interfaces.
+- Shared UI elements.
 
-# Backend & API
+Abstractions are introduced when they improve maintainability, reuse or readability rather than simply increasing the number of components.
 
-The backend was introduced progressively as the product requirements became more realistic.
+### Routing
 
-Current technologies include:
+React Router handles client-side navigation and application routes.
 
-* Node.js
-* Express
-* TypeScript
-* Prisma
-* SQLite
-* Nodemailer
+The architecture includes:
 
-The API currently supports functionality such as:
+- Public routes.
+- Authenticated routes.
+- Protected route behavior.
+- Layout-based navigation.
+- Application-level route organization.
 
-* User registration
-* Login
-* Authentication validation
-* Password recovery
-* Password reset
-* Reset-token lifecycle
-* User persistence
-* Server-side validation
-* Email delivery
-* CORS configuration
+### Responsive Interface
 
-The separation between client and server is intentional:
+The interface is designed to support different screen sizes.
 
-```text
-Front-End
-  ↓
-User experience + client behavior
+Responsive considerations include:
 
-API
-  ↓
-Server-side rules + validation
-
-Database
-  ↓
-Persistent application data
-```
+- Desktop navigation.
+- Mobile navigation.
+- Flexible layouts.
+- Adaptive components.
+- Responsive dashboard sections.
+- Accessible interaction patterns.
 
 ---
 
-# Authentication
+## Backend and API
+
+The backend was introduced progressively as product requirements expanded.
+
+The API uses:
+
+- Node.js.
+- Express 5.
+- TypeScript.
+- Prisma 7.
+- PostgreSQL integration through the Neon adapter.
+
+### API Responsibilities
+
+The backend supports:
+
+- User registration.
+- Authentication.
+- Server-side validation.
+- User persistence.
+- Password recovery.
+- Password reset.
+- Reset-token lifecycle.
+- Email-related operations.
+- CORS configuration.
+
+The API is responsible for security-sensitive operations and server-side application rules.
+
+The Front-End consumes these capabilities through HTTP requests and translates their responses into application states.
+
+### Database
+
+The initial implementation used SQLite.
+
+During the project's evolution, database persistence became an important architectural concern, particularly regarding runtime configuration, database location and environment differences.
+
+The current backend source uses:
+
+- PostgreSQL as the configured database provider.
+- Prisma 7 as the ORM.
+- `@prisma/adapter-neon` for the Neon integration.
+
+The previous SQLite implementation is part of the project's technical history, not the intended final production architecture.
+
+---
+
+## Authentication and Account Management
 
 Authentication evolved from an initially client-focused implementation into an API-driven architecture.
 
-The current flow is:
+The responsibility boundaries are:
 
-```text
-User
- ↓
-React
- ↓
-Authentication API
- ↓
-Express
- ↓
-Authentication Logic
- ↓
-Prisma
- ↓
-SQLite
-```
+| Layer | Responsibility |
+|---|---|
+| React | User experience and session-related UI |
+| Express | Authentication endpoints and server-side validation |
+| Prisma | Database access |
+| PostgreSQL | Persistent account data |
 
-The Front-End owns the user experience and application states.
+### Password Recovery
 
-The backend owns authentication rules, server-side validation and persistence.
+The password recovery flow includes:
 
-This evolution was implemented incrementally instead of rewriting the entire application.
+1. Receiving the recovery request.
+2. Validating the supplied email.
+3. Generating a recovery token.
+4. Persisting the token and expiration.
+5. Sending the recovery email.
+6. Validating the token.
+7. Updating the password.
 
----
+The recovery flow uses server-side token validation and expiration.
 
-# Password Recovery
-
-Password recovery is implemented as a complete server-backed flow.
-
-```text
-User requests recovery
-          ↓
-POST /api/auth/forgot-password
-          ↓
-Backend validates request
-          ↓
-Generate token
-          ↓
-Persist token + expiration
-          ↓
-Send recovery email
-          ↓
-User opens reset link
-          ↓
-Validate token
-          ↓
-Update password
-```
-
-The flow involves:
-
-* Express
-* TypeScript
-* Prisma
-* SQLite
-* Secure token generation
-* Token expiration
-* Nodemailer
-* React API integration
-* User-facing validation states
-
-Reset tokens are validated server-side and expire after a defined period.
+The email delivery provider and production configuration remain subject to final infrastructure validation.
 
 ---
 
-# State Management
+## Business Rules
+
+Noir Avenue incorporates product rules into its user flows.
+
+### Shopping Cart
+
+The cart includes:
+
+- Product quantity management.
+- Item subtotal.
+- Cart subtotal.
+- Shipping calculation.
+- Total calculation.
+- Cart state management.
+
+### Shipping
+
+The current shipping rule is:
+
+| Order subtotal | Shipping |
+|---|---:|
+| Below R$ 500.00 | R$ 29.90 |
+| R$ 500.00 or above | Free |
+
+### Checkout
+
+The checkout connects:
+
+```text
+Cart
+  |
+  v
+Customer Identification
+  |
+  v
+Delivery Information
+  |
+  v
+Payment Selection
+  |
+  v
+Order Review
+```
+
+The flow reuses available account information where appropriate.
+
+**Important:** checkout currently represents a product-flow simulation. It does not process real payments or represent a completed financial transaction.
+
+---
+
+## State Management
 
 State is organized according to feature responsibility.
 
 Examples include:
 
-* Authentication/session state
-* Cart state
-* Favorites
-* Form state
-* UI state
-* Loading states
-* API request states
-* Theme preference
-* Persistent client-side state
+- Authentication and session state.
+- Cart state.
+- Favorites.
+- Form state.
+- UI state.
+- Loading states.
+- API request states.
+- Theme preferences.
+- Language preferences.
+- Persistent client-side state.
 
-The cart, for example, uses centralized application state rather than duplicating cart logic across individual pages.
+Context API is used where shared application state is appropriate.
 
-The goal is predictable data flow without introducing state-management infrastructure that the product does not currently require.
-
----
-
-# Componentization
-
-Reusable components are introduced when they provide a practical benefit.
-
-Examples include:
-
-* Product cards
-* Navigation elements
-* Form components
-* Dashboard sections
-* Account interfaces
-* Shared UI patterns
-
-The project avoids creating abstractions simply to increase the number of components.
-
-The guiding question is:
-
-> **Does this abstraction make the product easier to reuse, change or understand?**
+The goal is predictable data flow and clear ownership of state without introducing unnecessary state-management infrastructure.
 
 ---
 
-# Debugging & Problem Solving
+## Engineering Decisions and Challenges
 
-A major objective of Noir Avenue is to demonstrate the development process behind a solution, not only the final interface.
+Noir Avenue is developed with attention to the reasoning behind technical decisions.
 
-The general debugging workflow is:
+The project involves investigating problems, identifying their responsible layer and validating solutions instead of applying unrelated changes.
+
+### Database Persistence Investigation
+
+One important challenge involved inconsistent SQLite database locations.
+
+The investigation followed the actual runtime data path:
 
 ```text
-Unexpected behavior
-        ↓
-Reproduce
-        ↓
-Identify affected layer
-        ↓
-Trace execution / data flow
-        ↓
-Form hypotheses
-        ↓
-Test hypotheses
-        ↓
-Identify root cause
-        ↓
-Implement targeted solution
-        ↓
-Validate
-```
-
-This approach has been applied to problems involving:
-
-* React state
-* Routing
-* API communication
-* Authentication
-* Database persistence
-* Prisma configuration
-* SQLite
-* Email delivery
-* Git
-* GitHub Pages
-* Production routing
-* Environment configuration
-* User flows
-
-The goal is not simply to remove an error.
-
-It is to understand **why it happened, which layer owns the problem and how the solution affects the rest of the application**.
-
----
-
-# Database Investigation
-
-One of the practical backend problems encountered during development involved SQLite persistence.
-
-Application behavior suggested that data was not being persisted as expected.
-
-Instead of changing unrelated application code, the investigation followed the actual data path:
-
-```text
-Application behavior
-        ↓
-Prisma configuration
-        ↓
+Application Behavior
+        |
+        v
+Prisma Configuration
+        |
+        v
 DATABASE_URL
-        ↓
-SQLite file location
-        ↓
-Runtime database
-        ↓
-Stored records
+        |
+        v
+Database File Location
+        |
+        v
+Runtime Database
+        |
+        v
+Stored Records
 ```
 
-The investigation identified that multiple SQLite database files existed in different locations and that the running application was using a different database from the one initially inspected.
+The investigation identified multiple database files and differences between the database being inspected and the one used by the running application.
 
-The problem reinforced an important debugging practice:
+This led to the decision to evolve the persistence architecture toward PostgreSQL.
 
-> **When observed behavior contradicts expectations, inspect the actual runtime state and data flow before changing the implementation.**
-
----
-
-# Production Routing
+### Production Routing
 
 The application is deployed under:
 
@@ -485,258 +569,283 @@ The application is deployed under:
 /Noir-Avenue/
 ```
 
-rather than directly from the root domain.
+This requires attention to:
 
-This introduced differences between local development and production, particularly around direct access to client-side routes.
+- Vite base configuration.
+- React Router.
+- GitHub Pages.
+- SPA fallback behavior.
+- Direct route access.
+- Production asset paths.
 
-The deployment therefore required configuration for:
+### Environment Differences
 
-* Vite base paths
-* React Router
-* GitHub Pages
-* SPA fallback behavior
-* Direct route access
-* Production asset paths
+Local and production environments require different configurations.
 
-A fallback mechanism is used to preserve SPA navigation when routes are accessed directly in production.
+The project considers:
 
-This is an important part of the project because:
+- API base URLs.
+- Environment variables.
+- Database connections.
+- CORS.
+- Asset paths.
+- Deployment configuration.
 
-> **A feature is not considered complete simply because it works locally.**
-
----
-
-# Checkout
-
-The checkout experience connects multiple parts of the application into a single user flow.
+### Debugging Approach
 
 ```text
-Catalog
-   ↓
-Product
-   ↓
-Cart
-   ↓
-Quantity / Subtotal
-   ↓
-Customer Information
-   ↓
-Shipping
-   ↓
-Payment Selection
-   ↓
-Order Review
+Unexpected Behavior
+        |
+        v
+Reproduce the Problem
+        |
+        v
+Identify the Affected Layer
+        |
+        v
+Trace Execution and Data Flow
+        |
+        v
+Test Hypotheses
+        |
+        v
+Identify Root Cause
+        |
+        v
+Implement a Targeted Solution
+        |
+        v
+Validate the Result
 ```
 
-The flow reuses available account information where appropriate instead of repeatedly requesting the same data.
-
-The checkout is a **product-flow simulation** and does not represent a real payment processor or financial transaction.
+This approach has been applied to Front-End behavior, routing, API communication, authentication, database configuration, email delivery and deployment.
 
 ---
 
-# Error & Application States
+## Quality and Validation
 
-The application is designed around more than the happy path.
+Validation is performed throughout the development cycle.
 
-Relevant states include:
+### Current Practices
 
-* Loading
-* Success
-* Validation errors
-* Invalid credentials
-* Unauthorized access
-* Invalid input
-* Expired tokens
-* Invalid reset tokens
-* API unavailable
-* Network failures
-* Unexpected server responses
-* Empty states
+- ESLint.
+- Production builds.
+- API validation.
+- Database validation.
+- Manual feature testing.
+- Responsive testing.
+- User-flow validation.
+- Production behavior verification.
+- Incremental refactoring.
 
-The Front-End translates these conditions into understandable user feedback while server-side rules remain the responsibility of the API.
+The main application flows have undergone manual validation, including navigation, authentication-related behavior, cart, checkout, profile and settings.
 
----
+Automated test coverage remains an area for further development.
 
-# Security Considerations
+### Quality Goals
 
-Security-sensitive operations are not delegated exclusively to the client.
-
-Current considerations include:
-
-* Server-side authentication
-* Server-side validation
-* Secure password-reset token generation
-* Token expiration
-* Token validation
-* Database-backed authentication
-* Explicit CORS configuration
-* Environment-based configuration
-* Sensitive configuration kept outside source code where appropriate
-
-Security remains an evolving area of the project.
+- Predictable application behavior.
+- Clear component responsibilities.
+- Consistent user feedback.
+- Reliable API integration.
+- Maintainable code.
+- Better error handling.
+- Increased automated test coverage.
 
 ---
 
-# Production & CI/CD
+## Security
+
+Security-sensitive operations are handled on the server whenever appropriate.
+
+Current security considerations include:
+
+- Server-side authentication.
+- Server-side validation.
+- Password-reset token generation.
+- Token expiration.
+- Token validation.
+- Database-backed user persistence.
+- Explicit CORS configuration.
+- Environment-based configuration.
+- Protection of sensitive credentials.
+
+Security and production hardening remain ongoing engineering concerns.
+
+---
+
+## Deployment and Infrastructure
+
+### Front-End Deployment
 
 The Front-End is deployed through GitHub Pages using GitHub Actions.
 
+The workflow is:
+
 ```text
 Git Push
-   ↓
+   |
+   v
 GitHub Actions
-   ↓
-Install dependencies
-   ↓
-Build
-   ↓
-Production artifacts
-   ↓
-Deployment
-   ↓
-GitHub Pages
-   ↓
+   |
+   v
+Install Dependencies
+   |
+   v
+Production Build
+   |
+   v
+Upload Build Artifacts
+   |
+   v
+Deploy to GitHub Pages
+   |
+   v
 Live Application
 ```
 
-Production validation includes:
+The deployment workflow automatically builds the application when changes are pushed to the `main` branch.
 
-* Build verification
-* Asset paths
-* SPA routing
-* Repository base path
-* Client-side routes
-* Authentication flows
-* Main marketplace flows
-* Responsive behavior
+### Backend Infrastructure
 
-**Live Application:**
+The backend is being prepared for a PostgreSQL-based production architecture using Neon.
+
+The repository contains the PostgreSQL Prisma configuration and Neon adapter implementation.
+
+Backend production availability and the final database migration must be validated independently from the existing Front-End deployment.
+
+### Live Application
 
 https://luizfelipeosz.github.io/Noir-Avenue/
 
 ---
 
-# Development Workflow
+## Development Workflow
 
-Although Noir Avenue is developed individually, its workflow is structured around practices commonly used in professional software development.
+Although developed individually, Noir Avenue follows a structured engineering workflow.
 
 ```text
 Requirement
-    ↓
+    |
+    v
 Investigation
-    ↓
-Implementation plan
-    ↓
-Feature branch
-    ↓
-Focused changes
-    ↓
-Local validation
-    ↓
-Production validation
-    ↓
-Refactoring / Documentation
+    |
+    v
+Technical Analysis
+    |
+    v
+Implementation Plan
+    |
+    v
+Focused Changes
+    |
+    v
+Local Validation
+    |
+    v
+Production Validation
+    |
+    v
+Refactoring and Documentation
 ```
 
 Practices include:
 
-* Feature-oriented development
-* Branch-based development
-* Focused commits
-* Git history as a development record
-* Pull-request-oriented thinking
-* Incremental delivery
-* CI/CD
-* Production validation
-* Refactoring when requirements expose architectural problems
+- Feature-oriented development.
+- Branch-based development.
+- Focused commits.
+- Git history management.
+- Incremental delivery.
+- Pull-request-oriented thinking.
+- CI/CD.
+- Production validation.
+- Refactoring when requirements expose architectural problems.
 
 ---
 
-# Testing & Validation
+## Project Status
 
-Validation is performed throughout the development cycle.
+Noir Avenue is an actively evolving project.
 
-Current practices include:
+| Area | Status |
+|---|---|
+| React application foundation | Implemented |
+| Authentication interface | Implemented |
+| Protected routes | Implemented |
+| Profile and settings | Implemented |
+| Product catalog | Implemented |
+| Favorites | Implemented |
+| Shopping cart | Implemented |
+| Checkout simulation | Implemented |
+| REST API | Implemented |
+| Authentication backend | Implemented |
+| Password recovery flow | Implemented |
+| PostgreSQL migration | In progress |
+| Backend production validation | Pending |
+| Wishlist refinements | In progress |
+| Premium experience | Evolving |
+| Automated test coverage | Planned / evolving |
 
-* ESLint
-* Production builds
-* API validation
-* Database validation
-* Manual feature validation
-* Responsive testing
-* User-flow testing
-* Production validation
-* Automated Front-End tests
-* Incremental refactoring
-
-The main application flows have been tested after the Sprint 3 implementation, including navigation, authentication-related behavior, cart, checkout, profile and settings functionality.
-
-Testing continues to evolve alongside the application.
-
----
-
-# Project Evolution
-
-Noir Avenue is developed as an evolving product rather than a fixed checklist.
-
-| Stage                 | Focus                                               | Status                    |
-| --------------------- | --------------------------------------------------- | ------------------------- |
-| Sprint 1              | Authentication foundation and protected routes      | ✅ Completed               |
-| Sprint 2              | Core product structure, profile and deployment      | ✅ Completed               |
-| Sprint 3              | Session, persistence, state and application flows   | ✅ Completed               |
-| Backend Evolution     | API, database, authentication and password recovery | 🟢 Implemented / evolving |
-| Marketplace Evolution | Catalog, products, favorites and cart               | 🟢 Implemented / evolving |
-| Checkout Evolution    | Customer data, shipping and order review            | 🟢 Implemented / evolving |
-| Next                  | Further API-driven product evolution                | 🔵 Planned                |
-
-The roadmap is intentionally flexible.
-
-If implementation exposes a product or architectural problem, the development direction can change to address it.
+Statuses describe the development state and should not be interpreted as confirmation that every feature is available in the public production environment.
 
 ---
 
-# Roadmap
+## Roadmap
 
-## Near Term
+The roadmap follows the project's technical and product priorities.
 
-* Expand API-driven product data
-* Continue catalog evolution
-* Improve product details
-* Continue checkout improvements
-* Expand account management
-* Increase TypeScript coverage
-* Expand automated tests
-* Continue responsive improvements
+### Near-Term Priorities
 
-## Product Evolution
+- Complete PostgreSQL migration.
+- Validate database persistence.
+- Stabilize backend deployment.
+- Consolidate email delivery.
+- Continue Wishlist improvements.
+- Refine Premium business rules.
+- Improve responsive behavior.
+- Expand automated testing.
+- Increase type safety.
 
-* Search
-* Advanced filtering
-* Expanded favorites functionality
-* Additional account capabilities
-* More server-side persistence
-* Expanded API architecture
-* Additional validation and error states
+### Product Evolution
 
-## Engineering Evolution
+- API-driven product catalog.
+- Server-side favorites persistence.
+- Server-side cart persistence.
+- Persistent order history.
+- Advanced search.
+- Product filtering.
+- Expanded account management.
+- Additional notification capabilities.
 
-* Increase automated test coverage
-* Refine API contracts
-* Improve type safety
-* Continue refactoring
-* Improve production observability
-* Harden authentication and account flows
-* Reduce unnecessary coupling
+### Engineering Evolution
 
-The roadmap may change as new requirements and technical discoveries emerge.
+- Automated Front-End testing.
+- API integration testing.
+- Better API contracts.
+- Improved error handling.
+- Security hardening.
+- Production observability.
+- Performance improvements.
+- Continuous refactoring.
+
+### Long-Term Possibilities
+
+- Real payment gateway integration.
+- Expanded order management.
+- Administrative capabilities.
+- More advanced product discovery.
+
+Future items are possibilities rather than commitments to a specific implementation.
 
 ---
 
-# Project Structure
+## Project Structure
+
+The following is a high-level representation of the repository.
 
 ```text
 Noir-Avenue/
-│
+|
 ├── src/
 │   ├── assets/
 │   ├── components/
@@ -753,84 +862,105 @@ Noir-Avenue/
 │   │   ├── routes/
 │   │   ├── services/
 │   │   ├── config/
-│   │   └── ...
+│   │   └── lib/
 │   │
-│   └── prisma/
-│       └── schema.prisma
+│   ├── prisma/
+│   │   └── schema.prisma
+│   │
+│   ├── package.json
+│   └── tsconfig.json
+│
+├── prisma/
+│   └── schema.prisma
 │
 ├── public/
+│
+├── docs/
+│   └── images/
+│
 ├── .github/
 │   └── workflows/
+│
 ├── package.json
-├── vite.config.ts
+├── vite.config.js
+├── eslint.config.js
 └── README.md
 ```
 
-The structure evolves with the product.
+The `server/prisma/schema.prisma` file represents the PostgreSQL backend configuration. The root-level Prisma schema is a legacy configuration that should be consolidated or removed as part of the migration cleanup.
 
-The goal is to keep responsibilities understandable and changes localized rather than creating unnecessary layers or folders.
+The structure evolves according to feature responsibilities and practical maintenance requirements.
 
 ---
 
-# Tech Stack
+## Tech Stack
 
 ### Front-End
 
-* React 19
-* TypeScript
-* JavaScript ES6+
-* React Router
-* Vite
-* CSS3
-* Context API
-* React Hooks
-* Sonner
-* LocalStorage
+- React 19.
+- TypeScript.
+- React Router 7.
+- Vite 8.
+- CSS3.
+- Context API.
+- React Hooks.
+- React Icons.
+- Sonner.
+- LocalStorage.
 
 ### Backend
 
-* Node.js
-* Express
-* TypeScript
-* Prisma 7
-* SQLite
-* Nodemailer
-* REST API
+- Node.js.
+- Express 5.
+- TypeScript.
+- Prisma 7.
+- PostgreSQL.
+- Neon adapter.
+- REST API.
 
-### Development & Delivery
+### Infrastructure and Development
 
-* Git
-* GitHub
-* GitHub Actions
-* GitHub Pages
-* ESLint
-* npm
+- Git.
+- GitHub.
+- GitHub Actions.
+- GitHub Pages.
+- ESLint.
+- npm.
+
+### Database and Email Evolution
+
+- SQLite — previous database implementation.
+- PostgreSQL / Neon — current migration target.
+- Nodemailer and Resend — dependencies present in the backend; active production email provider requires final configuration validation.
 
 ---
 
-# Getting Started
+## Getting Started
 
-## Front-End
+### Prerequisites
 
-Clone the repository:
+- Node.js 20 or compatible version.
+- npm.
+- Git.
+- A PostgreSQL database for the current backend architecture.
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Luizfelipeosz/Noir-Avenue.git
 ```
 
-Navigate to the project:
-
 ```bash
 cd Noir-Avenue
 ```
 
-Install dependencies:
+### 2. Front-End Installation
 
 ```bash
 npm install
 ```
 
-Start the development server:
+### 3. Start the Development Server
 
 ```bash
 npm run dev
@@ -842,13 +972,13 @@ The application will be available at:
 http://localhost:5173
 ```
 
-### Production Build
+### 4. Production Build
 
 ```bash
 npm run build
 ```
 
-### Preview Production Build
+### 5. Preview the Production Build
 
 ```bash
 npm run preview
@@ -856,7 +986,7 @@ npm run preview
 
 ---
 
-## Backend
+### Backend Setup
 
 The backend is located inside the `server` directory.
 
@@ -870,194 +1000,64 @@ Install dependencies:
 npm install
 ```
 
-Configure the environment variables according to the project's environment configuration.
+Configure the environment variables using a local `.env` file.
 
-Start the backend using the configured development command.
+At minimum, the PostgreSQL configuration requires:
 
-The API provides the foundation for:
-
-* Authentication
-* User persistence
-* Password recovery
-* Password reset
-* Token management
-* Progressive server-side product functionality
-
----
-
-# What This Project Demonstrates
-
-### Front-End Engineering
-
-* React application development
-* TypeScript
-* Componentization
-* Reusable UI
-* SPA architecture
-* Client-side routing
-* Protected routes
-* State management
-* API integration
-* Form handling
-* Loading and error states
-* Responsive interfaces
-* UX-oriented implementation
-* Refactoring
-
-### Product Engineering
-
-* Translating requirements into technical behavior
-* Designing user flows
-* Defining application states
-* Understanding responsibility boundaries
-* Evaluating technical trade-offs
-* Incremental feature delivery
-* Product-oriented iteration
-* Production validation
-
-### Backend Integration
-
-* Node.js
-* Express
-* REST APIs
-* Prisma
-* SQLite
-* Authentication
-* Password recovery
-* Token lifecycle
-* Email infrastructure
-* Server-side validation
-* CORS
-* Environment configuration
-
-### Debugging & Problem Solving
-
-* Reproducing problems
-* Investigating root causes
-* Tracing application and data flow
-* Debugging Front-End behavior
-* Debugging API behavior
-* Investigating database persistence
-* Understanding environment differences
-* Resolving production-specific problems
-* Validating fixes
-
-### Engineering Practices
-
-* Git
-* Feature branches
-* Focused commits
-* CI/CD
-* GitHub Actions
-* Production deployment
-* Code organization
-* Refactoring
-* Documentation
-* Incremental architecture evolution
-
----
-
-# Front-End Perspective
-
-Noir Avenue is intentionally built from the perspective of a **Front-End Developer working on a real product**, rather than as a collection of isolated screens.
-
-The Front-End responsibilities go beyond JSX and CSS:
-
-```text
-Requirement
-   ↓
-User Flow
-   ↓
-Interface
-   ↓
-State
-   ↓
-API Contract
-   ↓
-Error Handling
-   ↓
-Backend Responsibility
-   ↓
-Production Behavior
+```env
+DATABASE_URL=your_postgresql_connection_string
+PORT=3001
+FRONTEND_URL=http://localhost:5173
 ```
 
-This requires understanding the surrounding system while keeping Front-End development as the primary responsibility.
+Additional email and application configuration must follow the backend's environment requirements.
 
-The project demonstrates practical work with:
+Generate the Prisma Client:
 
-* Requirements analysis
-* Feature decomposition
-* Component architecture
-* State management
-* API integration
-* Asynchronous flows
-* Error handling
-* Debugging
-* Refactoring
-* Technical decision-making
-* Production validation
-* Maintainability
-
-The objective is to demonstrate the ability to contribute to a professional development team through practical Front-End engineering and product-oriented problem solving.
-
----
-
-# Current Status
-
-🟢 **Live & Actively Developed**
-
-Noir Avenue is currently deployed and continues to evolve.
-
-The project has progressed from a primarily client-side React application into a broader product architecture involving:
-
-```text
-React
-  +
-TypeScript
-  +
-REST API
-  +
-Express
-  +
-Prisma
-  +
-SQLite
-  +
-Authentication
-  +
-Password Recovery
-  +
-Marketplace Flows
-  +
-Checkout
-  +
-CI/CD
-  +
-Production Deployment
+```bash
+npx prisma generate
 ```
 
-The next iterations will focus on increasing API-driven behavior, automated testing, type safety, responsive quality and production robustness.
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Build the backend:
+
+```bash
+npm run build
+```
+
+Start the configured server:
+
+```bash
+npm start
+```
+
+**Database note:** database migrations must be applied according to the actual migration history and target database state. Do not run schema-changing commands against an existing database without verifying the migration plan and preserving the existing data.
 
 ---
 
-# Author
+## Author
 
-## Luiz Felipe Oliveira Souza
+### Luiz Felipe Oliveira Souza
 
 **Front-End Developer Jr.**
 
-React.js • TypeScript • Next.js • Front-End Architecture • API Integration • Product-Oriented Development
+React.js · TypeScript · Next.js · Front-End Architecture · REST API Integration · Product-Oriented Development
 
-I focus on building maintainable Front-End applications, understanding requirements, organizing application responsibilities, integrating APIs and evolving features according to real product needs.
+I focus on building maintainable Front-End applications, organizing application responsibilities, integrating APIs and evolving features according to product requirements.
 
-Noir Avenue represents this approach in practice: investigating problems, making technical decisions, implementing features, validating behavior and continuously improving the product.
+Noir Avenue represents this approach in practice: investigating problems, evaluating technical decisions, implementing features, validating behavior and continuously improving the application.
 
-**GitHub:**
+**GitHub:**  
 https://github.com/Luizfelipeosz
 
-**LinkedIn:**
+**LinkedIn:**  
 https://linkedin.com/in/luiz-felipe-o-souza-9a488b372
 
 ---
 
-> Built as a continuous product-engineering project focused on Front-End development, maintainability, API integration, technical decision-making, problem solving, production delivery and product evolution.
+> Built as a continuous product-engineering project focused on Front-End development, maintainability, API integration, technical decision-making, problem solving and product evolution.
