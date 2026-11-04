@@ -83,27 +83,27 @@ Replace the image files with screenshots captured from the running Noir Avenue a
 ### Dashboard
 
 <!-- Screenshot: Dashboard -->
-![Noir Avenue Dashboard](docs/images/dashboard.png)
+![Noir Avenue Dashboard](<img width="1249" height="1908" alt="0411" src="https://github.com/user-attachments/assets/d0f4963e-2b28-4c61-a64c-c3c694e6e9eb" />)
 
 ### Product Catalog
 
 <!-- Screenshot: Catalog -->
-![Noir Avenue Product Catalog](docs/images/catalog.png)
+![Noir Avenue Product Catalog](<img width="1249" height="2112" alt="0412" src="https://github.com/user-attachments/assets/33345022-2975-4cf3-97cf-5fc251325a43" />)
 
 ### Wishlist and Favorites
 
 <!-- Screenshot: Wishlist -->
-![Noir Avenue Wishlist](docs/images/wishlist.png)
+![Noir Avenue Wishlist](<img width="1249" height="891" alt="0413" src="https://github.com/user-attachments/assets/2162cb88-6e45-4fc1-91b0-05675866ad4c" />)
 
 ### Shopping Cart
 
 <!-- Screenshot: Shopping Cart -->
-![Noir Avenue Shopping Cart](docs/images/cart.png)
+![Noir Avenue Shopping Cart](<img width="1257" height="692" alt="0414" src="https://github.com/user-attachments/assets/c589cb68-b884-4041-b1f9-8cce5eb77013" />)
 
 ### Checkout
 
 <!-- Screenshot: Checkout -->
-![Noir Avenue Checkout](docs/images/checkout.png)
+![Noir Avenue Checkout](<img width="1104" height="836" alt="0415" src="https://github.com/user-attachments/assets/48b0efc6-11ba-40ac-848f-6ee5f17f9bab" />)
 
 ### Additional Screens
 
