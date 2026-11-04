@@ -43,6 +43,9 @@ import Checkout from "./components/Checkout/Checkout";
 import TermosdeUso from "./components/TermosdeUso/TermosDeUso";
 import PoliticaPrivacidade from "./components/PoliticaDePrivacidade/PoliticaDePrivacidade";
 
+// Comunidade
+import Community from "./components/Community/Community";
+
 function App() {
   return (
     <div className="App">
@@ -234,6 +237,21 @@ function App() {
               </PrivateRoute>
             }
           />
+
+          {/* =========================================
+              COMUNIDADE
+          ========================================= */}
+          
+          <Route
+  path="/dashboard/community"
+  element={
+    <PrivateRoute>
+      <DashboardLayout>
+        <Community />
+      </DashboardLayout>
+    </PrivateRoute>
+  }
+/>
 
           {/* =========================================
               RECUPERAÇÃO DE SENHA

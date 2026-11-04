@@ -1,7 +1,4 @@
 import "./Dashboard.css";
-
-
-
 import {
 
   useCallback,
@@ -15,16 +12,11 @@ import {
   useState,
 
 } from "react";
-
-
-
 import { useNavigate } from "react-router-dom";
 
 import { timeAgo } from "../../utils/timeAgo";
 
 import { categories } from "../../data/categories";
-
-
 
 import {
 
@@ -58,9 +50,9 @@ import {
 
   FaBars,
 
+  FaComments,
+
 } from "react-icons/fa";
-
-
 
 import {
 
@@ -379,6 +371,20 @@ function Dashboard() {
         route: "/dashboard/catalogo",
 
       },
+
+      {
+        title: "Noir Community",
+  
+        description: "Compartilhe desejos, ideias e sugestões.",
+  
+        keywords: "comunidade desejos sugestões ideias peças novidades melhorias fórum",
+  
+        icon: <FaComments />,
+  
+        iconClass: "nav-icon-community",
+  
+        route: "/dashboard/community",
+},
 
       {
 
