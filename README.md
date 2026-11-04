@@ -74,51 +74,41 @@ Backend development supports the product experience while the primary engineerin
 
 The project is not intended to reproduce an existing marketplace. It is an independent environment for applying technical decisions, implementing features and evolving a digital product incrementally.
 
-## Product Preview
+Product Preview
 
-The following sections are reserved for real screenshots of the application.
+The following screenshots showcase the main interfaces and product experiences developed in Noir Avenue.
 
-Replace the image files with screenshots captured from the running Noir Avenue application.
+Dashboard
 
-### Dashboard
+<p align="center">
+  <img width="100%" src="https://github.com/user-attachments/assets/7bbfb93f-5a50-4ff2-b0b9-cf96ad35185a" alt="Noir Avenue Dashboard" />
+</p>
 
-<!-- Screenshot: Dashboard -->
-![Noir Avenue Dashboard](<img width="1249" height="1908" alt="0411" src="https://github.com/user-attachments/assets/d0f4963e-2b28-4c61-a64c-c3c694e6e9eb" />)
+Product Catalog
 
-### Product Catalog
+<p align="center">
+  <img width="100%" src="https://github.com/user-attachments/assets/33345022-2975-4cf3-97cf-5fc251325a43" alt="Noir Avenue Product Catalog" />
+</p>
 
-<!-- Screenshot: Catalog -->
-![Noir Avenue Product Catalog](<img width="1249" height="2112" alt="0412" src="https://github.com/user-attachments/assets/33345022-2975-4cf3-97cf-5fc251325a43" />)
+Wishlist and Favorites
 
-### Wishlist and Favorites
+<p align="center">
+  <img width="100%" src="https://github.com/user-attachments/assets/2162cb88-6e45-4fc1-91b0-05675866ad4c" alt="Noir Avenue Wishlist" />
+</p>
 
-<!-- Screenshot: Wishlist -->
-![Noir Avenue Wishlist](<img width="1249" height="891" alt="0413" src="https://github.com/user-attachments/assets/2162cb88-6e45-4fc1-91b0-05675866ad4c" />)
+Shopping Cart
 
-### Shopping Cart
+<p align="center">
+  <img width="100%" src="https://github.com/user-attachments/assets/c589cb68-b884-4041-b1f9-8cce5eb77013" alt="Noir Avenue Shopping Cart" />
+</p>
 
-<!-- Screenshot: Shopping Cart -->
-![Noir Avenue Shopping Cart](<img width="1257" height="692" alt="0414" src="https://github.com/user-attachments/assets/c589cb68-b884-4041-b1f9-8cce5eb77013" />)
+Checkout
 
-### Checkout
+<p align="center">
+  <img width="100%" src="https://github.com/user-attachments/assets/48b0efc6-11ba-40ac-848f-6ee5f17f9bab" alt="Noir Avenue Checkout" />
+</p>
 
-<!-- Screenshot: Checkout -->
-![Noir Avenue Checkout](<img width="1104" height="836" alt="0415" src="https://github.com/user-attachments/assets/48b0efc6-11ba-40ac-848f-6ee5f17f9bab" />)
-
-### Additional Screens
-
-Additional screenshots can be added to `docs/images/` as the product evolves.
-
-Suggested future captures:
-
-- Product details
-- User profile
-- Account settings
-- Authentication
-- Premium experience
-- Notifications
-
----
+Additional screenshots can be added as the application evolves.
 
 ## Core Features
 
