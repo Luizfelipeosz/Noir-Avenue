@@ -1,9 +1,4 @@
-
-import {
-  FaArrowRight,
-  FaCompass,
-  FaLock,
-} from "react-icons/fa";
+import { FaArrowRight, FaCompass, FaLock } from "react-icons/fa";
 
 const COMMUNITY_TOPICS = [
   {
@@ -22,6 +17,10 @@ const COMMUNITY_TOPICS = [
     name: "Experiência",
     description: "Compartilhe sua opinião",
   },
+  {
+    name: "Outras ideias",
+    description: "Outros assuntos e sugestões",
+  },
 ];
 
 function CommunitySidebar({
@@ -30,11 +29,9 @@ function CommunitySidebar({
   onSelectCategory,
 }) {
   return (
-    <aside className="community-aside">
-      <div className="community-aside-card community-aside-create">
-        <span className="community-kicker">
-          SUA VOZ IMPORTA
-        </span>
+    <aside className="community-aside" aria-label="Ações e assuntos da comunidade">
+      <section className="community-aside-card community-aside-create">
+        <span className="community-kicker">SUA VOZ IMPORTA</span>
 
         <h3>
           Tem uma ideia
@@ -43,23 +40,20 @@ function CommunitySidebar({
         </h3>
 
         <p>
-          Compartilhe uma sugestão, proponha uma melhoria ou
-          peça aquela peça que ainda não encontrou.
+          Compartilhe uma sugestão, proponha uma melhoria ou peça aquela
+          peça que ainda não encontrou.
         </p>
 
         <button type="button" onClick={onCreatePost}>
           Começar uma conversa
-          <FaArrowRight />
+          <FaArrowRight aria-hidden="true" />
         </button>
-      </div>
+      </section>
 
-      <div className="community-aside-card">
+      <section className="community-aside-card">
         <div className="community-aside-heading">
-          <span className="community-kicker">
-            EXPLORE
-          </span>
-
-          <FaCompass />
+          <span className="community-kicker">EXPLORE</span>
+          <FaCompass aria-hidden="true" />
         </div>
 
         <h3>Assuntos da comunidade</h3>
@@ -76,21 +70,20 @@ function CommunitySidebar({
                 <small>{topic.description}</small>
               </span>
 
-              <FaArrowRight />
+              <FaArrowRight aria-hidden="true" />
             </button>
           ))}
         </div>
-      </div>
+      </section>
 
       <div className="community-aside-note">
-        <FaLock />
+        <FaLock aria-hidden="true" />
 
         <div>
           <strong>Uma conversa reservada.</strong>
-
           <p>
-            Prefere falar diretamente com a equipe? Envie uma
-            sugestão privada. Ela não aparecerá no feed público.
+            Prefere falar diretamente com a equipe? Envie uma sugestão
+            privada. Ela não aparecerá no feed público.
           </p>
         </div>
       </div>
@@ -101,7 +94,7 @@ function CommunitySidebar({
         onClick={onCreatePrivatePost}
       >
         Enviar sugestão privada
-        <FaArrowRight />
+        <FaArrowRight aria-hidden="true" />
       </button>
     </aside>
   );

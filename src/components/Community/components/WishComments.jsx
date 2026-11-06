@@ -1,8 +1,4 @@
-
-import {
-  FaArrowRight,
-  FaTimes,
-} from "react-icons/fa";
+import { FaArrowRight, FaTimes } from "react-icons/fa";
 
 function WishComments({
   post,
@@ -20,9 +16,7 @@ function WishComments({
       className="community-modal-backdrop"
       role="presentation"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          onClose();
-        }
+        if (event.target === event.currentTarget) onClose();
       }}
     >
       <section
@@ -37,9 +31,7 @@ function WishComments({
               DISCUSSÃO · {post.category.toUpperCase()}
             </span>
 
-            <h2 id="community-discussion-title">
-              {post.title}
-            </h2>
+            <h2 id="community-discussion-title">{post.title}</h2>
           </div>
 
           <button
@@ -48,12 +40,12 @@ function WishComments({
             onClick={onClose}
             aria-label="Fechar discussão"
           >
-            <FaTimes />
+            <FaTimes aria-hidden="true" />
           </button>
         </div>
 
         <div className="community-discussion-body">
-          <span className="community-avatar">
+          <span className="community-avatar" aria-hidden="true">
             {post.initials}
           </span>
 
@@ -66,31 +58,24 @@ function WishComments({
 
         <div className="community-comments-heading">
           <strong>Comentários</strong>
-          <span>{post.comments}</span>
+          <span>{post.comments ?? comments.length}</span>
         </div>
 
         <div className="community-comments-list">
           {comments.length > 0 ? (
             comments.map((item) => (
-              <div
-                className="community-comment"
-                key={item.id}
-              >
-                <span className="community-avatar">
+              <div className="community-comment" key={item.id}>
+                <span className="community-avatar" aria-hidden="true">
                   {item.initials}
                 </span>
 
                 <div>
                   <strong>
                     {item.author}
-
-                    {item.official && (
-                      <em>Equipe Noir</em>
-                    )}
+                    {item.official && <em>Equipe Noir</em>}
                   </strong>
 
                   <small>{item.date}</small>
-
                   <p>{item.body}</p>
                 </div>
               </div>
@@ -102,10 +87,7 @@ function WishComments({
           )}
         </div>
 
-        <form
-          className="community-comment-form"
-          onSubmit={onAddComment}
-        >
+        <form className="community-comment-form" onSubmit={onAddComment}>
           <input
             type="text"
             value={comment}
@@ -120,7 +102,7 @@ function WishComments({
             disabled={!comment.trim()}
             aria-label="Enviar comentário"
           >
-            <FaArrowRight />
+            <FaArrowRight aria-hidden="true" />
           </button>
         </form>
 

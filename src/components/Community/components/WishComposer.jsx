@@ -1,4 +1,3 @@
-
 import {
   FaArrowRight,
   FaComments,
@@ -20,14 +19,14 @@ function WishComposer({
     (category) => category !== "Todas"
   );
 
+  const isPrivate = form.visibility === "private";
+
   return (
     <div
       className="community-modal-backdrop"
       role="presentation"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          onClose();
-        }
+        if (event.target === event.currentTarget) onClose();
       }}
     >
       <section
@@ -39,11 +38,11 @@ function WishComposer({
         <div className="community-modal-header">
           <div>
             <span className="community-kicker">
-              NOIR COMMUNITY
+              {isPrivate ? "SUGESTÃO RESERVADA" : "NOIR COMMUNITY"}
             </span>
 
             <h2 id="community-composer-title">
-              Compartilhe sua ideia.
+              {isPrivate ? "Fale diretamente com a equipe." : "Compartilhe sua ideia."}
             </h2>
           </div>
 
@@ -51,36 +50,30 @@ function WishComposer({
             type="button"
             className="community-modal-close"
             onClick={onClose}
-            aria-label="Fechar"
+            aria-label="Fechar formulário"
           >
-            <FaTimes />
+            <FaTimes aria-hidden="true" />
           </button>
         </div>
 
         <form onSubmit={onSubmit}>
           <label className="community-field">
             Título da ideia
-
             <input
               type="text"
               maxLength={90}
               required
               value={form.title}
-              onChange={(event) =>
-                onFormChange("title", event.target.value)
-              }
+              onChange={(event) => onFormChange("title", event.target.value)}
               placeholder="Dê um título para sua sugestão"
             />
           </label>
 
           <label className="community-field">
             Categoria
-
             <select
               value={form.category}
-              onChange={(event) =>
-                onFormChange("category", event.target.value)
-              }
+              onChange={(event) => onFormChange("category", event.target.value)}
             >
               {availableCategories.map((category) => (
                 <option key={category} value={category}>
@@ -92,65 +85,49 @@ function WishComposer({
 
           <label className="community-field">
             Conte sua ideia
-
             <textarea
               required
               maxLength={1200}
               rows={5}
               value={form.body}
-              onChange={(event) =>
-                onFormChange("body", event.target.value)
-              }
+              onChange={(event) => onFormChange("body", event.target.value)}
               placeholder="Explique o que gostaria de ver na Noir Avenue..."
             />
+            <small className="community-character-count">
+              {form.body.length}/1200 caracteres
+            </small>
           </label>
 
           <div className="community-visibility">
             <span>VISIBILIDADE</span>
 
-            <label
-              className={
-                form.visibility === "public" ? "selected" : ""
-              }
-            >
+            <label className={form.visibility === "public" ? "selected" : ""}>
               <input
                 type="radio"
                 name="visibility"
                 value="public"
                 checked={form.visibility === "public"}
-                onChange={() =>
-                  onFormChange("visibility", "public")
-                }
+                onChange={() => onFormChange("visibility", "public")}
               />
-
-              <FaComments />
-
+              <FaComments aria-hidden="true" />
               <span>
                 <strong>Pública</strong>
                 <small>Visível para a comunidade</small>
               </span>
             </label>
 
-            <label
-              className={
-                form.visibility === "private" ? "selected" : ""
-              }
-            >
+            <label className={form.visibility === "private" ? "selected" : ""}>
               <input
                 type="radio"
                 name="visibility"
                 value="private"
                 checked={form.visibility === "private"}
-                onChange={() =>
-                  onFormChange("visibility", "private")
-                }
+                onChange={() => onFormChange("visibility", "private")}
               />
-
-              <FaLock />
-
+              <FaLock aria-hidden="true" />
               <span>
                 <strong>Privada</strong>
-                <small>Enviada somente à equipe</small>
+                <small>Visível somente nesta conta nesta demonstração</small>
               </span>
             </label>
           </div>
@@ -164,19 +141,16 @@ function WishComposer({
               Cancelar
             </button>
 
-            <button
-              type="submit"
-              className="community-primary-btn"
-            >
+            <button type="submit" className="community-primary-btn">
               Enviar ideia
-              <FaArrowRight />
+              <FaArrowRight aria-hidden="true" />
             </button>
           </div>
         </form>
 
         <p className="community-modal-disclaimer">
-          Demonstração local: o envio não chega à administração
-          e será perdido ao recarregar a página.
+          Demonstração local: o envio não chega à administração e será perdido
+          ao recarregar a página.
         </p>
       </section>
     </div>

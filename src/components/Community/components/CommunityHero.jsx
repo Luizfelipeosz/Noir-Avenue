@@ -1,16 +1,34 @@
+import {
+  FaArrowLeft,
+  FaArrowRight,
+} from "react-icons/fa";
 
-import { FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function CommunityHero({ onCreatePost }) {
+  const navigate = useNavigate();
+
   return (
-    <section className="community-hero">
+    <section
+      className="community-hero"
+      aria-labelledby="community-hero-title"
+    >
+      <button
+        type="button"
+        className="community-back-btn"
+        onClick={() => navigate("/dashboard")}
+      >
+        <FaArrowLeft aria-hidden="true" />
+        Voltar
+      </button>
+
       <div className="community-hero-copy">
         <span className="community-eyebrow">
-          <span />
+          <span aria-hidden="true" />
           NOIR AVENUE · COMMUNITY
         </span>
 
-        <h1>
+        <h1 id="community-hero-title">
           Beyond the
           <br />
           <em>collection.</em>
@@ -27,7 +45,7 @@ function CommunityHero({ onCreatePost }) {
           onClick={onCreatePost}
         >
           Compartilhar uma ideia
-          <FaArrowRight />
+          <FaArrowRight aria-hidden="true" />
         </button>
       </div>
 

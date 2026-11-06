@@ -1,4 +1,3 @@
-
 import {
   FaCheck,
   FaChevronDown,
@@ -42,10 +41,7 @@ function CommunityFeed({
     <div className="community-main-column">
       <div className="community-feed-heading">
         <div>
-          <span className="community-kicker">
-            VOZES DA COMUNIDADE
-          </span>
-
+          <span className="community-kicker">VOZES DA COMUNIDADE</span>
           <h2>Conversas em destaque</h2>
         </div>
 
@@ -54,14 +50,14 @@ function CommunityFeed({
           className="community-mobile-compose"
           onClick={() => onCreatePost("public")}
         >
-          <FaPlus />
+          <FaPlus aria-hidden="true" />
           Nova ideia
         </button>
       </div>
 
       <div className="community-toolbar">
         <div className="community-search">
-          <FaSearch />
+          <FaSearch aria-hidden="true" />
 
           <input
             type="search"
@@ -77,13 +73,13 @@ function CommunityFeed({
               onClick={onClearSearch}
               aria-label="Limpar busca"
             >
-              <FaTimes />
+              <FaTimes aria-hidden="true" />
             </button>
           )}
         </div>
 
         <label className="community-sort">
-          <FaSlidersH />
+          <FaSlidersH aria-hidden="true" />
 
           <select
             value={sort}
@@ -94,7 +90,7 @@ function CommunityFeed({
             <option value="populares">Mais populares</option>
           </select>
 
-          <FaChevronDown />
+          <FaChevronDown aria-hidden="true" />
         </label>
       </div>
 
@@ -136,9 +132,7 @@ function CommunityFeed({
               key={category}
               role="tab"
               aria-selected={activeCategory === category}
-              className={
-                activeCategory === category ? "active" : ""
-              }
+              className={activeCategory === category ? "active" : ""}
               onClick={() => onSelectCategory(category)}
             >
               {category}
@@ -148,9 +142,9 @@ function CommunityFeed({
       )}
 
       {notice && (
-        <div className="community-notice" role="status">
-          <FaCheck />
-          {notice}
+        <div className="community-notice" role="status" aria-live="polite">
+          <FaCheck aria-hidden="true" />
+          <span>{notice}</span>
 
           {onRemoveNotice && (
             <button
@@ -158,13 +152,13 @@ function CommunityFeed({
               onClick={onRemoveNotice}
               aria-label="Fechar aviso"
             >
-              <FaTimes />
+              <FaTimes aria-hidden="true" />
             </button>
           )}
         </div>
       )}
 
-      <div className="community-feed">
+      <div className="community-feed" aria-live="polite">
         {visiblePosts.length > 0 ? (
           visiblePosts.map((post) => (
             <WishCard
@@ -179,33 +173,39 @@ function CommunityFeed({
           ))
         ) : (
           <div className="community-empty">
-            <FaCompass />
+            <FaCompass aria-hidden="true" />
 
             <strong>
               {isPrivateFeed
                 ? "Você ainda não enviou sugestões privadas"
-                : "Nenhuma conversa encontrada"}
+                : search
+                  ? "Nenhuma publicação corresponde à sua busca"
+                  : "Nenhuma conversa encontrada"}
             </strong>
 
             <span>
               {isPrivateFeed
                 ? "As sugestões privadas que você enviar aparecerão aqui e não serão exibidas no feed público."
-                : "Tente outra categoria ou compartilhe a primeira ideia sobre esse assunto."}
+                : search
+                  ? "Experimente outros termos ou limpe a busca para visualizar todas as publicações."
+                  : "Experimente outra categoria ou compartilhe a primeira ideia sobre esse assunto."}
             </span>
 
-            <button
-              type="button"
-              onClick={handleCreatePost}
-            >
-              Criar publicação
-            </button>
+            {search && !isPrivateFeed ? (
+              <button type="button" onClick={onClearSearch}>
+                Limpar busca
+              </button>
+            ) : (
+              <button type="button" onClick={handleCreatePost}>
+                Criar publicação
+              </button>
+            )}
           </div>
         )}
       </div>
 
       <p className="community-demo-disclaimer">
-        Conteúdo demonstrativo. Publicações e interações ainda
-        não são salvas no servidor.
+        Demonstração local: publicações e interações ainda não são salvas no servidor.
       </p>
     </div>
   );
