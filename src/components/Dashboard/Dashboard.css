@@ -475,13 +475,14 @@ button:focus-visible,
 
 .layout.sidebar-collapsed .sidebar-toggle {
 
-  left: 14px;
+  /* Sidebar fechada: mantém o botão mais à esquerda, sem invadir a saudação. */
+  left: 6px;
 
 }
 
 .layout.sidebar-open .sidebar-toggle {
 
-  left: calc(var(--sidebar-width) - 22px);
+  left: 5px;
 
 }
 
@@ -2352,12 +2353,3 @@ button:focus-visible,
 
 .layout.theme-light ::-webkit-scrollbar-thumb { background: #c8c6bf; }
 
-@media (min-width: 801px) {
-
-  .layout.sidebar-open .sidebar-toggle {
-
-    left: calc(var(--sidebar-width) - 275px);
-
-  }
-
-}

@@ -48,7 +48,7 @@ function CommunityFeed({
         <button
           type="button"
           className="community-mobile-compose"
-          onClick={() => onCreatePost("public")}
+          onClick={handleCreatePost}
         >
           <FaPlus aria-hidden="true" />
           Nova ideia
