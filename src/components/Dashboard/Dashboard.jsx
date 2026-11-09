@@ -1,4 +1,5 @@
 import "./Dashboard.css";
+
 import {
 
   useCallback,
@@ -12,6 +13,7 @@ import {
   useState,
 
 } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import { timeAgo } from "../../utils/timeAgo";
@@ -64,8 +66,6 @@ import {
 
 } from "../../utils/notifications";
 
-
-
 function calculateProfileCompletion(user) {
 
   const fields = [
@@ -80,8 +80,6 @@ function calculateProfileCompletion(user) {
 
   ];
 
-
-
   return Math.floor(
 
     (fields.filter(Boolean).length / fields.length) * 100
@@ -90,15 +88,11 @@ function calculateProfileCompletion(user) {
 
 }
 
-
-
 function readLocalStorage(key, fallback) {
 
   try {
 
     const value = localStorage.getItem(key);
-
-
 
     if (!value) {
 
@@ -106,11 +100,7 @@ function readLocalStorage(key, fallback) {
 
     }
 
-
-
     const parsed = JSON.parse(value);
-
-
 
     return parsed ?? fallback;
 
@@ -122,15 +112,11 @@ function readLocalStorage(key, fallback) {
 
 }
 
-
-
 function Dashboard() {
 
   const navigate = useNavigate();
 
   const searchInputRef = useRef(null);
-
-
 
   const [session, setSession] = useState(() =>
 
@@ -138,15 +124,11 @@ function Dashboard() {
 
   );
 
-
-
   const user = session || {};
 
   const theme = user.theme || "Dark";
 
   const language = user.language || "Português";
-
-
 
   const translations = {
 
@@ -184,8 +166,6 @@ function Dashboard() {
 
     },
 
-
-
     English: {
 
       area: "CUSTOMER AREA",
@@ -219,8 +199,6 @@ function Dashboard() {
       explorePlatform: "Explore your platform",
 
     },
-
-
 
     Español: {
 
@@ -258,11 +236,7 @@ function Dashboard() {
 
   };
 
-
-
   const t = translations[language] || translations.Português;
-
-
 
   const [favorites, setFavorites] = useState(() =>
 
@@ -270,15 +244,11 @@ function Dashboard() {
 
   );
 
-
-
   const [activities, setActivities] = useState(() =>
 
     readActivities()
 
   );
-
-
 
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -286,25 +256,25 @@ function Dashboard() {
 
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
-
-
   const [sidebarHovered, setSidebarHovered] = useState(false);
+
   const [sidebarFocused, setSidebarFocused] = useState(false);
+
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
   const [desktopSidebarOverride, setDesktopSidebarOverride] = useState(null);
 
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 800;
+
   const sidebarOpen = isDesktop
+
     ? desktopSidebarOverride ?? (sidebarHovered || sidebarFocused)
+
     : mobileSidebarOpen;
-
-
 
   const profilePercentage = calculateProfileCompletion(user);
 
   const hour = new Date().getHours();
-
-
 
   const greeting =
 
@@ -317,8 +287,6 @@ function Dashboard() {
         ? "Boa tarde"
 
         : "Boa noite";
-
-
 
   const actions = useMemo(
 
@@ -373,17 +341,19 @@ function Dashboard() {
       },
 
       {
+
         title: "Noir Community",
-  
+
         description: "Compartilhe desejos, ideias e sugestões.",
-  
+
         keywords: "comunidade desejos sugestões ideias peças novidades melhorias fórum",
-  
+
         icon: <FaComments />,
-  
+
         iconClass: "nav-icon-community",
-  
+
         route: "/dashboard/community",
+
 },
 
       {
@@ -458,21 +428,15 @@ function Dashboard() {
 
   );
 
-
-
   const filteredActions = useMemo(() => {
 
     const normalizedTerm = searchTerm.trim().toLowerCase();
-
-
 
     if (!normalizedTerm) {
 
       return actions;
 
     }
-
-
 
     return actions.filter((item) =>
 
@@ -486,8 +450,6 @@ function Dashboard() {
 
   }, [actions, searchTerm]);
 
-
-
   const sortedActivities = useMemo(() => {
 
     return [...activities].sort((a, b) => {
@@ -495,8 +457,6 @@ function Dashboard() {
       const dateA = new Date(a.createdAt || 0).getTime();
 
       const dateB = new Date(b.createdAt || 0).getTime();
-
-
 
       return (
 
@@ -510,8 +470,6 @@ function Dashboard() {
 
   }, [activities]);
 
-
-
   const unreadNotifications = useMemo(
 
     () => activities.filter((item) => item.read !== true),
@@ -519,10 +477,6 @@ function Dashboard() {
     [activities]
 
   );
-
-
-
-  // Atualiza as atividades e acompanha alterações feitas por outros componentes.
 
   useEffect(() => {
 
@@ -532,11 +486,7 @@ function Dashboard() {
 
     };
 
-
-
     refreshActivities();
-
-
 
     return subscribeToNotifications((updatedActivities) => {
 
@@ -554,10 +504,6 @@ function Dashboard() {
 
   }, []);
 
-
-
-  // Mantém os dados do usuário e os favoritos atualizados.
-
   useEffect(() => {
 
     const refreshStoredData = () => {
@@ -568,13 +514,9 @@ function Dashboard() {
 
     };
 
-
-
     window.addEventListener("storage", refreshStoredData);
 
     window.addEventListener("focus", refreshStoredData);
-
-
 
     return () => {
 
@@ -586,21 +528,25 @@ function Dashboard() {
 
   }, []);
 
-
-
   const toggleSidebar = () => {
+
     if (window.innerWidth <= 800) {
+
       setMobileSidebarOpen((current) => !current);
+
       return;
+
     }
 
     setDesktopSidebarOverride((current) => {
+
       const currentlyOpen = current ?? (sidebarHovered || sidebarFocused);
+
       return !currentlyOpen;
+
     });
+
   };
-
-
 
   const closeSidebarOnMobile = () => {
 
@@ -612,8 +558,6 @@ function Dashboard() {
 
   };
 
-
-
   const closeSearch = useCallback(() => {
 
     setSearchOpen(false);
@@ -622,15 +566,11 @@ function Dashboard() {
 
   }, []);
 
-
-
   const openSearch = () => {
 
     setNotificationsOpen(false);
 
     setSearchOpen(true);
-
-
 
     requestAnimationFrame(() => {
 
@@ -640,8 +580,6 @@ function Dashboard() {
 
   };
 
-
-
   const openNotifications = () => {
 
     setSearchOpen(false);
@@ -650,8 +588,6 @@ function Dashboard() {
 
   };
 
-
-
   const markNotificationsAsRead = () => {
 
     markAllNotificationsAsRead();
@@ -659,8 +595,6 @@ function Dashboard() {
     setActivities(readActivities());
 
   };
-
-
 
   const handleSearchKeyDown = (event) => {
 
@@ -671,8 +605,6 @@ function Dashboard() {
       return;
 
     }
-
-
 
     if (event.key === "Enter" && filteredActions.length > 0) {
 
@@ -686,8 +618,6 @@ function Dashboard() {
 
   };
 
-
-
   const handleNavigate = (route) => {
 
     navigate(route);
@@ -699,8 +629,6 @@ function Dashboard() {
     closeSidebarOnMobile();
 
   };
-
-
 
   useEffect(() => {
 
@@ -718,11 +646,7 @@ function Dashboard() {
 
     };
 
-
-
     document.addEventListener("keydown", handleEscape);
-
-
 
     return () => {
 
@@ -732,8 +656,6 @@ function Dashboard() {
 
   }, [closeSearch]);
 
-
-
   const logout = () => {
 
     localStorage.removeItem("noiravenue_session");
@@ -742,8 +664,6 @@ function Dashboard() {
 
   };
 
-
-
   const openActivity = () => {
 
     markNotificationsAsRead();
@@ -751,8 +671,6 @@ function Dashboard() {
     handleNavigate("/dashboard/historico");
 
   };
-
-
 
   return (
 
@@ -830,8 +748,6 @@ function Dashboard() {
 
         </button>
 
-
-
         <div className="sidebar-brand">
 
           <span>NOIR</span>
@@ -840,11 +756,7 @@ function Dashboard() {
 
         </div>
 
-
-
         <p className="sidebar-label">NAVEGAÇÃO</p>
-
-
 
         <nav>
 
@@ -868,19 +780,13 @@ function Dashboard() {
 
               </span>
 
-
-
               <span className="nav-content">
 
                 <span>{item.title}</span>
 
-
-
                 {item.premium && <small>EXCLUSIVO</small>}
 
               </span>
-
-
 
               {item.premium && (
 
@@ -896,8 +802,6 @@ function Dashboard() {
 
       </aside>
 
-
-
       <main className="dashboard-container">
 
         <button
@@ -909,21 +813,20 @@ function Dashboard() {
           onClick={toggleSidebar}
 
           aria-label={sidebarOpen ? "Fechar navegação" : "Abrir navegação"}
+
           aria-expanded={sidebarOpen}
+
         >
+
           {sidebarOpen ? <FaTimes /> : <FaBars />}
 
         </button>
-
-
 
         <header className="dashboard-header">
 
           <div className="header-user">
 
             <span className="welcome-label">{t.area}</span>
-
-
 
             <h1>
 
@@ -932,8 +835,6 @@ function Dashboard() {
               <span>{user.name || "Cliente"}</span>
 
             </h1>
-
-
 
             <p>
 
@@ -950,8 +851,6 @@ function Dashboard() {
             </p>
 
           </div>
-
-
 
           <div className="header-actions">
 
@@ -977,8 +876,6 @@ function Dashboard() {
 
                 <FaBell />
 
-
-
                 {unreadNotifications.length > 0 && (
 
                   <span className="notification-badge">
@@ -995,8 +892,6 @@ function Dashboard() {
 
               </button>
 
-
-
               {notificationsOpen && (
 
                 <div className="notifications-panel">
@@ -1010,8 +905,6 @@ function Dashboard() {
                       <h3>Notificações</h3>
 
                     </div>
-
-
 
                     {unreadNotifications.length > 0 && (
 
@@ -1035,8 +928,6 @@ function Dashboard() {
 
                   </div>
 
-
-
                   <div className="notification-list">
 
                     {sortedActivities.length > 0 ? (
@@ -1044,8 +935,6 @@ function Dashboard() {
                       sortedActivities.slice(0, 5).map((item) => {
 
                         const isUnread = item.read !== true;
-
-
 
                         return (
 
@@ -1067,13 +956,9 @@ function Dashboard() {
 
                             <span className="notification-dot" />
 
-
-
                             <span className="notification-content">
 
                               <strong>{item.message}</strong>
-
-
 
                               <small>
 
@@ -1095,11 +980,7 @@ function Dashboard() {
 
                         <FaBell />
 
-
-
                         <strong>Nenhuma notificação</strong>
-
-
 
                         <span>
 
@@ -1114,8 +995,6 @@ function Dashboard() {
                     )}
 
                   </div>
-
-
 
                   <button
 
@@ -1138,8 +1017,6 @@ function Dashboard() {
               )}
 
             </div>
-
-
 
             <div className="header-tool">
 
@@ -1167,8 +1044,6 @@ function Dashboard() {
 
             </div>
 
-
-
             <button
 
               type="button"
@@ -1188,8 +1063,6 @@ function Dashboard() {
           </div>
 
         </header>
-
-
 
         {searchOpen && (
 
@@ -1213,8 +1086,6 @@ function Dashboard() {
 
                 <FaSearch />
 
-
-
                 <input
 
                   ref={searchInputRef}
@@ -1230,8 +1101,6 @@ function Dashboard() {
                   aria-label="Pesquisar na plataforma"
 
                 />
-
-
 
                 <button
 
@@ -1251,8 +1120,6 @@ function Dashboard() {
 
               </div>
 
-
-
               <div className="search-results">
 
                 <span className="search-results-label">
@@ -1260,8 +1127,6 @@ function Dashboard() {
                   {searchTerm ? "RESULTADOS" : "ACESSO RÁPIDO"}
 
                 </span>
-
-
 
                 {filteredActions.length > 0 ? (
 
@@ -1291,8 +1156,6 @@ function Dashboard() {
 
                       </span>
 
-
-
                       <span>
 
                         <strong>{item.title}</strong>
@@ -1300,8 +1163,6 @@ function Dashboard() {
                         <small>{item.description}</small>
 
                       </span>
-
-
 
                       <FaArrowRight />
 
@@ -1315,11 +1176,7 @@ function Dashboard() {
 
                     <FaSearch />
 
-
-
                     <strong>Nenhum resultado encontrado</strong>
-
-
 
                     <span>
 
@@ -1341,23 +1198,15 @@ function Dashboard() {
 
         )}
 
-
-
         <section className="dashboard-banner">
 
           <div className="banner-content">
 
             <span className="banner-label">NOIR AVENUE</span>
 
-
-
             <h2>{t.bannerTitle}</h2>
 
-
-
             <p>{t.bannerDescription}</p>
-
-
 
             <button
 
@@ -1377,8 +1226,6 @@ function Dashboard() {
 
           </div>
 
-
-
           <div className="banner-decoration">
 
             <FaCompass />
@@ -1386,8 +1233,6 @@ function Dashboard() {
           </div>
 
         </section>
-
-
 
         <section className="dashboard-section">
 
@@ -1402,8 +1247,6 @@ function Dashboard() {
             </div>
 
           </div>
-
-
 
           <div className="dashboard-stats">
 
@@ -1441,15 +1284,11 @@ function Dashboard() {
 
               </div>
 
-
-
               <strong>{favorites.length}</strong>
 
               <p>Itens salvos por você</p>
 
             </div>
-
-
 
             <div
 
@@ -1485,15 +1324,11 @@ function Dashboard() {
 
               </div>
 
-
-
               <strong>{String(categories.length).padStart(2, "0")}</strong>
 
               <p>Coleções disponíveis</p>
 
             </div>
-
-
 
             <div
 
@@ -1529,11 +1364,7 @@ function Dashboard() {
 
               </div>
 
-
-
               <strong>{user.isPremium ? "Ativo" : "Inativo"}</strong>
-
-
 
               <p>
 
@@ -1546,8 +1377,6 @@ function Dashboard() {
               </p>
 
             </div>
-
-
 
             <div
 
@@ -1583,8 +1412,6 @@ function Dashboard() {
 
               </div>
 
-
-
               <strong>{profilePercentage}%</strong>
 
               <p>Perfil preenchido</p>
@@ -1594,8 +1421,6 @@ function Dashboard() {
           </div>
 
         </section>
-
-
 
         <section className="dashboard-content-grid">
 
@@ -1610,8 +1435,6 @@ function Dashboard() {
                 <h2>{t.recentActivities}</h2>
 
               </div>
-
-
 
               <button
 
@@ -1629,8 +1452,6 @@ function Dashboard() {
 
             </div>
 
-
-
             <ul>
 
               {sortedActivities.slice(0, 5).map((item) => (
@@ -1638,8 +1459,6 @@ function Dashboard() {
                 <li key={item.id}>
 
                   <div className="activity-dot" />
-
-
 
                   <div>
 
@@ -1652,8 +1471,6 @@ function Dashboard() {
                 </li>
 
               ))}
-
-
 
               {sortedActivities.length === 0 && (
 
@@ -1679,8 +1496,6 @@ function Dashboard() {
 
           </div>
 
-
-
           <div className="profile-progress">
 
             <div className="section-heading compact">
@@ -1688,8 +1503,6 @@ function Dashboard() {
               <div>
 
                 <span>SEU PERFIL</span>
-
-
 
                 <h2>
 
@@ -1704,8 +1517,6 @@ function Dashboard() {
               </div>
 
             </div>
-
-
 
             <div
 
@@ -1723,8 +1534,6 @@ function Dashboard() {
 
             </div>
 
-
-
             <p>
 
               {profilePercentage === 100
@@ -1734,8 +1543,6 @@ function Dashboard() {
                 : "Mantenha suas informações atualizadas para aproveitar melhor a experiência."}
 
             </p>
-
-
 
             <button
 
@@ -1751,8 +1558,6 @@ function Dashboard() {
 
                 : "Atualizar perfil"}
 
-
-
               <FaArrowRight />
 
             </button>
@@ -1760,8 +1565,6 @@ function Dashboard() {
           </div>
 
         </section>
-
-
 
         <section className="dashboard-actions-section">
 
@@ -1776,8 +1579,6 @@ function Dashboard() {
             </div>
 
           </div>
-
-
 
           <div className="dashboard-actions">
 
@@ -1827,13 +1628,9 @@ function Dashboard() {
 
                 </div>
 
-
-
                 <h3>{item.title}</h3>
 
                 <p>{item.description}</p>
-
-
 
                 <span className="action-link">
 
@@ -1858,7 +1655,5 @@ function Dashboard() {
   );
 
 }
-
-
 
 export default Dashboard;
