@@ -34,8 +34,7 @@ import { addActivity } from "../../utils/activityLogger";
 import "./Perfil.css";
 import logo from "../../assets/logo.png";
 
-const API_URL =
-  "https://noir-avenue-api.onrender.com/api";
+const API_URL = "https://noir-avenue-api.onrender.com/api";
 
 const SESSION_KEY = "noiravenue_session";
 const STORAGE_KEY = "noiravenue_email";
@@ -190,6 +189,10 @@ function Perfil() {
       SESSION_KEY,
       JSON.stringify(updatedUser)
     );
+  };
+
+  const getAccessToken = () => {
+    return profile.token;
   };
 
   const handleBack = () => {
@@ -377,12 +380,16 @@ function Perfil() {
       return;
     }
 
-    if (!profile.email) {
-      toast.error("Não foi possível continuar", {
+    const token = getAccessToken();
+
+    if (!token) {
+      toast.error("Sessão não encontrada", {
         description:
-          "Não encontramos os dados da sua conta.",
+          "Entre novamente na sua conta para realizar essa operação.",
       });
 
+      localStorage.removeItem(SESSION_KEY);
+      navigate("/", { replace: true });
       return;
     }
 
@@ -452,20 +459,31 @@ function Perfil() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            email: profile.email,
             currentPassword,
             newPassword,
-            confirmPassword:
-              confirmNewPassword,
+            confirmPassword: confirmNewPassword,
           }),
         }
       );
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
+        if (response.status === 401) {
+          toast.error("Sessão inválida ou expirada", {
+            description:
+              data.message ||
+              "Entre novamente na sua conta.",
+          });
+
+          localStorage.removeItem(SESSION_KEY);
+          navigate("/", { replace: true });
+          return;
+        }
+
         throw new Error(
           data?.message ||
             "Não foi possível alterar sua senha."
@@ -510,15 +528,19 @@ function Perfil() {
   };
 
   const handleDeleteAccount = async () => {
-    if (!profile.email) {
+    const token = getAccessToken();
+
+    if (!token) {
       toast.error(
         "Não foi possível excluir a conta",
         {
           description:
-            "Não encontramos o e-mail da sua conta.",
+            "Sua sessão não foi encontrada. Entre novamente.",
         }
       );
 
+      localStorage.removeItem(SESSION_KEY);
+      navigate("/", { replace: true });
       return;
     }
 
@@ -534,17 +556,26 @@ function Perfil() {
         {
           method: "DELETE",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            email: profile.email,
-          }),
         }
       );
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
+        if (response.status === 401) {
+          toast.error("Sessão inválida ou expirada", {
+            description:
+              data.message ||
+              "Entre novamente na sua conta.",
+          });
+
+          localStorage.removeItem(SESSION_KEY);
+          navigate("/", { replace: true });
+          return;
+        }
+
         toast.error(
           data.message ||
             "Não foi possível excluir a conta."
@@ -1551,8 +1582,7 @@ function Perfil() {
                 <div
                   className={
                     newPassword &&
-                    newPassword ===
-                      confirmNewPassword
+                    newPassword === confirmNewPassword
                       ? "password-requirement valid"
                       : "password-requirement"
                   }

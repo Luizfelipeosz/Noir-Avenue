@@ -161,6 +161,7 @@ const Login = () => {
 
         toast.error("Não foi possível realizar o login", {
           description:
+            data.message ||
             "Ocorreu um problema ao acessar sua conta. Tente novamente em instantes.",
           duration: 5000,
         });
@@ -168,10 +169,10 @@ const Login = () => {
         return;
       }
 
-      if (!data.user) {
+      if (!data.user || !data.token) {
         toast.error("Não foi possível concluir o login", {
           description:
-            "O servidor não retornou os dados esperados. Tente novamente.",
+            "O servidor não retornou os dados de autenticação esperados. Tente novamente.",
         });
 
         return;
@@ -185,6 +186,7 @@ const Login = () => {
 
       const session = {
         ...data.user,
+        token: data.token,
         loginAt: new Date().toISOString(),
       };
 

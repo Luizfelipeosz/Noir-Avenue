@@ -17,9 +17,7 @@ import PoliticaDePrivacidade from "../PoliticaDePrivacidade/PoliticaDePrivacidad
 
 import "./Cadastro.css";
 
-const API_URL =
-  "https://noir-avenue-api.onrender.com/api"
-  "http://localhost:3000/api";
+const API_URL = "https://noir-avenue-api.onrender.com/api";
 
 const passwordRequirements = [
   {
@@ -146,6 +144,8 @@ const Cadastro = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (isLoading) return;
+
     if (!name.trim() || !email.trim()) {
       toast.warning("Campos obrigatórios", {
         description:
@@ -200,7 +200,7 @@ const Cadastro = () => {
         }
       );
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         toast.error(
@@ -221,7 +221,7 @@ const Cadastro = () => {
       }, 1500);
     } catch (error) {
       console.error(
-        "❌ Erro ao realizar cadastro:",
+        "Erro ao realizar cadastro:",
         error
       );
 
@@ -259,7 +259,6 @@ const Cadastro = () => {
             Faça parte da Noir Avenue.
           </p>
 
-          {/* NOME */}
           <div className="input-field">
             <label
               htmlFor="name"
@@ -289,7 +288,6 @@ const Cadastro = () => {
             />
           </div>
 
-          {/* E-MAIL */}
           <div className="input-field">
             <label
               htmlFor="email"
@@ -319,7 +317,6 @@ const Cadastro = () => {
             />
           </div>
 
-          {/* SENHA */}
           <div className="input-field">
             <label
               htmlFor="password"
@@ -381,7 +378,6 @@ const Cadastro = () => {
             </button>
           </div>
 
-          {/* REQUISITOS DA SENHA */}
           <div
             id="password-requirements"
             className="password-requirements"
@@ -417,7 +413,6 @@ const Cadastro = () => {
             </ul>
           </div>
 
-          {/* CONFIRMAÇÃO DA SENHA */}
           <div className="input-field confirm-password-field">
             <label
               htmlFor="confirm-password"
@@ -480,7 +475,6 @@ const Cadastro = () => {
             </button>
           </div>
 
-          {/* FEEDBACK DE CONFIRMAÇÃO */}
           <div
             id="password-match"
             className={`password-feedback ${
@@ -511,7 +505,6 @@ const Cadastro = () => {
             )}
           </div>
 
-          {/* TERMOS */}
           <div className="remember">
             <label htmlFor="terms">
               <input
@@ -544,9 +537,7 @@ const Cadastro = () => {
                   type="button"
                   className="legal-inline-button"
                   onClick={() =>
-                    openLegalDocument(
-                      "privacy"
-                    )
+                    openLegalDocument("privacy")
                   }
                 >
                   Política de Privacidade
@@ -556,7 +547,6 @@ const Cadastro = () => {
             </label>
           </div>
 
-          {/* BOTÃO */}
           <button
             type="submit"
             className="submit-button"
@@ -581,7 +571,6 @@ const Cadastro = () => {
         </form>
       </main>
 
-      {/* MODAL DE DOCUMENTOS */}
       {activeLegalDocument && (
         <div
           className="legal-modal-overlay"
@@ -619,9 +608,7 @@ const Cadastro = () => {
                   isModal
                   onClose={closeLegalDocument}
                   onOpenPrivacy={() =>
-                    openLegalDocument(
-                      "privacy"
-                    )
+                    openLegalDocument("privacy")
                   }
                 />
               ) : (

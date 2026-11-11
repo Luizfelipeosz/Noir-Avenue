@@ -12,6 +12,12 @@ interface LoginData {
   password: string;
 }
 
+interface ChangePasswordData {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const registerUser = async ({
@@ -95,15 +101,13 @@ export const loginUser = async ({
   };
 };
 
-export const deleteUser = async (email: string) => {
-  const normalizedEmail = email.trim().toLowerCase();
-
-  if (!normalizedEmail) {
-    throw new Error("INVALID_EMAIL");
+export const deleteUser = async (userId: string) => {
+  if (!userId) {
+    throw new Error("INVALID_USER_ID");
   }
 
   const user = await prisma.user.findUnique({
-    where: { email: normalizedEmail },
+    where: { id: userId },
   });
 
   if (!user) {
@@ -111,31 +115,23 @@ export const deleteUser = async (email: string) => {
   }
 
   await prisma.user.delete({
-    where: { email: normalizedEmail },
+    where: { id: userId },
   });
 
   return { success: true };
 };
 
-interface ChangePasswordData {
-  email: string;
-  currentPassword: string;
-  newPassword: string;
-}
-
 export const changeUserPassword = async ({
-  email,
+  userId,
   currentPassword,
   newPassword,
 }: ChangePasswordData) => {
-  const normalizedEmail = email.trim().toLowerCase();
-
-  if (!normalizedEmail || !currentPassword || !newPassword) {
+  if (!userId || !currentPassword || !newPassword) {
     throw new Error("INVALID_PASSWORD_DATA");
   }
 
   const user = await prisma.user.findUnique({
-    where: { email: normalizedEmail },
+    where: { id: userId },
   });
 
   if (!user) {
@@ -158,7 +154,7 @@ export const changeUserPassword = async ({
   const hashedPassword = await bcrypt.hash(newPassword, 12);
 
   await prisma.user.update({
-    where: { id: user.id },
+    where: { id: userId },
     data: { password: hashedPassword },
   });
 

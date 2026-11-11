@@ -1,3 +1,4 @@
+
 import type { Request, Response } from "express";
 
 import {
@@ -15,6 +16,7 @@ import {
   changeUserPassword,
 } from "../services/auth.service.js";
 
+import { generateAccessToken } from "../services/jwt.service.js";
 import { env } from "../config/env.js";
 
 export async function forgotPasswordController(
@@ -38,20 +40,10 @@ export async function forgotPasswordController(
       });
     }
 
-    console.log(
-      "📧 Solicitação de recuperação:",
-      normalizedEmail
-    );
-
     const resetData =
       await createPasswordResetToken(normalizedEmail);
 
     if (!resetData) {
-      console.log(
-        "⚠️ Nenhum usuário encontrado:",
-        normalizedEmail
-      );
-
       return res.status(200).json({
         message:
           "Se o e-mail estiver cadastrado, um link de recuperação será enviado.",
@@ -62,17 +54,10 @@ export async function forgotPasswordController(
       `${env.frontendUrl}/redefinir-senha?token=` +
       encodeURIComponent(resetData.token);
 
-    console.log("🔗 Reset URL:", resetUrl);
-    console.log("📨 Chamando serviço de e-mail...");
-
     await sendPasswordResetEmail(
       resetData.user.email,
       resetData.user.name,
       resetUrl
-    );
-
-    console.log(
-      "✅ Serviço de e-mail executado com sucesso."
     );
 
     return res.status(200).json({
@@ -81,7 +66,7 @@ export async function forgotPasswordController(
     });
   } catch (error) {
     console.error(
-      "❌ Erro ao solicitar recuperação de senha:",
+      "Erro ao solicitar recuperação de senha:",
       error
     );
 
@@ -127,7 +112,7 @@ export async function verifyResetTokenController(
     });
   } catch (error) {
     console.error(
-      "❌ Erro ao verificar token:",
+      "Erro ao verificar token:",
       error
     );
 
@@ -151,8 +136,7 @@ export async function resetPasswordController(
 
     if (!token || typeof token !== "string") {
       return res.status(400).json({
-        message:
-          "Token de recuperação não informado.",
+        message: "Token de recuperação não informado.",
       });
     }
 
@@ -178,10 +162,7 @@ export async function resetPasswordController(
       });
     }
 
-    const result = await resetPassword(
-      token,
-      password
-    );
+    const result = await resetPassword(token, password);
 
     if (!result.success) {
       return res.status(400).json({
@@ -195,7 +176,7 @@ export async function resetPasswordController(
     });
   } catch (error) {
     console.error(
-      "❌ Erro ao redefinir senha:",
+      "Erro ao redefinir senha:",
       error
     );
 
@@ -241,10 +222,13 @@ export async function loginController(
       password,
     });
 
+    const token = generateAccessToken(user.id);
+
     return res.status(200).json({
       code: "LOGIN_SUCCESS",
       message: "Login realizado com sucesso.",
       user,
+      token,
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -290,7 +274,6 @@ export async function loginController(
   }
 }
 
-
 export async function registerController(
   req: Request,
   res: Response
@@ -329,25 +312,29 @@ export async function registerController(
       password,
     });
 
+    const token = generateAccessToken(user.id);
+
     return res.status(201).json({
       message: "Conta criada com sucesso.",
       user,
+      token,
     });
   } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message === "EMAIL_ALREADY_EXISTS"
-    ) {
-      return res.status(409).json({
-        message:
-          "Este e-mail já está cadastrado.",
-      });
+    if (error instanceof Error) {
+      if (error.message === "EMAIL_ALREADY_EXISTS") {
+        return res.status(409).json({
+          message: "Este e-mail já está cadastrado.",
+        });
+      }
+
+      if (error.message === "INVALID_EMAIL") {
+        return res.status(400).json({
+          message: "Informe um e-mail válido.",
+        });
+      }
     }
 
-    console.error(
-      "❌ Erro ao criar usuário:",
-      error
-    );
+    console.error("Erro ao criar usuário:", error);
 
     return res.status(500).json({
       message:
@@ -361,16 +348,15 @@ export async function deleteAccountController(
   res: Response
 ) {
   try {
-    const { email } = req.body;
+    const userId = req.user?.id;
 
-    if (!email || typeof email !== "string") {
-      return res.status(400).json({
-        message:
-          "E-mail da conta não informado.",
+    if (!userId) {
+      return res.status(401).json({
+        message: "Autenticação necessária.",
       });
     }
 
-    await deleteUser(email);
+    await deleteUser(userId);
 
     return res.status(200).json({
       message: "Conta removida com sucesso.",
@@ -385,19 +371,7 @@ export async function deleteAccountController(
       });
     }
 
-    if (
-      error instanceof Error &&
-      error.message === "INVALID_EMAIL"
-    ) {
-      return res.status(400).json({
-        message: "Informe um e-mail válido.",
-      });
-    }
-
-    console.error(
-      "❌ Erro ao excluir conta:",
-      error
-    );
+    console.error("Erro ao excluir conta:", error);
 
     return res.status(500).json({
       message:
@@ -405,25 +379,31 @@ export async function deleteAccountController(
     });
   }
 }
+
 export async function changePasswordController(
   req: Request,
   res: Response
 ) {
   try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        message: "Autenticação necessária.",
+      });
+    }
+
     const {
-      email,
       currentPassword,
       newPassword,
       confirmPassword,
     } = req.body;
 
     if (
-      !email ||
-      typeof email !== "string" ||
-      !currentPassword ||
       typeof currentPassword !== "string" ||
-      !newPassword ||
-      typeof newPassword !== "string"
+      !currentPassword ||
+      typeof newPassword !== "string" ||
+      !newPassword
     ) {
       return res.status(400).json({
         message:
@@ -448,7 +428,7 @@ export async function changePasswordController(
     }
 
     const result = await changeUserPassword({
-      email,
+      userId,
       currentPassword,
       newPassword,
     });
@@ -464,48 +444,35 @@ export async function changePasswordController(
       message: "Senha alterada com sucesso.",
     });
   } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message === "INVALID_CURRENT_PASSWORD"
-    ) {
-      return res.status(401).json({
-        message: "A senha atual está incorreta.",
-      });
+    if (error instanceof Error) {
+      if (error.message === "INVALID_CURRENT_PASSWORD") {
+        return res.status(401).json({
+          message: "A senha atual está incorreta.",
+        });
+      }
+
+      if (error.message === "SAME_PASSWORD") {
+        return res.status(400).json({
+          message:
+            "A nova senha precisa ser diferente da senha atual.",
+        });
+      }
+
+      if (error.message === "USER_NOT_FOUND") {
+        return res.status(404).json({
+          message: "Conta não encontrada.",
+        });
+      }
+
+      if (error.message === "INVALID_PASSWORD_DATA") {
+        return res.status(400).json({
+          message:
+            "Informe corretamente os dados da senha.",
+        });
+      }
     }
 
-    if (
-      error instanceof Error &&
-      error.message === "SAME_PASSWORD"
-    ) {
-      return res.status(400).json({
-        message:
-          "A nova senha precisa ser diferente da senha atual.",
-      });
-    }
-
-    if (
-      error instanceof Error &&
-      error.message === "USER_NOT_FOUND"
-    ) {
-      return res.status(404).json({
-        message: "Conta não encontrada.",
-      });
-    }
-
-    if (
-      error instanceof Error &&
-      error.message === "INVALID_PASSWORD_DATA"
-    ) {
-      return res.status(400).json({
-        message:
-          "Informe corretamente os dados da senha.",
-      });
-    }
-
-    console.error(
-      "❌ Erro ao alterar senha:",
-      error
-    );
+    console.error("Erro ao alterar senha:", error);
 
     return res.status(500).json({
       message:

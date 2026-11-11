@@ -1,3 +1,4 @@
+
 import "dotenv/config";
 
 const requiredEnv = (
@@ -28,5 +29,10 @@ export const env = {
   resendApiKey: requiredEnv(
     "RESEND_API_KEY",
     process.env.RESEND_API_KEY
+  ),
+
+  jwtSecret: requiredEnv(
+    "JWT_SECRET",
+    process.env.JWT_SECRET
   ),
 };
