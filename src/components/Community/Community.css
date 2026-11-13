@@ -12,8 +12,9 @@
   --community-input: #0d0d0d;
   --community-hover: rgba(255, 255, 255, 0.045);
   --community-shadow: 0 20px 55px rgba(0, 0, 0, 0.24);
+
   width: 100%;
-  max-width: 1500px;
+  max-width: 1760px;
   margin: 0 auto;
   color: var(--community-text);
   animation: community-enter 0.35s ease both;
@@ -289,9 +290,9 @@ html.theme-light .community-page {
 
 .community-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-columns: minmax(0, 1fr) 280px;
   align-items: start;
-  gap: 28px;
+  gap: 24px;
 }
 
 .community-main-column {
@@ -1396,7 +1397,7 @@ border-color: rgba(190, 155, 87, 0.38);
 
 @media (max-width: 1120px) {
   .community-workspace {
-    grid-template-columns: minmax(0, 1fr) 270px;
+    grid-template-columns: minmax(0, 1fr) 260px;
     gap: 18px;
   }
   .community-hero-art {
@@ -1462,16 +1463,23 @@ border-color: rgba(190, 155, 87, 0.38);
     font-size: 0.53rem;
   }
   .community-intro-row {
-    display: grid;
-    gap: 13px;
-    margin-bottom: 27px;
-  }
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 60px;
+  margin: 0 0 38px;
+  padding: 0 4px;
+}
   .community-intro-row h2 {
     font-size: 1.9rem;
   }
   .community-intro-row > p {
-    font-size: 0.8rem;
-  }
+  max-width: 620px;
+  margin: 0 0 4px;
+  color: var(--community-muted);
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
   .community-feed-heading {
     align-items: center;
   }
@@ -1493,8 +1501,13 @@ border-color: rgba(190, 155, 87, 0.38);
     font-size: 0.68rem;
   }
   .community-post {
-    padding: 17px 16px 0;
-  }
+  min-width: 0;
+  padding: 24px 26px 0;
+  border: 1px solid var(--community-border);
+  border-radius: 6px;
+  background: var(--community-surface);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
   .community-page .community-post-title {
     font-size: 1.2rem;
   }
