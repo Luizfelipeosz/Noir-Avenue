@@ -4646,74 +4646,28 @@ button:focus-visible,
 
 
 @media (prefers-reduced-motion: reduce) {
-
-
-
   *,
-
-
-
   *::before,
-
-
-
   *::after {
-
-
-
     scroll-behavior: auto !important;
-
-
-
     animation-duration: 0.01ms !important;
-
-
-
     animation-iteration-count: 1 !important;
-
-
-
     transition-duration: 0.01ms !important;
-
-
-
   }
-
-
-
 }
-
-
-
 ::-webkit-scrollbar { width: 8px; }
-
-
-
 ::-webkit-scrollbar-track { background: #0d0d0d; }
-
-
-
-::-webkit-scrollbar-thumb { border-radius: 10px; background: #424242; }
-
-
-
+::-webkit-scrollbar-thumb { border-radius: 10px; background: #424242; } 
 .layout.theme-light ::-webkit-scrollbar-track { background: #efefec; }
-
-
-
 .layout.theme-light ::-webkit-scrollbar-thumb { background: #c8c6bf; }
 
-
-
-
-
-*/* =========================================================*
+/* =========================================================*
 
 *   NOIR AVENUE — DASHBOARD CONTENT REDESIGN*
 
 *   Visual layer only: sidebar and its controls are untouched.*
 
-*   ========================================================= */*
+*   ========================================================= */
 
 
 
