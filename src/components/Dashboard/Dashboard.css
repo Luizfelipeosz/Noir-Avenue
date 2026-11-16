@@ -407,33 +407,22 @@ button:focus-visible,
 }
 
 
+/* =========================================================
 
-*/* =========================================================*
+   NOIR AVENUE — ANIMAÇÃO DA BÚSSOLA DO BANNER
 
-*   NOIR AVENUE — ANIMAÇÃO DA BÚSSOLA DO BANNER*
-
-*   ========================================================= */*
-
+   ========================================================= */
 
 
 @media (min-width: 801px) {
 
-
-
   .layout.sidebar-open .sidebar {
-
-
 
     display: block;
 
-
-
   }
 
-
-
 }
-
 
 
 .sidebar-brand {
