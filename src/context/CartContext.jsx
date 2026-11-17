@@ -1,3 +1,4 @@
+
 import {
   createContext,
   useContext,
@@ -7,8 +8,10 @@ import {
 } from "react";
 
 import { toast } from "react-toastify";
+
 import { playSound } from "../utils/soundEffects";
 import { addNotification } from "../utils/notifications";
+import { addActivity } from "../utils/activityLogger";
 
 const CartContext = createContext(null);
 
@@ -140,12 +143,23 @@ export function CartProvider({ children }) {
       );
     }
 
-    addNotification(
-      existingItem
-        ? `${product.name}: quantidade atualizada no carrinho.`
-        : `${product.name} foi adicionado ao carrinho.`,
-      "cart"
-    );
+    const message = existingItem
+      ? `${product.name}: quantidade atualizada no carrinho.`
+      : `${product.name} foi adicionado ao carrinho.`;
+
+    addNotification(message, "cart");
+
+    addActivity({
+      type: "cart",
+      action: existingItem ? "updated" : "added",
+      message,
+      metadata: {
+        productId: product.id,
+        productName: product.name,
+        quantity: addedQuantity,
+        totalQuantity: currentQuantity + addedQuantity,
+      },
+    });
 
     playSound("cart");
 
@@ -183,10 +197,21 @@ export function CartProvider({ children }) {
 
     setCartItems(updatedItems);
 
-    addNotification(
-      `Quantidade de ${item.name} aumentada no carrinho.`,
-      "cart"
-    );
+    const message = `Quantidade de ${item.name} aumentada no carrinho.`;
+
+    addNotification(message, "cart");
+
+    addActivity({
+      type: "cart",
+      action: "quantity_increased",
+      message,
+      metadata: {
+        productId: item.id,
+        productName: item.name,
+        previousQuantity: item.quantity,
+        quantity: item.quantity + 1,
+      },
+    });
 
     return true;
   }
@@ -214,10 +239,21 @@ export function CartProvider({ children }) {
 
     setCartItems(updatedItems);
 
-    addNotification(
-      `Quantidade de ${item.name} reduzida no carrinho.`,
-      "cart"
-    );
+    const message = `Quantidade de ${item.name} reduzida no carrinho.`;
+
+    addNotification(message, "cart");
+
+    addActivity({
+      type: "cart",
+      action: "quantity_decreased",
+      message,
+      metadata: {
+        productId: item.id,
+        productName: item.name,
+        previousQuantity: item.quantity,
+        quantity: item.quantity - 1,
+      },
+    });
 
     return true;
   }
@@ -244,10 +280,20 @@ export function CartProvider({ children }) {
       `${item.name} foi removido do carrinho.`
     );
 
-    addNotification(
-      `${item.name} foi removido do carrinho.`,
-      "cart"
-    );
+    const message = `${item.name} foi removido do carrinho.`;
+
+    addNotification(message, "cart");
+
+    addActivity({
+      type: "cart",
+      action: "removed",
+      message,
+      metadata: {
+        productId: item.id,
+        productName: item.name,
+        quantity: item.quantity,
+      },
+    });
 
     return true;
   }
@@ -260,14 +306,33 @@ export function CartProvider({ children }) {
       return false;
     }
 
+    const removedItems = cartItems.map((item) => ({
+      productId: item.id,
+      productName: item.name,
+      quantity: item.quantity,
+    }));
+
     setCartItems([]);
 
     toast.success("Carrinho limpo com sucesso.");
 
-    addNotification(
-      "Todos os produtos foram removidos do carrinho.",
-      "cart"
-    );
+    const message =
+      "Todos os produtos foram removidos do carrinho.";
+
+    addNotification(message, "cart");
+
+    addActivity({
+      type: "cart",
+      action: "cleared",
+      message,
+      metadata: {
+        removedItems,
+        totalItems: removedItems.reduce(
+          (total, item) => total + item.quantity,
+          0
+        ),
+      },
+    });
 
     return true;
   }
@@ -304,6 +369,7 @@ export function CartProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCart() {
   const context = useContext(CartContext);
 
