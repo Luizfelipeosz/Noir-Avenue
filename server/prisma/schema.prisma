@@ -17,6 +17,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   resetTokens PasswordResetToken[]
+  orders      Order[]
 }
 
 model PasswordResetToken {
@@ -30,4 +31,85 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+model Product {
+  id          String   @id
+  slug        String   @unique
+  name        String
+  description String?
+  category    String
+  price       Decimal  @db.Decimal(10, 2)
+  stock       Int      @default(0)
+  isActive    Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orderItems  OrderItem[]
+
+  @@index([category])
+  @@index([isActive])
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  orderNumber   String   @unique
+
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  customerName  String
+  customerEmail String
+  customerPhone String
+
+  recipientName  String
+  recipientPhone String
+  postalCode     String
+  street         String
+  number         String
+  complement     String?
+  neighborhood   String
+  city           String
+  state          String
+
+  subtotal       Decimal  @db.Decimal(10, 2)
+  shippingCost   Decimal  @db.Decimal(10, 2)
+  total          Decimal  @db.Decimal(10, 2)
+
+  shippingMethod String
+  paymentMethod  String
+  paymentStatus  String   @default("PENDING")
+  status         String   @default("RECEIVED")
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  items          OrderItem[]
+
+  @@index([userId])
+  @@index([customerEmail])
+  @@index([createdAt])
+  @@index([status])
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  productName String
+  productSlug String
+  quantity    Int
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  total       Decimal  @db.Decimal(10, 2)
+
+  createdAt   DateTime @default(now())
+
+  @@index([orderId])
+  @@index([productId])
 }
